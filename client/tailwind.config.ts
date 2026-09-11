@@ -106,9 +106,9 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['"JetBrains Mono"', 'Inter', 'monospace', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
-        code: ['"JetBrains Mono"', 'monospace'],
+        sans: ['"Inter"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        code: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
     },
   },
