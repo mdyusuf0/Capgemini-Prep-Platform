@@ -30,17 +30,27 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 bg-surface p-6 rounded-2xl border border-white/5">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-xs font-semibold text-indigo-400 mb-2">
-            <span>✨ Capgemini Prep By Yusuf</span>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+        <div className="flex items-center gap-4">
+          <div className="relative group shrink-0">
+            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300 animate-pulse"></div>
+            <img
+              src="/logo.jpg"
+              alt="Yusuf"
+              className="relative w-16 h-16 rounded-full object-cover object-top border-2 border-indigo-400 shadow-xl ring-2 ring-white/10"
+            />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-1">
-            Welcome back, {user?.name || 'User'}
-          </h1>
-          <p className="text-white/50 text-sm">
-            {formatDate(today)} • Ready to continue your preparation?
-          </p>
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-xs font-semibold text-indigo-400 mb-2">
+              <span>✨ Capgemini Prep By Yusuf</span>
+            </div>
+            <h1 className="text-2xl font-bold text-white mb-1">
+              Welcome back, {user?.name || 'User'}
+            </h1>
+            <p className="text-white/50 text-sm">
+              {formatDate(today)} • Ready to continue your preparation?
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/10">
           <div className="p-1.5 bg-warning/20 rounded-lg">

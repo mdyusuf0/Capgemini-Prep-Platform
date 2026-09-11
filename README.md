@@ -1,6 +1,12 @@
-# 🎯 Capgemini Prep By Yusuf
-
 <div align="center">
+
+<img src="client/public/logo.jpg" alt="Capgemini Prep By Yusuf Logo" width="130" height="130" style="border-radius: 50%; object-fit: cover; border: 3px solid #6366f1; box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);" />
+
+# 🎯 Capgemini Prep By Yusuf
+### *The Ultimate All-in-One Placement Preparation Engine for Capgemini Exceller (2026 / 2027 Pattern)*
+**Architected & Developed by [Yusuf](https://github.com/mdyusuf0)**
+
+<br/>
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)

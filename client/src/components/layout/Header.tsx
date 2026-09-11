@@ -55,12 +55,18 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
 
         <div className="flex items-center gap-3 pl-2 border-l border-white/10">
           <div className="hidden md:block text-right">
-            <div className="text-sm font-medium text-white">{user?.name || 'User'}</div>
-            <div className="text-xs text-white/50">{user?.email || 'user@example.com'}</div>
+            <div className="text-sm font-medium text-white">{user?.name || 'Yusuf'}</div>
+            <div className="text-xs text-indigo-400/80 font-medium">Administrator</div>
           </div>
-          <button className="w-9 h-9 bg-primary-900 border border-primary-500/30 rounded-full flex items-center justify-center text-primary-300 font-semibold hover:bg-primary-800 transition-colors">
-            {user?.name ? user.name.charAt(0).toUpperCase() : <User size={18} />}
-          </button>
+          <div className="relative group cursor-pointer">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-200"></div>
+            <img
+              src="/logo.jpg"
+              alt="Yusuf Profile"
+              className="relative w-9 h-9 rounded-full object-cover object-top border border-indigo-400/80 shadow-md"
+            />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-surface rounded-full"></span>
+          </div>
         </div>
       </div>
     </header>

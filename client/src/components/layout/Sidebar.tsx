@@ -94,8 +94,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     >
       <div className="h-16 flex items-center justify-between px-4 border-b border-white/5 shrink-0">
         <div className="flex items-center gap-3 overflow-hidden">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow-md shadow-indigo-500/30">
-            <span className="font-bold text-white text-base leading-none">Y</span>
+          <div className="relative w-9 h-9 shrink-0">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 blur-[2px] opacity-70" />
+            <img
+              src="/logo.jpg"
+              alt="Yusuf - Capgemini Prep Logo"
+              className="relative w-9 h-9 rounded-full object-cover object-top border-2 border-indigo-400 shadow-lg shadow-indigo-500/30"
+            />
           </div>
           {isOpen && (
             <div className="flex flex-col min-w-0">
@@ -162,9 +167,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       </div>
 
       {isOpen && (
-        <div className="px-4 py-3 mx-3 mb-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-center">
-          <div className="text-[10px] text-gray-400 font-medium">Platform Created By</div>
-          <div className="text-xs font-bold text-indigo-400 tracking-wide">Yusuf</div>
+        <div className="px-3.5 py-2.5 mx-3 mb-2 rounded-xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 border border-indigo-500/20 flex items-center gap-3">
+          <img
+            src="/logo.jpg"
+            alt="Yusuf"
+            className="w-8 h-8 rounded-full object-cover object-top ring-2 ring-indigo-400 shrink-0 shadow-sm"
+          />
+          <div className="min-w-0">
+            <div className="text-[10px] text-gray-400 font-medium">Platform Created By</div>
+            <div className="text-xs font-bold text-indigo-400 truncate">Yusuf</div>
+          </div>
         </div>
       )}
 

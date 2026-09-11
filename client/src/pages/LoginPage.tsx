@@ -58,9 +58,20 @@ export const LoginPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center justify-center p-3 bg-white/5 rounded-2xl mb-8 border border-white/10 backdrop-blur-md">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
-              <span className="font-bold text-white text-2xl leading-none">C</span>
+          <div className="inline-flex items-center gap-4 mb-8">
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full blur-md opacity-80 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+              <img
+                src="/logo.jpg"
+                alt="Capgemini Prep By Yusuf"
+                className="relative w-20 h-20 rounded-full object-cover object-top border-2 border-indigo-400 shadow-2xl ring-4 ring-white/10"
+              />
+            </div>
+            <div>
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                Official Platform Edition
+              </span>
+              <p className="text-xs text-white/50 mt-1">Designed & Masterminded by Yusuf</p>
             </div>
           </div>
           
