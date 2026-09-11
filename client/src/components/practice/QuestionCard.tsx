@@ -61,7 +61,7 @@ export default function QuestionCard({
               <Star key={i} className={cn("w-3.5 h-3.5", i < (question.relevance || 3) ? "fill-amber-400 text-amber-500" : "text-border-hairline")} />
             ))}
           </div>
-          <div className="flex items-center gap-1.5 text-on-primary bg-surface-charcoal px-3 py-1 rounded-lg font-mono text-xs font-semibold">
+          <div className="flex items-center gap-1.5 text-on-primary bg-surface-charcoal px-3 py-1 rounded-lg text-xs font-semibold">
             <Clock className="w-3.5 h-3.5 text-accent-pink animate-pulse" />
             {formatTime(timer)}
           </div>
@@ -117,7 +117,7 @@ export default function QuestionCard({
               )}
             >
               <div className={cn(
-                "w-7 h-7 rounded-md flex items-center justify-center text-xs font-mono shrink-0 transition-colors",
+                "w-7 h-7 rounded-md flex items-center justify-center text-xs font-semibold shrink-0 transition-colors",
                 badgeStyle
               )}>
                 {String.fromCharCode(65 + idx)}

@@ -139,7 +139,7 @@ export const ProfilePage: React.FC = () => {
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-container text-white">
                   {user?.role === 'admin' ? 'Administrator' : 'Verified Candidate'}
                 </span>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-secondary/10 text-secondary border border-secondary/20">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary/10 text-secondary border border-secondary/20">
                   Capgemini 2026/27 Cohort
                 </span>
               </div>
@@ -162,14 +162,14 @@ export const ProfilePage: React.FC = () => {
 
           {/* Quick Metrics Badges */}
           <div className="flex sm:flex-col gap-2 w-full sm:w-auto">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-cream border border-border-hairline text-xs font-mono">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-cream border border-border-hairline text-xs">
               <Flame className="w-4 h-4 text-accent-pink" />
               <div>
                 <div className="font-bold text-on-surface">12 Days Streak</div>
                 <div className="text-[10px] text-on-surface-variant font-medium">Daily Active Cadence</div>
               </div>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-cream border border-border-hairline text-xs font-mono">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-cream border border-border-hairline text-xs">
               <Award className="w-4 h-4 text-amber-500" />
               <div>
                 <div className="font-bold text-on-surface">99.4th Percentile</div>
@@ -228,7 +228,7 @@ export const ProfilePage: React.FC = () => {
                   Update your display name, academic credentials, and target recruitment role.
                 </p>
               </div>
-              <span className="text-[11px] font-mono text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">
+              <span className="text-[11px] font-semibold text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">
                 [LIVE EDITABLE]
               </span>
             </div>

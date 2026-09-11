@@ -23,7 +23,7 @@ export default function RoadmapPage() {
 
   return (
     <div className="p-8 max-w-4xl mx-auto text-on-surface">
-      <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-mono font-medium text-on-surface mb-3">
+      <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-medium text-on-surface mb-3">
         <span>✨ CAPGEMINI PREP BY YUSUF</span>
       </div>
       <h1 className="text-3xl font-extrabold mb-2 flex items-center space-x-3 text-on-surface tracking-tight">
@@ -50,7 +50,7 @@ export default function RoadmapPage() {
             <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white border border-border-hairline p-6 rounded-2xl ml-10 md:ml-0 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex justify-between items-center mb-2">
                 <h3 className="font-bold text-base text-on-surface">{phase.title}</h3>
-                <span className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded-full border ${
+                <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${
                   phase.progress >= 100 
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
                     : phase.progress > 0 

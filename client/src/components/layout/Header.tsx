@@ -47,7 +47,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
     <header className="h-14 flex items-center justify-between px-4 md:px-6 bg-surface-cream/95 backdrop-blur-md border-b border-border-hairline shrink-0 shadow-[0_1px_8px_rgba(0,0,0,0.03)] z-40">
       {/* Left: Telemetry & Breadcrumb */}
       <div className="flex items-center gap-3">
-        <span className="font-mono text-xs text-on-surface-variant flex items-center gap-1.5 bg-surface-paper px-2 py-0.5 rounded border border-border-hairline">
+        <span className="text-xs text-on-surface-variant flex items-center gap-1.5 bg-surface-paper px-2 py-0.5 rounded border border-border-hairline font-medium">
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-mint animate-pulse" />
           SYS:ONLINE
         </span>
@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           {getPageTitle()}
         </div>
 
-        <span className="hidden lg:inline-flex px-2 py-0.5 text-[10px] font-mono font-semibold bg-surface-container-high text-on-surface rounded border border-border-hairline">
+        <span className="hidden lg:inline-flex px-2 py-0.5 text-[10px] font-semibold bg-surface-container-high text-on-surface rounded border border-border-hairline">
           CapPrep // Engine v2.4
         </span>
       </div>
@@ -73,17 +73,17 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
             placeholder="Jump to concept, module..."
             className="h-8 w-56 lg:w-64 bg-surface-paper border border-border-hairline rounded-lg pl-8 pr-9 text-xs text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-border-graphite shadow-xs transition-all"
           />
-          <kbd className="absolute right-2 font-mono text-[10px] text-on-surface-variant bg-surface-container-high px-1 py-0.2 rounded border border-border-hairline">⌘K</kbd>
+          <kbd className="absolute right-2 text-[10px] text-on-surface-variant bg-surface-container-high px-1 py-0.2 rounded border border-border-hairline font-medium">⌘K</kbd>
         </div>
 
         {/* Streak Pill */}
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-paper border border-border-hairline shadow-xs">
-          <span className="text-accent-pink font-mono text-xs">🔥</span>
-          <span className="font-mono text-xs font-semibold text-on-surface">12 Days</span>
+          <span className="text-accent-pink text-xs">🔥</span>
+          <span className="text-xs font-semibold text-on-surface">12 Days</span>
         </div>
 
         {/* Target Drive Tag */}
-        <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-secondary-fixed text-on-secondary-fixed font-mono text-xs font-semibold border border-secondary/20">
+        <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-secondary-fixed text-on-secondary-fixed text-xs font-semibold border border-secondary/20">
           [TARGET: Drive 2026/27]
         </div>
 
@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
             title="View & Edit Profile"
           >
             <span className="text-xs font-bold text-on-surface">{user?.displayName || user?.name || 'Yusuf Khan'}</span>
-            <span className="font-mono text-[10px] text-on-surface-variant font-medium">99.4%ile • {user?.role === 'admin' ? 'Admin' : 'Candidate'}</span>
+            <span className="text-[10px] text-on-surface-variant font-medium">99.4%ile • {user?.role === 'admin' ? 'Admin' : 'Candidate'}</span>
           </button>
 
           <button 

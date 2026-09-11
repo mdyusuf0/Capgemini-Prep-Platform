@@ -85,10 +85,10 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code, filename = "trace_routine.p
       </div>
 
       {/* Monospace Code Lines */}
-      <div className="p-4 font-mono text-xs md:text-sm overflow-x-auto leading-relaxed select-text bg-[#222222]">
+      <div className="p-4 font-code text-xs md:text-sm overflow-x-auto leading-relaxed select-text bg-[#222222]">
         {lines.map((line, idx) => (
           <div key={idx} className="flex items-start group hover:bg-white/5 px-1 py-0.5 rounded transition-colors">
-            <span className="w-8 text-[#666666] select-none text-right pr-3 font-mono text-xs shrink-0">
+            <span className="w-8 text-[#666666] select-none text-right pr-3 font-code text-xs shrink-0">
               {idx + 1}
             </span>
             <div 

@@ -44,7 +44,7 @@ export default function PracticePage() {
         {/* Header Strip */}
         <div className="bg-surface-paper border border-border-hairline rounded-xl p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded text-[11px] font-mono font-semibold text-secondary mb-2">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded text-[11px] font-semibold text-secondary mb-2">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-mint animate-pulse"></span>
               <span>CapPrep // Curated Syllabus Matrix</span>
             </div>
@@ -55,7 +55,7 @@ export default function PracticePage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="px-3 py-1.5 rounded-lg bg-surface-cream border border-border-hairline font-mono text-xs text-on-surface-variant">
+            <div className="px-3 py-1.5 rounded-lg bg-surface-cream border border-border-hairline text-xs text-on-surface-variant font-medium">
               12 Specialized Modules Active
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function PracticePage() {
                       <div className="w-full bg-surface-cream rounded-full h-1.5 overflow-hidden border border-border-hairline">
                         <div className="bg-secondary h-full rounded-full" style={{ width: '15%' }}></div>
                       </div>
-                      <div className="flex justify-between items-center text-[11px] font-mono text-on-surface-variant">
+                      <div className="flex justify-between items-center text-[11px] text-on-surface-variant font-medium">
                         <span>Modules cleared: 2/12</span>
                         <ArrowRight className="w-3.5 h-3.5 text-secondary group-hover:translate-x-1 transition-transform" />
                       </div>

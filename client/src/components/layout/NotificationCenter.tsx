@@ -135,7 +135,7 @@ export const NotificationCenter: React.FC = () => {
       >
         <Bell size={18} />
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full bg-accent-pink text-white text-[10px] font-mono font-bold flex items-center justify-center ring-2 ring-surface-paper animate-pulse">
+          <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full bg-accent-pink text-white text-[10px] font-bold flex items-center justify-center ring-2 ring-surface-paper animate-pulse">
             {unreadCount}
           </span>
         )}
@@ -149,7 +149,7 @@ export const NotificationCenter: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className="font-bold text-sm text-on-surface">Notifications</span>
               {unreadCount > 0 && (
-                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-accent-pink/15 text-accent-pink border border-accent-pink/20">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-accent-pink/15 text-accent-pink border border-accent-pink/20">
                   {unreadCount} new
                 </span>
               )}
@@ -225,7 +225,7 @@ export const NotificationCenter: React.FC = () => {
                       <h4 className={`text-xs font-bold text-on-surface truncate ${!notif.read ? 'text-primary' : ''}`}>
                         {notif.title}
                       </h4>
-                      <span className="text-[10px] font-mono text-zinc-600 font-bold shrink-0">
+                      <span className="text-[10px] text-zinc-600 font-bold shrink-0">
                         {notif.timestamp}
                       </span>
                     </div>
@@ -235,7 +235,7 @@ export const NotificationCenter: React.FC = () => {
                     </p>
 
                     {notif.actionUrl && (
-                      <div className="pt-1 flex items-center text-[10px] font-mono font-bold text-secondary gap-1 group-hover:underline">
+                      <div className="pt-1 flex items-center text-[10px] font-bold text-secondary gap-1 group-hover:underline">
                         <span>Take Action</span>
                         <ExternalLink className="w-3 h-3" />
                       </div>
@@ -261,7 +261,7 @@ export const NotificationCenter: React.FC = () => {
 
           {/* Footer */}
           <div className="p-3 border-t border-border-hairline bg-surface-cream/50 text-center">
-            <span className="text-[11px] font-mono font-semibold text-on-surface-variant">
+            <span className="text-[11px] font-semibold text-on-surface-variant">
               Capgemini Prep By Yusuf • Notification Engine
             </span>
           </div>

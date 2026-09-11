@@ -58,15 +58,15 @@ export const DashboardPage: React.FC = () => {
       <section className="bg-surface-paper rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-border-hairline shadow-xs">
         <div className="flex flex-col gap-2">
           <div className="flex items-center flex-wrap gap-2">
-            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
+            <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
               Operational Overview
             </span>
-            <span className="text-on-surface-variant font-mono text-xs">/</span>
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-mono text-xs font-semibold">
+            <span className="text-on-surface-variant text-xs">/</span>
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-xs font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
               Target Drive: Capgemini 2026
             </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-xs font-medium border border-border-hairline">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-high text-on-surface text-xs font-medium border border-border-hairline">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-mint" />
               20-Day Velocity: On Track
             </span>
@@ -105,13 +105,13 @@ export const DashboardPage: React.FC = () => {
         {/* Stat 1: Questions Solved */}
         <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Questions Solved</span>
+            <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Questions Solved</span>
             <HelpCircle size={15} className="text-on-surface-variant" />
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
               <span className="text-2xl font-bold text-on-surface">{questionsSolved}</span>
-              <span className="font-mono text-xs text-on-surface-variant">/ 870 pool</span>
+              <span className="text-xs text-on-surface-variant">/ 870 pool</span>
             </div>
             <div className="w-full bg-surface-container-high h-1.5 rounded-full mt-2 overflow-hidden border border-border-hairline">
               <div 
@@ -121,59 +121,59 @@ export const DashboardPage: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center justify-between pt-1">
-            <span className="font-mono text-[11px] text-on-surface-variant">Round 1.1 Target</span>
-            <span className="font-mono text-[11px] text-secondary font-semibold">Stage 1</span>
+            <span className="text-[11px] text-on-surface-variant">Round 1.1 Target</span>
+            <span className="text-[11px] text-secondary font-semibold">Stage 1</span>
           </div>
         </div>
 
         {/* Stat 2: Coding Problems */}
         <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Coding Lab</span>
+            <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Coding Lab</span>
             <Code2 size={15} className="text-on-surface-variant" />
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
               <span className="text-2xl font-bold text-on-surface">{codingProblems}</span>
-              <span className="font-mono text-xs text-on-surface-variant">/ 155 solved</span>
+              <span className="text-xs text-on-surface-variant">/ 155 solved</span>
             </div>
             <div className="flex items-center gap-1.5 mt-2">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-mint" />
-              <span className="font-mono text-[11px] text-on-surface font-medium">Judge0 Verified Sandbox</span>
+              <span className="text-[11px] text-on-surface font-medium">Judge0 Verified Sandbox</span>
             </div>
           </div>
           <div className="flex items-center justify-between pt-1">
-            <span className="font-mono text-[11px] text-on-surface-variant">{155 - codingProblems} remaining</span>
-            <span className="font-mono text-[11px] text-on-surface-variant font-medium">[TESTS: PASS]</span>
+            <span className="text-[11px] text-on-surface-variant">{155 - codingProblems} remaining</span>
+            <span className="text-[11px] text-on-surface-variant font-medium">[TESTS: PASS]</span>
           </div>
         </div>
 
         {/* Stat 3: Accuracy */}
         <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Accuracy</span>
+            <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Accuracy</span>
             <Award size={15} className="text-on-surface-variant" />
           </div>
           <div>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-on-surface">{avgAccuracy}%</span>
-              <span className="font-mono text-xs text-accent-mint font-semibold">+4.2%</span>
+              <span className="text-xs text-accent-mint font-semibold">+4.2%</span>
             </div>
-            <div className="flex items-center gap-1 mt-1 text-on-surface-variant font-mono text-[11px]">
+            <div className="flex items-center gap-1 mt-1 text-on-surface-variant text-[11px]">
               <span>Rolling assessment delta</span>
             </div>
           </div>
           <div className="flex items-center justify-between pt-1">
-            <span className="font-mono text-[11px] text-on-surface-variant">Combined Score</span>
-            <span className="font-mono text-[11px] text-secondary font-semibold">[RANK: 94.2]</span>
+            <span className="text-[11px] text-on-surface-variant">Combined Score</span>
+            <span className="text-[11px] text-secondary font-semibold">[RANK: 94.2]</span>
           </div>
         </div>
 
         {/* Stat 4: Streak */}
         <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Cadence</span>
-            <span className="font-mono text-xs text-accent-pink">🔥</span>
+            <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Cadence</span>
+            <span className="text-xs text-accent-pink">🔥</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1">
@@ -193,23 +193,23 @@ export const DashboardPage: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center justify-between pt-1">
-            <span className="font-mono text-[11px] text-on-surface-variant">Daily Goal: Met</span>
-            <span className="font-mono text-[11px] text-on-surface-variant">Target: 30D</span>
+            <span className="text-[11px] text-on-surface-variant">Daily Goal: Met</span>
+            <span className="text-[11px] text-on-surface-variant">Target: 30D</span>
           </div>
         </div>
 
         {/* Stat 5: Overall Readiness */}
         <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Readiness</span>
-            <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
+            <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Readiness</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
               {overallReadiness >= 75 ? 'CLEARED' : 'IN PROGRESS'}
             </span>
           </div>
           <div>
             <div className="flex items-baseline gap-1">
               <span className="text-2xl font-bold text-on-surface">{overallReadiness}</span>
-              <span className="font-mono text-xs text-on-surface-variant">/ 100</span>
+              <span className="text-xs text-on-surface-variant">/ 100</span>
             </div>
             <div className="w-full bg-surface-container-high h-1.5 rounded-full mt-2 overflow-hidden border border-border-hairline">
               <div 
@@ -219,8 +219,8 @@ export const DashboardPage: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center justify-between pt-1">
-            <span className="font-mono text-[11px] text-on-surface-variant">Assessment Tier</span>
-            <span className="font-mono text-[11px] text-accent-mint font-semibold">
+            <span className="text-[11px] text-on-surface-variant">Assessment Tier</span>
+            <span className="text-[11px] text-accent-mint font-semibold">
               {overallReadiness >= 75 ? 'Qualified' : 'Advancing'}
             </span>
           </div>
@@ -235,12 +235,12 @@ export const DashboardPage: React.FC = () => {
           <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col gap-4">
             <div className="flex items-center justify-between pb-2 border-b border-border-hairline">
               <div className="flex flex-col">
-                <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Modular Progress</span>
+                <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Modular Progress</span>
                 <h2 className="text-lg font-bold text-on-surface">Section Breakdown & Execution</h2>
               </div>
               <button 
                 onClick={() => navigate('/roadmap')}
-                className="font-mono text-xs text-secondary hover:underline flex items-center gap-1 font-semibold cursor-pointer"
+                className="text-xs text-secondary hover:underline flex items-center gap-1 font-semibold cursor-pointer"
               >
                 <span>View Roadmap</span>
                 <ArrowRight size={13} />
@@ -252,24 +252,24 @@ export const DashboardPage: React.FC = () => {
               <div className="bg-surface-container-low rounded-lg p-4 flex flex-col justify-between gap-3 border border-border-hairline hover:bg-surface-container transition-colors">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="font-mono text-[10px] text-on-surface-variant font-semibold">SEC:01</span>
+                    <span className="text-[10px] text-on-surface-variant font-semibold">SEC:01</span>
                     <h3 className="text-sm font-bold text-on-surface">Technical MCQ</h3>
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface font-mono text-xs font-semibold">
+                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface text-xs font-semibold">
                     {mcqSec.progress}%
                   </span>
                 </div>
                 <div>
                   <div className="flex justify-between items-baseline mb-1">
-                    <span className="font-mono text-[11px] text-on-surface-variant">Completed Questions</span>
-                    <span className="font-mono text-xs font-semibold text-on-surface">{mcqSec.solved} / {mcqSec.target}</span>
+                    <span className="text-[11px] text-on-surface-variant">Completed Questions</span>
+                    <span className="text-xs font-semibold text-on-surface">{mcqSec.solved} / {mcqSec.target}</span>
                   </div>
                   <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden border border-border-hairline">
                     <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${mcqSec.progress}%` }} />
                   </div>
                 </div>
                 <div className="flex items-center justify-between pt-1">
-                  <span className="font-mono text-[11px] text-on-surface-variant">Core CS, DBMS, OS</span>
+                  <span className="text-[11px] text-on-surface-variant">Core CS, DBMS, OS</span>
                   <button
                     onClick={() => navigate('/practice/mcq')}
                     className="h-7 px-3 rounded bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
@@ -284,24 +284,24 @@ export const DashboardPage: React.FC = () => {
               <div className="bg-surface-container-low rounded-lg p-4 flex flex-col justify-between gap-3 border border-border-hairline hover:bg-surface-container transition-colors">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="font-mono text-[10px] text-on-surface-variant font-semibold">SEC:02</span>
+                    <span className="text-[10px] text-on-surface-variant font-semibold">SEC:02</span>
                     <h3 className="text-sm font-bold text-on-surface">Pseudocode Tracing</h3>
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-secondary font-mono text-xs font-semibold">
+                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-secondary text-xs font-semibold">
                     {pseudoSec.progress}%
                   </span>
                 </div>
                 <div>
                   <div className="flex justify-between items-baseline mb-1">
-                    <span className="font-mono text-[11px] text-on-surface-variant">Completed Traces</span>
-                    <span className="font-mono text-xs font-semibold text-on-surface">{pseudoSec.solved} / {pseudoSec.target}</span>
+                    <span className="text-[11px] text-on-surface-variant">Completed Traces</span>
+                    <span className="text-xs font-semibold text-on-surface">{pseudoSec.solved} / {pseudoSec.target}</span>
                   </div>
                   <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden border border-border-hairline">
                     <div className="bg-secondary h-full rounded-full transition-all" style={{ width: `${pseudoSec.progress}%` }} />
                   </div>
                 </div>
                 <div className="flex items-center justify-between pt-1">
-                  <span className="font-mono text-[11px] text-accent-mint font-semibold">60s Speed Mode</span>
+                  <span className="text-[11px] text-accent-mint font-semibold">60s Speed Mode</span>
                   <button
                     onClick={() => navigate('/practice/pseudocode')}
                     className="h-7 px-3 rounded bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
@@ -316,24 +316,24 @@ export const DashboardPage: React.FC = () => {
               <div className="bg-surface-container-low rounded-lg p-4 flex flex-col justify-between gap-3 border border-border-hairline hover:bg-surface-container transition-colors">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="font-mono text-[10px] text-on-surface-variant font-semibold">SEC:03</span>
+                    <span className="text-[10px] text-on-surface-variant font-semibold">SEC:03</span>
                     <h3 className="text-sm font-bold text-on-surface">Coding Lab</h3>
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface font-mono text-xs font-semibold">
+                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface text-xs font-semibold">
                     {codingSec.progress}%
                   </span>
                 </div>
                 <div>
                   <div className="flex justify-between items-baseline mb-1">
-                    <span className="font-mono text-[11px] text-on-surface-variant">Accepted Submissions</span>
-                    <span className="font-mono text-xs font-semibold text-on-surface">{codingSec.solved} / {codingSec.target}</span>
+                    <span className="text-[11px] text-on-surface-variant">Accepted Submissions</span>
+                    <span className="text-xs font-semibold text-on-surface">{codingSec.solved} / {codingSec.target}</span>
                   </div>
                   <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden border border-border-hairline">
                     <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${codingSec.progress}%` }} />
                   </div>
                 </div>
                 <div className="flex items-center justify-between pt-1">
-                  <span className="font-mono text-[11px] text-on-surface-variant">C++, Java, Python</span>
+                  <span className="text-[11px] text-on-surface-variant">C++, Java, Python</span>
                   <button
                     onClick={() => navigate('/coding')}
                     className="h-7 px-3 rounded bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
@@ -348,24 +348,24 @@ export const DashboardPage: React.FC = () => {
               <div className="bg-surface-container-low rounded-lg p-4 flex flex-col justify-between gap-3 border border-border-hairline hover:bg-surface-container transition-colors">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="font-mono text-[10px] text-on-surface-variant font-semibold">SEC:04</span>
+                    <span className="text-[10px] text-on-surface-variant font-semibold">SEC:04</span>
                     <h3 className="text-sm font-bold text-on-surface">Code Debugging</h3>
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface font-mono text-xs font-semibold">
+                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface text-xs font-semibold">
                     {debugSec.progress}%
                   </span>
                 </div>
                 <div>
                   <div className="flex justify-between items-baseline mb-1">
-                    <span className="font-mono text-[11px] text-on-surface-variant">Mastery Ratio</span>
-                    <span className="font-mono text-xs font-semibold text-on-surface">{debugSec.solved} / {debugSec.target}</span>
+                    <span className="text-[11px] text-on-surface-variant">Mastery Ratio</span>
+                    <span className="text-xs font-semibold text-on-surface">{debugSec.solved} / {debugSec.target}</span>
                   </div>
                   <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden border border-border-hairline">
                     <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${debugSec.progress}%` }} />
                   </div>
                 </div>
                 <div className="flex items-center justify-between pt-1">
-                  <span className="font-mono text-[11px] text-on-surface-variant">Logic & Pointer checks</span>
+                  <span className="text-[11px] text-on-surface-variant">Logic & Pointer checks</span>
                   <button
                     onClick={() => navigate('/debugging')}
                     className="h-7 px-3 rounded bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
@@ -382,10 +382,10 @@ export const DashboardPage: React.FC = () => {
           <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col gap-4">
             <div className="flex items-center justify-between pb-2 border-b border-border-hairline">
               <div className="flex flex-col">
-                <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Trajectory</span>
+                <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Trajectory</span>
                 <h2 className="text-lg font-bold text-on-surface">Roadmap Phase Progression</h2>
               </div>
-              <span className="font-mono text-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-semibold border border-border-hairline">
+              <span className="text-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-semibold border border-border-hairline">
                 CYCLE: CAP-2026
               </span>
             </div>
@@ -394,86 +394,86 @@ export const DashboardPage: React.FC = () => {
               {/* Phase 1 */}
               <div className="p-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-3 border border-border-hairline">
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full bg-accent-mint/20 text-accent-mint flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-accent-mint/20 text-accent-mint flex items-center justify-center text-xs font-bold shrink-0">
                     <Check size={14} />
                   </div>
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-on-surface">Phase 1: Core Fundamentals</span>
-                      <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface font-semibold border border-border-hairline">
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface font-semibold border border-border-hairline">
                         {mcqSec.progress >= 100 ? 'COMPLETED' : 'ACTIVE'}
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] text-on-surface-variant">DSA Primitives, Bit Manipulation, Architecture</span>
+                    <span className="text-[11px] text-on-surface-variant">DSA Primitives, Bit Manipulation, Architecture</span>
                   </div>
                 </div>
                 <div className="text-right hidden sm:block">
-                  <span className="font-mono text-xs font-bold text-on-surface">{mcqSec.progress}%</span>
-                  <p className="font-mono text-[10px] text-on-surface-variant">Live benchmark</p>
+                  <span className="text-xs font-bold text-on-surface">{mcqSec.progress}%</span>
+                  <p className="text-[10px] text-on-surface-variant">Live benchmark</p>
                 </div>
               </div>
 
               {/* Phase 2 */}
               <div className="p-3 rounded-lg bg-surface-container flex items-center justify-between gap-3 border border-border-hairline">
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-xs font-bold shrink-0">
                     2
                   </div>
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-on-surface">Phase 2: Pseudocode & Data Tracing</span>
-                      <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
                         ACTIVE
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] text-on-surface-variant">Control flow, recursive stack execution, state vectors</span>
+                    <span className="text-[11px] text-on-surface-variant">Control flow, recursive stack execution, state vectors</span>
                   </div>
                 </div>
                 <div className="text-right flex flex-col items-end">
-                  <span className="font-mono text-xs font-bold text-secondary">{pseudoSec.progress}%</span>
-                  <p className="font-mono text-[10px] text-on-surface-variant">Est. clearance: 4 days</p>
+                  <span className="text-xs font-bold text-secondary">{pseudoSec.progress}%</span>
+                  <p className="text-[10px] text-on-surface-variant">Est. clearance: 4 days</p>
                 </div>
               </div>
 
               {/* Phase 3 */}
               <div className="p-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-3 border border-border-hairline opacity-80">
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-xs font-bold shrink-0">
                     3
                   </div>
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-medium text-on-surface">Phase 3: Coding & Judge0 Testing</span>
-                      <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface-variant font-semibold border border-border-hairline">
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface-variant font-semibold border border-border-hairline">
                         UPCOMING
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] text-on-surface-variant">Live compiler test suites, memory edge-cases</span>
+                    <span className="text-[11px] text-on-surface-variant">Live compiler test suites, memory edge-cases</span>
                   </div>
                 </div>
                 <div className="text-right hidden sm:block">
-                  <span className="font-mono text-xs font-medium text-on-surface-variant">{codingSec.progress}%</span>
+                  <span className="text-xs font-medium text-on-surface-variant">{codingSec.progress}%</span>
                 </div>
               </div>
 
               {/* Phase 4 */}
               <div className="p-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-3 border border-border-hairline opacity-60">
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-xs font-bold shrink-0">
                     <Lock size={12} />
                   </div>
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-medium text-on-surface-variant">Phase 4: Capgemini Cognitive Mini-Games</span>
-                      <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface-variant border border-border-hairline">
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface-variant border border-border-hairline">
                         LOCKED
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] text-on-surface-variant">Deductive logic, inductive speed grids, spatial drills</span>
+                    <span className="text-[11px] text-on-surface-variant">Deductive logic, inductive speed grids, spatial drills</span>
                   </div>
                 </div>
                 <div className="text-right hidden sm:block">
-                  <span className="font-mono text-xs text-on-surface-variant">Requires Phase 2</span>
+                  <span className="text-xs text-on-surface-variant">Requires Phase 2</span>
                 </div>
               </div>
             </div>
@@ -484,18 +484,18 @@ export const DashboardPage: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-accent-mint animate-pulse" />
-                <span className="font-mono text-xs text-surface-container-high font-semibold">TERMINAL PREVIEW // TRACE_ENGINE_V2</span>
+                <span className="text-xs text-surface-container-high font-semibold tracking-wider">TERMINAL PREVIEW // TRACE_ENGINE_V2</span>
               </div>
-              <span className="font-mono text-xs text-on-primary-container">[RUN_ID: #7729-CP]</span>
+              <span className="text-xs text-on-primary-container">[RUN_ID: #7729-CP]</span>
             </div>
-            <pre className="font-mono text-xs bg-primary p-4 rounded-lg text-surface-dim overflow-x-auto leading-relaxed border border-border-graphite">
+            <pre className="font-code text-xs bg-primary p-4 rounded-lg text-surface-dim overflow-x-auto leading-relaxed border border-border-graphite">
               <code>{`<span class="text-accent-pink">function</span> <span class="text-secondary-fixed">evaluateBitTree</span>(node, mask) {
   <span class="text-accent-pink">if</span> (!node) <span class="text-accent-pink">return</span> (mask & <span class="text-accent-yellow">0x0F</span>);
   <span class="text-outline-variant">// Current branch trace: node.val = 14, depth = 3</span>
   <span class="text-accent-mint">return</span> (node.val ^ mask) + evaluateBitTree(node.left, mask >> <span class="text-accent-yellow">1</span>);
 }`}</code>
             </pre>
-            <div className="flex items-center justify-between text-surface-dim font-mono text-[11px] pt-1">
+            <div className="flex items-center justify-between text-surface-dim text-[11px] pt-1">
               <span>Execution Time: 0.041ms</span>
               <span className="text-accent-mint font-semibold">Memory Delta: 0 KB (Optimal)</span>
             </div>
@@ -508,8 +508,8 @@ export const DashboardPage: React.FC = () => {
           <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col justify-between gap-4">
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[11px] text-secondary uppercase font-bold tracking-wider">Adaptive Mission</span>
-                <span className="font-mono text-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-semibold border border-border-hairline">
+                <span className="text-[11px] text-secondary uppercase font-bold tracking-wider">Adaptive Mission</span>
+                <span className="text-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-semibold border border-border-hairline">
                   10 Qs
                 </span>
               </div>
@@ -520,15 +520,15 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-2 bg-surface-container-low p-3 rounded-lg border border-border-hairline">
-              <span className="font-mono text-[10px] text-on-surface-variant uppercase font-semibold">Target Weak Vectors</span>
+              <span className="text-[10px] text-on-surface-variant uppercase font-semibold tracking-wider">Target Weak Vectors</span>
               <div className="flex flex-wrap gap-1.5">
-                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface font-mono text-[11px] border border-border-hairline">Bitwise Recursion</span>
-                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface font-mono text-[11px] border border-border-hairline">Off-by-one Loops</span>
-                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface font-mono text-[11px] border border-border-hairline">Pointer Boundary</span>
+                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface text-[11px] border border-border-hairline">Bitwise Recursion</span>
+                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface text-[11px] border border-border-hairline">Off-by-one Loops</span>
+                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface text-[11px] border border-border-hairline">Pointer Boundary</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-on-surface-variant font-mono text-[11px]">
+            <div className="flex items-center justify-between text-on-surface-variant text-[11px]">
               <span>Time budget: ~15 mins</span>
               <span className="text-on-surface font-semibold">Difficulty: Adaptive</span>
             </div>
@@ -546,13 +546,13 @@ export const DashboardPage: React.FC = () => {
           {/* Card 2: Mistakes Notebook Alert */}
           <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] text-error uppercase font-bold tracking-wider">Attention Required</span>
+              <span className="text-[11px] text-error uppercase font-bold tracking-wider">Attention Required</span>
               <span className="w-2 h-2 rounded-full bg-accent-pink" />
             </div>
             <div>
               <div className="flex items-baseline gap-2">
                 <h3 className="text-base font-bold text-on-surface">Mistakes Notebook</h3>
-                <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-error-container text-on-error-container font-semibold">
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-error-container text-on-error-container font-semibold">
                   Unresolved
                 </span>
               </div>
@@ -562,11 +562,11 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <div className="p-2 rounded bg-surface-container-low flex items-center justify-between font-mono text-xs border border-border-hairline">
+              <div className="p-2 rounded bg-surface-container-low flex items-center justify-between text-xs border border-border-hairline">
                 <span className="truncate text-on-surface font-medium">Q-309: Bitwise XOR shift trace</span>
                 <span className="text-error font-semibold shrink-0">Review</span>
               </div>
-              <div className="p-2 rounded bg-surface-container-low flex items-center justify-between font-mono text-xs border border-border-hairline">
+              <div className="p-2 rounded bg-surface-container-low flex items-center justify-between text-xs border border-border-hairline">
                 <span className="truncate text-on-surface font-medium">Q-412: Double pointer step-off</span>
                 <span className="text-error font-semibold shrink-0">Review</span>
               </div>
@@ -585,8 +585,8 @@ export const DashboardPage: React.FC = () => {
           {/* Card 3: Upcoming Mock Assessment */}
           <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col justify-between gap-4">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] text-on-surface-variant uppercase font-semibold">Simulator Schedule</span>
-              <span className="font-mono text-xs px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
+              <span className="text-[11px] text-on-surface-variant uppercase font-semibold tracking-wider">Simulator Schedule</span>
+              <span className="text-xs px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
                 RECOMMENDED
               </span>
             </div>
@@ -597,7 +597,7 @@ export const DashboardPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 bg-surface-container-low p-3 rounded-lg font-mono text-xs border border-border-hairline">
+            <div className="grid grid-cols-2 gap-2 bg-surface-container-low p-3 rounded-lg text-xs border border-border-hairline">
               <div>
                 <span className="text-on-surface-variant block text-[10px]">DURATION</span>
                 <span className="text-on-surface font-semibold">90 Minutes</span>

@@ -20,39 +20,39 @@ export default function SessionStats({ answered, correct, wrong, accuracy, strea
 
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-surface-cream p-3 rounded-lg border border-border-hairline">
-          <div className="flex items-center gap-1.5 text-on-surface-variant text-xs font-mono font-medium mb-1 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 text-on-surface-variant text-xs font-semibold mb-1 uppercase tracking-wider">
             <Target className="w-3.5 h-3.5 text-secondary" /> Answered
           </div>
-          <div className="text-2xl font-mono font-bold text-on-surface">{answered}</div>
+          <div className="text-2xl font-bold text-on-surface">{answered}</div>
         </div>
 
         <div className="bg-surface-cream p-3 rounded-lg border border-border-hairline">
-          <div className="flex items-center gap-1.5 text-on-surface-variant text-xs font-mono font-medium mb-1 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 text-on-surface-variant text-xs font-semibold mb-1 uppercase tracking-wider">
             <Flame className="w-3.5 h-3.5 text-accent-pink" /> Streak
           </div>
-          <div className="text-2xl font-mono font-bold flex items-baseline gap-1 text-on-surface">
+          <div className="text-2xl font-bold flex items-baseline gap-1 text-on-surface">
             {streak} <span className="text-xs text-on-surface-variant font-normal">🔥</span>
           </div>
         </div>
 
         <div className="bg-accent-mint/10 p-3 rounded-lg border border-accent-mint/30">
-          <div className="flex items-center gap-1.5 text-[#1b5e20] text-xs font-mono font-medium mb-1 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 text-[#1b5e20] text-xs font-semibold mb-1 uppercase tracking-wider">
             <CheckCircle className="w-3.5 h-3.5" /> Correct
           </div>
-          <div className="text-2xl font-mono font-bold text-[#1b5e20]">{correct}</div>
+          <div className="text-2xl font-bold text-[#1b5e20]">{correct}</div>
         </div>
 
         <div className="bg-accent-pink/10 p-3 rounded-lg border border-accent-pink/30">
-          <div className="flex items-center gap-1.5 text-[#9c0032] text-xs font-mono font-medium mb-1 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 text-[#9c0032] text-xs font-semibold mb-1 uppercase tracking-wider">
             <XCircle className="w-3.5 h-3.5" /> Wrong
           </div>
-          <div className="text-2xl font-mono font-bold text-[#9c0032]">{wrong}</div>
+          <div className="text-2xl font-bold text-[#9c0032]">{wrong}</div>
         </div>
       </div>
 
       <div className="mt-4 p-3.5 bg-surface-cream rounded-lg border border-border-hairline">
-        <div className="flex justify-between items-end mb-2 font-mono">
-          <span className="text-xs text-on-surface-variant uppercase font-medium">Session Accuracy</span>
+        <div className="flex justify-between items-end mb-2">
+          <span className="text-xs text-on-surface-variant uppercase font-semibold">Session Accuracy</span>
           <span className="text-base font-bold text-on-surface">{Math.round(accuracy)}%</span>
         </div>
         <div className="w-full h-1.5 bg-border-hairline rounded-full overflow-hidden">

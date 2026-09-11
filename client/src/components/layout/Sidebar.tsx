@@ -125,7 +125,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
               <span className="font-semibold text-sm text-on-surface tracking-tight leading-none truncate font-sans">
                 Paper Engine
               </span>
-              <span className="font-mono text-[10px] text-on-surface-variant leading-none mt-1 truncate">
+              <span className="text-[10px] text-on-surface-variant leading-none mt-1 truncate">
                 CapPrep / v2.4 • Yusuf
               </span>
             </div>
@@ -146,7 +146,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         {navGroups.map((group, idx) => (
           <div key={idx}>
             {isOpen && (
-              <h3 className="px-3 pb-1 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider font-mono">
+              <h3 className="px-3 pb-1 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
                 {group.title}
               </h3>
             )}
@@ -189,14 +189,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         {isOpen && (
           <div className="bg-surface-container-high rounded-lg p-2.5 flex items-center justify-between border border-border-hairline">
             <div className="flex flex-col">
-              <span className="font-mono text-[9px] text-on-surface-variant uppercase tracking-wider font-semibold">
+              <span className="text-[9px] text-on-surface-variant uppercase tracking-wider font-semibold">
                 Target Batch
               </span>
-              <span className="font-mono text-xs text-on-surface font-semibold">
+              <span className="text-xs text-on-surface font-semibold">
                 Drive 2026/27
               </span>
             </div>
-            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-surface-paper text-secondary font-semibold border border-border-hairline shadow-xs">
+            <span className="text-[10px] px-2 py-0.5 rounded bg-surface-paper text-secondary font-semibold border border-border-hairline shadow-xs">
               READY
             </span>
           </div>
@@ -214,7 +214,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
               className="w-7 h-7 rounded-full object-cover object-top ring-1 ring-border-hairline shrink-0 group-hover:ring-secondary"
             />
             <div className="min-w-0">
-              <div className="text-[9px] text-secondary font-semibold uppercase font-mono group-hover:underline">View Profile →</div>
+              <div className="text-[9px] text-secondary font-semibold uppercase group-hover:underline">View Profile →</div>
               <div className="text-xs font-bold text-on-surface truncate">{useAuthStore.getState().user?.displayName || useAuthStore.getState().user?.name || 'Yusuf Khan'}</div>
             </div>
           </NavLink>

@@ -185,7 +185,7 @@ export default function MCQPracticePage() {
       <div className="min-h-screen bg-surface-cream flex items-center justify-center text-on-surface">
         <div className="flex flex-col items-center">
           <div className="w-10 h-10 border-3 border-secondary border-t-transparent rounded-full animate-spin mb-4"></div>
-          <p className="text-on-surface-variant font-mono text-sm">Loading Capgemini Assessment Ledger...</p>
+          <p className="text-on-surface-variant text-sm font-medium">Loading Capgemini Assessment Ledger...</p>
         </div>
       </div>
     );
@@ -225,26 +225,26 @@ export default function MCQPracticePage() {
             <div className="flex items-center gap-2 flex-wrap">
               <button 
                 onClick={() => navigate('/practice')}
-                className="flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface transition-colors text-xs font-mono font-medium"
+                className="flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface transition-colors text-xs font-medium"
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> Practice Hub
               </button>
               <span className="text-border-hairline">/</span>
-              <span className="font-label-caps text-label-caps uppercase px-2 py-0.5 rounded bg-surface-cream text-on-surface-variant border border-border-hairline">
+              <span className="uppercase px-2 py-0.5 rounded bg-surface-cream text-on-surface-variant border border-border-hairline text-[10px] font-semibold tracking-wider">
                 MODULE: SEC:01
               </span>
-              <span className="font-mono text-xs text-secondary font-medium">[POOL: CAPGEMINI-EXCELLER]</span>
+              <span className="text-xs text-secondary font-semibold">[POOL: CAPGEMINI-EXCELLER]</span>
             </div>
             <div className="flex items-baseline gap-3">
               <h1 className="text-xl md:text-2xl font-bold tracking-tight text-on-surface">Capgemini Technical MCQ</h1>
-              <span className="px-2 py-0.5 text-xs font-mono font-semibold bg-surface-charcoal text-white rounded">
+              <span className="px-2 py-0.5 text-xs font-semibold bg-surface-charcoal text-white rounded">
                 ROUND 1.1 FOCUS
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="bg-surface-cream border border-border-hairline px-3 py-1.5 rounded-lg text-xs font-mono text-on-surface-variant">
+            <div className="bg-surface-cream border border-border-hairline px-3 py-1.5 rounded-lg text-xs text-on-surface-variant font-medium">
               Available: <span className="font-bold text-on-surface">{totalQuestions}</span> Qs
             </div>
           </div>
@@ -257,7 +257,7 @@ export default function MCQPracticePage() {
               key={cat.id}
               onClick={() => handleCategoryChange(cat.id)}
               className={cn(
-                "px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold whitespace-nowrap transition-all border cursor-pointer",
+                "px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer",
                 selectedCategory === cat.id
                   ? "bg-primary-container text-on-primary border-primary-container shadow-xs"
                   : "bg-surface-paper border-border-hairline text-on-surface-variant hover:text-on-surface hover:bg-surface-cream"
@@ -329,7 +329,7 @@ export default function MCQPracticePage() {
                     <ChevronLeft className="w-4 h-4" /> Previous
                   </button>
 
-                  <div className="text-xs text-on-surface-variant font-mono">
+                  <div className="text-xs text-on-surface-variant font-medium">
                     Page {page} of {totalPages}
                   </div>
 
