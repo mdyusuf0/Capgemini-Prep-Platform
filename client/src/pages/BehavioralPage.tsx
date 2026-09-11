@@ -82,32 +82,32 @@ export const BehavioralPage: React.FC = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 text-white">
+    <div className="p-6 md:p-8 max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 text-on-surface">
       {/* Left side: SJT Scenario */}
       <div className="flex-1 space-y-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-xs font-semibold text-indigo-400 mb-2">
-            <span>✨ Capgemini Prep By Yusuf</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-mono font-medium text-on-surface mb-2">
+            <span>✨ CAPGEMINI PREP BY YUSUF</span>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-1">Situational Judgment Test (Round 1.4)</h1>
-          <p className="text-gray-400 text-sm">Evaluate your alignment with Capgemini's 7 Core Values and Adept Essentials profile.</p>
+          <h1 className="text-3xl font-extrabold text-on-surface tracking-tight mb-1">Situational Judgment Test (Round 1.4)</h1>
+          <p className="text-on-surface-variant text-sm">Evaluate your alignment with Capgemini's 7 Core Values and Adept Essentials corporate profile.</p>
         </div>
 
         {isLoading ? (
-          <div className="bg-[#1e1e2e] p-12 rounded-xl border border-gray-800 flex flex-col items-center justify-center space-y-3">
-            <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
-            <p className="text-sm text-gray-400">Loading situational judgment scenarios...</p>
+          <div className="bg-white p-12 rounded-2xl border border-border-hairline flex flex-col items-center justify-center space-y-3 shadow-sm">
+            <Loader2 className="w-8 h-8 text-secondary animate-spin" />
+            <p className="text-xs font-mono text-on-surface-variant">Loading situational judgment scenarios...</p>
           </div>
         ) : currentScenario ? (
-          <div className="bg-[#1e1e2e] p-6 md:p-8 rounded-xl border border-gray-800 shadow-xl space-y-6">
+          <div className="bg-white p-6 md:p-8 rounded-2xl border border-border-hairline shadow-sm space-y-6">
             <div className="flex items-center justify-between">
-              <span className="inline-block bg-indigo-900/50 text-indigo-400 text-xs font-bold px-3 py-1 rounded-full border border-indigo-500/30">
-                Scenario {currentIndex + 1} of {questions.length}: {currentScenario.topic || 'Workplace Scenario'}
+              <span className="inline-block bg-surface-cream text-secondary text-xs font-mono font-bold px-3 py-1 rounded-full border border-border-hairline">
+                SCENARIO {currentIndex + 1} OF {questions.length}: {currentScenario.topic || 'Workplace Scenario'}
               </span>
-              <span className="text-xs text-gray-400">Capgemini Adept Essentials</span>
+              <span className="text-xs font-mono text-on-surface-variant">Adept Essentials</span>
             </div>
 
-            <h2 className="text-lg md:text-xl text-white font-medium leading-relaxed">
+            <h2 className="text-lg md:text-xl text-on-surface font-bold leading-relaxed tracking-tight">
               {(currentScenario as any).questionText || (currentScenario as any).description || (currentScenario as any).title}
             </h2>
             
@@ -120,51 +120,51 @@ export const BehavioralPage: React.FC = () => {
                   className={`w-full text-left p-4 rounded-xl border text-sm transition-all cursor-pointer ${
                     showResults 
                       ? i === currentScenario.answer
-                        ? 'bg-emerald-900/30 border-emerald-500 text-emerald-100 font-medium'
+                        ? 'bg-emerald-50 border-emerald-400 text-emerald-950 font-semibold shadow-xs'
                         : selectedAnswer === i 
-                          ? 'bg-rose-900/30 border-rose-500 text-rose-100'
-                          : 'bg-[#0a0a0a] border-gray-800 text-gray-500 opacity-50'
+                          ? 'bg-red-50 border-red-400 text-red-950'
+                          : 'bg-surface-cream border-border-hairline text-zinc-400 opacity-60'
                       : selectedAnswer === i
-                        ? 'bg-indigo-600 border-indigo-500 text-white'
-                        : 'bg-[#0a0a0a] border-gray-700 hover:border-indigo-500 hover:bg-indigo-900/20 text-gray-200'
+                        ? 'bg-secondary-fixed/40 border-secondary text-on-surface font-semibold shadow-xs'
+                        : 'bg-white border-border-hairline hover:border-zinc-400 hover:bg-surface-cream text-on-surface'
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs shrink-0 mt-0.5">
+                    <span className="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5 border border-border-hairline">
                       {String.fromCharCode(65 + i)}
                     </span>
-                    <span>{opt}</span>
+                    <span className="leading-snug">{opt}</span>
                   </div>
                 </button>
               ))}
             </div>
 
             {showResults && (
-              <div className="p-6 bg-indigo-950/30 border border-indigo-500/30 rounded-xl space-y-3 animate-in fade-in">
+              <div className="p-6 bg-surface-cream border border-border-hairline rounded-xl space-y-3 animate-in fade-in">
                 <div className="flex items-center gap-2">
                   {submissionResult?.correct ? (
-                    <CheckCircle2 className="text-emerald-400 w-5 h-5" />
+                    <CheckCircle2 className="text-emerald-600 w-5 h-5" />
                   ) : (
-                    <XCircle className="text-rose-400 w-5 h-5" />
+                    <XCircle className="text-red-600 w-5 h-5" />
                   )}
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-base font-bold text-on-surface">
                     {submissionResult?.correct ? 'Optimal Value Alignment' : 'Sub-Optimal Choice'}
                   </h3>
                 </div>
-                <p className="text-gray-300 text-xs md:text-sm leading-relaxed">
+                <p className="text-on-surface-variant text-xs md:text-sm leading-relaxed">
                   {submissionResult?.explanation || currentScenario.explanation}
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  <span className="bg-[#0a0a0a] text-indigo-300 border border-indigo-800/60 px-3 py-1 rounded-full text-xs">
+                  <span className="bg-white text-zinc-700 border border-border-hairline px-3 py-1 rounded-full text-xs font-mono">
                     Values: Team Spirit, Honesty, Modesty
                   </span>
-                  <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-semibold">
-                    +15 Value Score
+                  <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-mono font-bold">
+                    +15 Value Alignment Score
                   </span>
                 </div>
                 <button 
                   onClick={handleNext}
-                  className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 py-2.5 rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-indigo-500/20"
+                  className="mt-4 w-full bg-primary-container hover:bg-black text-white py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                 >
                   Next Scenario <ChevronRight size={16} />
                 </button>
@@ -176,9 +176,9 @@ export const BehavioralPage: React.FC = () => {
 
       {/* Right side: Capgemini Values Radar */}
       <div className="w-full lg:w-[340px] flex-shrink-0 space-y-6">
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800 shadow-xl">
-          <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-            <Target className="text-indigo-400" />
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm">
+          <h3 className="text-base font-bold text-on-surface mb-6 flex items-center gap-2">
+            <Target className="text-secondary w-5 h-5" />
             Your Value Profile
           </h3>
           
@@ -187,13 +187,13 @@ export const BehavioralPage: React.FC = () => {
               const currentScore = scores[dim.name] ?? 0;
               return (
                 <div key={i}>
-                  <div className="flex justify-between text-xs mb-1 text-gray-300">
+                  <div className="flex justify-between text-xs mb-1 text-on-surface-variant font-medium">
                     <span className="flex items-center gap-2">{dim.icon} {dim.name}</span>
-                    <span className="text-indigo-400 font-mono font-bold">{currentScore}%</span>
+                    <span className="text-secondary font-mono font-bold">{currentScore}%</span>
                   </div>
-                  <div className="h-2 bg-[#0a0a0a] rounded-full overflow-hidden border border-gray-800">
+                  <div className="h-2 bg-surface-cream rounded-full overflow-hidden border border-border-hairline">
                     <div 
-                      className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-700"
+                      className="h-full bg-gradient-to-r from-secondary to-primary-container rounded-full transition-all duration-700"
                       style={{ width: `${currentScore}%` }}
                     />
                   </div>
@@ -202,11 +202,11 @@ export const BehavioralPage: React.FC = () => {
             })}
           </div>
 
-          <div className="mt-8 pt-6 border-t border-gray-800">
-            <h4 className="text-xs font-semibold text-gray-400 mb-3">Capgemini's 7 Core Values</h4>
+          <div className="mt-8 pt-6 border-t border-border-hairline">
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-on-surface-variant mb-3">Capgemini's 7 Core Values</h4>
             <div className="flex flex-wrap gap-1.5 text-xs">
               {['Honesty', 'Boldness', 'Trust', 'Freedom', 'Fun', 'Modesty', 'Team Spirit'].map(v => (
-                <span key={v} className="bg-indigo-900/30 text-indigo-300 px-2.5 py-1 rounded-full border border-indigo-900/50 text-[11px]">
+                <span key={v} className="bg-surface-cream text-zinc-700 px-2.5 py-1 rounded-full border border-border-hairline text-[11px] font-mono font-medium">
                   {v}
                 </span>
               ))}

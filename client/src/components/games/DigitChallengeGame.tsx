@@ -83,41 +83,41 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
   }
 
   return (
-    <div className="max-w-xl mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between border-b border-gray-800 pb-4">
-        <button onClick={onBack} className="flex items-center text-sm text-gray-400 hover:text-white transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Exit Game
+    <div className="max-w-xl mx-auto p-6 space-y-6 text-on-surface">
+      <div className="flex items-center justify-between border-b border-border-hairline pb-4">
+        <button onClick={onBack} className="flex items-center text-xs font-mono font-bold text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
+          <ArrowLeft className="w-4 h-4 mr-2" /> Return to Arena
         </button>
-        <div className="flex items-center space-x-6 text-sm">
-          <div><span className="text-gray-500">Round:</span> <span className="font-bold text-white">{round}/5</span></div>
-          <div><span className="text-gray-500">Score:</span> <span className="font-bold text-orange-400">{score}</span></div>
+        <div className="flex items-center space-x-6 text-xs font-mono">
+          <div><span className="text-on-surface-variant">Round:</span> <span className="font-bold text-on-surface">{round}/5</span></div>
+          <div><span className="text-on-surface-variant">Velocity Score:</span> <span className="font-bold text-secondary">{score}</span></div>
         </div>
       </div>
 
       <div className="text-center space-y-1">
-        <h2 className="text-2xl font-bold text-white flex items-center justify-center gap-2">
-          <Calculator className="text-orange-400 w-6 h-6" /> Digit Challenge (Numerical Speed)
+        <h2 className="text-2xl font-extrabold text-on-surface flex items-center justify-center gap-2 tracking-tight">
+          <Calculator className="text-secondary w-6 h-6" /> Digit Challenge (Numerical Velocity)
         </h2>
-        <p className="text-gray-400 text-sm">
-          Use the available digits and operators to reach the Target Number.
+        <p className="text-on-surface-variant text-xs">
+          Combine the available digits using basic arithmetic operations to hit the exact target integer.
         </p>
       </div>
 
       {/* Target Display */}
-      <div className="bg-[#1e1e2e] border-2 border-orange-500/40 rounded-2xl p-6 text-center shadow-xl">
-        <span className="text-xs text-gray-400 uppercase tracking-widest font-mono">TARGET VALUE</span>
-        <div className="text-5xl font-black text-orange-400 mt-2 font-mono tracking-wider">
+      <div className="bg-white border-2 border-border-hairline rounded-2xl p-6 text-center shadow-sm">
+        <span className="text-xs text-on-surface-variant uppercase tracking-widest font-mono font-semibold">TARGET VALUE</span>
+        <div className="text-5xl font-black text-secondary mt-2 font-mono tracking-wider">
           {puzzle.target}
         </div>
       </div>
 
       {/* Formula Workspace */}
-      <div className="p-4 bg-[#0a0a0a] rounded-xl border border-gray-800 min-h-[56px] flex items-center justify-between">
-        <div className="font-mono text-xl text-white font-bold tracking-wider">
-          {expression.length > 0 ? expression.join(' ') : <span className="text-gray-600 text-sm">Construct equation here...</span>}
+      <div className="p-4 bg-surface-cream rounded-xl border border-border-hairline min-h-[56px] flex items-center justify-between">
+        <div className="font-mono text-xl text-on-surface font-bold tracking-wider">
+          {expression.length > 0 ? expression.join(' ') : <span className="text-zinc-400 text-xs font-normal">Select digits and operators below...</span>}
         </div>
         {expression.length > 0 && (
-          <button onClick={handleClear} className="text-xs text-gray-400 hover:text-red-400 flex items-center gap-1">
+          <button onClick={handleClear} className="text-xs text-on-surface-variant hover:text-red-600 flex items-center gap-1 font-mono cursor-pointer">
             <RotateCcw className="w-3.5 h-3.5" /> Clear
           </button>
         )}
@@ -126,7 +126,7 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
       {/* Digits and Operators */}
       <div className="space-y-4">
         <div>
-          <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold block mb-2">Available Digits (Use Once):</span>
+          <span className="text-xs text-on-surface-variant uppercase tracking-wider font-mono font-semibold block mb-2 text-center">Available Digits:</span>
           <div className="flex gap-3 justify-center">
             {puzzle.availableDigits.map((digit, idx) => {
               const isUsed = usedDigits.includes(idx);
@@ -135,8 +135,10 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
                   key={idx}
                   disabled={isUsed || won}
                   onClick={() => handleAddDigit(digit, idx)}
-                  className={`w-14 h-14 rounded-xl text-2xl font-bold font-mono transition-all ${
-                    isUsed ? 'bg-gray-800/40 text-gray-600 border border-gray-800' : 'bg-[#1e1e2e] hover:bg-[#2a2a3e] border border-gray-700 text-white active:scale-95'
+                  className={`w-14 h-14 rounded-xl text-2xl font-bold font-mono transition-all cursor-pointer shadow-xs ${
+                    isUsed 
+                      ? 'bg-surface-cream text-zinc-300 border border-border-hairline cursor-not-allowed' 
+                      : 'bg-white hover:bg-surface-cream border border-border-hairline text-on-surface hover:border-zinc-400 active:scale-95'
                   }`}
                 >
                   {digit}
@@ -147,14 +149,14 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
         </div>
 
         <div>
-          <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold block mb-2 text-center">Operators:</span>
+          <span className="text-xs text-on-surface-variant uppercase tracking-wider font-mono font-semibold block mb-2 text-center">Operators:</span>
           <div className="flex gap-3 justify-center">
             {['+', '-', '*', '/'].map((op) => (
               <button
                 key={op}
                 disabled={won}
                 onClick={() => handleAddOperator(op)}
-                className="w-12 h-12 rounded-xl text-xl font-bold font-mono bg-[#1e1e2e] hover:bg-orange-600/30 border border-gray-700 text-orange-300 transition-all active:scale-95"
+                className="w-12 h-12 rounded-xl text-xl font-bold font-mono bg-white hover:bg-surface-cream border border-border-hairline text-secondary hover:border-zinc-400 transition-all active:scale-95 cursor-pointer shadow-xs"
               >
                 {op}
               </button>
@@ -165,24 +167,24 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
         <button
           onClick={handleEvaluate}
           disabled={won || expression.length < 3}
-          className="w-full py-3 bg-orange-600 hover:bg-orange-700 disabled:opacity-40 text-white font-bold rounded-xl transition-all shadow-lg"
+          className="w-full py-3 bg-primary-container hover:bg-black disabled:opacity-40 text-white font-bold rounded-xl transition-all shadow-sm cursor-pointer text-xs uppercase font-mono tracking-wider"
         >
-          Check Target Solution (=)
+          Verify Target Solution (=)
         </button>
       </div>
 
       {won && (
-        <div className="p-4 bg-green-900/20 border border-green-500/40 rounded-xl flex items-center justify-between text-green-300">
+        <div className="p-4 bg-emerald-50 border border-emerald-300 rounded-xl flex items-center justify-between text-emerald-950">
           <div className="flex items-center gap-3">
-            <CheckCircle2 className="w-6 h-6 text-green-400" />
+            <CheckCircle2 className="w-6 h-6 text-emerald-600" />
             <div>
-              <div className="font-bold">Target Reached! (+100 pts)</div>
-              <div className="text-xs text-gray-400">{puzzle.solutionFormula}</div>
+              <div className="font-bold text-xs">Target Reached! (+100 Velocity Score)</div>
+              <div className="text-[11px] font-mono text-emerald-800">{puzzle.solutionFormula}</div>
             </div>
           </div>
           <button
             onClick={() => setRound(r => r + 1)}
-            className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-semibold transition-colors"
+            className="px-4 py-2 bg-primary-container hover:bg-black text-white rounded-xl text-xs font-bold transition-colors cursor-pointer shadow-xs"
           >
             Next Puzzle →
           </button>

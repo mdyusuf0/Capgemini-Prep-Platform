@@ -69,35 +69,35 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
   if (loading || !puzzle) {
     return (
-      <div className="flex items-center justify-center p-12 text-gray-400">
-        <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="flex items-center justify-center p-12 text-on-surface-variant">
+        <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between border-b border-gray-800 pb-4">
-        <button onClick={onBack} className="flex items-center text-sm text-gray-400 hover:text-white transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Exit Game
+    <div className="max-w-3xl mx-auto p-6 space-y-6 text-on-surface">
+      <div className="flex items-center justify-between border-b border-border-hairline pb-4">
+        <button onClick={onBack} className="flex items-center text-xs font-mono font-bold text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
+          <ArrowLeft className="w-4 h-4 mr-2" /> Return to Arena
         </button>
-        <div className="flex items-center space-x-6 text-sm">
-          <div><span className="text-gray-500">Round:</span> <span className="font-bold text-white">{round}/5</span></div>
-          <div><span className="text-gray-500">Score:</span> <span className="font-bold text-indigo-400">{score}</span></div>
+        <div className="flex items-center space-x-6 text-xs font-mono">
+          <div><span className="text-on-surface-variant">Round:</span> <span className="font-bold text-on-surface">{round}/5</span></div>
+          <div><span className="text-on-surface-variant">Velocity Score:</span> <span className="font-bold text-secondary">{score}</span></div>
         </div>
       </div>
 
-      <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-white">Geo-Sudo (Deductive Reasoning)</h2>
-        <p className="text-gray-400 text-sm max-w-lg mx-auto">
-          Every row and column must contain each symbol exactly once. Deduce the missing symbol at the target cell <span className="text-indigo-400 font-bold">(?)</span>.
+      <div className="text-center space-y-1">
+        <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">Geo-Sudo (Deductive Reasoning)</h2>
+        <p className="text-on-surface-variant text-xs max-w-lg mx-auto">
+          Every row and column must contain each symbol exactly once. Deduce the missing symbol at the target cell <span className="text-secondary font-bold font-mono">(?)</span>.
         </p>
       </div>
 
       {/* Grid */}
       <div className="flex justify-center my-6">
         <div 
-          className="grid gap-2 p-4 bg-[#1e1e2e] border-2 border-indigo-500/30 rounded-2xl shadow-xl"
+          className="grid gap-2 p-4 bg-white border border-border-hairline rounded-2xl shadow-sm"
           style={{ gridTemplateColumns: `repeat(${puzzle.size}, minmax(0, 1fr))` }}
         >
           {puzzle.grid.map((row, rIdx) =>
@@ -109,11 +109,11 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   className={`w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center text-2xl font-bold transition-all ${
                     isTarget
                       ? selectedSymbol
-                        ? feedback === 'correct' ? 'bg-green-600/30 border-2 border-green-500 text-green-400' : 'bg-red-600/30 border-2 border-red-500 text-red-400'
-                        : 'bg-indigo-600/20 border-2 border-dashed border-indigo-400 text-indigo-300 animate-pulse'
+                        ? feedback === 'correct' ? 'bg-emerald-50 border-2 border-emerald-500 text-emerald-700' : 'bg-red-50 border-2 border-red-500 text-red-700'
+                        : 'bg-secondary-fixed/30 border-2 border-dashed border-secondary text-secondary animate-pulse'
                       : cell
-                        ? 'bg-[#0a0a0a] border border-gray-700 text-white'
-                        : 'bg-[#12121a] border border-gray-800 text-gray-600'
+                        ? 'bg-surface-cream border border-border-hairline text-on-surface shadow-xs'
+                        : 'bg-surface-cream/40 border border-border-hairline/60 text-zinc-300'
                   }`}
                 >
                   {isTarget ? (selectedSymbol || '?') : (cell || '')}
@@ -125,18 +125,18 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       </div>
 
       {/* Options */}
-      <div className="space-y-4 text-center">
-        <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Select the missing symbol:</span>
-        <div className="flex justify-center gap-4">
+      <div className="space-y-3 text-center">
+        <span className="text-xs text-on-surface-variant uppercase tracking-wider font-mono font-semibold">Select the missing symbol:</span>
+        <div className="flex justify-center gap-3">
           {puzzle.options.map((sym, idx) => (
             <button
               key={idx}
               disabled={feedback !== null}
               onClick={() => handleSelectOption(sym)}
-              className={`w-14 h-14 rounded-xl text-2xl font-bold flex items-center justify-center transition-all transform hover:scale-105 active:scale-95 disabled:pointer-events-none ${
+              className={`w-14 h-14 rounded-xl text-2xl font-bold flex items-center justify-center transition-all transform hover:scale-105 active:scale-95 disabled:pointer-events-none cursor-pointer shadow-xs ${
                 selectedSymbol === sym
-                  ? feedback === 'correct' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                  : 'bg-[#1e1e2e] hover:bg-[#2a2a3e] border border-gray-700 text-white'
+                  ? feedback === 'correct' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+                  : 'bg-white hover:bg-surface-cream border border-border-hairline text-on-surface hover:border-zinc-400'
               }`}
             >
               {sym}
@@ -148,18 +148,18 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       {/* Feedback Banner */}
       {feedback && (
         <div className={`p-4 rounded-xl flex items-center justify-between border animate-in fade-in slide-in-from-bottom-2 ${
-          feedback === 'correct' ? 'bg-green-900/20 border-green-500/40 text-green-300' : 'bg-red-900/20 border-red-500/40 text-red-300'
+          feedback === 'correct' ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-red-50 border-red-300 text-red-950'
         }`}>
           <div className="flex items-center space-x-3">
-            {feedback === 'correct' ? <CheckCircle2 className="w-6 h-6 text-green-400" /> : <XCircle className="w-6 h-6 text-red-400" />}
+            {feedback === 'correct' ? <CheckCircle2 className="w-6 h-6 text-emerald-600" /> : <XCircle className="w-6 h-6 text-red-600" />}
             <div>
-              <div className="font-bold">{feedback === 'correct' ? 'Correct Deduction!' : 'Incorrect Deduction'}</div>
-              <div className="text-xs text-gray-400">Solution was: {puzzle.solution}</div>
+              <div className="font-bold text-sm">{feedback === 'correct' ? 'Correct Deduction!' : 'Incorrect Deduction'}</div>
+              <div className="text-xs text-on-surface-variant font-mono">Solution was: {puzzle.solution}</div>
             </div>
           </div>
           <button
             onClick={handleNext}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition-colors"
+            className="px-4 py-2 bg-primary-container hover:bg-black text-white text-xs font-mono font-bold rounded-lg transition-colors cursor-pointer"
           >
             {round >= 5 ? 'Finish Game' : 'Next Puzzle →'}
           </button>

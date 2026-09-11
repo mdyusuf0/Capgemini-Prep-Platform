@@ -56,11 +56,11 @@ export const LoginPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col md:flex-row font-sans text-white overflow-hidden relative">
-      {/* Background elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-600/20 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary-900/40 rounded-full blur-[120px]"></div>
+    <div className="min-h-screen bg-surface-cream flex flex-col md:flex-row font-sans text-on-surface overflow-hidden relative">
+      {/* Background accents */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none opacity-40">
+        <div className="absolute top-[-10%] left-[-10%] w-[45%] h-[45%] bg-secondary-fixed/40 rounded-full blur-[140px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[45%] h-[45%] bg-[#fc618d]/10 rounded-full blur-[140px]"></div>
       </div>
 
       <div className="flex-1 p-8 md:p-16 lg:p-24 flex flex-col justify-center z-10">
@@ -71,29 +71,28 @@ export const LoginPage: React.FC = () => {
         >
           <div className="inline-flex items-center gap-4 mb-8">
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full blur-md opacity-80 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
               <img
                 src="/logo.jpg"
                 alt="Capgemini Prep By Yusuf"
-                className="relative w-20 h-20 rounded-full object-cover object-top border-2 border-indigo-400 shadow-2xl ring-4 ring-white/10"
+                className="w-16 h-16 rounded-full object-cover object-top border-2 border-border-hairline shadow-md"
               />
             </div>
             <div>
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                Official Platform Edition
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-semibold bg-surface-container-highest text-on-surface border border-border-hairline">
+                ✨ OFFICIAL PLATFORM EDITION
               </span>
-              <p className="text-xs text-white/50 mt-1">Designed & Masterminded by Yusuf</p>
+              <p className="text-xs text-on-surface-variant font-medium mt-1">Designed & Masterminded by Yusuf</p>
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 tracking-tight text-on-surface">
             CAPGEMINI PREP <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-indigo-400">
+            <span className="text-secondary">
               BY YUSUF
             </span>
           </h1>
-          <p className="text-lg text-white/60 mb-12 max-w-xl leading-relaxed">
-            One platform. Every round. Complete preparation. Created by Yusuf for mastering every stage of the Capgemini assessment process.
+          <p className="text-base md:text-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">
+            One unified assessment engine. Every round covered with precision telemetry, interactive simulators, and real recruitment benchmark algorithms.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
@@ -103,14 +102,14 @@ export const LoginPage: React.FC = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 + (idx * 0.1) }}
-                className="flex items-start gap-4 p-4 rounded-xl bg-surface/50 border border-white/5 hover:bg-surface transition-colors"
+                className="flex items-start gap-3.5 p-4 rounded-xl bg-white border border-border-hairline shadow-sm hover:border-zinc-400 transition-all"
               >
-                <div className="p-2 bg-primary-500/10 rounded-lg text-primary-400">
-                  <feature.icon size={20} />
+                <div className="p-2.5 bg-surface-cream rounded-lg text-secondary border border-border-hairline">
+                  <feature.icon size={18} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white/90">{feature.title}</h3>
-                  <p className="text-sm text-white/50 mt-1">{feature.desc}</p>
+                  <h3 className="font-bold text-sm text-on-surface">{feature.title}</h3>
+                  <p className="text-xs text-on-surface-variant mt-0.5">{feature.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -118,33 +117,33 @@ export const LoginPage: React.FC = () => {
         </motion.div>
       </div>
 
-      <div className="w-full md:w-[480px] lg:w-[540px] bg-surface flex flex-col justify-center p-8 md:p-12 lg:p-16 border-l border-white/5 z-10 shadow-2xl relative">
+      <div className="w-full md:w-[480px] lg:w-[520px] bg-white flex flex-col justify-center p-8 md:p-12 lg:p-16 border-l border-border-hairline z-10 shadow-lg relative">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
         >
           <div className="mb-8 text-center md:text-left">
-            <h2 className="text-2xl font-bold mb-2">
-              {isRegistering ? 'Create Your Account' : 'Welcome Back'}
+            <h2 className="text-2xl font-bold text-on-surface tracking-tight mb-2">
+              {isRegistering ? 'Create Your Account' : 'Sign in to Terminal'}
             </h2>
-            <p className="text-white/50 text-sm">
+            <p className="text-on-surface-variant text-sm">
               {isRegistering 
                 ? 'Sign up to start your personalized preparation journey from 0%.'
-                : 'Enter your credentials to access your preparation dashboard.'}
+                : 'Enter your credentials to access your preparation command center.'}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {isRegistering && (
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-2">Full Name</label>
+                <label className="block text-xs font-mono uppercase tracking-wider text-on-surface-variant mb-1.5 font-medium">Full Name</label>
                 <div className="relative">
                   <input 
                     type="text" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-background border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
+                    className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 px-4 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-sm"
                     placeholder="e.g. Yusuf Khan"
                     required
                   />
@@ -153,14 +152,14 @@ export const LoginPage: React.FC = () => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">Email Address</label>
+              <label className="block text-xs font-mono uppercase tracking-wider text-on-surface-variant mb-1.5 font-medium">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant" size={17} />
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-background border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
+                  className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 pl-10 pr-4 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-sm"
                   placeholder="name@example.com"
                   required
                 />
@@ -168,23 +167,23 @@ export const LoginPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">Password</label>
+              <label className="block text-xs font-mono uppercase tracking-wider text-on-surface-variant mb-1.5 font-medium">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant" size={17} />
                 <input 
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-background border border-white/10 rounded-xl py-3 pl-10 pr-12 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
+                  className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 pl-10 pr-12 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-sm"
                   placeholder="••••••••"
                   required
                 />
                 <button 
                   type="button" 
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors"
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                 </button>
               </div>
             </div>
@@ -192,7 +191,7 @@ export const LoginPage: React.FC = () => {
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="w-full py-3.5 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/25 transition-all transform hover:scale-[1.01] active:scale-100 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm cursor-pointer"
+              className="w-full py-3 px-4 bg-primary-container hover:bg-black text-white rounded-xl font-bold shadow-sm transition-all transform active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm cursor-pointer mt-2"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -211,7 +210,7 @@ export const LoginPage: React.FC = () => {
                 setEmail('');
                 setPassword('');
               }}
-              className="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors cursor-pointer"
+              className="text-xs font-semibold text-secondary hover:underline transition-colors cursor-pointer"
             >
               {isRegistering 
                 ? 'Already have an account? Sign in here' 
@@ -219,7 +218,7 @@ export const LoginPage: React.FC = () => {
             </button>
           </div>
 
-          <p className="mt-8 text-center text-xs text-white/40">
+          <p className="mt-8 text-center text-xs text-on-surface-variant">
             Capgemini Prep By Yusuf • Engineered by Yusuf for placement excellence.
           </p>
         </motion.div>

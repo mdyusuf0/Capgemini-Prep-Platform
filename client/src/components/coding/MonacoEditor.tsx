@@ -13,15 +13,15 @@ export const MonacoEditor = ({ code, language, onChange, readOnly = false }: Mon
 
   useEffect(() => {
     if (monaco) {
-      monaco.editor.defineTheme('vs-dark', {
+      monaco.editor.defineTheme('paper-charcoal', {
         base: 'vs-dark',
         inherit: true,
         rules: [],
         colors: {
-          'editor.background': '#1e1e2e',
+          'editor.background': '#141414',
         },
       });
-      monaco.editor.setTheme('vs-dark');
+      monaco.editor.setTheme('paper-charcoal');
     }
   }, [monaco]);
 
@@ -30,12 +30,12 @@ export const MonacoEditor = ({ code, language, onChange, readOnly = false }: Mon
   };
 
   return (
-    <div className="h-full w-full rounded-md overflow-hidden border border-gray-700">
+    <div className="h-full w-full rounded-xl overflow-hidden border border-border-hairline shadow-xs">
       <Editor
         height="100%"
         language={language === 'c' ? 'c' : language === 'cpp' ? 'cpp' : language === 'python' ? 'python' : 'java'}
         value={code}
-        theme="vs-dark"
+        theme="paper-charcoal"
         onChange={handleEditorChange}
         options={{
           readOnly,

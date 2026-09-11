@@ -17,45 +17,52 @@ export default function AIInterviewPage() {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto h-full flex flex-col text-white">
-      <div className="mb-6 flex justify-between items-end">
+    <div className="p-8 max-w-4xl mx-auto h-full flex flex-col text-on-surface">
+      <div className="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
         <div>
-          <h1 className="text-3xl font-bold mb-2 flex items-center space-x-3">
-            <Bot className="w-8 h-8 text-indigo-500" />
-            <span>AI Mock Interview</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-mono font-medium text-on-surface mb-2">
+            <span>✨ CAPGEMINI PREP BY YUSUF</span>
+          </div>
+          <h1 className="text-3xl font-extrabold flex items-center space-x-3 text-on-surface tracking-tight">
+            <Bot className="w-8 h-8 text-secondary" />
+            <span>AI Mock Interview Simulator</span>
           </h1>
-          <p className="text-gray-400">Practice dynamic interviews with an AI coach.</p>
+          <p className="text-on-surface-variant text-sm mt-1">Practice dynamic recruiter questions with an AI coach trained on Capgemini competencies.</p>
         </div>
-        <select className="bg-[#1e1e2e] border border-gray-700 rounded-lg p-2 text-white">
-          <option>Technical Mode</option>
-          <option>HR Mode</option>
-          <option>Project Mode</option>
+        <select className="bg-white border border-border-hairline rounded-xl px-3 py-2 text-xs font-mono font-semibold text-on-surface shadow-xs outline-none">
+          <option>Technical Architecture Track</option>
+          <option>HR & Values Track</option>
+          <option>Project & Scenario Track</option>
         </select>
       </div>
 
-      <div className="flex-1 bg-[#1e1e2e] border border-gray-800 rounded-xl flex flex-col overflow-hidden">
+      <div className="flex-1 bg-white border border-border-hairline rounded-2xl flex flex-col overflow-hidden shadow-sm min-h-[480px]">
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[70%] p-4 rounded-xl ${msg.role === 'user' ? 'bg-indigo-600' : 'bg-gray-800'}`}>
+              <div className={`max-w-[75%] p-4 rounded-2xl text-xs md:text-sm leading-relaxed ${
+                msg.role === 'user' 
+                  ? 'bg-primary-container text-white font-medium shadow-xs' 
+                  : 'bg-surface-cream border border-border-hairline text-on-surface'
+              }`}>
                 {msg.text}
               </div>
             </div>
           ))}
         </div>
-        <div className="p-4 border-t border-gray-800 bg-black/20 flex space-x-2">
-          <button className="p-3 rounded-lg bg-gray-800 text-gray-400 hover:text-white">
-            <Mic className="w-5 h-5" />
+        <div className="p-4 border-t border-border-hairline bg-surface-cream flex space-x-2">
+          <button className="p-3 rounded-xl bg-white border border-border-hairline text-zinc-600 hover:text-black transition-colors cursor-pointer shadow-xs">
+            <Mic className="w-5 h-5 text-secondary" />
           </button>
           <input 
             type="text" 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Type your response..."
-            className="flex-1 bg-gray-800 border-none rounded-lg px-4 focus:ring-2 focus:ring-indigo-500 text-white outline-none"
+            placeholder="Structure your interview response..."
+            className="flex-1 bg-white border border-border-hairline rounded-xl px-4 text-xs md:text-sm focus:border-black outline-none text-on-surface placeholder:text-zinc-400 shadow-xs"
           />
-          <button onClick={handleSend} className="p-3 rounded-lg bg-indigo-600 hover:bg-indigo-700">
+          <button onClick={handleSend} className="p-3 rounded-xl bg-primary-container hover:bg-black text-white shadow-sm transition-all cursor-pointer">
             <Send className="w-5 h-5" />
           </button>
         </div>

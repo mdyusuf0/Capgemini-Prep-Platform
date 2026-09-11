@@ -12,21 +12,24 @@ export default function DebuggingPage() {
     queryFn: () => debuggingService.getProblems()
   });
 
-  if (isLoading) return <div className="text-white p-8">Loading...</div>;
+  if (isLoading) return <div className="text-on-surface font-mono text-sm p-8">Loading Debugging Roster...</div>;
 
   const problems: DebuggingProblem[] = data?.problems || [];
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
+    <div className="container mx-auto px-6 py-8 text-on-surface">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Debugging Challenges</h1>
-          <p className="text-gray-400">Find and fix the bugs in the code. Capgemini style.</p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-mono font-medium text-on-surface mb-3">
+            <span>🐛 CODE VERIFICATION ENGINE</span>
+          </div>
+          <h1 className="text-3xl font-extrabold text-on-surface tracking-tight">Debugging Challenges</h1>
+          <p className="text-on-surface-variant text-sm mt-1">Locate logic flaws, runtime exceptions, and boundary bugs under Capgemini assessment patterns.</p>
         </div>
         <Link to="/debugging/timed">
-          <Button className="bg-indigo-600 hover:bg-indigo-700">
+          <Button className="bg-primary-container hover:bg-black text-white rounded-xl font-semibold shadow-sm">
             <Timer className="w-4 h-4 mr-2" />
-            Timed Mode
+            Timed Speedrun Mode
           </Button>
         </Link>
       </div>
@@ -35,37 +38,37 @@ export default function DebuggingPage() {
         {problems.map((problem) => (
           <motion.div
             key={problem._id}
-            whileHover={{ scale: 1.02 }}
-            className="bg-[#1e1e2e] border border-gray-800 rounded-xl p-6 flex flex-col h-full"
+            whileHover={{ y: -2 }}
+            className="bg-white border border-border-hairline rounded-2xl p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-all"
           >
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-semibold text-white">{problem.title}</h3>
-              <span className={`px-2 py-1 text-xs font-semibold rounded ${
-                problem.difficulty === 'hard' ? 'bg-red-500/20 text-red-400' :
-                problem.difficulty === 'medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                'bg-green-500/20 text-green-400'
+            <div className="flex justify-between items-start mb-3">
+              <h3 className="text-lg font-bold text-on-surface">{problem.title}</h3>
+              <span className={`px-2.5 py-0.5 text-xs font-mono font-bold rounded-full border ${
+                problem.difficulty === 'hard' ? 'bg-red-50 text-red-700 border-red-200' :
+                problem.difficulty === 'medium' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                'bg-emerald-50 text-emerald-700 border-emerald-200'
               }`}>
                 {problem.difficulty}
               </span>
             </div>
             
-            <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
+            <p className="text-on-surface-variant text-xs mb-4 line-clamp-2 flex-grow leading-relaxed">
               {problem.description}
             </p>
 
-            <div className="flex items-center gap-4 mb-6">
-              <span className="flex items-center text-xs text-gray-400 bg-black/30 px-2 py-1 rounded">
-                <Code className="w-3 h-3 mr-1" />
+            <div className="flex items-center gap-2 mb-6">
+              <span className="flex items-center text-xs font-mono text-zinc-700 bg-surface-cream border border-border-hairline px-2.5 py-1 rounded-md">
+                <Code className="w-3 h-3 mr-1 text-secondary" />
                 {problem.language}
               </span>
-              <span className="flex items-center text-xs text-gray-400 bg-black/30 px-2 py-1 rounded">
-                <Bug className="w-3 h-3 mr-1" />
+              <span className="flex items-center text-xs font-mono text-zinc-700 bg-surface-cream border border-border-hairline px-2.5 py-1 rounded-md">
+                <Bug className="w-3 h-3 mr-1 text-[#fc618d]" />
                 {problem.bugType}
               </span>
             </div>
 
             <Link to={`/debugging/${problem._id}`} className="w-full">
-              <Button variant="outline" className="w-full border-indigo-600/50 text-indigo-400 hover:bg-indigo-600 hover:text-white">
+              <Button className="w-full bg-primary-container text-white hover:bg-black rounded-xl font-semibold shadow-sm">
                 Solve Challenge
               </Button>
             </Link>

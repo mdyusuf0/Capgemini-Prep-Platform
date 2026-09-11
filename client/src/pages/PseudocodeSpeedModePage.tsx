@@ -88,33 +88,33 @@ const PseudocodeSpeedModePage: React.FC = () => {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  if (loading) return <div className="flex items-center justify-center h-screen bg-[#0a0a0a] text-white">Generating 30-Question Speed Set...</div>;
-  if (!questions.length) return <div className="flex items-center justify-center h-screen bg-[#0a0a0a] text-white">Failed to generate set.</div>;
+  if (loading) return <div className="flex items-center justify-center h-screen bg-surface-cream text-on-surface font-mono text-sm">Generating 30-Question Speed Protocol...</div>;
+  if (!questions.length) return <div className="flex items-center justify-center h-screen bg-surface-cream text-on-surface font-mono text-sm">Failed to generate set.</div>;
 
   if (isFinished) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-6 text-gray-200">
-        <div className="bg-[#1e1e2e] p-8 rounded-xl max-w-lg w-full text-center shadow-xl border border-gray-800">
-          <CheckCircle size={64} className="text-green-500 mx-auto mb-4" />
-          <h1 className="text-3xl font-bold mb-2 text-white">Time's Up!</h1>
-          <p className="text-gray-400 mb-6">You've completed the Capgemini Pseudocode Speed Challenge.</p>
+      <div className="min-h-screen bg-surface-cream flex items-center justify-center p-6 text-on-surface">
+        <div className="bg-white p-8 rounded-2xl max-w-lg w-full text-center shadow-sm border border-border-hairline">
+          <CheckCircle size={56} className="text-secondary mx-auto mb-4" />
+          <h1 className="text-3xl font-extrabold mb-2 text-on-surface tracking-tight">Time Protocol Concluded</h1>
+          <p className="text-on-surface-variant text-sm mb-6">Completed Capgemini Pseudocode Speed Challenge evaluation.</p>
           
           <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="bg-[#1a1a2e] p-4 rounded-lg border border-gray-800">
-              <div className="text-2xl font-bold text-blue-400">{Object.keys(answers).length} / 30</div>
-              <div className="text-xs text-gray-500 uppercase">Attempted</div>
+            <div className="bg-surface-cream p-4 rounded-xl border border-border-hairline">
+              <div className="text-2xl font-black text-secondary font-mono">{Object.keys(answers).length} / 30</div>
+              <div className="text-[10px] text-on-surface-variant font-mono uppercase font-bold tracking-wider">Attempted</div>
             </div>
-            <div className="bg-[#1a1a2e] p-4 rounded-lg border border-gray-800">
-              <div className="text-2xl font-bold text-yellow-400">{formatTime(30 * 60 - timeLeft)}</div>
-              <div className="text-xs text-gray-500 uppercase">Time Taken</div>
+            <div className="bg-surface-cream p-4 rounded-xl border border-border-hairline">
+              <div className="text-2xl font-black text-amber-600 font-mono">{formatTime(30 * 60 - timeLeft)}</div>
+              <div className="text-[10px] text-on-surface-variant font-mono uppercase font-bold tracking-wider">Elapsed Time</div>
             </div>
           </div>
           
           <button 
             onClick={() => window.location.reload()}
-            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold transition-colors"
+            className="w-full bg-primary-container hover:bg-black text-white py-3 rounded-xl font-bold transition-all shadow-sm cursor-pointer text-xs"
           >
-            Try Another Set
+            Start Another Velocity Run
           </button>
         </div>
       </div>
@@ -123,21 +123,23 @@ const PseudocodeSpeedModePage: React.FC = () => {
 
   const currentQ = questions[currentIndex];
   const qId = currentQ._id;
-  const isAnswered = answers[qId] !== undefined;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-gray-200 p-6 flex flex-col">
+    <div className="min-h-screen bg-surface-cream text-on-surface p-6 flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-center bg-[#1e1e2e] p-4 rounded-xl border border-gray-800 mb-6">
-        <h1 className="text-xl font-bold text-white">Speed Challenge</h1>
+      <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-border-hairline mb-6 shadow-xs">
+        <div>
+          <span className="text-[10px] font-mono uppercase tracking-wider text-secondary font-bold block">Round 1.2 Speed Protocol</span>
+          <h1 className="text-lg font-extrabold text-on-surface tracking-tight">Pseudocode Speed Challenge</h1>
+        </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-[#252538] px-4 py-2 rounded-lg font-mono text-xl border border-gray-700">
-            <Clock size={20} className={timeLeft < 300 ? 'text-red-500' : 'text-blue-400'} />
-            <span className={timeLeft < 300 ? 'text-red-500 font-bold' : 'text-white'}>{formatTime(timeLeft)}</span>
+          <div className="flex items-center gap-2 bg-surface-cream px-4 py-2 rounded-xl font-mono text-lg font-bold border border-border-hairline text-on-surface">
+            <Clock size={18} className={timeLeft < 300 ? 'text-red-500' : 'text-secondary'} />
+            <span className={timeLeft < 300 ? 'text-red-600 font-bold' : 'text-on-surface'}>{formatTime(timeLeft)}</span>
           </div>
           <button
             onClick={handleFinish}
-            className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors"
+            className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs cursor-pointer"
           >
             Finish Test
           </button>
@@ -146,20 +148,20 @@ const PseudocodeSpeedModePage: React.FC = () => {
 
       <div className="flex flex-col lg:flex-row gap-6 flex-1">
         {/* Main Content */}
-        <div className="flex-1 bg-[#1e1e2e] rounded-xl p-6 shadow-lg border border-gray-800 flex flex-col">
-          <div className="flex justify-between items-center mb-6">
-            <span className="text-gray-400 font-medium">Question {currentIndex + 1} of {questions.length}</span>
+        <div className="flex-1 bg-white rounded-2xl p-6 shadow-sm border border-border-hairline flex flex-col">
+          <div className="flex justify-between items-center mb-5">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-on-surface-variant">Question {currentIndex + 1} of {questions.length}</span>
             <button 
               onClick={toggleFlag}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-colors ${
-                flagged.has(qId) ? 'bg-yellow-500/20 border-yellow-500 text-yellow-500' : 'bg-[#2a2a3e] border-gray-700 text-gray-400 hover:text-white'
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-mono font-semibold transition-all cursor-pointer ${
+                flagged.has(qId) ? 'bg-amber-50 border-amber-300 text-amber-800' : 'bg-surface-cream border-border-hairline text-zinc-600 hover:text-black'
               }`}
             >
-              <Flag size={16} /> {flagged.has(qId) ? 'Flagged' : 'Flag for Review'}
+              <Flag size={14} /> {flagged.has(qId) ? 'Flagged' : 'Flag for Review'}
             </button>
           </div>
           
-          <h2 className="text-lg font-medium mb-4">{currentQ.question}</h2>
+          <h2 className="text-base font-bold text-on-surface mb-4 leading-snug">{currentQ.question}</h2>
           
           <CodeBlock code={currentQ.codeBlock} />
 
@@ -168,50 +170,49 @@ const PseudocodeSpeedModePage: React.FC = () => {
               <button
                 key={idx}
                 onClick={() => handleSelectAnswer(idx)}
-                className={`w-full text-left p-4 rounded-lg border transition-all duration-200 
+                className={`w-full text-left p-4 rounded-xl border text-xs md:text-sm transition-all cursor-pointer 
                   ${answers[qId] === idx 
-                    ? 'border-blue-500 bg-blue-500/20 text-white' 
-                    : 'border-gray-700 bg-[#252538] hover:border-gray-500 text-gray-300'}`}
+                    ? 'border-secondary bg-secondary-fixed/40 text-on-surface font-semibold shadow-xs' 
+                    : 'border-border-hairline bg-surface-cream hover:bg-white hover:border-zinc-400 text-on-surface'}`}
               >
                 {opt}
               </button>
             ))}
           </div>
 
-          <div className="flex justify-between mt-6 pt-6 border-t border-gray-800">
+          <div className="flex justify-between mt-6 pt-5 border-t border-border-hairline">
             <button
               onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
               disabled={currentIndex === 0}
-              className="px-6 py-2 bg-[#2a2a3e] hover:bg-[#3a3a4e] rounded-lg disabled:opacity-50 transition-colors font-medium"
+              className="px-5 py-2 bg-surface-cream hover:bg-zinc-200 rounded-xl disabled:opacity-30 transition-colors font-bold text-xs border border-border-hairline text-on-surface cursor-pointer"
             >
               Previous
             </button>
             <button
               onClick={() => setCurrentIndex(prev => Math.min(questions.length - 1, prev + 1))}
               disabled={currentIndex === questions.length - 1}
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50 transition-colors font-medium"
+              className="px-5 py-2 bg-primary-container hover:bg-black text-white rounded-xl disabled:opacity-30 transition-all font-bold text-xs shadow-sm cursor-pointer"
             >
-              Next
+              Next Question
             </button>
           </div>
         </div>
 
         {/* Navigator Panel */}
-        <div className="w-full lg:w-72 bg-[#1e1e2e] rounded-xl p-6 shadow-lg border border-gray-800 h-fit">
-          <h3 className="font-bold mb-4 text-white">Navigator</h3>
+        <div className="w-full lg:w-72 bg-white rounded-2xl p-6 shadow-sm border border-border-hairline h-fit">
+          <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-4">Question Grid</h3>
           <div className="grid grid-cols-5 gap-2">
             {questions.map((q, idx) => {
               const isCurrent = idx === currentIndex;
               const isDone = answers[q._id] !== undefined;
               const isFlagged = flagged.has(q._id);
               
-              let classes = "h-10 w-full flex items-center justify-center rounded text-sm font-medium transition-all ";
+              let classes = "h-9 w-full flex items-center justify-center rounded-xl text-xs font-mono font-bold transition-all cursor-pointer border ";
               
-              if (isCurrent) classes += "ring-2 ring-white ";
-              
-              if (isFlagged) classes += "bg-yellow-500/20 text-yellow-500 border border-yellow-500";
-              else if (isDone) classes += "bg-blue-600 text-white";
-              else classes += "bg-[#252538] text-gray-400 border border-gray-700 hover:bg-[#3a3a4e]";
+              if (isCurrent) classes += "border-black bg-primary-container text-white shadow-xs ";
+              else if (isFlagged) classes += "bg-amber-50 text-amber-800 border-amber-300 ";
+              else if (isDone) classes += "bg-secondary-fixed text-on-secondary-fixed border-secondary/30 ";
+              else classes += "bg-surface-cream text-zinc-600 border-border-hairline hover:bg-zinc-200 ";
 
               return (
                 <button
@@ -225,10 +226,10 @@ const PseudocodeSpeedModePage: React.FC = () => {
             })}
           </div>
           
-          <div className="mt-6 space-y-2 text-sm text-gray-400">
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-blue-600"></div> Answered</div>
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded border border-yellow-500 bg-yellow-500/20"></div> Flagged</div>
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-[#252538] border border-gray-700"></div> Unanswered</div>
+          <div className="mt-6 space-y-2 text-xs font-mono text-on-surface-variant">
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-md bg-secondary-fixed border border-secondary/30"></div> Answered</div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-md border border-amber-300 bg-amber-50"></div> Flagged</div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-md bg-surface-cream border border-border-hairline"></div> Unvisited</div>
           </div>
         </div>
       </div>

@@ -15,23 +15,22 @@ export const AILiteracyPage: React.FC = () => {
 
   if (selectedTopic) {
     return (
-      <div className="p-8 max-w-5xl mx-auto space-y-6">
+      <div className="p-8 max-w-5xl mx-auto space-y-6 text-on-surface">
         <button 
           onClick={() => setSelectedTopic(null)}
-          className="text-indigo-400 hover:text-indigo-300 flex items-center gap-2 mb-6"
+          className="text-secondary hover:underline font-mono text-xs font-bold flex items-center gap-2 mb-4 cursor-pointer"
         >
-          ← Back to Topics
+          ← Return to AI Literacy Modules
         </button>
-        <h1 className="text-3xl font-bold text-white mb-2">{TOPICS.find(t => t.id === selectedTopic)?.title} Practice</h1>
-        <p className="text-gray-400">Loading questions from backend...</p>
+        <h1 className="text-3xl font-extrabold text-on-surface tracking-tight mb-2">{TOPICS.find(t => t.id === selectedTopic)?.title} Practice</h1>
+        <p className="text-on-surface-variant text-sm">Interactive evaluation on modern neural concepts, prompt design, and safety protocols.</p>
         
-        {/* Placeholder for actual QuestionCard component usage */}
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800">
-          <div className="text-sm text-indigo-400 font-medium mb-2">Question 1 of 10</div>
-          <h2 className="text-xl text-white mb-6">What does LLM stand for in Generative AI?</h2>
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-secondary mb-2">Item 1 of 10</div>
+          <h2 className="text-lg font-bold text-on-surface mb-6 tracking-tight">What does LLM stand for in Generative AI?</h2>
           <div className="space-y-3">
             {['Large Logic Model', 'Large Language Model', 'Local Language Machine', 'Logical Learning Mechanism'].map((opt, i) => (
-              <button key={i} className="w-full text-left p-4 rounded-lg bg-[#0a0a0a] border border-gray-700 hover:border-indigo-500 hover:bg-indigo-900/20 text-gray-200 transition-colors">
+              <button key={i} className="w-full text-left p-4 rounded-xl bg-surface-cream border border-border-hairline hover:border-zinc-400 hover:bg-white text-on-surface text-sm transition-colors cursor-pointer">
                 {opt}
               </button>
             ))}
@@ -42,10 +41,13 @@ export const AILiteracyPage: React.FC = () => {
   }
 
   return (
-    <div className="p-8 max-w-6xl mx-auto space-y-8">
+    <div className="p-8 max-w-6xl mx-auto space-y-8 text-on-surface">
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">AI Literacy</h1>
-        <p className="text-gray-400">Master the fundamentals of Artificial Intelligence to excel in Capgemini interviews.</p>
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-mono font-medium text-on-surface mb-3">
+          <span>✨ CAPGEMINI PREP BY YUSUF</span>
+        </div>
+        <h1 className="text-3xl font-extrabold text-on-surface tracking-tight mb-2">AI Literacy & Prompt Engineering</h1>
+        <p className="text-on-surface-variant text-sm max-w-2xl">Master the foundational core of Artificial Intelligence, transformer architectures, and prompt safety expected in Capgemini candidate profiles.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -53,13 +55,13 @@ export const AILiteracyPage: React.FC = () => {
           <div 
             key={topic.id}
             onClick={() => setSelectedTopic(topic.id)}
-            className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800 hover:border-indigo-500 cursor-pointer transition-all hover:-translate-y-1 group"
+            className="bg-white p-6 rounded-2xl border border-border-hairline hover:border-zinc-400 cursor-pointer transition-all hover:-translate-y-0.5 shadow-sm group"
           >
-            <div className="w-12 h-12 bg-indigo-900/50 rounded-lg flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 bg-secondary-fixed text-on-secondary-fixed rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform border border-secondary/20">
               {topic.icon}
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">{topic.title}</h3>
-            <p className="text-sm text-gray-400">{topic.description}</p>
+            <h3 className="text-base font-bold text-on-surface mb-1.5">{topic.title}</h3>
+            <p className="text-xs text-on-surface-variant leading-relaxed">{topic.description}</p>
           </div>
         ))}
       </div>

@@ -62,29 +62,29 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
 
   if (!puzzle) {
     return (
-      <div className="flex items-center justify-center p-12 text-gray-400">
-        <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="flex items-center justify-center p-12 text-on-surface-variant">
+        <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between border-b border-gray-800 pb-4">
-        <button onClick={onBack} className="flex items-center text-sm text-gray-400 hover:text-white transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Exit Game
+    <div className="max-w-2xl mx-auto p-6 space-y-6 text-on-surface">
+      <div className="flex items-center justify-between border-b border-border-hairline pb-4">
+        <button onClick={onBack} className="flex items-center text-xs font-mono font-bold text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
+          <ArrowLeft className="w-4 h-4 mr-2" /> Return to Arena
         </button>
-        <div className="flex items-center space-x-6 text-sm">
-          <div><span className="text-gray-500">Moves:</span> <span className="font-bold text-white">{moves}</span> (Optimal: {puzzle.optimalMoves})</div>
-          <div><span className="text-gray-500">Score:</span> <span className="font-bold text-green-400">{score}</span></div>
+        <div className="flex items-center space-x-6 text-xs font-mono">
+          <div><span className="text-on-surface-variant">Moves:</span> <span className="font-bold text-on-surface">{moves}</span> (Optimal: {puzzle.optimalMoves})</div>
+          <div><span className="text-on-surface-variant">Velocity Score:</span> <span className="font-bold text-secondary">{score}</span></div>
         </div>
       </div>
 
       <div className="text-center space-y-1">
-        <h2 className="text-2xl font-bold text-white flex items-center justify-center gap-2">
-          <Move className="text-green-400 w-6 h-6" /> Motion Challenge (Pathfinding)
+        <h2 className="text-2xl font-extrabold text-on-surface flex items-center justify-center gap-2 tracking-tight">
+          <Move className="text-secondary w-6 h-6" /> Motion Challenge (Pathfinding)
         </h2>
-        <p className="text-gray-400 text-sm">
+        <p className="text-on-surface-variant text-xs">
           Navigate from Start to the Target Destination with the fewest possible steps. Avoid red obstacles.
         </p>
       </div>
@@ -92,7 +92,7 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
       {/* Grid */}
       <div className="flex justify-center my-4">
         <div 
-          className="grid gap-1.5 p-3 bg-[#1e1e2e] border-2 border-green-500/30 rounded-2xl shadow-xl"
+          className="grid gap-1.5 p-3 bg-white border border-border-hairline rounded-2xl shadow-sm"
           style={{ gridTemplateColumns: `repeat(${puzzle.gridSize}, minmax(0, 1fr))` }}
         >
           {Array.from({ length: puzzle.gridSize * puzzle.gridSize }).map((_, idx) => {
@@ -107,12 +107,12 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
                 key={idx}
                 className={`w-11 h-11 md:w-13 md:h-13 rounded-lg flex items-center justify-center font-bold text-sm transition-all ${
                   isPlayer
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/50 scale-105'
+                    ? 'bg-primary-container text-white shadow-md scale-105'
                     : isTarget
-                      ? 'bg-green-600/40 border-2 border-green-400 text-green-300 animate-pulse'
+                      ? 'bg-emerald-100 border-2 border-emerald-500 text-emerald-700 animate-pulse font-black'
                       : isObstacle
-                        ? 'bg-red-950/80 border border-red-800/80 text-red-500'
-                        : 'bg-[#0a0a0a] border border-gray-800/60'
+                        ? 'bg-red-50 border border-red-200 text-red-500'
+                        : 'bg-surface-cream border border-border-hairline/60'
                 }`}
               >
                 {isPlayer ? '●' : isTarget ? '★' : isObstacle ? '✕' : ''}
@@ -126,26 +126,26 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
       <div className="flex flex-col items-center gap-2">
         <button
           onClick={() => handleMove(-1, 0)}
-          className="w-12 h-12 bg-[#1e1e2e] hover:bg-[#2a2a3e] border border-gray-700 rounded-xl font-bold text-white text-lg active:scale-95"
+          className="w-12 h-12 bg-white hover:bg-surface-cream border border-border-hairline hover:border-zinc-400 rounded-xl font-bold text-on-surface text-lg active:scale-95 shadow-xs cursor-pointer flex items-center justify-center transition-all"
         >
           ▲
         </button>
         <div className="flex gap-2">
           <button
             onClick={() => handleMove(0, -1)}
-            className="w-12 h-12 bg-[#1e1e2e] hover:bg-[#2a2a3e] border border-gray-700 rounded-xl font-bold text-white text-lg active:scale-95"
+            className="w-12 h-12 bg-white hover:bg-surface-cream border border-border-hairline hover:border-zinc-400 rounded-xl font-bold text-on-surface text-lg active:scale-95 shadow-xs cursor-pointer flex items-center justify-center transition-all"
           >
             ◀
           </button>
           <button
             onClick={() => handleMove(1, 0)}
-            className="w-12 h-12 bg-[#1e1e2e] hover:bg-[#2a2a3e] border border-gray-700 rounded-xl font-bold text-white text-lg active:scale-95"
+            className="w-12 h-12 bg-white hover:bg-surface-cream border border-border-hairline hover:border-zinc-400 rounded-xl font-bold text-on-surface text-lg active:scale-95 shadow-xs cursor-pointer flex items-center justify-center transition-all"
           >
             ▼
           </button>
           <button
             onClick={() => handleMove(0, 1)}
-            className="w-12 h-12 bg-[#1e1e2e] hover:bg-[#2a2a3e] border border-gray-700 rounded-xl font-bold text-white text-lg active:scale-95"
+            className="w-12 h-12 bg-white hover:bg-surface-cream border border-border-hairline hover:border-zinc-400 rounded-xl font-bold text-on-surface text-lg active:scale-95 shadow-xs cursor-pointer flex items-center justify-center transition-all"
           >
             ▶
           </button>
@@ -153,17 +153,17 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
       </div>
 
       {won && (
-        <div className="p-4 bg-green-900/20 border border-green-500/40 rounded-xl flex items-center justify-between text-green-300">
+        <div className="p-4 bg-emerald-50 border border-emerald-300 rounded-xl flex items-center justify-between text-emerald-950 shadow-xs">
           <div className="flex items-center gap-3">
-            <CheckCircle2 className="w-6 h-6 text-green-400" />
+            <CheckCircle2 className="w-6 h-6 text-emerald-600" />
             <div>
-              <div className="font-bold">Destination Reached!</div>
-              <div className="text-xs text-gray-400">Moves taken: {moves} (Optimal: {puzzle.optimalMoves})</div>
+              <div className="font-bold text-sm">Destination Reached!</div>
+              <div className="text-xs text-on-surface-variant font-mono">Moves taken: {moves} (Optimal: {puzzle.optimalMoves})</div>
             </div>
           </div>
           <button
             onClick={() => setRound(r => r + 1)}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
+            className="px-4 py-2 bg-primary-container hover:bg-black text-white rounded-lg text-xs font-mono font-bold transition-colors cursor-pointer shadow-xs"
           >
             Next Maze →
           </button>

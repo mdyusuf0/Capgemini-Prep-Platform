@@ -33,102 +33,138 @@ export default function AnalyticsPage() {
     fetchData();
   }, []);
 
-  if (loading) return <div className="p-8 text-white">Loading Analytics...</div>;
+  if (loading) return <div className="p-8 text-on-surface font-mono text-sm">Loading Analytics Telemetry...</div>;
 
   const data = [
     { name: 'Correct', value: overview?.accuracy || 0 },
     { name: 'Incorrect', value: 100 - (overview?.accuracy || 0) }
   ];
-  const COLORS = ['#3b82f6', '#ef4444'];
+  const COLORS = ['#006684', '#fc618d'];
 
   return (
-    <div className="p-8 max-w-7xl mx-auto text-white space-y-8">
-      <h1 className="text-3xl font-bold">Analytics & AI Coach</h1>
+    <div className="p-8 max-w-7xl mx-auto text-on-surface space-y-8">
+      <div>
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-mono font-medium text-on-surface mb-3">
+          <span>📊 PERFORMANCE TELEMETRY</span>
+        </div>
+        <h1 className="text-3xl font-extrabold tracking-tight text-on-surface">Analytics & AI Diagnostic Coach</h1>
+        <p className="text-on-surface-variant text-sm mt-1">Real-time metrics, cohort accuracy variance, and AI-recommended remedial paths.</p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
-          <div className="p-3 bg-blue-500/10 rounded-lg"><Target className="text-blue-500 w-6 h-6" /></div>
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm flex items-center space-x-4">
+          <div className="p-3 bg-secondary-fixed text-on-secondary-fixed rounded-xl border border-secondary/20">
+            <Target className="w-6 h-6" />
+          </div>
           <div>
-            <p className="text-gray-400 text-sm">Questions Solved</p>
-            <p className="text-2xl font-bold">{overview?.questionsSolved || 0}</p>
+            <p className="text-xs font-mono uppercase tracking-wider text-on-surface-variant">Questions Solved</p>
+            <p className="text-2xl font-black text-on-surface">{overview?.questionsSolved || 0}</p>
           </div>
         </div>
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
-          <div className="p-3 bg-green-500/10 rounded-lg"><TrendingUp className="text-green-500 w-6 h-6" /></div>
+
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm flex items-center space-x-4">
+          <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-200">
+            <TrendingUp className="w-6 h-6" />
+          </div>
           <div>
-            <p className="text-gray-400 text-sm">Accuracy</p>
-            <p className="text-2xl font-bold">{overview?.accuracy?.toFixed(1) || 0}%</p>
+            <p className="text-xs font-mono uppercase tracking-wider text-on-surface-variant">Accuracy</p>
+            <p className="text-2xl font-black text-on-surface">{overview?.accuracy?.toFixed(1) || 0}%</p>
           </div>
         </div>
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
-          <div className="p-3 bg-orange-500/10 rounded-lg"><Award className="text-orange-500 w-6 h-6" /></div>
+
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm flex items-center space-x-4">
+          <div className="p-3 bg-amber-50 text-amber-700 rounded-xl border border-amber-200">
+            <Award className="w-6 h-6" />
+          </div>
           <div>
-            <p className="text-gray-400 text-sm">Current Streak</p>
-            <p className="text-2xl font-bold">{overview?.streak || 0} Days</p>
+            <p className="text-xs font-mono uppercase tracking-wider text-on-surface-variant">Current Streak</p>
+            <p className="text-2xl font-black text-on-surface">{overview?.streak || 0} Days</p>
           </div>
         </div>
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800 flex items-center space-x-4">
-          <div className="p-3 bg-purple-500/10 rounded-lg"><Activity className="text-purple-500 w-6 h-6" /></div>
+
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm flex items-center space-x-4">
+          <div className="p-3 bg-purple-50 text-purple-700 rounded-xl border border-purple-200">
+            <Activity className="w-6 h-6" />
+          </div>
           <div>
-            <p className="text-gray-400 text-sm">Prep Score</p>
-            <p className="text-2xl font-bold">{overview?.score || 0}</p>
+            <p className="text-xs font-mono uppercase tracking-wider text-on-surface-variant">Readiness Score</p>
+            <p className="text-2xl font-black text-on-surface">{overview?.score || 0}</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-[#1e1e2e] p-6 rounded-xl border border-gray-800">
-          <h2 className="text-xl font-bold mb-4">Accuracy Over Time (Last 30 Days)</h2>
+        <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-border-hairline shadow-sm">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-base font-bold text-on-surface">Accuracy Velocity (Last 30 Days)</h2>
+            <span className="text-xs font-mono text-on-surface-variant bg-surface-cream px-2.5 py-1 rounded-full border border-border-hairline">Daily Trend</span>
+          </div>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trends}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="date" stroke="#9CA3AF" />
-                <YAxis stroke="#9CA3AF" domain={[0, 100]} />
-                <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: 'none' }} />
-                <Line type="monotone" dataKey="accuracy" stroke="#6366f1" strokeWidth={2} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e2df" />
+                <XAxis dataKey="date" stroke="#71717a" fontSize={12} />
+                <YAxis stroke="#71717a" domain={[0, 100]} fontSize={12} />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e2df', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Line type="monotone" dataKey="accuracy" stroke="#006684" strokeWidth={2.5} dot={{ fill: '#006684', r: 4 }} activeDot={{ r: 6 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800 flex flex-col items-center">
-          <h2 className="text-xl font-bold mb-4 w-full text-left">Overall Accuracy</h2>
-          <div className="h-48 w-48 relative">
+
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm flex flex-col items-center">
+          <h2 className="text-base font-bold mb-4 w-full text-left text-on-surface">Overall Accuracy</h2>
+          <div className="h-48 w-48 relative my-auto">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={data} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
-                  {data.map((entry, index) => (
+                  {data.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: 'none' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e2df', borderRadius: '12px' }} />
               </PieChart>
             </ResponsiveContainer>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-2xl font-bold">{overview?.accuracy?.toFixed(0)}%</span>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-3xl font-black text-on-surface">{overview?.accuracy?.toFixed(0)}%</span>
+              <span className="text-[10px] font-mono uppercase text-on-surface-variant">Accuracy</span>
             </div>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800">
-          <div className="flex items-center space-x-2 mb-4">
-            <Brain className="text-indigo-400 w-6 h-6" />
-            <h2 className="text-xl font-bold">AI Coach Advice</h2>
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm">
+          <div className="flex items-center space-x-2.5 mb-4">
+            <div className="p-2 bg-secondary-fixed rounded-lg text-on-secondary-fixed">
+              <Brain className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-on-surface">AI Coach Diagnostic Rationale</h2>
+              <p className="text-xs text-on-surface-variant">Algorithmic weakness remediation advice</p>
+            </div>
           </div>
-          <p className="text-gray-300 leading-relaxed bg-indigo-900/20 p-4 rounded-lg border border-indigo-500/20">
-            {coachAdvice}
-          </p>
+          <div className="text-on-surface text-sm leading-relaxed bg-surface-cream p-5 rounded-xl border border-border-hairline">
+            {coachAdvice || "Complete at least 5 assessment modules to generate in-depth personalized AI diagnostics."}
+          </div>
         </div>
-        <div className="bg-[#1e1e2e] p-6 rounded-xl border border-gray-800">
-          <h2 className="text-xl font-bold mb-4 text-red-400">Weak Areas to Focus</h2>
+
+        <div className="bg-white p-6 rounded-2xl border border-border-hairline shadow-sm">
+          <h2 className="text-base font-bold mb-2 text-red-600 flex items-center gap-2">
+            <span>Critical Focus Areas</span>
+            <span className="text-xs font-mono text-zinc-500 font-normal">(&lt;60% accuracy)</span>
+          </h2>
+          <p className="text-xs text-on-surface-variant mb-4">Topics that require immediate revision before the next mock round.</p>
           <div className="flex flex-wrap gap-2">
-            {weakAreas.map((area, idx) => (
-              <span key={idx} className="bg-red-500/10 border border-red-500/20 text-red-300 px-3 py-1 rounded-full text-sm">
-                {area.topic} ({area.accuracy}%)
-              </span>
-            ))}
+            {weakAreas && weakAreas.length > 0 ? (
+              weakAreas.map((area, idx) => (
+                <span key={idx} className="bg-red-50 border border-red-200 text-red-700 px-3 py-1.5 rounded-full text-xs font-medium font-mono">
+                  {area.topic} • {area.accuracy}%
+                </span>
+              ))
+            ) : (
+              <p className="text-xs text-on-surface-variant italic">No acute weaknesses detected yet. Keep up the high velocity!</p>
+            )}
           </div>
         </div>
       </div>

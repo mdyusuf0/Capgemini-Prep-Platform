@@ -56,28 +56,30 @@ Constraints: You may assume that each input would have exactly one solution, and
   };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] bg-[#0a0a0a] text-white">
+    <div className="flex h-[calc(100vh-4rem)] bg-surface-cream text-on-surface">
       {/* Left Panel: Problem */}
-      <div className="w-[30%] border-r border-[#1e1e2e] p-6 overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4 text-indigo-400">Problem Description</h2>
-        <div className="prose prose-invert">
-          <h3>Two Sum</h3>
-          <p>Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to target.</p>
+      <div className="w-[30%] border-r border-border-hairline p-6 overflow-y-auto bg-white shadow-xs">
+        <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded-full text-xs font-mono font-medium text-secondary mb-3">
+          <span>AI-ASSISTED CHALLENGE</span>
+        </div>
+        <h2 className="text-xl font-extrabold mb-3 text-on-surface tracking-tight">Two Sum</h2>
+        <div className="text-xs text-on-surface-variant space-y-3 leading-relaxed">
+          <p>Given an array of integers <code className="bg-surface-cream px-1.5 py-0.5 rounded border border-border-hairline font-mono text-zinc-800">nums</code> and an integer <code className="bg-surface-cream px-1.5 py-0.5 rounded border border-border-hairline font-mono text-zinc-800">target</code>, return indices of the two numbers such that they add up to target.</p>
           <p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
-          <h4 className="mt-4">Example 1:</h4>
-          <pre className="bg-[#1e1e2e] p-3 rounded-md">
-            Input: nums = [2,7,11,15], target = 9<br/>
+          <h4 className="mt-4 font-mono font-bold text-on-surface uppercase tracking-wider text-[11px]">Example 1:</h4>
+          <pre className="bg-surface-cream border border-border-hairline p-3 rounded-xl font-mono text-zinc-800 text-xs">
+            Input: nums = [2,7,11,15], target = 9{"\n"}
             Output: [0,1]
           </pre>
         </div>
       </div>
 
       {/* Center Panel: Editor */}
-      <div className="w-[40%] border-r border-[#1e1e2e] flex flex-col">
-        <div className="p-4 border-b border-[#1e1e2e] flex justify-between items-center">
-          <span className="font-semibold">Code Editor</span>
-          <button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md text-sm transition-colors">
-            <Play size={16} /> Run Code
+      <div className="w-[42%] border-r border-border-hairline flex flex-col bg-surface-charcoal">
+        <div className="p-3 bg-primary-container border-b border-white/10 flex justify-between items-center px-4">
+          <span className="font-mono text-xs text-white/70 font-semibold uppercase tracking-wider">JAVASCRIPT LAB IDE</span>
+          <button className="flex items-center gap-1.5 bg-white hover:bg-zinc-100 text-black px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all shadow-xs cursor-pointer">
+            <Play size={13} className="fill-black" /> Run Code
           </button>
         </div>
         <div className="flex-1">
@@ -87,24 +89,24 @@ Constraints: You may assume that each input would have exactly one solution, and
             theme="vs-dark"
             value={code}
             onChange={(val) => setCode(val || '')}
-            options={{ minimap: { enabled: false }, fontSize: 14 }}
+            options={{ minimap: { enabled: false }, fontSize: 13, padding: { top: 12 } }}
           />
         </div>
       </div>
 
       {/* Right Panel: AI Chat */}
-      <div className="w-[30%] flex flex-col bg-[#1e1e2e]/30">
-        <div className="p-4 border-b border-[#1e1e2e]">
+      <div className="w-[28%] flex flex-col bg-white">
+        <div className="p-4 border-b border-border-hairline bg-surface-cream">
           <div className="flex justify-between items-center mb-2">
-            <span className="font-semibold flex items-center gap-2"><Bot size={20} className="text-indigo-400"/> AI Assistant</span>
-            <div className="text-xs text-gray-400">
+            <span className="font-bold text-sm flex items-center gap-2 text-on-surface"><Bot size={18} className="text-secondary"/> AI Pair Engineer</span>
+            <div className="text-xs font-mono text-on-surface-variant bg-white px-2 py-0.5 rounded-full border border-border-hairline">
               Prompts: {conversation?.promptCount || 0}
             </div>
           </div>
           <select 
             value={assistanceLevel}
             onChange={(e) => setAssistanceLevel(Number(e.target.value))}
-            className="w-full bg-[#1e1e2e] border border-gray-700 rounded p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+            className="w-full bg-white border border-border-hairline rounded-xl p-2 text-xs focus:border-black outline-none font-medium text-on-surface"
             disabled={!!conversation}
           >
             <option value={1}>Level 1: Conceptual Hints Only</option>
@@ -116,53 +118,53 @@ Constraints: You may assume that each input would have exactly one solution, and
             <button 
               onClick={initializeChat}
               disabled={isInitializing}
-              className="mt-3 w-full bg-indigo-600 hover:bg-indigo-700 py-2 rounded-md text-sm font-medium transition-colors"
+              className="mt-2.5 w-full bg-primary-container hover:bg-black text-white py-2 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs"
             >
-              {isInitializing ? 'Starting...' : 'Start Discussion'}
+              {isInitializing ? 'Starting...' : 'Start Collaborative Session'}
             </button>
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white">
           {conversation?.messages.map((msg, idx) => (
-            <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-indigo-600' : 'bg-gray-700'}`}>
-                {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+            <div key={idx} className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs ${msg.role === 'user' ? 'bg-primary-container text-white' : 'bg-surface-cream text-secondary border border-border-hairline'}`}>
+                {msg.role === 'user' ? <User size={14} /> : <Bot size={14} />}
               </div>
-              <div className={`p-3 rounded-lg max-w-[80%] text-sm ${msg.role === 'user' ? 'bg-indigo-600/20 text-indigo-100' : 'bg-[#1e1e2e] text-gray-200'}`}>
+              <div className={`p-3 rounded-xl max-w-[85%] text-xs leading-relaxed ${msg.role === 'user' ? 'bg-primary-container text-white font-medium' : 'bg-surface-cream border border-border-hairline text-on-surface'}`}>
                 <pre className="whitespace-pre-wrap font-sans">{msg.content}</pre>
               </div>
             </div>
           ))}
           {loading && (
-            <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
-                <Loader2 size={16} className="animate-spin" />
+            <div className="flex gap-2.5">
+              <div className="w-7 h-7 rounded-full bg-surface-cream border border-border-hairline flex items-center justify-center text-secondary">
+                <Loader2 size={14} className="animate-spin" />
               </div>
-              <div className="p-3 rounded-lg bg-[#1e1e2e] text-gray-400 text-sm flex items-center gap-2">
-                Thinking...
+              <div className="p-3 rounded-xl bg-surface-cream border border-border-hairline text-on-surface-variant text-xs flex items-center gap-2">
+                Analyzing prompt context...
               </div>
             </div>
           )}
         </div>
 
-        <div className="p-4 border-t border-[#1e1e2e] bg-[#1a1a2e]">
+        <div className="p-3 border-t border-border-hairline bg-surface-cream">
           <div className="flex gap-2">
             <input 
               type="text" 
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder={conversation ? "Ask for help..." : "Start discussion first..."}
+              placeholder={conversation ? "Ask pair assistant..." : "Start session first..."}
               disabled={!conversation || loading}
-              className="flex-1 bg-[#1e1e2e] border border-gray-700 rounded-lg px-4 py-2 text-sm focus:border-indigo-500 outline-none"
+              className="flex-1 bg-white border border-border-hairline rounded-xl px-3 py-2 text-xs focus:border-black outline-none text-on-surface placeholder:text-zinc-400"
             />
             <button 
               onClick={handleSendMessage}
               disabled={!conversation || !message.trim() || loading}
-              className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed p-2 rounded-lg transition-colors flex items-center justify-center w-10 h-10"
+              className="bg-primary-container hover:bg-black text-white disabled:opacity-40 disabled:cursor-not-allowed p-2 rounded-xl transition-all flex items-center justify-center w-9 h-9 cursor-pointer"
             >
-              <Send size={18} />
+              <Send size={15} />
             </button>
           </div>
         </div>

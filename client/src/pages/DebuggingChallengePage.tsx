@@ -41,30 +41,31 @@ export default function DebuggingChallengePage() {
     }
   });
 
-  if (isLoading) return <div className="text-white p-8">Loading...</div>;
-  if (!problem) return <div className="text-white p-8">Problem not found</div>;
+  if (isLoading) return <div className="text-on-surface font-mono text-sm p-8">Loading problem...</div>;
+  if (!problem) return <div className="text-on-surface font-mono text-sm p-8">Problem not found</div>;
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col bg-[#0a0a0a]">
+    <div className="h-[calc(100vh-4rem)] flex flex-col bg-surface-cream text-on-surface">
       {/* Header */}
-      <div className="h-14 border-b border-gray-800 bg-[#1e1e2e] flex items-center px-4 justify-between">
+      <div className="h-14 border-b border-border-hairline bg-white flex items-center px-6 justify-between shadow-xs z-10">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/debugging')} className="text-gray-400 hover:text-white">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/debugging')} className="text-zinc-600 hover:text-black rounded-lg">
             <ArrowLeft className="w-4 h-4 mr-2" /> Back
           </Button>
-          <h2 className="text-lg font-semibold text-white">{problem.title}</h2>
-          <span className="px-2 py-1 bg-gray-800 rounded text-xs text-gray-300 font-mono">
-            {problem.language}
+          <div className="h-4 w-px bg-border-hairline hidden md:block"></div>
+          <h2 className="text-base font-bold text-on-surface">{problem.title}</h2>
+          <span className="px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded-full text-xs text-zinc-700 font-mono font-semibold">
+            {problem.language.toUpperCase()}
           </span>
         </div>
         <div>
           <Button 
             onClick={() => submitMutation.mutate(code)}
             disabled={submitMutation.isPending}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white"
+            className="bg-primary-container hover:bg-black text-white rounded-xl font-bold shadow-sm text-xs px-4"
           >
-            <Play className="w-4 h-4 mr-2" />
-            {submitMutation.isPending ? 'Submitting...' : 'Submit Fix'}
+            <Play className="w-3.5 h-3.5 mr-1.5 fill-white" />
+            {submitMutation.isPending ? 'Verifying...' : 'Submit Fix'}
           </Button>
         </div>
       </div>
@@ -72,20 +73,20 @@ export default function DebuggingChallengePage() {
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Description */}
-        <div className="w-1/2 p-6 overflow-y-auto border-r border-gray-800 bg-[#0a0a0a]">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-red-500/10 rounded-lg">
-              <Bug className="w-5 h-5 text-red-500" />
+        <div className="w-1/2 p-6 overflow-y-auto border-r border-border-hairline bg-white">
+          <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-surface-cream border border-border-hairline">
+            <div className="p-2 bg-red-100 rounded-lg">
+              <Bug className="w-5 h-5 text-red-600" />
             </div>
             <div>
-              <h3 className="text-gray-400 text-sm">Bug Type</h3>
-              <p className="text-white font-medium capitalize">{problem.bugType}</p>
+              <h3 className="text-on-surface-variant text-xs font-mono uppercase tracking-wider font-semibold">Bug Category</h3>
+              <p className="text-on-surface font-bold capitalize text-sm">{problem.bugType}</p>
             </div>
           </div>
 
-          <div className="prose prose-invert max-w-none mb-8">
-            <h3 className="text-xl font-semibold mb-2">Problem Description</h3>
-            <p className="text-gray-300 whitespace-pre-wrap">{problem.description}</p>
+          <div className="mb-8">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-on-surface-variant font-bold mb-2">Problem Description</h3>
+            <p className="text-on-surface text-sm whitespace-pre-wrap leading-relaxed">{problem.description}</p>
           </div>
 
           {/* Hint Section */}
@@ -93,10 +94,10 @@ export default function DebuggingChallengePage() {
             <Button 
               variant="outline" 
               onClick={() => setShowHint(!showHint)}
-              className="text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/10"
+              className="text-amber-800 border-amber-300 bg-amber-50 hover:bg-amber-100 rounded-xl text-xs font-semibold"
             >
-              <Lightbulb className="w-4 h-4 mr-2" />
-              {showHint ? 'Hide Hint' : 'Get a Hint'}
+              <Lightbulb className="w-4 h-4 mr-2 text-amber-600" />
+              {showHint ? 'Hide Hint' : 'Reveal Strategic Hint'}
             </Button>
             
             <AnimatePresence>
@@ -105,9 +106,9 @@ export default function DebuggingChallengePage() {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-200"
+                  className="mt-4 p-4 bg-amber-50/80 border border-amber-200 rounded-xl text-amber-950 text-xs leading-relaxed"
                 >
-                  <ul className="list-disc list-inside space-y-1">
+                  <ul className="list-disc list-inside space-y-1.5">
                     {problem.hints.map((hint: string, i: number) => (
                       <li key={i}>{hint}</li>
                     ))}
@@ -121,29 +122,29 @@ export default function DebuggingChallengePage() {
           <AnimatePresence>
             {result && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`p-6 rounded-xl border ${
-                  result.correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'
+                className={`p-5 rounded-2xl border ${
+                  result.correct ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'
                 }`}
               >
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-3">
                   {result.correct ? (
-                    <CheckCircle className="w-6 h-6 text-green-500" />
+                    <CheckCircle className="w-5 h-5 text-emerald-600" />
                   ) : (
-                    <XCircle className="w-6 h-6 text-red-500" />
+                    <XCircle className="w-5 h-5 text-red-600" />
                   )}
-                  <h3 className={`text-lg font-semibold ${result.correct ? 'text-green-500' : 'text-red-500'}`}>
-                    {result.correct ? 'Bug Fixed!' : 'Still Buggy'}
+                  <h3 className={`text-sm font-bold ${result.correct ? 'text-emerald-800' : 'text-red-800'}`}>
+                    {result.correct ? 'Bug Successfully Fixed!' : 'Correction Incomplete'}
                   </h3>
                 </div>
-                <div className="prose prose-invert max-w-none text-sm">
+                <div className="text-xs leading-relaxed text-on-surface">
                   <p>{result.explanation}</p>
                 </div>
                 
                 {result.correct && (
                   <Button 
-                    className="mt-6 bg-indigo-600 hover:bg-indigo-700 w-full"
+                    className="mt-4 bg-primary-container hover:bg-black text-white w-full rounded-xl font-semibold text-xs shadow-sm"
                     onClick={() => navigate('/debugging')}
                   >
                     Back to Challenges
@@ -155,7 +156,11 @@ export default function DebuggingChallengePage() {
         </div>
 
         {/* Right Panel - Editor */}
-        <div className="w-1/2 flex flex-col">
+        <div className="w-1/2 flex flex-col bg-surface-charcoal">
+          <div className="h-8 bg-primary-container border-b border-white/10 px-4 flex items-center justify-between text-xs font-mono text-white/60">
+            <span>TERMINAL CODE REVIEW: {problem.language.toUpperCase()}</span>
+            <span>CAPGEMINI BUG ENGINE</span>
+          </div>
           <div className="flex-1">
             <Editor
               height="100%"
@@ -169,9 +174,9 @@ export default function DebuggingChallengePage() {
               onChange={(val) => setCode(val || '')}
               options={{
                 minimap: { enabled: false },
-                fontSize: 14,
+                fontSize: 13,
                 fontFamily: 'JetBrains Mono, monospace',
-                padding: { top: 20 }
+                padding: { top: 16 }
               }}
             />
           </div>

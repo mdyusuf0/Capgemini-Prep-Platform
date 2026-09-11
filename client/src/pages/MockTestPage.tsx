@@ -86,40 +86,50 @@ export default function MockTestPage() {
   const currentQ = questions[currentIndex];
 
   return (
-    <div className="h-screen flex flex-col bg-[#0a0a0a] fixed inset-0 z-50">
+    <div className="h-screen flex flex-col bg-surface-cream text-on-surface fixed inset-0 z-50">
       {/* Top Bar */}
-      <div className="h-16 border-b border-gray-800 bg-[#1e1e2e] flex items-center px-6 justify-between shadow-md">
-        <h2 className="text-xl font-bold text-white">Mock Test Environment</h2>
-        <div className={`flex items-center gap-3 font-mono text-2xl font-bold px-4 py-1 rounded ${
-          timeLeft < 300 ? 'bg-red-500/20 text-red-500 animate-pulse' : 'bg-indigo-500/10 text-indigo-400'
+      <div className="h-16 border-b border-border-hairline bg-white flex items-center px-6 justify-between shadow-xs">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-primary-container text-white flex items-center justify-center font-mono font-bold text-xs">
+            OA
+          </div>
+          <div>
+            <h2 className="text-sm font-bold text-on-surface">Capgemini Simulation Engine</h2>
+            <p className="text-[11px] font-mono text-on-surface-variant">Live Proctoring Active</p>
+          </div>
+        </div>
+
+        <div className={`flex items-center gap-2.5 font-mono text-lg font-bold px-4 py-1.5 rounded-full border ${
+          timeLeft < 300 ? 'bg-red-50 text-red-700 border-red-300 animate-pulse' : 'bg-surface-cream text-secondary border-border-hairline'
         }`}>
-          <Clock className="w-6 h-6" />
+          <Clock className="w-5 h-5" />
           {formatTime(timeLeft)}
         </div>
-        <Button onClick={handleConfirmSubmit} disabled={completeMutation.isPending} className="bg-green-600 hover:bg-green-700">
-          Submit Test
+
+        <Button onClick={handleConfirmSubmit} disabled={completeMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs px-5 py-2 cursor-pointer shadow-sm">
+          Submit Assessment
         </Button>
       </div>
 
       <div className="flex-1 flex overflow-hidden">
         {/* Left Sidebar - Navigator */}
-        <div className="w-64 border-r border-gray-800 bg-[#151521] flex flex-col">
-          <div className="p-4 border-b border-gray-800">
-            <h3 className="font-semibold text-gray-300">Question Navigator</h3>
+        <div className="w-64 border-r border-border-hairline bg-white flex flex-col shadow-xs">
+          <div className="p-4 border-b border-border-hairline">
+            <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-on-surface-variant">Question Matrix</h3>
           </div>
           <div className="p-4 overflow-y-auto flex-1">
             <div className="grid grid-cols-4 gap-2">
               {questions.map((q, idx) => {
-                let stateClass = 'bg-gray-800 text-gray-400 border-gray-700'; // not visited
-                if (answers[q._id]) stateClass = 'bg-green-600/20 text-green-400 border-green-600/50'; // answered
-                if (reviewMarked[q._id]) stateClass = 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50'; // review
-                if (currentIndex === idx) stateClass = 'bg-indigo-600 text-white border-indigo-500 shadow-[0_0_10px_rgba(79,70,229,0.5)]'; // current
+                let stateClass = 'bg-surface-cream text-zinc-600 border-border-hairline hover:bg-zinc-200'; // not visited
+                if (answers[q._id]) stateClass = 'bg-emerald-50 text-emerald-800 border-emerald-300 font-bold'; // answered
+                if (reviewMarked[q._id]) stateClass = 'bg-amber-50 text-amber-800 border-amber-300 font-bold'; // review
+                if (currentIndex === idx) stateClass = 'bg-primary-container text-white border-black font-bold shadow-xs'; // current
 
                 return (
                   <button
                     key={q._id}
                     onClick={() => setCurrentIndex(idx)}
-                    className={`h-10 w-full rounded border flex items-center justify-center text-sm font-medium transition-all ${stateClass}`}
+                    className={`h-10 w-full rounded-xl border flex items-center justify-center text-xs font-mono font-semibold transition-all cursor-pointer ${stateClass}`}
                   >
                     {idx + 1}
                   </button>
@@ -129,40 +139,42 @@ export default function MockTestPage() {
           </div>
           
           {/* Legend */}
-          <div className="p-4 border-t border-gray-800 text-xs space-y-2 text-gray-400">
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-green-600/20 border border-green-600/50"></div> Answered</div>
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-gray-800 border border-gray-700"></div> Not Answered</div>
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-yellow-500/20 border border-yellow-500/50"></div> Marked for Review</div>
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-indigo-600 border border-indigo-500"></div> Current</div>
+          <div className="p-4 border-t border-border-hairline text-xs space-y-2 text-on-surface-variant font-mono">
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-emerald-50 border border-emerald-300"></div> Answered</div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-surface-cream border border-border-hairline"></div> Unvisited</div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-amber-50 border border-amber-300"></div> Marked Review</div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-primary-container border border-black"></div> Active Item</div>
           </div>
         </div>
 
         {/* Center - Question Area */}
-        <div className="flex-1 flex flex-col bg-[#0a0a0a]">
+        <div className="flex-1 flex flex-col bg-surface-cream">
           <div className="flex-1 p-8 overflow-y-auto">
             <div className="max-w-3xl mx-auto">
-              <div className="mb-8">
-                <span className="text-gray-400 font-medium">Question {currentIndex + 1}</span>
-                <h3 className="text-2xl text-white mt-2 font-medium">{currentQ.text}</h3>
+              <div className="mb-6">
+                <span className="text-xs font-mono uppercase tracking-wider text-secondary font-bold bg-secondary-fixed px-2.5 py-1 rounded-full border border-secondary/20">
+                  Item {currentIndex + 1} of {questions.length}
+                </span>
+                <h3 className="text-xl md:text-2xl text-on-surface mt-3 font-extrabold tracking-tight leading-snug">{currentQ.text}</h3>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {currentQ.options.map((opt, i) => (
                   <div
                     key={i}
                     onClick={() => setAnswers({ ...answers, [currentQ._id]: opt })}
-                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all flex items-center gap-4 ${
+                    className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-3.5 ${
                       answers[currentQ._id] === opt 
-                        ? 'bg-indigo-600/10 border-indigo-500 text-white' 
-                        : 'bg-[#1e1e2e] border-gray-800 text-gray-300 hover:border-gray-600'
+                        ? 'bg-secondary-fixed/30 border-secondary text-on-surface font-semibold shadow-xs' 
+                        : 'bg-white border-border-hairline text-on-surface hover:border-zinc-400'
                     }`}
                   >
                     {answers[currentQ._id] === opt ? (
-                      <CheckSquare className="w-6 h-6 text-indigo-400" />
+                      <CheckSquare className="w-5 h-5 text-secondary shrink-0" />
                     ) : (
-                      <Square className="w-6 h-6 text-gray-500" />
+                      <Square className="w-5 h-5 text-zinc-400 shrink-0" />
                     )}
-                    <span className="text-lg">{opt}</span>
+                    <span className="text-sm font-medium">{opt}</span>
                   </div>
                 ))}
               </div>
@@ -170,28 +182,33 @@ export default function MockTestPage() {
           </div>
 
           {/* Bottom Action Bar */}
-          <div className="h-20 border-t border-gray-800 bg-[#1e1e2e] flex items-center justify-between px-8">
+          <div className="h-20 border-t border-border-hairline bg-white flex items-center justify-between px-8 shadow-xs">
             <Button 
               variant="outline" 
               onClick={() => setCurrentIndex(c => Math.max(0, c - 1))}
               disabled={currentIndex === 0}
+              className="rounded-xl text-xs font-semibold px-4"
             >
               Previous
             </Button>
 
             <Button 
               variant="outline"
-              className={reviewMarked[currentQ._id] ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/30' : 'text-gray-400'}
+              className={`rounded-xl text-xs font-semibold px-4 ${
+                reviewMarked[currentQ._id] 
+                  ? 'bg-amber-50 text-amber-800 border-amber-300' 
+                  : 'text-on-surface-variant'
+              }`}
               onClick={() => setReviewMarked({ ...reviewMarked, [currentQ._id]: !reviewMarked[currentQ._id] })}
             >
-              <Flag className="w-4 h-4 mr-2" />
+              <Flag className="w-3.5 h-3.5 mr-2" />
               {reviewMarked[currentQ._id] ? 'Unmark Review' : 'Mark for Review'}
             </Button>
 
             <Button 
               onClick={() => setCurrentIndex(c => Math.min(questions.length - 1, c + 1))}
               disabled={currentIndex === questions.length - 1}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white"
+              className="bg-primary-container hover:bg-black text-white rounded-xl text-xs font-bold px-5 shadow-sm"
             >
               Save & Next
             </Button>
