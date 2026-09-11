@@ -4,34 +4,42 @@
 
 @layer base {
   body {
-    @apply bg-background text-white font-sans overflow-x-hidden;
+    @apply bg-surface-cream text-on-surface font-sans antialiased overflow-x-hidden;
   }
   
   ::selection {
-    @apply bg-primary-500/30 text-white;
+    background-color: #bde9ff;
+    color: #001f2a;
   }
 }
 
 @layer utilities {
+  .paper-card {
+    @apply bg-surface-paper border border-border-hairline rounded-xl shadow-sm;
+  }
+  .paper-surface {
+    @apply bg-surface-cream text-on-surface;
+  }
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-surface-cream/90 backdrop-blur-md border border-border-hairline;
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Paper Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-background-lighter;
+  background: #f6f6f6;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-surface-light rounded-full border border-background-lighter;
+  background: #dbd9dd;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-surface-lighter;
+  background: #c8c6c5;
 }

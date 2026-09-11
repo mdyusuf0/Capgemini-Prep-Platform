@@ -35,45 +35,48 @@ export default function QuestionCard({
   timer
 }: QuestionCardProps) {
   return (
-    <div className="bg-surface border border-white/10 rounded-2xl p-6 md:p-8">
+    <div className="bg-surface-paper border border-border-hairline rounded-xl p-6 md:p-8 shadow-xs text-on-surface">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-        <div className="flex items-center gap-3">
-          <span className="text-gray-400 font-medium">Question {questionNumber} of {totalQuestions}</span>
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="font-code-sm text-code-sm text-on-surface-variant font-medium">
+            Question {questionNumber} of {totalQuestions}
+          </span>
           <span className={cn(
-            "px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize",
-            question.difficulty?.toLowerCase() === 'easy' ? "bg-green-500/10 text-green-500 border border-green-500/20" :
-            question.difficulty?.toLowerCase() === 'medium' ? "bg-amber-500/10 text-amber-500 border border-amber-500/20" :
-            "bg-red-500/10 text-red-500 border border-red-500/20"
+            "px-2.5 py-0.5 rounded text-xs font-code font-bold uppercase",
+            question.difficulty?.toLowerCase() === 'easy' ? "bg-accent-mint/20 text-[#1b5e20] border border-accent-mint/30" :
+            question.difficulty?.toLowerCase() === 'medium' ? "bg-accent-yellow/30 text-[#7c5e00] border border-accent-yellow/40" :
+            "bg-accent-pink/20 text-[#9c0032] border border-accent-pink/30"
           )}>
             {question.difficulty}
           </span>
-          <span className="px-2.5 py-0.5 rounded-full text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center gap-1">
-            <ShieldCheck className="w-3 h-3" /> Capgemini-style
+          <span className="px-2.5 py-0.5 rounded bg-surface-cream text-secondary border border-border-hairline text-xs font-medium flex items-center gap-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-secondary" /> Capgemini Pattern
           </span>
         </div>
         
         <div className="flex items-center gap-4">
-          <div className="flex text-amber-400">
+          <div className="flex text-amber-500">
             {[...Array(5)].map((_, i) => (
-              <Star key={i} className={cn("w-4 h-4", i < (question.relevance || 3) ? "fill-current" : "text-gray-600")} />
+              <Star key={i} className={cn("w-3.5 h-3.5", i < (question.relevance || 3) ? "fill-amber-400 text-amber-500" : "text-border-hairline")} />
             ))}
           </div>
-          <div className="flex items-center gap-1.5 text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full font-mono text-sm">
-            <Clock className="w-4 h-4" />
+          <div className="flex items-center gap-1.5 text-on-primary bg-surface-charcoal px-3 py-1 rounded-lg font-mono text-xs font-semibold">
+            <Clock className="w-3.5 h-3.5 text-accent-pink animate-pulse" />
             {formatTime(timer)}
           </div>
           <button 
             onClick={onBookmark}
-            className="p-2 hover:bg-white/5 rounded-full transition-colors"
+            className="p-1.5 hover:bg-surface-cream rounded-lg transition-colors border border-transparent hover:border-border-hairline"
+            title="Bookmark"
           >
-            <Star className={cn("w-5 h-5", isBookmarked ? "fill-amber-400 text-amber-400" : "text-gray-400")} />
+            <Star className={cn("w-4 h-4", isBookmarked ? "fill-amber-400 text-amber-500" : "text-on-surface-variant")} />
           </button>
         </div>
       </div>
 
       {/* Question Text */}
-      <div className="text-xl md:text-2xl font-medium text-white mb-8 leading-relaxed whitespace-pre-wrap">
+      <div className="text-lg md:text-xl font-medium text-on-surface mb-8 leading-relaxed whitespace-pre-wrap">
         {question.question || question.questionText || question.description || question.title}
       </div>
 
@@ -84,23 +87,23 @@ export default function QuestionCard({
           const isCorrect = question.answer !== undefined && idx === question.answer;
           const isWrong = isAnswered && isSelected && !isCorrect;
 
-          let optionStyle = "border-white/5 bg-white/5 hover:bg-white/10 text-gray-200";
-          let badgeStyle = "bg-white/10 text-gray-400";
+          let optionStyle = "border-border-hairline bg-surface-cream/60 hover:bg-surface-cream hover:border-on-surface-variant/30 text-on-surface";
+          let badgeStyle = "bg-surface-paper border border-border-hairline text-on-surface-variant font-semibold";
 
           if (isAnswered) {
             if (isCorrect) {
-              optionStyle = "border-emerald-500/80 bg-emerald-500/15 text-emerald-200 font-medium shadow-[0_0_15px_rgba(16,185,129,0.15)]";
-              badgeStyle = "bg-emerald-500 text-white font-bold";
+              optionStyle = "border-accent-mint bg-accent-mint/15 text-on-surface font-semibold shadow-xs";
+              badgeStyle = "bg-accent-mint text-primary font-bold";
             } else if (isWrong) {
-              optionStyle = "border-rose-500/80 bg-rose-500/15 text-rose-200";
-              badgeStyle = "bg-rose-500 text-white font-bold";
+              optionStyle = "border-accent-pink bg-accent-pink/15 text-[#9c0032] font-medium";
+              badgeStyle = "bg-accent-pink text-white font-bold";
             } else {
-              optionStyle = "border-white/5 bg-white/[0.02] opacity-40 text-gray-400 cursor-not-allowed";
-              badgeStyle = "bg-white/5 text-gray-500";
+              optionStyle = "border-border-hairline bg-surface-cream/30 opacity-40 text-on-surface-variant cursor-not-allowed";
+              badgeStyle = "bg-surface-cream text-on-surface-variant/60";
             }
           } else if (isSelected) {
-            optionStyle = "border-blue-500 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.15)] text-white";
-            badgeStyle = "bg-blue-500 text-white font-bold";
+            optionStyle = "border-primary-container bg-primary-container text-on-primary shadow-xs";
+            badgeStyle = "bg-white text-primary font-bold";
           }
 
           return (
@@ -109,17 +112,17 @@ export default function QuestionCard({
               disabled={isAnswered}
               onClick={() => onSelectAnswer(idx)}
               className={cn(
-                "w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-center gap-4 cursor-pointer",
+                "w-full text-left p-4 rounded-xl border transition-all duration-150 flex items-center gap-3.5 cursor-pointer font-sans",
                 optionStyle
               )}
             >
               <div className={cn(
-                "w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 transition-colors",
+                "w-7 h-7 rounded-md flex items-center justify-center text-xs font-mono shrink-0 transition-colors",
                 badgeStyle
               )}>
                 {String.fromCharCode(65 + idx)}
               </div>
-              <span className="leading-relaxed">{option}</span>
+              <span className="leading-relaxed text-sm font-medium">{option}</span>
             </button>
           );
         })}
@@ -130,7 +133,7 @@ export default function QuestionCard({
         <button
           onClick={onSubmit}
           disabled={selectedAnswer === null}
-          className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 disabled:bg-white/10 disabled:text-gray-500 text-white rounded-xl font-semibold transition-colors"
+          className="w-full py-3.5 bg-primary hover:bg-surface-charcoal disabled:opacity-40 disabled:cursor-not-allowed text-on-primary rounded-xl font-medium transition-colors shadow-sm cursor-pointer text-sm"
         >
           Submit Answer
         </button>

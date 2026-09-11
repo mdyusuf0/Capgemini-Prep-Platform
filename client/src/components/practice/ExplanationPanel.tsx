@@ -21,47 +21,51 @@ export default function ExplanationPanel({
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
+        exit={{ opacity: 0, y: 15 }}
         className={cn(
-          "mt-6 p-6 rounded-xl border",
-          isCorrect ? "bg-green-500/5 border-green-500/20" : "bg-red-500/5 border-red-500/20"
+          "p-6 rounded-xl border shadow-xs bg-surface-paper",
+          isCorrect ? "border-accent-mint/50 bg-accent-mint/5" : "border-accent-pink/40 bg-accent-pink/5"
         )}
       >
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-2.5 mb-4 pb-2 border-b border-border-hairline">
           {isCorrect ? (
-            <CheckCircle className="w-6 h-6 text-green-500" />
+            <CheckCircle className="w-5 h-5 text-[#1b5e20]" />
           ) : (
-            <XCircle className="w-6 h-6 text-red-500" />
+            <XCircle className="w-5 h-5 text-[#9c0032]" />
           )}
-          <h3 className={cn("text-xl font-bold", isCorrect ? "text-green-500" : "text-red-500")}>
-            {isCorrect ? "Correct!" : "Incorrect!"}
+          <h3 className={cn("text-base font-bold", isCorrect ? "text-[#1b5e20]" : "text-[#9c0032]")}>
+            {isCorrect ? "Evaluation Verified • Correct" : "Evaluation Flagged • Incorrect"}
           </h3>
         </div>
 
-        <div className="space-y-4 text-gray-300">
+        <div className="space-y-4 text-on-surface">
           <div>
-            <h4 className="font-semibold text-white mb-1">Explanation</h4>
-            <p className="text-sm leading-relaxed">{explanation}</p>
+            <h4 className="font-semibold text-xs font-mono uppercase tracking-wider text-on-surface-variant mb-1">
+              Architectural Rationale
+            </h4>
+            <p className="text-sm leading-relaxed text-on-surface whitespace-pre-wrap">{explanation}</p>
           </div>
           
           {whyOthersWrong && (
-            <div>
-              <h4 className="font-semibold text-white mb-1">Why other options are wrong</h4>
-              <p className="text-sm leading-relaxed">{whyOthersWrong}</p>
+            <div className="p-3.5 bg-surface-cream rounded-lg border border-border-hairline">
+              <h4 className="font-semibold text-xs font-mono uppercase tracking-wider text-on-surface-variant mb-1">
+                Distractor Analysis
+              </h4>
+              <p className="text-xs leading-relaxed text-on-surface-variant whitespace-pre-wrap">{whyOthersWrong}</p>
             </div>
           )}
 
-          <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-            <span className="text-xs px-2 py-1 bg-white/5 rounded text-gray-400">
+          <div className="pt-3 border-t border-border-hairline flex items-center justify-between">
+            <span className="text-xs px-2 py-0.5 bg-surface-cream rounded border border-border-hairline font-mono text-on-surface-variant">
               Concept: {topic}
             </span>
             <button
               onClick={onNext}
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+              className="px-5 py-2 bg-primary hover:bg-surface-charcoal text-on-primary rounded-lg text-xs font-medium transition-colors shadow-xs cursor-pointer"
             >
-              Next Question
+              Next Question →
             </button>
           </div>
         </div>

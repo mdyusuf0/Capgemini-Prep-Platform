@@ -38,18 +38,31 @@ const itemVariants = {
 
 export default function PracticePage() {
   return (
-    <div className="min-h-screen bg-background text-white p-6 md:p-12">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-xs font-semibold text-indigo-400 mb-2">
-            <span>✨ Capgemini Prep By Yusuf</span>
+    <div className="min-h-screen bg-surface-cream text-on-surface p-4 md:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-6">
+        
+        {/* Header Strip */}
+        <div className="bg-surface-paper border border-border-hairline rounded-xl p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded text-[11px] font-mono font-semibold text-secondary mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-mint animate-pulse"></span>
+              <span>CapPrep // Curated Syllabus Matrix</span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">Capgemini Practice Hub</h1>
+            <p className="text-xs text-on-surface-variant mt-1">
+              Master every round of the Capgemini Exceller recruitment pattern with targeted interactive modules.
+            </p>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Practice Hub</h1>
-          <p className="text-gray-400">Master every topic for your Capgemini placement with comprehensive practice sets curated by Yusuf.</p>
+
+          <div className="flex items-center gap-2">
+            <div className="px-3 py-1.5 rounded-lg bg-surface-cream border border-border-hairline font-mono text-xs text-on-surface-variant">
+              12 Specialized Modules Active
+            </div>
+          </div>
         </div>
 
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"
           variants={containerVariants}
           initial="hidden"
           animate="show"
@@ -59,20 +72,24 @@ export default function PracticePage() {
             return (
               <motion.div key={category.id} variants={itemVariants}>
                 <Link to={category.path}>
-                  <div className="group bg-surface hover:bg-surface/80 border border-white/5 rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] cursor-pointer relative overflow-hidden h-full flex flex-col">
-                    <div className={cn("p-3 rounded-lg w-fit mb-4", category.color)}>
-                      <Icon className="w-6 h-6" />
+                  <div className="group bg-surface-paper hover:bg-surface-cream/50 border border-border-hairline hover:border-secondary/40 rounded-xl p-5 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer relative overflow-hidden h-full flex flex-col shadow-xs">
+                    <div className={cn("p-2.5 rounded-lg w-fit mb-3.5 border border-border-hairline", category.color)}>
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">{category.title}</h3>
-                    <p className="text-gray-400 text-sm mb-6 flex-grow">{category.description}</p>
+                    <h3 className="text-base font-bold text-on-surface mb-1 group-hover:text-secondary transition-colors">
+                      {category.title}
+                    </h3>
+                    <p className="text-on-surface-variant text-xs mb-5 flex-grow leading-relaxed">
+                      {category.description}
+                    </p>
                     
-                    <div className="mt-auto space-y-3">
-                      <div className="w-full bg-white/5 rounded-full h-1.5">
-                        <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: '0%' }}></div>
+                    <div className="mt-auto space-y-2 pt-3 border-t border-border-hairline">
+                      <div className="w-full bg-surface-cream rounded-full h-1.5 overflow-hidden border border-border-hairline">
+                        <div className="bg-secondary h-full rounded-full" style={{ width: '15%' }}></div>
                       </div>
-                      <div className="flex justify-between items-center text-xs text-gray-500">
-                        <span>Questions solved: 0/100</span>
-                        <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
+                      <div className="flex justify-between items-center text-[11px] font-mono text-on-surface-variant">
+                        <span>Modules cleared: 2/12</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-secondary group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </div>

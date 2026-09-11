@@ -12,52 +12,52 @@ interface SessionStatsProps {
 
 export default function SessionStats({ answered, correct, wrong, accuracy, streak }: SessionStatsProps) {
   return (
-    <div className="bg-surface border border-white/5 rounded-2xl p-6">
-      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-        <Activity className="w-5 h-5 text-indigo-500" />
-        Session Stats
+    <div className="bg-surface-paper border border-border-hairline rounded-xl p-5 shadow-xs text-on-surface">
+      <h3 className="text-sm font-label-caps uppercase tracking-wider font-semibold mb-4 pb-2 border-b border-border-hairline flex items-center gap-2 text-on-surface">
+        <Activity className="w-4 h-4 text-secondary" />
+        Session Telemetry
       </h3>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-          <div className="flex items-center gap-2 text-gray-400 text-xs font-medium mb-1 uppercase tracking-wider">
-            <Target className="w-3.5 h-3.5 text-blue-400" /> Answered
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-surface-cream p-3 rounded-lg border border-border-hairline">
+          <div className="flex items-center gap-1.5 text-on-surface-variant text-xs font-mono font-medium mb-1 uppercase tracking-wider">
+            <Target className="w-3.5 h-3.5 text-secondary" /> Answered
           </div>
-          <div className="text-2xl font-bold">{answered}</div>
+          <div className="text-2xl font-mono font-bold text-on-surface">{answered}</div>
         </div>
 
-        <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-          <div className="flex items-center gap-2 text-gray-400 text-xs font-medium mb-1 uppercase tracking-wider">
-            <Flame className="w-3.5 h-3.5 text-orange-400" /> Streak
+        <div className="bg-surface-cream p-3 rounded-lg border border-border-hairline">
+          <div className="flex items-center gap-1.5 text-on-surface-variant text-xs font-mono font-medium mb-1 uppercase tracking-wider">
+            <Flame className="w-3.5 h-3.5 text-accent-pink" /> Streak
           </div>
-          <div className="text-2xl font-bold flex items-baseline gap-1">
-            {streak} <span className="text-sm text-gray-500 font-normal">🔥</span>
+          <div className="text-2xl font-mono font-bold flex items-baseline gap-1 text-on-surface">
+            {streak} <span className="text-xs text-on-surface-variant font-normal">🔥</span>
           </div>
         </div>
 
-        <div className="bg-green-500/5 p-3 rounded-xl border border-green-500/10">
-          <div className="flex items-center gap-2 text-green-500/70 text-xs font-medium mb-1 uppercase tracking-wider">
+        <div className="bg-accent-mint/10 p-3 rounded-lg border border-accent-mint/30">
+          <div className="flex items-center gap-1.5 text-[#1b5e20] text-xs font-mono font-medium mb-1 uppercase tracking-wider">
             <CheckCircle className="w-3.5 h-3.5" /> Correct
           </div>
-          <div className="text-2xl font-bold text-green-500">{correct}</div>
+          <div className="text-2xl font-mono font-bold text-[#1b5e20]">{correct}</div>
         </div>
 
-        <div className="bg-red-500/5 p-3 rounded-xl border border-red-500/10">
-          <div className="flex items-center gap-2 text-red-500/70 text-xs font-medium mb-1 uppercase tracking-wider">
+        <div className="bg-accent-pink/10 p-3 rounded-lg border border-accent-pink/30">
+          <div className="flex items-center gap-1.5 text-[#9c0032] text-xs font-mono font-medium mb-1 uppercase tracking-wider">
             <XCircle className="w-3.5 h-3.5" /> Wrong
           </div>
-          <div className="text-2xl font-bold text-red-500">{wrong}</div>
+          <div className="text-2xl font-mono font-bold text-[#9c0032]">{wrong}</div>
         </div>
       </div>
 
-      <div className="mt-4 p-4 bg-white/5 rounded-xl border border-white/5">
-        <div className="flex justify-between items-end mb-2">
-          <span className="text-sm text-gray-400 font-medium">Accuracy</span>
-          <span className="text-xl font-bold">{Math.round(accuracy)}%</span>
+      <div className="mt-4 p-3.5 bg-surface-cream rounded-lg border border-border-hairline">
+        <div className="flex justify-between items-end mb-2 font-mono">
+          <span className="text-xs text-on-surface-variant uppercase font-medium">Session Accuracy</span>
+          <span className="text-base font-bold text-on-surface">{Math.round(accuracy)}%</span>
         </div>
-        <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-border-hairline rounded-full overflow-hidden">
           <motion.div 
-            className="h-full bg-indigo-500"
+            className="h-full bg-secondary rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${accuracy}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}

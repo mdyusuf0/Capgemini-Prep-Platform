@@ -16,55 +16,67 @@ export const TestResults = ({ results, summary }: TestResultsProps) => {
   if (!results || results.length === 0) return null;
 
   return (
-    <div className="flex flex-col h-full space-y-4">
+    <div className="flex flex-col h-full space-y-3 font-sans">
       {summary && (
-        <div className={`p-4 rounded-lg flex items-center justify-between \${summary.status === 'Accepted' ? 'bg-green-900/20 border border-green-800' : 'bg-red-900/20 border border-red-800'}`}>
+        <div className={`p-4 rounded-xl border flex items-center justify-between shadow-xs ${
+          summary.status === 'Accepted' 
+            ? 'bg-accent-mint/15 border-accent-mint/40 text-on-surface' 
+            : 'bg-accent-pink/15 border-accent-pink/40 text-on-surface'
+        }`}>
           <div>
-            <h3 className={`text-lg font-bold \${summary.status === 'Accepted' ? 'text-green-400' : 'text-red-400'}`}>
-              {summary.status}
+            <h3 className={`text-base font-bold font-mono ${
+              summary.status === 'Accepted' ? 'text-[#1b5e20]' : 'text-[#9c0032]'
+            }`}>
+              {summary.status === 'Accepted' ? '✓ Solution Accepted' : `✗ Execution ${summary.status}`}
             </h3>
-            <p className="text-gray-300 text-sm mt-1">
+            <p className="text-on-surface-variant text-xs mt-0.5 font-mono">
               Passed {summary.passed} of {summary.total} test cases
             </p>
           </div>
-          <div className="flex space-x-4 text-sm text-gray-400">
+          <div className="flex space-x-3 text-xs font-mono text-on-surface-variant">
             <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-1" /> {summary.time}
+              <Clock className="w-3.5 h-3.5 mr-1 text-secondary" /> {summary.time}
             </div>
             <div className="flex items-center">
-              <Cpu className="w-4 h-4 mr-1" /> {summary.memory}
+              <Cpu className="w-3.5 h-3.5 mr-1 text-on-surface-variant" /> {summary.memory}
             </div>
           </div>
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto space-y-3 pb-4">
+      <div className="flex-1 overflow-y-auto space-y-2.5 pb-2">
         {results.map((res, idx) => (
-          <div key={idx} className="bg-[#1e1e2e] p-4 rounded-md border border-gray-800">
+          <div key={idx} className="bg-surface-paper p-3.5 rounded-lg border border-border-hairline shadow-xs">
             <div className="flex items-center justify-between mb-2">
-              <span className="font-semibold text-gray-200">Test Case {idx + 1}</span>
+              <span className="font-mono text-xs font-bold text-on-surface">Test Case {idx + 1}</span>
               {res.passed ? (
-                <span className="flex items-center text-green-400 text-sm"><CheckCircle className="w-4 h-4 mr-1"/> Passed</span>
+                <span className="flex items-center text-[#1b5e20] text-xs font-mono font-semibold">
+                  <CheckCircle className="w-3.5 h-3.5 mr-1 text-accent-mint"/> Passed
+                </span>
               ) : (
-                <span className="flex items-center text-red-400 text-sm"><XCircle className="w-4 h-4 mr-1"/> Failed</span>
+                <span className="flex items-center text-[#9c0032] text-xs font-mono font-semibold">
+                  <XCircle className="w-3.5 h-3.5 mr-1 text-accent-pink"/> Failed
+                </span>
               )}
             </div>
             
             {res.isHidden ? (
-              <div className="text-gray-500 italic text-sm mt-2">Hidden Test Case</div>
+              <div className="text-on-surface-variant italic text-xs mt-1 font-mono">[Hidden Verification Test Case]</div>
             ) : (
-              <div className="space-y-2 mt-3 text-sm font-mono">
+              <div className="space-y-1.5 mt-2 text-xs font-mono">
                 <div>
-                  <div className="text-gray-500 mb-1">Input:</div>
-                  <div className="bg-[#0a0a0a] p-2 rounded text-gray-300 whitespace-pre-wrap">{res.input}</div>
+                  <div className="text-on-surface-variant text-[11px] mb-0.5">Input:</div>
+                  <div className="bg-surface-cream p-2 rounded border border-border-hairline text-on-surface whitespace-pre-wrap">{res.input}</div>
                 </div>
                 <div>
-                  <div className="text-gray-500 mb-1">Expected Output:</div>
-                  <div className="bg-[#0a0a0a] p-2 rounded text-gray-300 whitespace-pre-wrap">{res.expected}</div>
+                  <div className="text-on-surface-variant text-[11px] mb-0.5">Expected Output:</div>
+                  <div className="bg-surface-cream p-2 rounded border border-border-hairline text-on-surface whitespace-pre-wrap">{res.expected}</div>
                 </div>
                 <div>
-                  <div className="text-gray-500 mb-1">Actual Output:</div>
-                  <div className={`bg-[#0a0a0a] p-2 rounded whitespace-pre-wrap \${res.passed ? 'text-gray-300' : 'text-red-400'}`}>
+                  <div className="text-on-surface-variant text-[11px] mb-0.5">Actual Output:</div>
+                  <div className={`p-2 rounded border border-border-hairline whitespace-pre-wrap ${
+                    res.passed ? 'bg-surface-cream text-on-surface' : 'bg-accent-pink/10 text-[#9c0032] font-semibold'
+                  }`}>
                     {res.actual || 'No output'}
                   </div>
                 </div>

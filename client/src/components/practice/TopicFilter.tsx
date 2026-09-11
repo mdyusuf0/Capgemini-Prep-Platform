@@ -22,34 +22,34 @@ export default function TopicFilter({
   onReset
 }: TopicFilterProps) {
   return (
-    <div className="bg-surface border border-white/5 rounded-2xl p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
-          <Filter className="w-5 h-5 text-blue-500" />
-          Filters
+    <div className="bg-surface-paper border border-border-hairline rounded-xl p-5 shadow-xs text-on-surface">
+      <div className="flex items-center justify-between mb-4 pb-2 border-b border-border-hairline">
+        <h3 className="text-sm font-label-caps uppercase tracking-wider font-semibold flex items-center gap-2 text-on-surface">
+          <Filter className="w-4 h-4 text-secondary" />
+          Filter Ledger
         </h3>
         <button
           onClick={onReset}
-          className="text-gray-400 hover:text-white flex items-center gap-1 text-xs transition-colors"
+          className="text-on-surface-variant hover:text-on-surface flex items-center gap-1 text-xs transition-colors cursor-pointer"
           title="Reset filters"
         >
           <RotateCcw className="w-3 h-3" /> Reset
         </button>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-5">
         <div>
-          <h4 className="text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">Difficulty</h4>
-          <div className="flex flex-wrap gap-2">
+          <h4 className="text-xs font-mono font-medium text-on-surface-variant mb-2.5 uppercase tracking-wider">Difficulty Tier</h4>
+          <div className="flex flex-wrap gap-1.5">
             {difficulties.map(diff => (
               <button
                 key={diff}
                 onClick={() => onSelectDifficulty(selectedDifficulty === diff ? null : diff)}
                 className={cn(
-                  "px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border",
+                  "px-3 py-1 rounded-md text-xs font-mono font-semibold transition-all border cursor-pointer",
                   selectedDifficulty === diff 
-                    ? "bg-blue-600 border-blue-500 text-white" 
-                    : "bg-white/5 border-transparent text-gray-300 hover:bg-white/10"
+                    ? "bg-primary-container text-on-primary border-primary-container shadow-xs" 
+                    : "bg-surface-cream border-border-hairline text-on-surface-variant hover:bg-surface-paper hover:text-on-surface"
                 )}
               >
                 {diff}
@@ -59,14 +59,16 @@ export default function TopicFilter({
         </div>
 
         <div>
-          <h4 className="text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">Topics</h4>
+          <h4 className="text-xs font-mono font-medium text-on-surface-variant mb-2.5 uppercase tracking-wider">Topic Index</h4>
           {topics.length > 0 ? (
-            <div className="space-y-1">
+            <div className="space-y-1 max-h-60 overflow-y-auto pr-1">
               <button
                 onClick={() => onSelectTopic(null)}
                 className={cn(
-                  "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors",
-                  !selectedTopic ? "bg-white/10 text-white font-medium" : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
+                  "w-full text-left px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer",
+                  !selectedTopic 
+                    ? "bg-primary text-on-primary font-semibold shadow-xs" 
+                    : "text-on-surface-variant hover:bg-surface-cream hover:text-on-surface"
                 )}
               >
                 All Topics
@@ -76,8 +78,10 @@ export default function TopicFilter({
                   key={topic}
                   onClick={() => onSelectTopic(topic)}
                   className={cn(
-                    "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors",
-                    selectedTopic === topic ? "bg-white/10 text-white font-medium" : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
+                    "w-full text-left px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer",
+                    selectedTopic === topic 
+                      ? "bg-primary text-on-primary font-semibold shadow-xs" 
+                      : "text-on-surface-variant hover:bg-surface-cream hover:text-on-surface"
                   )}
                 >
                   {topic}
@@ -85,7 +89,7 @@ export default function TopicFilter({
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-500">No topics available.</p>
+            <p className="text-xs text-on-surface-variant">No topics available.</p>
           )}
         </div>
       </div>

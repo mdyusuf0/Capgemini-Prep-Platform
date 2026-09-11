@@ -23,44 +23,53 @@ export const CodingListPage = () => {
   });
 
   const getDifficultyColor = (diff: string) => {
-    switch (diff) {
-      case 'easy': return 'text-green-400 bg-green-400/10 border-green-400/20';
-      case 'medium': return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20';
-      case 'hard': return 'text-red-400 bg-red-400/10 border-red-400/20';
-      default: return 'text-gray-400 bg-gray-400/10';
+    switch (diff?.toLowerCase()) {
+      case 'easy': return 'bg-accent-mint/20 text-[#1b5e20] border-accent-mint/30';
+      case 'medium': return 'bg-accent-yellow/30 text-[#7c5e00] border-accent-yellow/40';
+      case 'hard': return 'bg-accent-pink/20 text-[#9c0032] border-accent-pink/30';
+      default: return 'bg-surface-cream text-on-surface-variant border-border-hairline';
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-gray-200 p-6">
+    <div className="min-h-screen bg-surface-cream text-on-surface p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {/* Header Strip & Filters */}
+        <div className="bg-surface-paper border border-border-hairline rounded-xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white flex items-center gap-2">
-              <Code2 className="text-indigo-400" /> Coding Practice
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-mono text-[11px] uppercase px-2 py-0.5 rounded bg-surface-cream border border-border-hairline text-on-surface-variant">
+                MODULE: SEC:03
+              </span>
+              <span className="font-mono text-xs text-secondary font-medium">[JUDGE0 ENGINE]</span>
+            </div>
+            <h1 className="text-xl md:text-2xl font-bold text-on-surface flex items-center gap-2">
+              <Code2 className="text-secondary w-5 h-5" /> Capgemini Coding Lab
             </h1>
-            <p className="text-gray-400 mt-1">Master Capgemini coding round questions with our live judge.</p>
+            <p className="text-xs text-on-surface-variant mt-0.5">
+              Live compiler sandbox and testcase verification for Capgemini Round 2 coding assessment.
+            </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant w-3.5 h-3.5" />
               <input
                 type="text"
-                placeholder="Search problems..."
+                placeholder="Search problem catalog..."
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="bg-[#1e1e2e] border border-gray-700 rounded-lg pl-9 pr-4 py-2 focus:outline-none focus:border-indigo-500 text-white placeholder-gray-500 text-sm w-full md:w-64"
+                className="bg-surface-cream border border-border-hairline rounded-lg pl-8 pr-3 py-1.5 focus:outline-none focus:border-secondary text-on-surface placeholder-on-surface-variant text-xs font-mono w-full md:w-56"
               />
             </div>
 
             <select
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
-              className="bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-500 text-white w-full md:w-36"
+              className="bg-surface-cream border border-border-hairline rounded-lg px-3 py-1.5 focus:outline-none focus:border-secondary text-on-surface text-xs font-mono w-full md:w-32 cursor-pointer"
             >
-              <option value="">All Difficulties</option>
+              <option value="">All Tiers</option>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
@@ -69,7 +78,7 @@ export const CodingListPage = () => {
             <select
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              className="bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-500 text-white w-full md:w-40"
+              className="bg-surface-cream border border-border-hairline rounded-lg px-3 py-1.5 focus:outline-none focus:border-secondary text-on-surface text-xs font-mono w-full md:w-36 cursor-pointer"
             >
               <option value="">All Topics</option>
               {Array.isArray(topicsData) && topicsData.map((t: string) => (
@@ -80,54 +89,59 @@ export const CodingListPage = () => {
         </div>
 
         {isError && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-lg flex items-center">
-            <AlertCircle className="w-5 h-5 mr-2" />
-            Failed to load problems.
+          <div className="bg-accent-pink/15 border border-accent-pink text-[#9c0032] p-4 rounded-xl flex items-center font-mono text-xs">
+            <AlertCircle className="w-4 h-4 mr-2" />
+            Failed to load coding problem registry. Please ensure backend services are active.
           </div>
         )}
 
-        <div className="bg-[#1e1e2e] rounded-xl border border-gray-800 overflow-hidden">
-          <table className="w-full text-left border-collapse">
+        {/* Problem Roster Table */}
+        <div className="bg-surface-paper rounded-xl border border-border-hairline overflow-hidden shadow-xs">
+          <table className="w-full text-left border-collapse font-sans text-xs">
             <thead>
-              <tr className="bg-[#2a2a3e] border-b border-gray-700 text-gray-400 text-sm">
-                <th className="p-4 font-medium">Status</th>
-                <th className="p-4 font-medium">Title</th>
-                <th className="p-4 font-medium">Difficulty</th>
-                <th className="p-4 font-medium hidden md:table-cell">Topics</th>
+              <tr className="bg-surface-cream border-b border-border-hairline font-mono text-[11px] uppercase tracking-wider text-on-surface-variant">
+                <th className="p-3.5 font-semibold w-16">Status</th>
+                <th className="p-3.5 font-semibold">Problem Title</th>
+                <th className="p-3.5 font-semibold w-32">Difficulty</th>
+                <th className="p-3.5 font-semibold hidden md:table-cell">Topics</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-border-hairline">
               {isLoading ? (
                 <tr>
-                  <td colSpan={4} className="p-8 text-center text-gray-500">Loading problems...</td>
+                  <td colSpan={4} className="p-8 text-center font-mono text-on-surface-variant">
+                    Loading problem registry...
+                  </td>
                 </tr>
               ) : data?.problems?.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="p-8 text-center text-gray-500">No problems found matching your criteria.</td>
+                  <td colSpan={4} className="p-8 text-center font-mono text-on-surface-variant">
+                    No coding problems found matching your active filters.
+                  </td>
                 </tr>
               ) : (
                 data?.problems?.map((prob: any, idx: number) => (
                   <motion.tr 
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
+                    transition={{ delay: idx * 0.03 }}
                     key={prob._id} 
-                    className="border-b border-gray-800/50 hover:bg-[#2a2a3e] transition-colors group"
+                    className="hover:bg-surface-cream/60 transition-colors group"
                   >
-                    <td className="p-4">
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-600 group-hover:border-indigo-500 transition-colors" />
+                    <td className="p-3.5">
+                      <div className="w-4 h-4 rounded-full border border-border-hairline group-hover:border-secondary transition-colors" />
                     </td>
-                    <td className="p-4">
-                      <Link to={`/coding/${prob._id}`} className="text-white hover:text-indigo-400 font-medium">
+                    <td className="p-3.5">
+                      <Link to={`/coding/${prob._id}`} className="text-on-surface group-hover:text-secondary font-medium transition-colors">
                         {prob.title}
                       </Link>
                     </td>
-                    <td className="p-4">
-                      <span className={`px-2.5 py-1 rounded-full text-xs border ${getDifficultyColor(prob.difficulty)}`}>
-                        {prob.difficulty.charAt(0).toUpperCase() + prob.difficulty.slice(1)}
+                    <td className="p-3.5">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase border ${getDifficultyColor(prob.difficulty)}`}>
+                        {prob.difficulty}
                       </span>
                     </td>
-                    <td className="p-4 hidden md:table-cell text-sm text-gray-500">
+                    <td className="p-3.5 hidden md:table-cell font-mono text-[11px] text-on-surface-variant">
                       {prob.topics?.join(', ')}
                     </td>
                   </motion.tr>
@@ -137,20 +151,21 @@ export const CodingListPage = () => {
           </table>
         </div>
 
+        {/* Pagination */}
         {data && data.totalPages > 1 && (
-          <div className="flex justify-center space-x-2 mt-6">
+          <div className="flex justify-center items-center space-x-2 mt-4 font-mono text-xs">
             <button
               disabled={page === 1}
               onClick={() => setPage(p => p - 1)}
-              className="px-4 py-2 rounded-lg bg-[#1e1e2e] border border-gray-800 disabled:opacity-50 hover:bg-[#2a2a3e]"
+              className="px-3.5 py-1.5 rounded-lg bg-surface-paper border border-border-hairline disabled:opacity-40 hover:bg-surface-cream transition-colors text-on-surface cursor-pointer"
             >
               Previous
             </button>
-            <span className="px-4 py-2 text-gray-400">Page {page} of {data.totalPages}</span>
+            <span className="px-3 py-1.5 text-on-surface-variant">Page {page} of {data.totalPages}</span>
             <button
               disabled={page === data.totalPages}
               onClick={() => setPage(p => p + 1)}
-              className="px-4 py-2 rounded-lg bg-[#1e1e2e] border border-gray-800 disabled:opacity-50 hover:bg-[#2a2a3e]"
+              className="px-3.5 py-1.5 rounded-lg bg-surface-paper border border-border-hairline disabled:opacity-40 hover:bg-surface-cream transition-colors text-on-surface cursor-pointer"
             >
               Next
             </button>

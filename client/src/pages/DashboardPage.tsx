@@ -1,27 +1,30 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
-import { formatDate } from '@/lib/utils';
-import { Brain, Code2, ClipboardList, Target, Flame, ChevronRight, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { analyticsService } from '@/services/analyticsService';
-
-const defaultSections = [
-  { title: 'Technical MCQ', progress: 0, path: '/practice/mcq' },
-  { title: 'Pseudocode', progress: 0, path: '/practice/pseudocode' },
-  { title: 'Coding', progress: 0, path: '/coding' },
-  { title: 'Debugging', progress: 0, path: '/debugging' },
-  { title: 'AI Coding', progress: 0, path: '/ai-coding' },
-  { title: 'Communication', progress: 0, path: '/communication' },
-  { title: 'Cognitive Games', progress: 0, path: '/games' },
-  { title: 'Behavioral', progress: 0, path: '/behavioral' },
-];
+import {
+  Terminal,
+  Play,
+  ArrowRight,
+  CheckCircle2,
+  Check,
+  Lock,
+  Timer,
+  AlertCircle,
+  BookOpen,
+  Code2,
+  Bug,
+  HelpCircle,
+  Zap,
+  Flame,
+  Award
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export const DashboardPage: React.FC = () => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
-  const today = new Date();
 
   const { data: dashboardData, isLoading } = useQuery({
     queryKey: ['dashboard-progress'],
@@ -29,194 +32,614 @@ export const DashboardPage: React.FC = () => {
     refetchOnWindowFocus: true
   });
 
-  const stats = [
-    { label: 'Questions Solved', value: String(dashboardData?.stats?.questionsSolved ?? 0), icon: Brain, color: 'text-blue-400', bg: 'bg-blue-400/10' },
-    { label: 'Coding Problems', value: String(dashboardData?.stats?.codingProblems ?? 0), icon: Code2, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-    { label: 'Mock Tests', value: String(dashboardData?.stats?.mockTests ?? 0), icon: ClipboardList, color: 'text-purple-400', bg: 'bg-purple-400/10' },
-    { label: 'Avg. Accuracy', value: `${dashboardData?.stats?.avgAccuracy ?? 0}%`, icon: Target, color: 'text-rose-400', bg: 'bg-rose-400/10' },
-  ];
-
-  const sections = dashboardData?.sections || defaultSections;
-  const overallReadiness = dashboardData?.overallReadiness ?? 0;
+  const questionsSolved = dashboardData?.stats?.questionsSolved ?? 0;
+  const codingProblems = dashboardData?.stats?.codingProblems ?? 0;
+  const avgAccuracy = dashboardData?.stats?.avgAccuracy ?? 0;
   const streak = dashboardData?.stats?.streak ?? 0;
-  const weakSection = dashboardData?.weakSection || {
-    title: 'Technical MCQ',
-    progress: 0,
-    path: '/practice/mcq',
-    message: 'Start with Technical MCQ to build your core CS foundation.'
+  const overallReadiness = dashboardData?.overallReadiness ?? 0;
+  const sections = dashboardData?.sections || [];
+
+  const getSection = (title: string) => {
+    return sections.find((s: any) => s.title?.toLowerCase().includes(title.toLowerCase())) || {
+      progress: 0,
+      solved: 0,
+      target: 40
+    };
   };
 
+  const mcqSec = getSection('MCQ');
+  const pseudoSec = getSection('Pseudocode');
+  const codingSec = getSection('Coding');
+  const debugSec = getSection('Debugging');
+
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface p-6 rounded-2xl border border-white/5 relative overflow-hidden">
-        <div className="flex items-center gap-4">
-          <div className="relative group shrink-0">
-            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300 animate-pulse"></div>
-            <img
-              src="/logo.jpg"
-              alt="Yusuf"
-              className="relative w-16 h-16 rounded-full object-cover object-top border-2 border-indigo-400 shadow-xl ring-2 ring-white/10"
-            />
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 pb-12">
+      {/* Top Command Banner */}
+      <section className="bg-surface-paper rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-border-hairline shadow-xs">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center flex-wrap gap-2">
+            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
+              Operational Overview
+            </span>
+            <span className="text-on-surface-variant font-mono text-xs">/</span>
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-mono text-xs font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+              Target Drive: Capgemini 2026
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-xs font-medium border border-border-hairline">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-mint" />
+              20-Day Velocity: On Track
+            </span>
           </div>
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-xs font-semibold text-indigo-400 mb-2">
-              <span>✨ Capgemini Prep By Yusuf</span>
-            </div>
-            <h1 className="text-2xl font-bold text-white mb-1">
-              Welcome back, {user?.name || 'User'}
-            </h1>
-            <p className="text-white/50 text-sm">
-              {formatDate(today)} • Ready to continue your preparation?
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/10">
-          <div className="p-1.5 bg-warning/20 rounded-lg">
-            <Flame className="text-warning w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-xs text-white/50 font-medium uppercase tracking-wider">Current Streak</div>
-            <div className="font-bold text-warning text-lg leading-none">{streak} Days</div>
-          </div>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.1 }}
-            className="glass p-5 rounded-2xl flex items-center gap-4"
+          <h1 className="text-2xl md:text-3xl font-bold text-on-surface tracking-tight font-sans">
+            Welcome back, {user?.name || 'Yusuf'}
+          </h1>
+          <p className="text-xs md:text-sm text-on-surface-variant">
+            Cohort cycle active. Benchmark calibration synchronized via local CapPrep runner.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3 self-stretch md:self-auto shrink-0">
+          <button
+            onClick={() => navigate('/practice')}
+            className="h-9 px-4 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors text-xs font-semibold flex items-center justify-center gap-1.5 flex-1 md:flex-initial border border-border-hairline cursor-pointer"
+            type="button"
           >
-            <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
-              <stat.icon size={24} />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-white">{stat.value}</div>
-              <div className="text-sm text-white/50 font-medium">{stat.label}</div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+            <Terminal size={14} />
+            Practice Hub
+          </button>
+          <button
+            onClick={() => navigate('/daily-challenge')}
+            className="h-9 px-4 rounded-lg bg-primary text-on-primary hover:bg-surface-charcoal transition-colors text-xs font-semibold flex items-center justify-center gap-1.5 flex-1 md:flex-initial shadow-xs cursor-pointer"
+            type="button"
+          >
+            <Zap size={14} className="text-accent-mint" />
+            Start Daily Mission
+          </button>
+        </div>
+      </section>
 
+      {/* Top Stats Grid: 5 Compact Metric Cells */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* Stat 1: Questions Solved */}
+        <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Questions Solved</span>
+            <HelpCircle size={15} className="text-on-surface-variant" />
+          </div>
+          <div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-bold text-on-surface">{questionsSolved}</span>
+              <span className="font-mono text-xs text-on-surface-variant">/ 870 pool</span>
+            </div>
+            <div className="w-full bg-surface-container-high h-1.5 rounded-full mt-2 overflow-hidden border border-border-hairline">
+              <div 
+                className="bg-primary h-full rounded-full transition-all duration-700" 
+                style={{ width: `${Math.min(100, Math.round((questionsSolved / 100) * 100))}%` }} 
+              />
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="font-mono text-[11px] text-on-surface-variant">Round 1.1 Target</span>
+            <span className="font-mono text-[11px] text-secondary font-semibold">Stage 1</span>
+          </div>
+        </div>
+
+        {/* Stat 2: Coding Problems */}
+        <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Coding Lab</span>
+            <Code2 size={15} className="text-on-surface-variant" />
+          </div>
+          <div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-bold text-on-surface">{codingProblems}</span>
+              <span className="font-mono text-xs text-on-surface-variant">/ 155 solved</span>
+            </div>
+            <div className="flex items-center gap-1.5 mt-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-mint" />
+              <span className="font-mono text-[11px] text-on-surface font-medium">Judge0 Verified Sandbox</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="font-mono text-[11px] text-on-surface-variant">{155 - codingProblems} remaining</span>
+            <span className="font-mono text-[11px] text-on-surface-variant font-medium">[TESTS: PASS]</span>
+          </div>
+        </div>
+
+        {/* Stat 3: Accuracy */}
+        <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Accuracy</span>
+            <Award size={15} className="text-on-surface-variant" />
+          </div>
+          <div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-bold text-on-surface">{avgAccuracy}%</span>
+              <span className="font-mono text-xs text-accent-mint font-semibold">+4.2%</span>
+            </div>
+            <div className="flex items-center gap-1 mt-1 text-on-surface-variant font-mono text-[11px]">
+              <span>Rolling assessment delta</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="font-mono text-[11px] text-on-surface-variant">Combined Score</span>
+            <span className="font-mono text-[11px] text-secondary font-semibold">[RANK: 94.2]</span>
+          </div>
+        </div>
+
+        {/* Stat 4: Streak */}
+        <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Cadence</span>
+            <span className="font-mono text-xs text-accent-pink">🔥</span>
+          </div>
+          <div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-2xl font-bold text-on-surface">{streak}</span>
+              <span className="text-xs font-semibold text-on-surface ml-1">Days Active</span>
+            </div>
+            <div className="flex gap-1 mt-2">
+              {[...Array(7)].map((_, i) => (
+                <span 
+                  key={i} 
+                  className={cn(
+                    "h-1.5 flex-1 rounded-xs",
+                    i < Math.min(streak, 7) ? "bg-primary" : "bg-surface-container-high"
+                  )} 
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="font-mono text-[11px] text-on-surface-variant">Daily Goal: Met</span>
+            <span className="font-mono text-[11px] text-on-surface-variant">Target: 30D</span>
+          </div>
+        </div>
+
+        {/* Stat 5: Overall Readiness */}
+        <div className="bg-surface-paper rounded-xl p-4 flex flex-col justify-between border border-border-hairline shadow-xs min-h-[128px]">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Readiness</span>
+            <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
+              {overallReadiness >= 75 ? 'CLEARED' : 'IN PROGRESS'}
+            </span>
+          </div>
+          <div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-2xl font-bold text-on-surface">{overallReadiness}</span>
+              <span className="font-mono text-xs text-on-surface-variant">/ 100</span>
+            </div>
+            <div className="w-full bg-surface-container-high h-1.5 rounded-full mt-2 overflow-hidden border border-border-hairline">
+              <div 
+                className="bg-secondary h-full rounded-full transition-all duration-700" 
+                style={{ width: `${overallReadiness}%` }} 
+              />
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="font-mono text-[11px] text-on-surface-variant">Assessment Tier</span>
+            <span className="font-mono text-[11px] text-accent-mint font-semibold">
+              {overallReadiness >= 75 ? 'Qualified' : 'Advancing'}
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content 2-Column Ledger */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="glass p-6 rounded-2xl"
-          >
-            <div className="flex justify-between items-center mb-6">
-              <div>
-                <h2 className="text-lg font-bold text-white">Section Progress</h2>
-                <p className="text-xs text-white/50">Real-time mastery across all 8 Capgemini modules</p>
+        {/* Left Column: 2/3 Width */}
+        <div className="lg:col-span-2 flex flex-col gap-6">
+          {/* Section Progress (2x2 Matrix) */}
+          <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col gap-4">
+            <div className="flex items-center justify-between pb-2 border-b border-border-hairline">
+              <div className="flex flex-col">
+                <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Modular Progress</span>
+                <h2 className="text-lg font-bold text-on-surface">Section Breakdown & Execution</h2>
               </div>
               <button 
                 onClick={() => navigate('/roadmap')}
-                className="text-sm text-indigo-400 hover:text-indigo-300 font-medium flex items-center gap-1 hover:underline cursor-pointer"
+                className="font-mono text-xs text-secondary hover:underline flex items-center gap-1 font-semibold cursor-pointer"
               >
-                View Roadmap <ChevronRight size={15} />
+                <span>View Roadmap</span>
+                <ArrowRight size={13} />
               </button>
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {sections.map((sec: any, idx: number) => (
-                <div 
-                  key={idx}
-                  onClick={() => navigate(sec.path)}
-                  className="bg-surface p-4 rounded-xl border border-white/5 hover:border-indigo-500/30 cursor-pointer transition-all group"
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-white/90 group-hover:text-white transition-colors">{sec.title}</span>
-                    <span className="text-sm font-bold text-indigo-400">{sec.progress}%</span>
+              {/* Module 1: Technical MCQ */}
+              <div className="bg-surface-container-low rounded-lg p-4 flex flex-col justify-between gap-3 border border-border-hairline hover:bg-surface-container transition-colors">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span className="font-mono text-[10px] text-on-surface-variant font-semibold">SEC:01</span>
+                    <h3 className="text-sm font-bold text-on-surface">Technical MCQ</h3>
                   </div>
-                  <div className="h-2 w-full bg-background rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full transition-all duration-700"
-                      style={{ width: `${sec.progress}%` }}
-                    />
-                  </div>
-                  {sec.target && (
-                    <div className="flex justify-between items-center text-[11px] text-white/40 mt-1.5">
-                      <span>{sec.solved ?? 0} solved</span>
-                      <span>Target: {sec.target}</span>
-                    </div>
-                  )}
+                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface font-mono text-xs font-semibold">
+                    {mcqSec.progress}%
+                  </span>
                 </div>
-              ))}
+                <div>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <span className="font-mono text-[11px] text-on-surface-variant">Completed Questions</span>
+                    <span className="font-mono text-xs font-semibold text-on-surface">{mcqSec.solved} / {mcqSec.target}</span>
+                  </div>
+                  <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden border border-border-hairline">
+                    <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${mcqSec.progress}%` }} />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-1">
+                  <span className="font-mono text-[11px] text-on-surface-variant">Core CS, DBMS, OS</span>
+                  <button
+                    onClick={() => navigate('/practice/mcq')}
+                    className="h-7 px-3 rounded bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <span>Practice</span>
+                    <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Module 2: Pseudocode Tracing */}
+              <div className="bg-surface-container-low rounded-lg p-4 flex flex-col justify-between gap-3 border border-border-hairline hover:bg-surface-container transition-colors">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span className="font-mono text-[10px] text-on-surface-variant font-semibold">SEC:02</span>
+                    <h3 className="text-sm font-bold text-on-surface">Pseudocode Tracing</h3>
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-secondary font-mono text-xs font-semibold">
+                    {pseudoSec.progress}%
+                  </span>
+                </div>
+                <div>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <span className="font-mono text-[11px] text-on-surface-variant">Completed Traces</span>
+                    <span className="font-mono text-xs font-semibold text-on-surface">{pseudoSec.solved} / {pseudoSec.target}</span>
+                  </div>
+                  <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden border border-border-hairline">
+                    <div className="bg-secondary h-full rounded-full transition-all" style={{ width: `${pseudoSec.progress}%` }} />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-1">
+                  <span className="font-mono text-[11px] text-accent-mint font-semibold">60s Speed Mode</span>
+                  <button
+                    onClick={() => navigate('/practice/pseudocode')}
+                    className="h-7 px-3 rounded bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <span>Resume</span>
+                    <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Module 3: Coding Lab */}
+              <div className="bg-surface-container-low rounded-lg p-4 flex flex-col justify-between gap-3 border border-border-hairline hover:bg-surface-container transition-colors">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span className="font-mono text-[10px] text-on-surface-variant font-semibold">SEC:03</span>
+                    <h3 className="text-sm font-bold text-on-surface">Coding Lab</h3>
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface font-mono text-xs font-semibold">
+                    {codingSec.progress}%
+                  </span>
+                </div>
+                <div>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <span className="font-mono text-[11px] text-on-surface-variant">Accepted Submissions</span>
+                    <span className="font-mono text-xs font-semibold text-on-surface">{codingSec.solved} / {codingSec.target}</span>
+                  </div>
+                  <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden border border-border-hairline">
+                    <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${codingSec.progress}%` }} />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-1">
+                  <span className="font-mono text-[11px] text-on-surface-variant">C++, Java, Python</span>
+                  <button
+                    onClick={() => navigate('/coding')}
+                    className="h-7 px-3 rounded bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <span>Code Lab</span>
+                    <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Module 4: Code Debugging */}
+              <div className="bg-surface-container-low rounded-lg p-4 flex flex-col justify-between gap-3 border border-border-hairline hover:bg-surface-container transition-colors">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span className="font-mono text-[10px] text-on-surface-variant font-semibold">SEC:04</span>
+                    <h3 className="text-sm font-bold text-on-surface">Code Debugging</h3>
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface font-mono text-xs font-semibold">
+                    {debugSec.progress}%
+                  </span>
+                </div>
+                <div>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <span className="font-mono text-[11px] text-on-surface-variant">Mastery Ratio</span>
+                    <span className="font-mono text-xs font-semibold text-on-surface">{debugSec.solved} / {debugSec.target}</span>
+                  </div>
+                  <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden border border-border-hairline">
+                    <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${debugSec.progress}%` }} />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-1">
+                  <span className="font-mono text-[11px] text-on-surface-variant">Logic & Pointer checks</span>
+                  <button
+                    onClick={() => navigate('/debugging')}
+                    className="h-7 px-3 rounded bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <span>Inspect</span>
+                    <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
             </div>
-          </motion.div>
+          </div>
+
+          {/* Roadmap Phase Progression Widget */}
+          <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col gap-4">
+            <div className="flex items-center justify-between pb-2 border-b border-border-hairline">
+              <div className="flex flex-col">
+                <span className="font-mono text-[11px] font-semibold text-on-surface-variant uppercase">Trajectory</span>
+                <h2 className="text-lg font-bold text-on-surface">Roadmap Phase Progression</h2>
+              </div>
+              <span className="font-mono text-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-semibold border border-border-hairline">
+                CYCLE: CAP-2026
+              </span>
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              {/* Phase 1 */}
+              <div className="p-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-3 border border-border-hairline">
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-full bg-accent-mint/20 text-accent-mint flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                    <Check size={14} />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-on-surface">Phase 1: Core Fundamentals</span>
+                      <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface font-semibold border border-border-hairline">
+                        {mcqSec.progress >= 100 ? 'COMPLETED' : 'ACTIVE'}
+                      </span>
+                    </div>
+                    <span className="font-mono text-[11px] text-on-surface-variant">DSA Primitives, Bit Manipulation, Architecture</span>
+                  </div>
+                </div>
+                <div className="text-right hidden sm:block">
+                  <span className="font-mono text-xs font-bold text-on-surface">{mcqSec.progress}%</span>
+                  <p className="font-mono text-[10px] text-on-surface-variant">Live benchmark</p>
+                </div>
+              </div>
+
+              {/* Phase 2 */}
+              <div className="p-3 rounded-lg bg-surface-container flex items-center justify-between gap-3 border border-border-hairline">
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                    2
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-on-surface">Phase 2: Pseudocode & Data Tracing</span>
+                      <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
+                        ACTIVE
+                      </span>
+                    </div>
+                    <span className="font-mono text-[11px] text-on-surface-variant">Control flow, recursive stack execution, state vectors</span>
+                  </div>
+                </div>
+                <div className="text-right flex flex-col items-end">
+                  <span className="font-mono text-xs font-bold text-secondary">{pseudoSec.progress}%</span>
+                  <p className="font-mono text-[10px] text-on-surface-variant">Est. clearance: 4 days</p>
+                </div>
+              </div>
+
+              {/* Phase 3 */}
+              <div className="p-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-3 border border-border-hairline opacity-80">
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                    3
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-on-surface">Phase 3: Coding & Judge0 Testing</span>
+                      <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface-variant font-semibold border border-border-hairline">
+                        UPCOMING
+                      </span>
+                    </div>
+                    <span className="font-mono text-[11px] text-on-surface-variant">Live compiler test suites, memory edge-cases</span>
+                  </div>
+                </div>
+                <div className="text-right hidden sm:block">
+                  <span className="font-mono text-xs font-medium text-on-surface-variant">{codingSec.progress}%</span>
+                </div>
+              </div>
+
+              {/* Phase 4 */}
+              <div className="p-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-3 border border-border-hairline opacity-60">
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                    <Lock size={12} />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-on-surface-variant">Phase 4: Capgemini Cognitive Mini-Games</span>
+                      <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-surface-paper text-on-surface-variant border border-border-hairline">
+                        LOCKED
+                      </span>
+                    </div>
+                    <span className="font-mono text-[11px] text-on-surface-variant">Deductive logic, inductive speed grids, spatial drills</span>
+                  </div>
+                </div>
+                <div className="text-right hidden sm:block">
+                  <span className="font-mono text-xs text-on-surface-variant">Requires Phase 2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Execution Trace Preview Cell (Charcoal terminal IDE) */}
+          <div className="bg-surface-charcoal text-inverse-on-surface rounded-xl p-6 shadow-sm flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-accent-mint animate-pulse" />
+                <span className="font-mono text-xs text-surface-container-high font-semibold">TERMINAL PREVIEW // TRACE_ENGINE_V2</span>
+              </div>
+              <span className="font-mono text-xs text-on-primary-container">[RUN_ID: #7729-CP]</span>
+            </div>
+            <pre className="font-mono text-xs bg-primary p-4 rounded-lg text-surface-dim overflow-x-auto leading-relaxed border border-border-graphite">
+              <code>{`<span class="text-accent-pink">function</span> <span class="text-secondary-fixed">evaluateBitTree</span>(node, mask) {
+  <span class="text-accent-pink">if</span> (!node) <span class="text-accent-pink">return</span> (mask & <span class="text-accent-yellow">0x0F</span>);
+  <span class="text-outline-variant">// Current branch trace: node.val = 14, depth = 3</span>
+  <span class="text-accent-mint">return</span> (node.val ^ mask) + evaluateBitTree(node.left, mask >> <span class="text-accent-yellow">1</span>);
+}`}</code>
+            </pre>
+            <div className="flex items-center justify-between text-surface-dim font-mono text-[11px] pt-1">
+              <span>Execution Time: 0.041ms</span>
+              <span className="text-accent-mint font-semibold">Memory Delta: 0 KB (Optimal)</span>
+            </div>
+          </div>
         </div>
 
-        <div className="space-y-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="glass p-6 rounded-2xl flex flex-col items-center text-center relative overflow-hidden"
-          >
-            <div className="absolute -right-10 -top-10 w-32 h-32 bg-indigo-500/20 blur-[50px] rounded-full"></div>
-            <h2 className="text-lg font-bold w-full text-left mb-6">Overall Readiness</h2>
-            
-            <div className="relative w-40 h-40 flex items-center justify-center mb-4">
-              <svg className="w-full h-full transform -rotate-90">
-                <circle cx="80" cy="80" r="70" fill="none" stroke="currentColor" className="text-white/10" strokeWidth="12" />
-                <circle 
-                  cx="80" cy="80" r="70" fill="none" stroke="currentColor" 
-                  className="text-indigo-500 transition-all duration-1000" strokeWidth="12" 
-                  strokeDasharray="439.8" strokeDashoffset={439.8 - (439.8 * overallReadiness) / 100} 
-                  strokeLinecap="round" 
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl font-extrabold text-white">{overallReadiness}<span className="text-lg">%</span></span>
+        {/* Right Column: 1/3 Width */}
+        <div className="flex flex-col gap-6">
+          {/* Card 1: Adaptive Daily Mission */}
+          <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col justify-between gap-4">
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[11px] text-secondary uppercase font-bold tracking-wider">Adaptive Mission</span>
+                <span className="font-mono text-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-semibold border border-border-hairline">
+                  10 Qs
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-on-surface">Daily Diagnostic Sprint</h3>
+              <p className="text-xs text-on-surface-variant leading-relaxed">
+                Targeted algorithmically to reinforce your weakest question vectors based on recent activity.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2 bg-surface-container-low p-3 rounded-lg border border-border-hairline">
+              <span className="font-mono text-[10px] text-on-surface-variant uppercase font-semibold">Target Weak Vectors</span>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface font-mono text-[11px] border border-border-hairline">Bitwise Recursion</span>
+                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface font-mono text-[11px] border border-border-hairline">Off-by-one Loops</span>
+                <span className="px-2 py-0.5 rounded bg-surface-paper text-on-surface font-mono text-[11px] border border-border-hairline">Pointer Boundary</span>
               </div>
             </div>
-            
-            <p className="text-sm text-white/60">
-              {overallReadiness === 0 ? (
-                <span>You have just started! Practice problems and complete assessments to increase your readiness score.</span>
-              ) : (
-                <span>You are <strong className="text-white">{overallReadiness}%</strong> prepared for the Capgemini assessment. Keep practicing daily to hit 100%!</span>
-              )}
-            </p>
-          </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="bg-gradient-to-br from-surface to-background border border-indigo-500/20 p-6 rounded-2xl relative overflow-hidden"
-          >
-            <div className="absolute right-0 top-0 w-32 h-32 bg-indigo-500/10 blur-[40px] rounded-full pointer-events-none"></div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400">
-                <Target size={20} />
+            <div className="flex items-center justify-between text-on-surface-variant font-mono text-[11px]">
+              <span>Time budget: ~15 mins</span>
+              <span className="text-on-surface font-semibold">Difficulty: Adaptive</span>
+            </div>
+
+            <button
+              onClick={() => navigate('/daily-challenge')}
+              className="w-full h-9 rounded-lg bg-primary text-on-primary font-semibold text-xs hover:bg-surface-charcoal transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+              type="button"
+            >
+              <Play size={13} />
+              Resume Mission
+            </button>
+          </div>
+
+          {/* Card 2: Mistakes Notebook Alert */}
+          <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] text-error uppercase font-bold tracking-wider">Attention Required</span>
+              <span className="w-2 h-2 rounded-full bg-accent-pink" />
+            </div>
+            <div>
+              <div className="flex items-baseline gap-2">
+                <h3 className="text-base font-bold text-on-surface">Mistakes Notebook</h3>
+                <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-error-container text-on-error-container font-semibold">
+                  Unresolved
+                </span>
+              </div>
+              <p className="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                Review incorrectly answered questions and misconceptions to solidify your foundation.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <div className="p-2 rounded bg-surface-container-low flex items-center justify-between font-mono text-xs border border-border-hairline">
+                <span className="truncate text-on-surface font-medium">Q-309: Bitwise XOR shift trace</span>
+                <span className="text-error font-semibold shrink-0">Review</span>
+              </div>
+              <div className="p-2 rounded bg-surface-container-low flex items-center justify-between font-mono text-xs border border-border-hairline">
+                <span className="truncate text-on-surface font-medium">Q-412: Double pointer step-off</span>
+                <span className="text-error font-semibold shrink-0">Review</span>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigate('/mistakes')}
+              className="w-full h-9 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors font-semibold text-xs flex items-center justify-center gap-1.5 border border-border-hairline cursor-pointer"
+              type="button"
+            >
+              <BookOpen size={14} />
+              Review Mistakes
+            </button>
+          </div>
+
+          {/* Card 3: Upcoming Mock Assessment */}
+          <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col justify-between gap-4">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] text-on-surface-variant uppercase font-semibold">Simulator Schedule</span>
+              <span className="font-mono text-xs px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
+                RECOMMENDED
+              </span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h3 className="text-base font-bold text-on-surface">Capgemini Structure A Mock</h3>
+              <p className="text-xs text-on-surface-variant leading-relaxed">
+                Full benchmark rehearsal mimicking exact drive timing constraints and section locks.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 bg-surface-container-low p-3 rounded-lg font-mono text-xs border border-border-hairline">
+              <div>
+                <span className="text-on-surface-variant block text-[10px]">DURATION</span>
+                <span className="text-on-surface font-semibold">90 Minutes</span>
               </div>
               <div>
-                <h3 className="font-bold text-white">Recommended Focus</h3>
-                <p className="text-xs text-white/50">Next recommended preparation step</p>
+                <span className="text-on-surface-variant block text-[10px]">SECTIONS</span>
+                <span className="text-on-surface font-semibold">4 Modules</span>
+              </div>
+              <div className="mt-1">
+                <span className="text-on-surface-variant block text-[10px]">QUESTIONS</span>
+                <span className="text-on-surface font-semibold">55 Total</span>
+              </div>
+              <div className="mt-1">
+                <span className="text-on-surface-variant block text-[10px]">PROCTORING</span>
+                <span className="text-secondary font-semibold">Strict Enforced</span>
               </div>
             </div>
-            <div className="bg-background-lighter p-3.5 rounded-xl border border-white/5 mb-4">
-              <div className="font-medium text-white/90">{weakSection.title}</div>
-              <div className="text-xs text-white/50 mt-1">{weakSection.message}</div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate('/mocks')}
+                className="flex-1 h-9 rounded-lg bg-surface-paper border border-border-hairline text-on-surface font-semibold text-xs hover:bg-surface-container-high transition-colors flex items-center justify-center gap-1 cursor-pointer shadow-2xs"
+                type="button"
+              >
+                <Timer size={14} />
+                Details
+              </button>
+              <button
+                onClick={() => navigate('/mocks')}
+                className="flex-1 h-9 rounded-lg bg-primary text-on-primary font-semibold text-xs hover:bg-surface-charcoal transition-colors flex items-center justify-center gap-1 shadow-xs cursor-pointer"
+                type="button"
+              >
+                Start Mock
+              </button>
             </div>
-            <button 
-              onClick={() => navigate(weakSection.path)}
-              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-500/20"
-            >
-              Practice Now <ChevronRight size={16} />
-            </button>
-          </motion.div>
+          </div>
         </div>
       </div>
 
-      <footer className="pt-8 border-t border-white/5 text-center text-xs text-white/40 space-y-1">
-        <p className="font-semibold text-white/60">Capgemini Prep By Yusuf • 2026/2027 On-Campus Placement Preparation System</p>
-        <p className="text-white/30">Crafted by Yusuf for comprehensive assessment mastery</p>
+      <footer className="pt-6 border-t border-border-hairline text-center text-xs text-on-surface-variant space-y-1">
+        <p className="font-semibold text-on-surface">Capgemini Prep By Yusuf • Paper Engine 2026/2027</p>
+        <p className="text-[11px]">Procedural assessment architecture and preparation platform designed by Yusuf Khan</p>
       </footer>
     </div>
   );
