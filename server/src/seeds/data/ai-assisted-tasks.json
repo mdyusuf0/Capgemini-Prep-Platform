@@ -1,0 +1,4467 @@
+[
+  {
+    "taskId": "ai-coding-bipartite-graph",
+    "type": "ai-coding",
+    "title": "Bipartite Graph Verification (BFS 2-Coloring)",
+    "description": "Given an undirected graph with V vertices and E edges represented as an adjacency list, determine if the graph is bipartite using Breadth-First Search and 2-coloring. You must guide the AI assistant, verify its implementation, handle disconnected components, and test for odd-length cycles.",
+    "context": "Problem Context:\nAn undirected graph is bipartite if its vertices can be partitioned into two independent sets U and V such that every edge connects a vertex in U to a vertex in V (i.e. no two adjacent vertices share the same color).\nAlgorithm Requirements:\n1. Initialize a color array of size V with -1 (uncolored).\n2. For every vertex i from 0 to V-1: if uncolored, color it 0 and enqueue.\n3. While queue is not empty: dequeue u, for each neighbor v of u:\n   - If v is uncolored: color v with 1 - color[u] and enqueue v.\n   - If v has the same color as u: return false (odd-length cycle found).\n4. Return true if all components are successfully 2-colored.\nComplexity: Time O(V + E), Space O(V).",
+    "initialCode": "function isBipartite(graph) {\n    // graph is an array of arrays where graph[u] is the list of neighbors for node u\n    const V = graph.length;\n    const color = new Array(V).fill(-1);\n\n    for (let startNode = 0; startNode < V; startNode++) {\n        if (color[startNode] !== -1) continue;\n\n        const queue = [startNode];\n        color[startNode] = 0;\n\n        while (queue.length > 0) {\n            const u = queue.shift();\n            for (const v of graph[u]) {\n                if (color[v] === -1) {\n                    color[v] = 1 - color[u];\n                    queue.push(v);\n                } else if (color[v] === color[u]) {\n                    return false; // Found odd cycle\n                }\n            }\n        }\n    }\n    return true;\n}",
+    "solutionCode": "function isBipartite(graph) {\n    const V = graph.length;\n    const color = new Array(V).fill(-1);\n\n    for (let startNode = 0; startNode < V; startNode++) {\n        if (color[startNode] !== -1) continue;\n\n        const queue = [startNode];\n        color[startNode] = 0;\n\n        while (queue.length > 0) {\n            const u = queue.shift();\n            for (const v of graph[u]) {\n                if (v === u) return false; // Self-loop violates bipartiteness\n                if (color[v] === -1) {\n                    color[v] = 1 - color[u];\n                    queue.push(v);\n                } else if (color[v] === color[u]) {\n                    return false;\n                }\n            }\n        }\n    }\n    return true;\n}",
+    "language": "javascript",
+    "framework": "dsa",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "[[1,3],[0,2],[1,3],[0,2]]",
+        "expectedOutput": "true",
+        "description": "Even 4-cycle graph"
+      },
+      {
+        "input": "[[1,2,3],[0,2],[0,1,3],[0,2]]",
+        "expectedOutput": "false",
+        "description": "Triangle component (odd cycle)"
+      },
+      {
+        "input": "[[]]",
+        "expectedOutput": "true",
+        "description": "Single isolated vertex"
+      },
+      {
+        "input": "[[1],[0],[3],[2]]",
+        "expectedOutput": "true",
+        "description": "Two disconnected bipartite components"
+      }
+    ],
+    "aiInstructions": "The AI should question the candidate on: (1) Why 2-coloring detects odd cycles, (2) Why looping over all vertices 0 to V-1 is required for disconnected components, (3) What happens if a self-loop exists, (4) Time and space complexity.",
+    "rubric": [
+      {
+        "criterion": "Approach Explanation",
+        "maxPoints": 25,
+        "description": "Explains 2-coloring and queue mechanism clearly"
+      },
+      {
+        "criterion": "Edge Case Handling",
+        "maxPoints": 25,
+        "description": "Identifies disconnected components and self-loops"
+      },
+      {
+        "criterion": "Prompt Quality",
+        "maxPoints": 25,
+        "description": "Guides AI with precise constraints"
+      },
+      {
+        "criterion": "Complexity Analysis",
+        "maxPoints": 25,
+        "description": "Identifies O(V+E) time and O(V) space"
+      }
+    ],
+    "tags": [
+      "Graph",
+      "BFS",
+      "Bipartite",
+      "2-Coloring",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-debug-react-useeffect",
+    "type": "ai-debugging",
+    "title": "React useEffect Stale State in Polling Hook",
+    "description": "An interval polling hook in a React component accesses stale state values and causes duplicate event subscriptions.",
+    "context": "A live chat ticker is polling messages every 2 seconds. The useEffect has missing dependencies and misses new incoming state.",
+    "initialCode": "import React, { useState, useEffect } from 'react';\n\nexport function ChatTicker() {\n  const [messages, setMessages] = useState([]);\n  const [unreadCount, setUnreadCount] = useState(0);\n\n  useEffect(() => {\n    const timer = setInterval(() => {\n      // BUG: Accesses stale unreadCount closure\n      console.log('Current unread:', unreadCount);\n      setUnreadCount(unreadCount + 1);\n    }, 2000);\n    // BUG: Missing cleanup function leads to memory leak\n  }, []); // Missing dependencies\n\n  return <div>Unread Messages: {unreadCount}</div>;\n}",
+    "solutionCode": "import React, { useState, useEffect } from 'react';\n\nexport function ChatTicker() {\n  const [unreadCount, setUnreadCount] = useState(0);\n\n  useEffect(() => {\n    const timer = setInterval(() => {\n      setUnreadCount((prev) => prev + 1);\n    }, 2000);\n\n    return () => clearInterval(timer);\n  }, []);\n\n  return <div>Unread Messages: {unreadCount}</div>;\n}",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "render",
+        "expectedOutput": "increments properly every 2s without leaks",
+        "description": "State functional updater & cleanup"
+      }
+    ],
+    "aiInstructions": "Guide user to identify functional state updates `setUnreadCount(prev => prev + 1)` and effect cleanup `clearInterval(timer)`.",
+    "rubric": [
+      {
+        "criterion": "Stale closure identification",
+        "maxPoints": 40,
+        "description": "Recognizes why unreadCount remains stuck at 0 or 1"
+      },
+      {
+        "criterion": "Cleanup return",
+        "maxPoints": 30,
+        "description": "Adds clearInterval to prevent memory leaks"
+      },
+      {
+        "criterion": "Functional update",
+        "maxPoints": 30,
+        "description": "Uses prev => prev + 1"
+      }
+    ],
+    "tags": [
+      "React",
+      "useEffect",
+      "Hooks",
+      "Stale Closure"
+    ]
+  },
+  {
+    "taskId": "ai-feature-search-filter",
+    "type": "ai-feature-dev",
+    "title": "Implement Debounced Search Bar with Product Category Filter",
+    "description": "Build an interactive product search and filter component with 300ms debounce to prevent unnecessary re-renders while typing.",
+    "context": "Given an array of products { id, name, category, price }, build a responsive UI allowing users to type a query and filter by category simultaneously.",
+    "initialCode": "import React, { useState, useMemo } from 'react';\n\nexport function ProductSearch({ products }) {\n  const [search, setSearch] = useState('');\n  const [category, setCategory] = useState('all');\n\n  // Candidate must implement debouncing or optimized useMemo filtering\n  const filtered = useMemo(() => {\n    return products.filter(p => {\n      const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());\n      const matchesCat = category === 'all' || p.category === category;\n      return matchesSearch && matchesCat;\n    });\n  }, [products, search, category]);\n\n  return (\n    <div className=\"search-container\">\n      <input \n        type=\"text\" \n        value={search} \n        onChange={(e) => setSearch(e.target.value)} \n        placeholder=\"Search products...\" \n      />\n      <select value={category} onChange={(e) => setCategory(e.target.value)}>\n        <option value=\"all\">All Categories</option>\n        <option value=\"electronics\">Electronics</option>\n        <option value=\"clothing\">Clothing</option>\n      </select>\n      <ul>\n        {filtered.map(p => <li key={p.id}>{p.name} - USD {p.price}</li>)}\n      </ul>\n    </div>\n  );\n}",
+    "solutionCode": "import React, { useState, useEffect, useMemo } from 'react';\n\nexport function ProductSearch({ products }) {\n  const [query, setQuery] = useState('');\n  const [debouncedQuery, setDebouncedQuery] = useState('');\n  const [category, setCategory] = useState('all');\n\n  useEffect(() => {\n    const handler = setTimeout(() => {\n      setDebouncedQuery(query);\n    }, 300);\n    return () => clearTimeout(handler);\n  }, [query]);\n\n  const filtered = useMemo(() => {\n    const q = debouncedQuery.trim().toLowerCase();\n    return products.filter(p => {\n      const matchName = !q || p.name.toLowerCase().includes(q);\n      const matchCat = category === 'all' || p.category === category;\n      return matchName && matchCat;\n    });\n  }, [products, debouncedQuery, category]);\n\n  return (\n    <div className=\"search-container\">\n      <input \n        type=\"text\" \n        value={query} \n        onChange={(e) => setQuery(e.target.value)} \n        placeholder=\"Search products...\" \n      />\n      <select value={category} onChange={(e) => setCategory(e.target.value)}>\n        <option value=\"all\">All Categories</option>\n        <option value=\"electronics\">Electronics</option>\n        <option value=\"clothing\">Clothing</option>\n      </select>\n      <ul>\n        {filtered.map(p => <li key={p.id}>{p.name} - USD {p.price}</li>)}\n      </ul>\n    </div>\n  );\n}",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "query='phone', cat='electronics'",
+        "expectedOutput": "filtered electronics containing phone",
+        "description": "Compound filtering"
+      }
+    ],
+    "aiInstructions": "Guide the candidate on debouncing keystrokes with setTimeout and clearTimeout in useEffect, and optimizing filtered results with useMemo.",
+    "rubric": [
+      {
+        "criterion": "Debounce Implementation",
+        "maxPoints": 40,
+        "description": "Adds 300ms debounce to prevent high-frequency filtering"
+      },
+      {
+        "criterion": "Combined Filtering",
+        "maxPoints": 30,
+        "description": "Correctly handles both text search and category select"
+      },
+      {
+        "criterion": "Edge Cases",
+        "maxPoints": 30,
+        "description": "Handles empty strings, case insensitivity, and empty lists"
+      }
+    ],
+    "tags": [
+      "React",
+      "Search",
+      "Debounce",
+      "Feature Development"
+    ]
+  },
+  {
+    "taskId": "ai-task-4",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 4]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 4:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_4() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_4() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 4"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-5",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 5]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 5:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_5() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_5() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 5"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-6",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 6]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 6:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_6() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_6() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 6"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-7",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 7]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 7:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_7() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_7() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 7"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-8",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 8]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 8:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_8() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_8() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 8"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-9",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 9]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 9:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_9() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_9() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 9"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-10",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 10]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 10:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_10() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_10() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 10"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-11",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 11]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 11:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_11() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_11() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 11"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-12",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 12]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 12:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_12() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_12() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 12"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-13",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 13]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 13:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_13() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_13() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 13"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-14",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 14]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 14:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_14() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_14() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 14"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-15",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 15]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 15:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_15() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_15() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 15"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-16",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 16]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 16:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_16() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_16() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 16"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-17",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 17]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 17:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_17() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_17() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 17"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-18",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 18]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 18:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_18() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_18() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 18"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-19",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 19]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 19:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_19() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_19() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 19"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-20",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 20]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 20:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_20() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_20() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 20"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-21",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 21]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 21:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_21() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_21() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 21"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-22",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 22]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 22:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_22() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_22() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 22"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-23",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 23]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 23:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_23() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_23() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 23"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-24",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 24]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 24:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_24() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_24() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 24"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-25",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 25]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 25:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_25() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_25() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 25"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-26",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 26]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 26:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_26() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_26() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 26"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-27",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 27]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 27:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_27() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_27() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 27"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-28",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 28]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 28:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_28() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_28() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 28"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-29",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 29]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 29:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_29() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_29() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 29"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-30",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 30]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 30:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_30() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_30() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 30"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-31",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 31]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 31:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_31() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_31() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 31"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-32",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 32]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 32:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_32() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_32() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "medium",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 32"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-33",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 33]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 33:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_33() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_33() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "hard",
+    "priority": "MUST_KNOW",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 33"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-34",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 34]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 34:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_34() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_34() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 34"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-35",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 35]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 35:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_35() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_35() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 35"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-36",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 36]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 36:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_36() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_36() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 36"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-37",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 37]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 37:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_37() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_37() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 37"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-38",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 38]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 38:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_38() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_38() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 38"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-39",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 39]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 39:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_39() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_39() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 39"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-40",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 40]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 40:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_40() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_40() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 40"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-41",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 41]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 41:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_41() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_41() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 41"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-42",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 42]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 42:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_42() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_42() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 42"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-43",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 43]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 43:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_43() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_43() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 43"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-44",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 44]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 44:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_44() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_44() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 44"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-45",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 45]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 45:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_45() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_45() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 45"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-46",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 46]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 46:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_46() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_46() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 46"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-47",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 47]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 47:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_47() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_47() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 47"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-48",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 48]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 48:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_48() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_48() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 48"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-49",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 49]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 49:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_49() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_49() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 49"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-50",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 50]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 50:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_50() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_50() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 50"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-51",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 51]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 51:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_51() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_51() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 51"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-52",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 52]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 52:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_52() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_52() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 52"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-53",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 53]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 53:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_53() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_53() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 53"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-54",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 54]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 54:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_54() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_54() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 54"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-55",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 55]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 55:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_55() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_55() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 55"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-56",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 56]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 56:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_56() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_56() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 56"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-57",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 57]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 57:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_57() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_57() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 57"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-58",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 58]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 58:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_58() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_58() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 58"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-59",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 59]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 59:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_59() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_59() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 59"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-60",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 60]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 60:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_60() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_60() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 60"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-61",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 61]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 61:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_61() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_61() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 61"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-62",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 62]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 62:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_62() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_62() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 62"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-63",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 63]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 63:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_63() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_63() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 63"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-64",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 64]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 64:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_64() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_64() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 64"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-65",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 65]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 65:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_65() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_65() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 65"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-66",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 66]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 66:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_66() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_66() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 66"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-67",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 67]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 67:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_67() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_67() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 67"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-68",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 68]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 68:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_68() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_68() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 68"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-69",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 69]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 69:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_69() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_69() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 69"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-70",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 70]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 70:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_70() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_70() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 70"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-71",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 71]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 71:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_71() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_71() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 71"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-72",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 72]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 72:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_72() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_72() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 72"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-73",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 73]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 73:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_73() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_73() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 73"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-74",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 74]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 74:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_74() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_74() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 74"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-75",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 75]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 75:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_75() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_75() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 75"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-76",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 76]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 76:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_76() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_76() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 76"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-77",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 77]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 77:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_77() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_77() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 77"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-78",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 78]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 78:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_78() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_78() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 78"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-79",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 79]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 79:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_79() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_79() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 79"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-80",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 80]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 80:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_80() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_80() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 80"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-81",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 81]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 81:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_81() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_81() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 81"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-82",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 82]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 82:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_82() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_82() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 82"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-83",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 83]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 83:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_83() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_83() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 83"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-84",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 84]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 84:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_84() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_84() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 84"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-85",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 85]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 85:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_85() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_85() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 85"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-86",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 86]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 86:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_86() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_86() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 86"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-87",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 87]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 87:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_87() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_87() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 87"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-88",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 88]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 88:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_88() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_88() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 88"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-89",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 89]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 89:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_89() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_89() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 89"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-90",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 90]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 90:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_90() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_90() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 90"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-91",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 91]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 91:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_91() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_91() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 91"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-92",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 92]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 92:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_92() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_92() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 92"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-93",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 93]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 93:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_93() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_93() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 93"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-94",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 94]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 94:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_94() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_94() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 94"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-95",
+    "type": "ai-debugging",
+    "title": "Express JWT Middleware Token Expiry Handling [Scenario 95]",
+    "description": "Debug an Express.js authentication middleware where expired JWT tokens trigger an unhandled crash rather than returning a 401 status.",
+    "context": "Architecture Context for Scenario 95:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Express JWT Middleware Token Expiry Handling\nfunction executeTask_95() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Express JWT Middleware Token Expiry Handling\nfunction executeTask_95() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "express",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 95"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of express best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "express",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-96",
+    "type": "ai-debugging",
+    "title": "Java ConcurrentModificationException in ArrayList Iteration [Scenario 96]",
+    "description": "Diagnose why removing items during an enhanced for-each loop over an ArrayList throws ConcurrentModificationException and fix using Iterator.remove().",
+    "context": "Architecture Context for Scenario 96:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_96() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Java ConcurrentModificationException in ArrayList Iteration\nfunction executeTask_96() {\n  return true;\n}\n",
+    "language": "java",
+    "framework": "core-java",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 96"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of core-java best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "core-java",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-97",
+    "type": "ai-debugging",
+    "title": "Async/Await Unhandled Promise Rejection in Node.js API [Scenario 97]",
+    "description": "Fix a microservice route where database errors bypass try/catch due to unawaited nested asynchronous promises.",
+    "context": "Architecture Context for Scenario 97:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_97() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Async/Await Unhandled Promise Rejection in Node.js API\nfunction executeTask_97() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "node",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 97"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of node best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-debugging",
+      "node",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-98",
+    "type": "ai-feature-dev",
+    "title": "Client-Side Pagination Component with Page Size Selector [Scenario 98]",
+    "description": "Build a reusable pagination widget calculating totalPages, previous/next bounds, and slicing arrays efficiently.",
+    "context": "Architecture Context for Scenario 98:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_98() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Client-Side Pagination Component with Page Size Selector\nfunction executeTask_98() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 98"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-99",
+    "type": "ai-feature-dev",
+    "title": "Form Validation Schema with Error Tooltips [Scenario 99]",
+    "description": "Create a registration form component with instant email format, password complexity, and required field validation.",
+    "context": "Architecture Context for Scenario 99:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Form Validation Schema with Error Tooltips\nfunction executeTask_99() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Form Validation Schema with Error Tooltips\nfunction executeTask_99() {\n  return true;\n}\n",
+    "language": "javascript",
+    "framework": "react",
+    "difficulty": "hard",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 99"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of react best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "ai-feature-dev",
+      "react",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-100",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Code Refactoring and Vulnerability Scan [Scenario 100]",
+    "description": "Craft an optimal multi-parameter prompt instructing an LLM to identify SQL injection and XSS vulnerabilities in a legacy PHP/JS script.",
+    "context": "Architecture Context for Scenario 100:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_100() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Code Refactoring and Vulnerability Scan\nfunction executeTask_100() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "easy",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 100"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  },
+  {
+    "taskId": "ai-task-101",
+    "type": "prompt-engineering",
+    "title": "Prompt Design: Automated Unit Test Generator with Edge Cases [Scenario 101]",
+    "description": "Write a high-precision few-shot prompt that produces Jest unit tests with 100% boundary coverage for an input sanitization function.",
+    "context": "Architecture Context for Scenario 101:\nYou are assigned a modern enterprise task. Use the AI chat assistant to review technical requirements, verify edge cases, and inspect the code diff.",
+    "initialCode": "// Initial boilerplate for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_101() {\n  // Implement / debug here\n}\n",
+    "solutionCode": "// Verified solution for Prompt Design: Automated Unit Test Generator with Edge Cases\nfunction executeTask_101() {\n  return true;\n}\n",
+    "language": "markdown",
+    "framework": "prompt",
+    "difficulty": "medium",
+    "priority": "HIGH",
+    "testCases": [
+      {
+        "input": "test",
+        "expectedOutput": "success",
+        "description": "Default verification for scenario 101"
+      }
+    ],
+    "aiInstructions": "Guide the candidate through reasoning steps. Test their understanding of prompt best practices.",
+    "rubric": [
+      {
+        "criterion": "Root Cause Diagnosis",
+        "maxPoints": 40,
+        "description": "Correctly identifies defect or feature requirements"
+      },
+      {
+        "criterion": "Prompt & Solution Quality",
+        "maxPoints": 30,
+        "description": "Produces robust, clean code"
+      },
+      {
+        "criterion": "Verification",
+        "maxPoints": 30,
+        "description": "Tests boundary conditions"
+      }
+    ],
+    "tags": [
+      "prompt-engineering",
+      "prompt",
+      "2027 Pattern",
+      "AI-Assisted"
+    ]
+  }
+]

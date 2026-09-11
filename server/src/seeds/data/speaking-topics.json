@@ -1,0 +1,362 @@
+[
+  {
+    "id": "spk-1",
+    "title": "Technology Ethics: AI Opportunity vs. Threat [Session 1]",
+    "prompt": "Is artificial intelligence primarily a threat to entry-level jobs or an opportunity to accelerate human capability? Speak for 60-90 seconds.",
+    "category": "Technology & Industry",
+    "evaluationCriteria": [
+      "Fluency",
+      "Logical Structure",
+      "Vocabulary Diversity",
+      "Pace Control",
+      "Absence of Fillers"
+    ]
+  },
+  {
+    "id": "spk-2",
+    "title": "Workplace Flexibility: Remote vs. Hybrid Models [Session 2]",
+    "prompt": "Is remote working fundamentally superior to in-office collaboration for technology engineering teams? Defend your perspective.",
+    "category": "Workplace Dynamics",
+    "evaluationCriteria": [
+      "Clarity of Thought",
+      "Persuasiveness",
+      "Pronunciation Accuracy",
+      "Coherence"
+    ]
+  },
+  {
+    "id": "spk-3",
+    "title": "University Education: Mandatory Internships [Session 3]",
+    "prompt": "Should universities mandate industrial internships for engineering graduates prior to awarding degrees? State your reasoning.",
+    "category": "College & Career",
+    "evaluationCriteria": [
+      "Structure",
+      "Relevance",
+      "Fluency",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-4",
+    "title": "Problem Solving Experience [Session 4]",
+    "prompt": "Describe a technically challenging bug or academic project roadblock you personally overcame. Explain the steps you took.",
+    "category": "Situational / STAR",
+    "evaluationCriteria": [
+      "STAR Framework",
+      "Clarity",
+      "Tone Professionalism",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-5",
+    "title": "Technical Explanation for Laypersons [Session 5]",
+    "prompt": "Explain the fundamental concept of cloud computing to someone with zero technical background in 60 seconds.",
+    "category": "Communication Clarity",
+    "evaluationCriteria": [
+      "Analogies & Simplicity",
+      "Clarity",
+      "Engagement",
+      "No Jargon"
+    ]
+  },
+  {
+    "id": "spk-6",
+    "title": "Conflict Resolution in Team Projects [Session 6]",
+    "prompt": "How do you handle a teammate who refuses to complete their assigned module right before a critical submission deadline?",
+    "category": "Capgemini Values (Team Spirit)",
+    "evaluationCriteria": [
+      "Emotional Intelligence",
+      "Alignment with Values",
+      "Constructive Approach"
+    ]
+  },
+  {
+    "id": "spk-7",
+    "title": "Technology Ethics: AI Opportunity vs. Threat [Session 7]",
+    "prompt": "Is artificial intelligence primarily a threat to entry-level jobs or an opportunity to accelerate human capability? Speak for 60-90 seconds.",
+    "category": "Technology & Industry",
+    "evaluationCriteria": [
+      "Fluency",
+      "Logical Structure",
+      "Vocabulary Diversity",
+      "Pace Control",
+      "Absence of Fillers"
+    ]
+  },
+  {
+    "id": "spk-8",
+    "title": "Workplace Flexibility: Remote vs. Hybrid Models [Session 8]",
+    "prompt": "Is remote working fundamentally superior to in-office collaboration for technology engineering teams? Defend your perspective.",
+    "category": "Workplace Dynamics",
+    "evaluationCriteria": [
+      "Clarity of Thought",
+      "Persuasiveness",
+      "Pronunciation Accuracy",
+      "Coherence"
+    ]
+  },
+  {
+    "id": "spk-9",
+    "title": "University Education: Mandatory Internships [Session 9]",
+    "prompt": "Should universities mandate industrial internships for engineering graduates prior to awarding degrees? State your reasoning.",
+    "category": "College & Career",
+    "evaluationCriteria": [
+      "Structure",
+      "Relevance",
+      "Fluency",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-10",
+    "title": "Problem Solving Experience [Session 10]",
+    "prompt": "Describe a technically challenging bug or academic project roadblock you personally overcame. Explain the steps you took.",
+    "category": "Situational / STAR",
+    "evaluationCriteria": [
+      "STAR Framework",
+      "Clarity",
+      "Tone Professionalism",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-11",
+    "title": "Technical Explanation for Laypersons [Session 11]",
+    "prompt": "Explain the fundamental concept of cloud computing to someone with zero technical background in 60 seconds.",
+    "category": "Communication Clarity",
+    "evaluationCriteria": [
+      "Analogies & Simplicity",
+      "Clarity",
+      "Engagement",
+      "No Jargon"
+    ]
+  },
+  {
+    "id": "spk-12",
+    "title": "Conflict Resolution in Team Projects [Session 12]",
+    "prompt": "How do you handle a teammate who refuses to complete their assigned module right before a critical submission deadline?",
+    "category": "Capgemini Values (Team Spirit)",
+    "evaluationCriteria": [
+      "Emotional Intelligence",
+      "Alignment with Values",
+      "Constructive Approach"
+    ]
+  },
+  {
+    "id": "spk-13",
+    "title": "Technology Ethics: AI Opportunity vs. Threat [Session 13]",
+    "prompt": "Is artificial intelligence primarily a threat to entry-level jobs or an opportunity to accelerate human capability? Speak for 60-90 seconds.",
+    "category": "Technology & Industry",
+    "evaluationCriteria": [
+      "Fluency",
+      "Logical Structure",
+      "Vocabulary Diversity",
+      "Pace Control",
+      "Absence of Fillers"
+    ]
+  },
+  {
+    "id": "spk-14",
+    "title": "Workplace Flexibility: Remote vs. Hybrid Models [Session 14]",
+    "prompt": "Is remote working fundamentally superior to in-office collaboration for technology engineering teams? Defend your perspective.",
+    "category": "Workplace Dynamics",
+    "evaluationCriteria": [
+      "Clarity of Thought",
+      "Persuasiveness",
+      "Pronunciation Accuracy",
+      "Coherence"
+    ]
+  },
+  {
+    "id": "spk-15",
+    "title": "University Education: Mandatory Internships [Session 15]",
+    "prompt": "Should universities mandate industrial internships for engineering graduates prior to awarding degrees? State your reasoning.",
+    "category": "College & Career",
+    "evaluationCriteria": [
+      "Structure",
+      "Relevance",
+      "Fluency",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-16",
+    "title": "Problem Solving Experience [Session 16]",
+    "prompt": "Describe a technically challenging bug or academic project roadblock you personally overcame. Explain the steps you took.",
+    "category": "Situational / STAR",
+    "evaluationCriteria": [
+      "STAR Framework",
+      "Clarity",
+      "Tone Professionalism",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-17",
+    "title": "Technical Explanation for Laypersons [Session 17]",
+    "prompt": "Explain the fundamental concept of cloud computing to someone with zero technical background in 60 seconds.",
+    "category": "Communication Clarity",
+    "evaluationCriteria": [
+      "Analogies & Simplicity",
+      "Clarity",
+      "Engagement",
+      "No Jargon"
+    ]
+  },
+  {
+    "id": "spk-18",
+    "title": "Conflict Resolution in Team Projects [Session 18]",
+    "prompt": "How do you handle a teammate who refuses to complete their assigned module right before a critical submission deadline?",
+    "category": "Capgemini Values (Team Spirit)",
+    "evaluationCriteria": [
+      "Emotional Intelligence",
+      "Alignment with Values",
+      "Constructive Approach"
+    ]
+  },
+  {
+    "id": "spk-19",
+    "title": "Technology Ethics: AI Opportunity vs. Threat [Session 19]",
+    "prompt": "Is artificial intelligence primarily a threat to entry-level jobs or an opportunity to accelerate human capability? Speak for 60-90 seconds.",
+    "category": "Technology & Industry",
+    "evaluationCriteria": [
+      "Fluency",
+      "Logical Structure",
+      "Vocabulary Diversity",
+      "Pace Control",
+      "Absence of Fillers"
+    ]
+  },
+  {
+    "id": "spk-20",
+    "title": "Workplace Flexibility: Remote vs. Hybrid Models [Session 20]",
+    "prompt": "Is remote working fundamentally superior to in-office collaboration for technology engineering teams? Defend your perspective.",
+    "category": "Workplace Dynamics",
+    "evaluationCriteria": [
+      "Clarity of Thought",
+      "Persuasiveness",
+      "Pronunciation Accuracy",
+      "Coherence"
+    ]
+  },
+  {
+    "id": "spk-21",
+    "title": "University Education: Mandatory Internships [Session 21]",
+    "prompt": "Should universities mandate industrial internships for engineering graduates prior to awarding degrees? State your reasoning.",
+    "category": "College & Career",
+    "evaluationCriteria": [
+      "Structure",
+      "Relevance",
+      "Fluency",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-22",
+    "title": "Problem Solving Experience [Session 22]",
+    "prompt": "Describe a technically challenging bug or academic project roadblock you personally overcame. Explain the steps you took.",
+    "category": "Situational / STAR",
+    "evaluationCriteria": [
+      "STAR Framework",
+      "Clarity",
+      "Tone Professionalism",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-23",
+    "title": "Technical Explanation for Laypersons [Session 23]",
+    "prompt": "Explain the fundamental concept of cloud computing to someone with zero technical background in 60 seconds.",
+    "category": "Communication Clarity",
+    "evaluationCriteria": [
+      "Analogies & Simplicity",
+      "Clarity",
+      "Engagement",
+      "No Jargon"
+    ]
+  },
+  {
+    "id": "spk-24",
+    "title": "Conflict Resolution in Team Projects [Session 24]",
+    "prompt": "How do you handle a teammate who refuses to complete their assigned module right before a critical submission deadline?",
+    "category": "Capgemini Values (Team Spirit)",
+    "evaluationCriteria": [
+      "Emotional Intelligence",
+      "Alignment with Values",
+      "Constructive Approach"
+    ]
+  },
+  {
+    "id": "spk-25",
+    "title": "Technology Ethics: AI Opportunity vs. Threat [Session 25]",
+    "prompt": "Is artificial intelligence primarily a threat to entry-level jobs or an opportunity to accelerate human capability? Speak for 60-90 seconds.",
+    "category": "Technology & Industry",
+    "evaluationCriteria": [
+      "Fluency",
+      "Logical Structure",
+      "Vocabulary Diversity",
+      "Pace Control",
+      "Absence of Fillers"
+    ]
+  },
+  {
+    "id": "spk-26",
+    "title": "Workplace Flexibility: Remote vs. Hybrid Models [Session 26]",
+    "prompt": "Is remote working fundamentally superior to in-office collaboration for technology engineering teams? Defend your perspective.",
+    "category": "Workplace Dynamics",
+    "evaluationCriteria": [
+      "Clarity of Thought",
+      "Persuasiveness",
+      "Pronunciation Accuracy",
+      "Coherence"
+    ]
+  },
+  {
+    "id": "spk-27",
+    "title": "University Education: Mandatory Internships [Session 27]",
+    "prompt": "Should universities mandate industrial internships for engineering graduates prior to awarding degrees? State your reasoning.",
+    "category": "College & Career",
+    "evaluationCriteria": [
+      "Structure",
+      "Relevance",
+      "Fluency",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-28",
+    "title": "Problem Solving Experience [Session 28]",
+    "prompt": "Describe a technically challenging bug or academic project roadblock you personally overcame. Explain the steps you took.",
+    "category": "Situational / STAR",
+    "evaluationCriteria": [
+      "STAR Framework",
+      "Clarity",
+      "Tone Professionalism",
+      "Pacing"
+    ]
+  },
+  {
+    "id": "spk-29",
+    "title": "Technical Explanation for Laypersons [Session 29]",
+    "prompt": "Explain the fundamental concept of cloud computing to someone with zero technical background in 60 seconds.",
+    "category": "Communication Clarity",
+    "evaluationCriteria": [
+      "Analogies & Simplicity",
+      "Clarity",
+      "Engagement",
+      "No Jargon"
+    ]
+  },
+  {
+    "id": "spk-30",
+    "title": "Conflict Resolution in Team Projects [Session 30]",
+    "prompt": "How do you handle a teammate who refuses to complete their assigned module right before a critical submission deadline?",
+    "category": "Capgemini Values (Team Spirit)",
+    "evaluationCriteria": [
+      "Emotional Intelligence",
+      "Alignment with Values",
+      "Constructive Approach"
+    ]
+  }
+]

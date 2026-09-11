@@ -1,0 +1,2742 @@
+[
+  {
+    "question": "[Verbal Ability] Select the sentence with correct subject-verb agreement: (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Subject-Verb Agreement",
+    "difficulty": "easy",
+    "options": [
+      "Neither the manager nor the employees was available for comment.",
+      "Neither the manager nor the employees were available for comment.",
+      "Neither the employees nor the manager were available for comment.",
+      "Each of the candidates have submitted their portfolio."
+    ],
+    "answer": 1,
+    "explanation": "When subjects are joined by 'neither... nor', the verb agrees with the nearer subject ('employees' is plural, so 'were' is correct).",
+    "tags": [
+      "English",
+      "Grammar",
+      "Subject-Verb Agreement",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Complete the sentence: 'A committee of senior architects and lead developers ___ formed yesterday.' (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Subject-Verb Agreement",
+    "difficulty": "medium",
+    "options": [
+      "were",
+      "was",
+      "are",
+      "have been"
+    ],
+    "answer": 1,
+    "explanation": "'A committee' is a collective noun acting as a single unit here, and 'yesterday' signifies past tense, requiring the singular past verb 'was'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Subject-Verb Agreement",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Choose the correct preposition: 'The team has been consistently working on this microservice ___ last November.' (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Prepositions",
+    "difficulty": "hard",
+    "options": [
+      "for",
+      "since",
+      "from",
+      "during"
+    ],
+    "answer": 1,
+    "explanation": "'Since' is used with the present perfect continuous tense to refer to a specific starting point in time ('last November').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Identify the correct sentence: (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Prepositions",
+    "difficulty": "easy",
+    "options": [
+      "She is proficient with C++ and good in mathematics.",
+      "She is proficient in C++ and good at mathematics.",
+      "She is proficient at C++ and good in mathematics.",
+      "She is proficient with C++ and good for mathematics."
+    ],
+    "answer": 1,
+    "explanation": "The correct idioms are 'proficient in [a language/skill]' and 'good at [a subject/activity]'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the correct form: 'By the time the code review began, the developer ___ all unit tests.' (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Tenses",
+    "difficulty": "medium",
+    "options": [
+      "already committed",
+      "had already committed",
+      "has already committed",
+      "is already committing"
+    ],
+    "answer": 1,
+    "explanation": "The past perfect tense ('had already committed') describes an action completed prior to another past event ('the code review began').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Tenses",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Convert to indirect speech: The architect said, 'We will deploy the container tomorrow.' (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Direct and Indirect Speech",
+    "difficulty": "hard",
+    "options": [
+      "The architect said that they will deploy the container tomorrow.",
+      "The architect said that they would deploy the container the next day.",
+      "The architect told that we would deploy the container yesterday.",
+      "The architect says they would deploy the container tomorrow."
+    ],
+    "answer": 1,
+    "explanation": "In reported speech with past reporting verb ('said'), 'will' shifts to 'would' and 'tomorrow' shifts to 'the next day'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Direct and Indirect Speech",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Convert to passive voice: 'The automated pipeline ran the regression test suite.' (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Active and Passive Voice",
+    "difficulty": "easy",
+    "options": [
+      "The regression test suite was run by the automated pipeline.",
+      "The regression test suite had been run by the automated pipeline.",
+      "The automated pipeline was run by the regression test suite.",
+      "The regression test suite is run by the automated pipeline."
+    ],
+    "answer": 0,
+    "explanation": "Simple past active ('ran') converts to 'was/were + past participle' ('was run').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Active and Passive Voice",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Identify the part of the sentence with an error: 'Between you and I (A) / there are no secrets (B) / regarding the new architecture (C) / No error (D)' (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Spotting Errors",
+    "difficulty": "medium",
+    "options": [
+      "Between you and I (A)",
+      "there are no secrets (B)",
+      "regarding the new architecture (C)",
+      "No error (D)"
+    ],
+    "answer": 0,
+    "explanation": "'Between' is a preposition requiring objective pronouns: it should be 'Between you and me', not 'Between you and I'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Spotting Errors",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the correct conditional: 'If the server ___ properly configured, the traffic surge would not have caused downtime.' (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Modals & Conditionals",
+    "difficulty": "hard",
+    "options": [
+      "was",
+      "had been",
+      "would have been",
+      "were"
+    ],
+    "answer": 1,
+    "explanation": "Third conditional (hypothetical past): 'If + past perfect (had been), would have + past participle'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Modals & Conditionals",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Fill in the blank: 'He holds ___ Master's degree in Computer Science and works as ___ unique systems specialist.' (Pattern Variant 1)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Articles",
+    "difficulty": "easy",
+    "options": [
+      "a, an",
+      "a, a",
+      "an, a",
+      "the, an"
+    ],
+    "answer": 1,
+    "explanation": "'Master's' begins with a consonant sound (/m/) so takes 'a'; 'unique' begins with a consonant 'y' sound (/juː/) so also takes 'a'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Articles",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the sentence with correct subject-verb agreement: (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Subject-Verb Agreement",
+    "difficulty": "medium",
+    "options": [
+      "Neither the manager nor the employees was available for comment.",
+      "Neither the manager nor the employees were available for comment.",
+      "Neither the employees nor the manager were available for comment.",
+      "Each of the candidates have submitted their portfolio."
+    ],
+    "answer": 1,
+    "explanation": "When subjects are joined by 'neither... nor', the verb agrees with the nearer subject ('employees' is plural, so 'were' is correct).",
+    "tags": [
+      "English",
+      "Grammar",
+      "Subject-Verb Agreement",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Complete the sentence: 'A committee of senior architects and lead developers ___ formed yesterday.' (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Subject-Verb Agreement",
+    "difficulty": "hard",
+    "options": [
+      "were",
+      "was",
+      "are",
+      "have been"
+    ],
+    "answer": 1,
+    "explanation": "'A committee' is a collective noun acting as a single unit here, and 'yesterday' signifies past tense, requiring the singular past verb 'was'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Subject-Verb Agreement",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Choose the correct preposition: 'The team has been consistently working on this microservice ___ last November.' (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Prepositions",
+    "difficulty": "easy",
+    "options": [
+      "for",
+      "since",
+      "from",
+      "during"
+    ],
+    "answer": 1,
+    "explanation": "'Since' is used with the present perfect continuous tense to refer to a specific starting point in time ('last November').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Identify the correct sentence: (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Prepositions",
+    "difficulty": "medium",
+    "options": [
+      "She is proficient with C++ and good in mathematics.",
+      "She is proficient in C++ and good at mathematics.",
+      "She is proficient at C++ and good in mathematics.",
+      "She is proficient with C++ and good for mathematics."
+    ],
+    "answer": 1,
+    "explanation": "The correct idioms are 'proficient in [a language/skill]' and 'good at [a subject/activity]'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the correct form: 'By the time the code review began, the developer ___ all unit tests.' (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Tenses",
+    "difficulty": "hard",
+    "options": [
+      "already committed",
+      "had already committed",
+      "has already committed",
+      "is already committing"
+    ],
+    "answer": 1,
+    "explanation": "The past perfect tense ('had already committed') describes an action completed prior to another past event ('the code review began').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Tenses",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Convert to indirect speech: The architect said, 'We will deploy the container tomorrow.' (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Direct and Indirect Speech",
+    "difficulty": "easy",
+    "options": [
+      "The architect said that they will deploy the container tomorrow.",
+      "The architect said that they would deploy the container the next day.",
+      "The architect told that we would deploy the container yesterday.",
+      "The architect says they would deploy the container tomorrow."
+    ],
+    "answer": 1,
+    "explanation": "In reported speech with past reporting verb ('said'), 'will' shifts to 'would' and 'tomorrow' shifts to 'the next day'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Direct and Indirect Speech",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Convert to passive voice: 'The automated pipeline ran the regression test suite.' (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Active and Passive Voice",
+    "difficulty": "medium",
+    "options": [
+      "The regression test suite was run by the automated pipeline.",
+      "The regression test suite had been run by the automated pipeline.",
+      "The automated pipeline was run by the regression test suite.",
+      "The regression test suite is run by the automated pipeline."
+    ],
+    "answer": 0,
+    "explanation": "Simple past active ('ran') converts to 'was/were + past participle' ('was run').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Active and Passive Voice",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Identify the part of the sentence with an error: 'Between you and I (A) / there are no secrets (B) / regarding the new architecture (C) / No error (D)' (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Spotting Errors",
+    "difficulty": "hard",
+    "options": [
+      "Between you and I (A)",
+      "there are no secrets (B)",
+      "regarding the new architecture (C)",
+      "No error (D)"
+    ],
+    "answer": 0,
+    "explanation": "'Between' is a preposition requiring objective pronouns: it should be 'Between you and me', not 'Between you and I'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Spotting Errors",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the correct conditional: 'If the server ___ properly configured, the traffic surge would not have caused downtime.' (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Modals & Conditionals",
+    "difficulty": "easy",
+    "options": [
+      "was",
+      "had been",
+      "would have been",
+      "were"
+    ],
+    "answer": 1,
+    "explanation": "Third conditional (hypothetical past): 'If + past perfect (had been), would have + past participle'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Modals & Conditionals",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Fill in the blank: 'He holds ___ Master's degree in Computer Science and works as ___ unique systems specialist.' (Pattern Variant 2)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Articles",
+    "difficulty": "medium",
+    "options": [
+      "a, an",
+      "a, a",
+      "an, a",
+      "the, an"
+    ],
+    "answer": 1,
+    "explanation": "'Master's' begins with a consonant sound (/m/) so takes 'a'; 'unique' begins with a consonant 'y' sound (/juː/) so also takes 'a'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Articles",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the sentence with correct subject-verb agreement: (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Subject-Verb Agreement",
+    "difficulty": "hard",
+    "options": [
+      "Neither the manager nor the employees was available for comment.",
+      "Neither the manager nor the employees were available for comment.",
+      "Neither the employees nor the manager were available for comment.",
+      "Each of the candidates have submitted their portfolio."
+    ],
+    "answer": 1,
+    "explanation": "When subjects are joined by 'neither... nor', the verb agrees with the nearer subject ('employees' is plural, so 'were' is correct).",
+    "tags": [
+      "English",
+      "Grammar",
+      "Subject-Verb Agreement",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Complete the sentence: 'A committee of senior architects and lead developers ___ formed yesterday.' (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Subject-Verb Agreement",
+    "difficulty": "easy",
+    "options": [
+      "were",
+      "was",
+      "are",
+      "have been"
+    ],
+    "answer": 1,
+    "explanation": "'A committee' is a collective noun acting as a single unit here, and 'yesterday' signifies past tense, requiring the singular past verb 'was'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Subject-Verb Agreement",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Choose the correct preposition: 'The team has been consistently working on this microservice ___ last November.' (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Prepositions",
+    "difficulty": "medium",
+    "options": [
+      "for",
+      "since",
+      "from",
+      "during"
+    ],
+    "answer": 1,
+    "explanation": "'Since' is used with the present perfect continuous tense to refer to a specific starting point in time ('last November').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Identify the correct sentence: (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Prepositions",
+    "difficulty": "hard",
+    "options": [
+      "She is proficient with C++ and good in mathematics.",
+      "She is proficient in C++ and good at mathematics.",
+      "She is proficient at C++ and good in mathematics.",
+      "She is proficient with C++ and good for mathematics."
+    ],
+    "answer": 1,
+    "explanation": "The correct idioms are 'proficient in [a language/skill]' and 'good at [a subject/activity]'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the correct form: 'By the time the code review began, the developer ___ all unit tests.' (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Tenses",
+    "difficulty": "easy",
+    "options": [
+      "already committed",
+      "had already committed",
+      "has already committed",
+      "is already committing"
+    ],
+    "answer": 1,
+    "explanation": "The past perfect tense ('had already committed') describes an action completed prior to another past event ('the code review began').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Tenses",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Convert to indirect speech: The architect said, 'We will deploy the container tomorrow.' (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Direct and Indirect Speech",
+    "difficulty": "medium",
+    "options": [
+      "The architect said that they will deploy the container tomorrow.",
+      "The architect said that they would deploy the container the next day.",
+      "The architect told that we would deploy the container yesterday.",
+      "The architect says they would deploy the container tomorrow."
+    ],
+    "answer": 1,
+    "explanation": "In reported speech with past reporting verb ('said'), 'will' shifts to 'would' and 'tomorrow' shifts to 'the next day'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Direct and Indirect Speech",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Convert to passive voice: 'The automated pipeline ran the regression test suite.' (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Active and Passive Voice",
+    "difficulty": "hard",
+    "options": [
+      "The regression test suite was run by the automated pipeline.",
+      "The regression test suite had been run by the automated pipeline.",
+      "The automated pipeline was run by the regression test suite.",
+      "The regression test suite is run by the automated pipeline."
+    ],
+    "answer": 0,
+    "explanation": "Simple past active ('ran') converts to 'was/were + past participle' ('was run').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Active and Passive Voice",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Identify the part of the sentence with an error: 'Between you and I (A) / there are no secrets (B) / regarding the new architecture (C) / No error (D)' (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Spotting Errors",
+    "difficulty": "easy",
+    "options": [
+      "Between you and I (A)",
+      "there are no secrets (B)",
+      "regarding the new architecture (C)",
+      "No error (D)"
+    ],
+    "answer": 0,
+    "explanation": "'Between' is a preposition requiring objective pronouns: it should be 'Between you and me', not 'Between you and I'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Spotting Errors",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the correct conditional: 'If the server ___ properly configured, the traffic surge would not have caused downtime.' (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Modals & Conditionals",
+    "difficulty": "medium",
+    "options": [
+      "was",
+      "had been",
+      "would have been",
+      "were"
+    ],
+    "answer": 1,
+    "explanation": "Third conditional (hypothetical past): 'If + past perfect (had been), would have + past participle'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Modals & Conditionals",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Fill in the blank: 'He holds ___ Master's degree in Computer Science and works as ___ unique systems specialist.' (Pattern Variant 3)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Articles",
+    "difficulty": "hard",
+    "options": [
+      "a, an",
+      "a, a",
+      "an, a",
+      "the, an"
+    ],
+    "answer": 1,
+    "explanation": "'Master's' begins with a consonant sound (/m/) so takes 'a'; 'unique' begins with a consonant 'y' sound (/juː/) so also takes 'a'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Articles",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the sentence with correct subject-verb agreement: (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Subject-Verb Agreement",
+    "difficulty": "easy",
+    "options": [
+      "Neither the manager nor the employees was available for comment.",
+      "Neither the manager nor the employees were available for comment.",
+      "Neither the employees nor the manager were available for comment.",
+      "Each of the candidates have submitted their portfolio."
+    ],
+    "answer": 1,
+    "explanation": "When subjects are joined by 'neither... nor', the verb agrees with the nearer subject ('employees' is plural, so 'were' is correct).",
+    "tags": [
+      "English",
+      "Grammar",
+      "Subject-Verb Agreement",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Complete the sentence: 'A committee of senior architects and lead developers ___ formed yesterday.' (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Subject-Verb Agreement",
+    "difficulty": "medium",
+    "options": [
+      "were",
+      "was",
+      "are",
+      "have been"
+    ],
+    "answer": 1,
+    "explanation": "'A committee' is a collective noun acting as a single unit here, and 'yesterday' signifies past tense, requiring the singular past verb 'was'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Subject-Verb Agreement",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Choose the correct preposition: 'The team has been consistently working on this microservice ___ last November.' (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Prepositions",
+    "difficulty": "hard",
+    "options": [
+      "for",
+      "since",
+      "from",
+      "during"
+    ],
+    "answer": 1,
+    "explanation": "'Since' is used with the present perfect continuous tense to refer to a specific starting point in time ('last November').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Identify the correct sentence: (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Prepositions",
+    "difficulty": "easy",
+    "options": [
+      "She is proficient with C++ and good in mathematics.",
+      "She is proficient in C++ and good at mathematics.",
+      "She is proficient at C++ and good in mathematics.",
+      "She is proficient with C++ and good for mathematics."
+    ],
+    "answer": 1,
+    "explanation": "The correct idioms are 'proficient in [a language/skill]' and 'good at [a subject/activity]'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the correct form: 'By the time the code review began, the developer ___ all unit tests.' (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Tenses",
+    "difficulty": "medium",
+    "options": [
+      "already committed",
+      "had already committed",
+      "has already committed",
+      "is already committing"
+    ],
+    "answer": 1,
+    "explanation": "The past perfect tense ('had already committed') describes an action completed prior to another past event ('the code review began').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Tenses",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Convert to indirect speech: The architect said, 'We will deploy the container tomorrow.' (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Direct and Indirect Speech",
+    "difficulty": "hard",
+    "options": [
+      "The architect said that they will deploy the container tomorrow.",
+      "The architect said that they would deploy the container the next day.",
+      "The architect told that we would deploy the container yesterday.",
+      "The architect says they would deploy the container tomorrow."
+    ],
+    "answer": 1,
+    "explanation": "In reported speech with past reporting verb ('said'), 'will' shifts to 'would' and 'tomorrow' shifts to 'the next day'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Direct and Indirect Speech",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Convert to passive voice: 'The automated pipeline ran the regression test suite.' (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Active and Passive Voice",
+    "difficulty": "easy",
+    "options": [
+      "The regression test suite was run by the automated pipeline.",
+      "The regression test suite had been run by the automated pipeline.",
+      "The automated pipeline was run by the regression test suite.",
+      "The regression test suite is run by the automated pipeline."
+    ],
+    "answer": 0,
+    "explanation": "Simple past active ('ran') converts to 'was/were + past participle' ('was run').",
+    "tags": [
+      "English",
+      "Grammar",
+      "Active and Passive Voice",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Identify the part of the sentence with an error: 'Between you and I (A) / there are no secrets (B) / regarding the new architecture (C) / No error (D)' (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Spotting Errors",
+    "difficulty": "medium",
+    "options": [
+      "Between you and I (A)",
+      "there are no secrets (B)",
+      "regarding the new architecture (C)",
+      "No error (D)"
+    ],
+    "answer": 0,
+    "explanation": "'Between' is a preposition requiring objective pronouns: it should be 'Between you and me', not 'Between you and I'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Spotting Errors",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Select the correct conditional: 'If the server ___ properly configured, the traffic surge would not have caused downtime.' (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Modals & Conditionals",
+    "difficulty": "hard",
+    "options": [
+      "was",
+      "had been",
+      "would have been",
+      "were"
+    ],
+    "answer": 1,
+    "explanation": "Third conditional (hypothetical past): 'If + past perfect (had been), would have + past participle'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Modals & Conditionals",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "[Verbal Ability] Fill in the blank: 'He holds ___ Master's degree in Computer Science and works as ___ unique systems specialist.' (Pattern Variant 4)",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Articles",
+    "difficulty": "easy",
+    "options": [
+      "a, an",
+      "a, a",
+      "an, a",
+      "the, an"
+    ],
+    "answer": 1,
+    "explanation": "'Master's' begins with a consonant sound (/m/) so takes 'a'; 'unique' begins with a consonant 'y' sound (/juː/) so also takes 'a'.",
+    "tags": [
+      "English",
+      "Grammar",
+      "Articles",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Choose the word most SIMILAR in meaning to \"METICULOUS\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Thorough",
+      "Careless",
+      "Unrelated word",
+      "Fictional term"
+    ],
+    "answer": 0,
+    "explanation": "\"METICULOUS\" means Thorough, painstaking, precise. The closest synonym is Thorough.",
+    "tags": [
+      "Vocabulary",
+      "Synonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Choose the word most OPPOSITE in meaning to \"METICULOUS\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Thorough",
+      "Careless",
+      "Neutral term",
+      "Secondary derivative"
+    ],
+    "answer": 1,
+    "explanation": "\"METICULOUS\" means Thorough, painstaking, precise. Its antonym is Careless.",
+    "tags": [
+      "Vocabulary",
+      "Antonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "What is the meaning of the idiom \"Dot the i's and cross the t's\"?",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Idioms & Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "Relating to thorough",
+      "A culinary technique",
+      "An algebraic proof",
+      "A navigational instrument"
+    ],
+    "answer": 0,
+    "explanation": "The idiom \"Dot the i's and cross the t's\" conveys the sense of being thorough.",
+    "tags": [
+      "Idioms",
+      "Phrasal Verbs",
+      "Verbal"
+    ],
+    "priority": "MEDIUM",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "important",
+    "capgeminiRelevance": 3
+  },
+  {
+    "question": "Choose the word most SIMILAR in meaning to \"CANDID\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Frank",
+      "Deceitful",
+      "Unrelated word",
+      "Fictional term"
+    ],
+    "answer": 0,
+    "explanation": "\"CANDID\" means Frank, outspoken, blunt. The closest synonym is Frank.",
+    "tags": [
+      "Vocabulary",
+      "Synonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Choose the word most OPPOSITE in meaning to \"CANDID\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Frank",
+      "Deceitful",
+      "Neutral term",
+      "Secondary derivative"
+    ],
+    "answer": 1,
+    "explanation": "\"CANDID\" means Frank, outspoken, blunt. Its antonym is Deceitful.",
+    "tags": [
+      "Vocabulary",
+      "Antonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "What is the meaning of the idiom \"Call a spade a spade\"?",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Idioms & Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "Relating to frank",
+      "A culinary technique",
+      "An algebraic proof",
+      "A navigational instrument"
+    ],
+    "answer": 0,
+    "explanation": "The idiom \"Call a spade a spade\" conveys the sense of being frank.",
+    "tags": [
+      "Idioms",
+      "Phrasal Verbs",
+      "Verbal"
+    ],
+    "priority": "MEDIUM",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "important",
+    "capgeminiRelevance": 3
+  },
+  {
+    "question": "Choose the word most SIMILAR in meaning to \"PRAGMATIC\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Practical",
+      "Idealistic",
+      "Unrelated word",
+      "Fictional term"
+    ],
+    "answer": 0,
+    "explanation": "\"PRAGMATIC\" means Practical, realistic, utilitarian. The closest synonym is Practical.",
+    "tags": [
+      "Vocabulary",
+      "Synonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Choose the word most OPPOSITE in meaning to \"PRAGMATIC\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Practical",
+      "Idealistic",
+      "Neutral term",
+      "Secondary derivative"
+    ],
+    "answer": 1,
+    "explanation": "\"PRAGMATIC\" means Practical, realistic, utilitarian. Its antonym is Idealistic.",
+    "tags": [
+      "Vocabulary",
+      "Antonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "What is the meaning of the idiom \"Down to earth\"?",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Idioms & Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "Relating to practical",
+      "A culinary technique",
+      "An algebraic proof",
+      "A navigational instrument"
+    ],
+    "answer": 0,
+    "explanation": "The idiom \"Down to earth\" conveys the sense of being practical.",
+    "tags": [
+      "Idioms",
+      "Phrasal Verbs",
+      "Verbal"
+    ],
+    "priority": "MEDIUM",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "important",
+    "capgeminiRelevance": 3
+  },
+  {
+    "question": "Choose the word most SIMILAR in meaning to \"RESILIENT\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Tenacious",
+      "Fragile",
+      "Unrelated word",
+      "Fictional term"
+    ],
+    "answer": 0,
+    "explanation": "\"RESILIENT\" means Tenacious, flexible, enduring. The closest synonym is Tenacious.",
+    "tags": [
+      "Vocabulary",
+      "Synonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Choose the word most OPPOSITE in meaning to \"RESILIENT\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Tenacious",
+      "Fragile",
+      "Neutral term",
+      "Secondary derivative"
+    ],
+    "answer": 1,
+    "explanation": "\"RESILIENT\" means Tenacious, flexible, enduring. Its antonym is Fragile.",
+    "tags": [
+      "Vocabulary",
+      "Antonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "What is the meaning of the idiom \"Bounce back\"?",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Idioms & Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "Relating to tenacious",
+      "A culinary technique",
+      "An algebraic proof",
+      "A navigational instrument"
+    ],
+    "answer": 0,
+    "explanation": "The idiom \"Bounce back\" conveys the sense of being tenacious.",
+    "tags": [
+      "Idioms",
+      "Phrasal Verbs",
+      "Verbal"
+    ],
+    "priority": "MEDIUM",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "important",
+    "capgeminiRelevance": 3
+  },
+  {
+    "question": "Choose the word most SIMILAR in meaning to \"EPHEMERAL\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Transitory",
+      "Permanent",
+      "Unrelated word",
+      "Fictional term"
+    ],
+    "answer": 0,
+    "explanation": "\"EPHEMERAL\" means Transitory, fleeting, short-lived. The closest synonym is Transitory.",
+    "tags": [
+      "Vocabulary",
+      "Synonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Choose the word most OPPOSITE in meaning to \"EPHEMERAL\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Transitory",
+      "Permanent",
+      "Neutral term",
+      "Secondary derivative"
+    ],
+    "answer": 1,
+    "explanation": "\"EPHEMERAL\" means Transitory, fleeting, short-lived. Its antonym is Permanent.",
+    "tags": [
+      "Vocabulary",
+      "Antonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "What is the meaning of the idiom \"Here today, gone tomorrow\"?",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Idioms & Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "Relating to transitory",
+      "A culinary technique",
+      "An algebraic proof",
+      "A navigational instrument"
+    ],
+    "answer": 0,
+    "explanation": "The idiom \"Here today, gone tomorrow\" conveys the sense of being transitory.",
+    "tags": [
+      "Idioms",
+      "Phrasal Verbs",
+      "Verbal"
+    ],
+    "priority": "MEDIUM",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "important",
+    "capgeminiRelevance": 3
+  },
+  {
+    "question": "Choose the word most SIMILAR in meaning to \"LACONIC\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Concise",
+      "Verbose",
+      "Unrelated word",
+      "Fictional term"
+    ],
+    "answer": 0,
+    "explanation": "\"LACONIC\" means Concise, terse, brief. The closest synonym is Concise.",
+    "tags": [
+      "Vocabulary",
+      "Synonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Choose the word most OPPOSITE in meaning to \"LACONIC\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Concise",
+      "Verbose",
+      "Neutral term",
+      "Secondary derivative"
+    ],
+    "answer": 1,
+    "explanation": "\"LACONIC\" means Concise, terse, brief. Its antonym is Verbose.",
+    "tags": [
+      "Vocabulary",
+      "Antonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "What is the meaning of the idiom \"Few and far between\"?",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Idioms & Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "Relating to concise",
+      "A culinary technique",
+      "An algebraic proof",
+      "A navigational instrument"
+    ],
+    "answer": 0,
+    "explanation": "The idiom \"Few and far between\" conveys the sense of being concise.",
+    "tags": [
+      "Idioms",
+      "Phrasal Verbs",
+      "Verbal"
+    ],
+    "priority": "MEDIUM",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "important",
+    "capgeminiRelevance": 3
+  },
+  {
+    "question": "Choose the word most SIMILAR in meaning to \"UBIQUITOUS\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Omnipresent",
+      "Rare",
+      "Unrelated word",
+      "Fictional term"
+    ],
+    "answer": 0,
+    "explanation": "\"UBIQUITOUS\" means Omnipresent, pervasive, everywhere. The closest synonym is Omnipresent.",
+    "tags": [
+      "Vocabulary",
+      "Synonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Choose the word most OPPOSITE in meaning to \"UBIQUITOUS\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Omnipresent",
+      "Rare",
+      "Neutral term",
+      "Secondary derivative"
+    ],
+    "answer": 1,
+    "explanation": "\"UBIQUITOUS\" means Omnipresent, pervasive, everywhere. Its antonym is Rare.",
+    "tags": [
+      "Vocabulary",
+      "Antonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "What is the meaning of the idiom \"Found around every corner\"?",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Idioms & Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "Relating to omnipresent",
+      "A culinary technique",
+      "An algebraic proof",
+      "A navigational instrument"
+    ],
+    "answer": 0,
+    "explanation": "The idiom \"Found around every corner\" conveys the sense of being omnipresent.",
+    "tags": [
+      "Idioms",
+      "Phrasal Verbs",
+      "Verbal"
+    ],
+    "priority": "MEDIUM",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "important",
+    "capgeminiRelevance": 3
+  },
+  {
+    "question": "Choose the word most SIMILAR in meaning to \"AMBIGUOUS\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Equivocal",
+      "Explicit",
+      "Unrelated word",
+      "Fictional term"
+    ],
+    "answer": 0,
+    "explanation": "\"AMBIGUOUS\" means Equivocal, vague, obscure. The closest synonym is Equivocal.",
+    "tags": [
+      "Vocabulary",
+      "Synonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Choose the word most OPPOSITE in meaning to \"AMBIGUOUS\":",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Equivocal",
+      "Explicit",
+      "Neutral term",
+      "Secondary derivative"
+    ],
+    "answer": 1,
+    "explanation": "\"AMBIGUOUS\" means Equivocal, vague, obscure. Its antonym is Explicit.",
+    "tags": [
+      "Vocabulary",
+      "Antonyms",
+      "Verbal"
+    ],
+    "priority": "HIGH",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "high-priority",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "What is the meaning of the idiom \"Clear as mud\"?",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Idioms & Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "Relating to equivocal",
+      "A culinary technique",
+      "An algebraic proof",
+      "A navigational instrument"
+    ],
+    "answer": 0,
+    "explanation": "The idiom \"Clear as mud\" conveys the sense of being equivocal.",
+    "tags": [
+      "Idioms",
+      "Phrasal Verbs",
+      "Verbal"
+    ],
+    "priority": "MEDIUM",
+    "frequency": "HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini English Assessment Pattern",
+    "relevance": "important",
+    "capgeminiRelevance": 3
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Higher developer salary costs",
+      "Increased operational complexity in distributed tracing and network latency",
+      "Inability to deploy continuous software releases",
+      "Complete elimination of cloud computing infrastructure"
+    ],
+    "answer": 1,
+    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Immediate hardware failure on user workstations",
+      "Cascading outages that are exceptionally challenging to diagnose and isolate",
+      "Strict legal penalties from cloud providers",
+      "A return to single-threaded processors"
+    ],
+    "answer": 1,
+    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Factual Inference",
+    "difficulty": "medium",
+    "options": [
+      "Monolithic",
+      "Decoupled",
+      "Obsolete",
+      "Unreliable"
+    ],
+    "answer": 1,
+    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Vocabulary",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and sarcastic",
+      "Analytical and pragmatic",
+      "Overly enthusiastic and naive",
+      "Indifferent and poetic"
+    ],
+    "answer": 1,
+    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Inference"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  }
+]

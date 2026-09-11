@@ -1,0 +1,19 @@
+{
+  "name": "capgemini-prep-by-yusuf",
+  "version": "1.0.0",
+  "description": "Capgemini Prep By Yusuf - 2026/2027 Placement Preparation Platform",
+  "author": "Yusuf",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
+    "build": "npm run build -w client && npm run build -w server",
+    "seed": "npm run seed -w server"
+  },
+  "devDependencies": {
+    "concurrently": "8.2.2"
+  }
+}

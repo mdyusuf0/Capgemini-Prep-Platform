@@ -1,0 +1,196 @@
+[
+  {
+    "profileId": "profile-a",
+    "name": "Structure A: 2026 Traditional Pattern (Aon CoCubes)",
+    "description": "Standard Capgemini Exceller recruitment pattern with strict sectional elimination. Focuses on Pseudocode dry-running, Core CS MCQs, Cognitive mini-games, and Coding.",
+    "targetDrive": "Exceller On-Campus & Off-Campus",
+    "targetYear": 2026,
+    "isDefault": true,
+    "totalDurationMinutes": 165,
+    "sections": [
+      {
+        "sectionKey": "technical-mcq",
+        "title": "Technical MCQs (Core CS)",
+        "description": "OOPs, DBMS, SQL, OS, Networks, Cloud fundamentals",
+        "questionCount": 20,
+        "durationMinutes": 20,
+        "cutoffPercentage": 70,
+        "isElimination": true,
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "sectionKey": "pseudocode",
+        "title": "Pseudocode Output Tracing",
+        "description": "Bitwise logic, recursion stacks, loop bounds, arrays",
+        "questionCount": 20,
+        "durationMinutes": 25,
+        "cutoffPercentage": 70,
+        "isElimination": true,
+        "enabled": true,
+        "order": 2
+      },
+      {
+        "sectionKey": "communication",
+        "title": "English Communication Test",
+        "description": "Grammar, sentence correction, vocabulary, reading comprehension",
+        "questionCount": 30,
+        "durationMinutes": 30,
+        "cutoffPercentage": 60,
+        "isElimination": true,
+        "enabled": true,
+        "order": 3
+      },
+      {
+        "sectionKey": "cognitive",
+        "title": "Game-Based Cognitive Assessment",
+        "description": "Deductive Geo-Sudo, Inductive Spacio, Grid, Motion, Switch, Digit",
+        "questionCount": 4,
+        "durationMinutes": 25,
+        "cutoffPercentage": 60,
+        "isElimination": true,
+        "enabled": true,
+        "order": 4
+      },
+      {
+        "sectionKey": "behavioral",
+        "title": "Behavioral Assessment (PowerSkills)",
+        "description": "Situational Judgment Tests aligned with Capgemini 7 Core Values",
+        "questionCount": 30,
+        "durationMinutes": 20,
+        "cutoffPercentage": 50,
+        "isElimination": false,
+        "enabled": true,
+        "order": 5
+      },
+      {
+        "sectionKey": "coding",
+        "title": "Hands-on Coding Round",
+        "description": "Medium DSA (Arrays, Strings, Hashing, Two Pointers)",
+        "questionCount": 2,
+        "durationMinutes": 45,
+        "cutoffPercentage": 50,
+        "isElimination": true,
+        "enabled": true,
+        "order": 6
+      }
+    ]
+  },
+  {
+    "profileId": "profile-b",
+    "name": "Structure B: 2027 Candidate-Reported Pattern",
+    "description": "Emerging AI-augmented recruitment pattern reported by recent cohorts. Features live AI-assisted development, debugging, prompt engineering, and communication.",
+    "targetDrive": "Exceller 2027 Drives & Tech Pilots",
+    "targetYear": 2027,
+    "isDefault": false,
+    "totalDurationMinutes": 160,
+    "sections": [
+      {
+        "sectionKey": "communication",
+        "title": "Professional Communication",
+        "description": "Verbal reasoning, technical email composition, and comprehension",
+        "questionCount": 25,
+        "durationMinutes": 25,
+        "cutoffPercentage": 60,
+        "isElimination": true,
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "sectionKey": "debugging",
+        "title": "Problem Solving & Debugging",
+        "description": "Identify logic flaws, boundary errors, and syntax bugs in C++/Java/Python",
+        "questionCount": 12,
+        "durationMinutes": 30,
+        "cutoffPercentage": 65,
+        "isElimination": true,
+        "enabled": true,
+        "order": 2
+      },
+      {
+        "sectionKey": "ai-debugging",
+        "title": "AI-Assisted Debugging",
+        "description": "Diagnose full-stack React/Node/Java concurrency bugs using AI prompts",
+        "questionCount": 2,
+        "durationMinutes": 35,
+        "cutoffPercentage": 70,
+        "isElimination": true,
+        "enabled": true,
+        "order": 3
+      },
+      {
+        "sectionKey": "ai-feature-dev",
+        "title": "AI-Assisted Feature Development",
+        "description": "Build real features (search filters, pagination, API caching) with AI review",
+        "questionCount": 1,
+        "durationMinutes": 45,
+        "cutoffPercentage": 70,
+        "isElimination": true,
+        "enabled": true,
+        "order": 4
+      },
+      {
+        "sectionKey": "prompt-engineering",
+        "title": "Prompt Engineering & AI Literacy",
+        "description": "RAG, prompt optimization, token context, hallucination mitigation, security",
+        "questionCount": 20,
+        "durationMinutes": 25,
+        "cutoffPercentage": 70,
+        "isElimination": true,
+        "enabled": true,
+        "order": 5
+      }
+    ]
+  },
+  {
+    "profileId": "profile-c",
+    "name": "Custom Modular Simulation",
+    "description": "Candidate-configurable practice mode where individual sections, question volumes, and time limits can be customized.",
+    "targetDrive": "Practice & Self-Evaluation",
+    "targetYear": 2026,
+    "isDefault": false,
+    "totalDurationMinutes": 60,
+    "sections": [
+      {
+        "sectionKey": "technical-mcq",
+        "title": "Technical MCQs",
+        "questionCount": 15,
+        "durationMinutes": 15,
+        "cutoffPercentage": 60,
+        "isElimination": false,
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "sectionKey": "pseudocode",
+        "title": "Pseudocode",
+        "questionCount": 15,
+        "durationMinutes": 15,
+        "cutoffPercentage": 60,
+        "isElimination": false,
+        "enabled": true,
+        "order": 2
+      },
+      {
+        "sectionKey": "debugging",
+        "title": "Debugging",
+        "questionCount": 5,
+        "durationMinutes": 15,
+        "cutoffPercentage": 60,
+        "isElimination": false,
+        "enabled": true,
+        "order": 3
+      },
+      {
+        "sectionKey": "ai-literacy",
+        "title": "AI Literacy",
+        "questionCount": 15,
+        "durationMinutes": 15,
+        "cutoffPercentage": 60,
+        "isElimination": false,
+        "enabled": true,
+        "order": 4
+      }
+    ]
+  }
+]
