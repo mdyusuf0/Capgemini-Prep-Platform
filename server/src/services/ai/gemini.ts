@@ -3,18 +3,18 @@ import { env } from '../../config/env.js';
 
 export class GeminiProvider implements AIProvider {
   async chat(messages: ChatMessage[], systemPrompt: string, options?: ChatOptions): Promise<string> {
-    if (!env.AI_API_KEY) {
-      throw new Error('AI_API_KEY is missing');
+    const apiKey = env.GEMINI_API_KEY || env.AI_API_KEY;
+    if (!apiKey) {
+      throw new Error(
+        'Gemini API Key is missing. Please add GEMINI_API_KEY=your_key_here (or AI_API_KEY=your_key_here) to your .env file.'
+      );
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.AI_API_KEY}`;
+    const model = env.GEMINI_MODEL || 'gemini-2.0-flash';
+    let url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
     
     // Convert generic chat messages to Gemini's format
     const contents = [];
-    
-    // Gemini doesn't use a 'system' role in the contents array in exactly the same way. 
-    // The system prompt is passed at the model level (or as the first user message if system instructions aren't supported).
-    // Using system_instruction field for gemini 2.0.
     
     for (const msg of messages) {
       if (msg.role === 'system') continue;
@@ -31,11 +31,11 @@ export class GeminiProvider implements AIProvider {
       contents: contents,
       generationConfig: {
         temperature: options?.temperature ?? 0.7,
-        maxOutputTokens: options?.maxTokens ?? 1024,
+        maxOutputTokens: options?.maxTokens ?? 2048,
       }
     };
 
-    const response = await fetch(url, {
+    let response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,10 +43,22 @@ export class GeminiProvider implements AIProvider {
       body: JSON.stringify(payload)
     });
 
+    // Fallback if 2.0-flash is unavailable or region-restricted
+    if (response.status === 404 && model !== 'gemini-1.5-flash') {
+      const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      response = await fetch(fallbackUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+    }
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Gemini API Error:', errorText);
-      throw new Error(`Gemini API returned ${response.status}: ${errorText}`);
+      throw new Error(`Gemini API error (${response.status}): ${errorText}`);
     }
 
     const data = await response.json();
