@@ -19,11 +19,13 @@ const router = express.Router();
 router.use(protect);
 
 router.get('/', getQuestions);
+router.get('/topics', getTopics);
 router.get('/topics/:category', getTopics);
 router.get('/progress', getProgress);
 router.get('/daily-mission', getDailyMission);
 router.get('/:id', getQuestionById);
 router.post('/submit', submitAnswer);
+router.post('/:id/submit', submitAnswer);
 
 // Since user request says to mount bookmarks/mistakes under question routes,
 // but endpoints are /api/bookmarks, we'll keep them here assuming this router 

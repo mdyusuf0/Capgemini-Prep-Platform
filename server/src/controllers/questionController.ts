@@ -11,13 +11,28 @@ export const getQuestions = async (req: AuthRequest, res: Response, next: NextFu
     const { category, topic, difficulty, relevance, page = '1', limit = '10', search } = req.query;
     
     const query: any = {};
-    if (category) query.category = category;
+    const techCategories = ['technical-mcq', 'dsa', 'dbms', 'oops', 'os', 'networks', 'cloud', 'git', 'software-engineering'];
+
+    if (category) {
+      if (category === 'all' || category === 'all-technical' || category === 'technical') {
+        query.category = { $in: techCategories };
+      } else if (category === 'sql-dbms' || category === 'sql') {
+        query.category = 'dbms';
+      } else {
+        query.category = category;
+      }
+    } else {
+      // Default to technical categories if no category specified
+      query.category = { $in: techCategories };
+    }
+
     if (topic) query.topic = topic;
-    if (difficulty) query.difficulty = difficulty;
+    if (difficulty) query.difficulty = difficulty.toString().toLowerCase();
     if (relevance) query.relevance = relevance;
     if (search) {
       query.$or = [
         { question: { $regex: search, $options: 'i' } },
+        { topic: { $regex: search, $options: 'i' } },
         { tags: { $in: [new RegExp(search as string, 'i')] } }
       ];
     }
@@ -28,15 +43,18 @@ export const getQuestions = async (req: AuthRequest, res: Response, next: NextFu
 
     const questions = await Question.find(query).skip(skip).limit(limitNum).sort({ createdAt: -1 });
     const totalCount = await Question.countDocuments(query);
+    const totalPages = Math.ceil(totalCount / limitNum);
 
     res.json({
       success: true,
       data: questions,
+      total: totalCount,
+      totalPages: totalPages,
       pagination: {
         total: totalCount,
         page: pageNum,
         limit: limitNum,
-        pages: Math.ceil(totalCount / limitNum)
+        pages: totalPages
       }
     });
   } catch (error) {
@@ -59,8 +77,19 @@ export const getQuestionById = async (req: AuthRequest, res: Response, next: Nex
 
 export const getTopics = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { category } = req.params;
-    const topics = await Question.distinct('topic', { category });
+    const category = (req.params.category || req.query.category || '') as string;
+    const techCategories = ['technical-mcq', 'dsa', 'dbms', 'oops', 'os', 'networks', 'cloud', 'git', 'software-engineering'];
+    
+    let filter: any = {};
+    if (!category || category === 'all' || category === 'all-technical' || category === 'technical') {
+      filter = { category: { $in: techCategories } };
+    } else if (category === 'sql-dbms' || category === 'sql') {
+      filter = { category: 'dbms' };
+    } else {
+      filter = { category };
+    }
+
+    const topics = await Question.distinct('topic', filter);
     res.json({ success: true, data: topics });
   } catch (error) {
     next(error);
@@ -69,7 +98,8 @@ export const getTopics = async (req: AuthRequest, res: Response, next: NextFunct
 
 export const submitAnswer = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { questionId, selectedAnswer } = req.body;
+    const questionId = req.params.id || req.body.questionId;
+    const { selectedAnswer } = req.body;
     const userId = req.user?._id;
 
     if (!userId) {

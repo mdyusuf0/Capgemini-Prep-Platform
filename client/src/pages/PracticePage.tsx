@@ -9,18 +9,18 @@ import {
 import { cn } from '@/lib/utils';
 
 const categories = [
-  { id: 'technical-mcq', title: 'Technical MCQ', icon: Cpu, color: 'bg-blue-500/10 text-blue-500', description: 'C/C++, Java, DSA, DBMS, OS, Networks' },
-  { id: 'pseudocode', title: 'Pseudocode', icon: FileCode, color: 'bg-purple-500/10 text-purple-500', description: 'Output prediction, tracing, dry runs' },
-  { id: 'coding', title: 'Coding', icon: Code2, color: 'bg-green-500/10 text-green-500', description: 'Arrays, strings, hashing, sorting' },
-  { id: 'debugging', title: 'Debugging', icon: Bug, color: 'bg-red-500/10 text-red-500', description: 'Find and fix bugs in code' },
-  { id: 'ai-coding', title: 'AI Coding', icon: Bot, color: 'bg-cyan-500/10 text-cyan-500', description: 'AI-assisted problem solving' },
-  { id: 'ai-literacy', title: 'AI Literacy', icon: BrainCircuit, color: 'bg-pink-500/10 text-pink-500', description: 'GenAI, LLMs, prompt engineering' },
-  { id: 'communication', title: 'Communication', icon: MessageSquare, color: 'bg-amber-500/10 text-amber-500', description: 'Grammar, vocabulary, comprehension' },
-  { id: 'cognitive', title: 'Cognitive Games', icon: Gamepad2, color: 'bg-orange-500/10 text-orange-500', description: 'Pattern, memory, logic games' },
-  { id: 'behavioral', title: 'Behavioral', icon: Users, color: 'bg-indigo-500/10 text-indigo-500', description: 'Situational judgment, Capgemini values' },
-  { id: 'sql-dbms', title: 'SQL & DBMS', icon: Database, color: 'bg-teal-500/10 text-teal-500', description: 'Queries, normalization, ACID' },
-  { id: 'oops', title: 'OOPs', icon: Layers, color: 'bg-violet-500/10 text-violet-500', description: '4 pillars, polymorphism, inheritance' },
-  { id: 'os', title: 'OS', icon: Monitor, color: 'bg-slate-500/10 text-slate-500', description: 'Process, threads, scheduling, memory' }
+  { id: 'technical-mcq', title: 'Technical MCQ', path: '/practice/mcq/technical-mcq', icon: Cpu, color: 'bg-blue-500/10 text-blue-500', description: 'C/C++, Java, DSA, DBMS, OS, Networks' },
+  { id: 'pseudocode', title: 'Pseudocode', path: '/practice/pseudocode', icon: FileCode, color: 'bg-purple-500/10 text-purple-500', description: 'Output prediction, tracing, dry runs' },
+  { id: 'coding', title: 'Coding', path: '/coding', icon: Code2, color: 'bg-green-500/10 text-green-500', description: 'Arrays, strings, hashing, sorting' },
+  { id: 'debugging', title: 'Debugging', path: '/debugging', icon: Bug, color: 'bg-red-500/10 text-red-500', description: 'Find and fix bugs in code' },
+  { id: 'ai-coding', title: 'AI Coding', path: '/ai-coding', icon: Bot, color: 'bg-cyan-500/10 text-cyan-500', description: 'AI-assisted problem solving' },
+  { id: 'ai-literacy', title: 'AI Literacy', path: '/ai-literacy', icon: BrainCircuit, color: 'bg-pink-500/10 text-pink-500', description: 'GenAI, LLMs, prompt engineering' },
+  { id: 'communication', title: 'Communication', path: '/communication', icon: MessageSquare, color: 'bg-amber-500/10 text-amber-500', description: 'Grammar, vocabulary, comprehension' },
+  { id: 'cognitive', title: 'Cognitive Games', path: '/games', icon: Gamepad2, color: 'bg-orange-500/10 text-orange-500', description: 'Pattern, memory, logic games' },
+  { id: 'behavioral', title: 'Behavioral', path: '/behavioral', icon: Users, color: 'bg-indigo-500/10 text-indigo-500', description: 'Situational judgment, Capgemini values' },
+  { id: 'sql-dbms', title: 'SQL & DBMS', path: '/practice/mcq/dbms', icon: Database, color: 'bg-teal-500/10 text-teal-500', description: 'Queries, normalization, ACID' },
+  { id: 'oops', title: 'OOPs', path: '/practice/mcq/oops', icon: Layers, color: 'bg-violet-500/10 text-violet-500', description: '4 pillars, polymorphism, inheritance' },
+  { id: 'os', title: 'OS', path: '/practice/mcq/os', icon: Monitor, color: 'bg-slate-500/10 text-slate-500', description: 'Process, threads, scheduling, memory' }
 ];
 
 const containerVariants = {
@@ -58,7 +58,7 @@ export default function PracticePage() {
             const Icon = category.icon;
             return (
               <motion.div key={category.id} variants={itemVariants}>
-                <Link to={`/practice/mcq/${category.id}`}>
+                <Link to={category.path}>
                   <div className="group bg-surface hover:bg-surface/80 border border-white/5 rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] cursor-pointer relative overflow-hidden h-full flex flex-col">
                     <div className={cn("p-3 rounded-lg w-fit mb-4", category.color)}>
                       <Icon className="w-6 h-6" />

@@ -2,6 +2,7 @@ import api from '@/services/api';
 
 export interface Question {
   _id: string;
+  question?: string;
   questionText?: string;
   title?: string;
   description?: string;
@@ -65,17 +66,19 @@ export const getQuestionById = async (id: string): Promise<Question> => {
   return response.data;
 };
 
-export const getTopics = async (category: string): Promise<string[]> => {
+export const getTopics = async (category?: string): Promise<string[]> => {
   const response = await api.get(`/questions/topics`, { params: { category } });
-  return response.data;
+  if (Array.isArray(response.data)) return response.data;
+  if (Array.isArray(response.data?.data)) return response.data.data;
+  return [];
 };
 
 export const submitAnswer = async (
   questionId: string,
   selectedAnswer: number
 ): Promise<{ correct: boolean; explanation: string; whyOthersWrong: string }> => {
-  const response = await api.post(`/questions/${questionId}/submit`, { selectedAnswer });
-  return response.data;
+  const response = await api.post(`/questions/${questionId}/submit`, { questionId, selectedAnswer });
+  return response.data?.data ? response.data.data : response.data;
 };
 
 export const getProgress = async (): Promise<UserProgress[]> => {
