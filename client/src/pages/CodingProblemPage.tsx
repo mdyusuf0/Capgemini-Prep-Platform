@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { getProblemById, submitSolution, runCode, TestCaseResult, SubmissionResponse } from '@/services/codingService';
+import { getProblemById, submitSolution, runCode, TestCaseResult, SubmissionResponse, RunCodeResponse } from '@/services/codingService';
 import { MonacoEditor } from '@/components/coding/MonacoEditor';
 import { TestResults } from '@/components/coding/TestResults';
 import { Play, Send, ArrowLeft, Loader2, Lightbulb, CheckCircle2 } from 'lucide-react';
@@ -19,6 +19,7 @@ export const CodingProblemPage = () => {
   
   const [testResults, setTestResults] = useState<TestCaseResult[]>([]);
   const [submissionSummary, setSubmissionSummary] = useState<SubmissionResponse | null>(null);
+  const [compileOutput, setCompileOutput] = useState<string | null>(null);
 
   const { data: problem, isLoading: isProblemLoading } = useQuery({
     queryKey: ['codingProblem', id],
@@ -33,7 +34,7 @@ export const CodingProblemPage = () => {
     }
   }, [problem, language]);
 
-  const runMutation = useMutation({
+  const runMutation = useMutation<SubmissionResponse | RunCodeResponse, any, boolean>({
     mutationFn: (isSubmit: boolean) => {
       if (isSubmit) {
         return submitSolution(id!, code, language);
@@ -45,17 +46,28 @@ export const CodingProblemPage = () => {
       setActiveTab('results');
       if (isSubmit) {
         const subData = data as SubmissionResponse;
-        setTestResults(subData.results);
+        setTestResults(subData.results || []);
         setSubmissionSummary(subData);
+        setCompileOutput(subData.compileOutput || null);
         if (subData.status === 'Accepted') {
-          toast.success('Solution Accepted!');
+          toast.success('Solution Accepted! All test cases passed.');
+        } else if (subData.status === 'Compilation Error') {
+          toast.error('Compilation Error! Review compiler diagnostics below.');
         } else {
-          toast.error(`Submission Failed: ${subData.status}`);
+          toast.error(`Submission: ${subData.status}`);
         }
       } else {
-        setTestResults(data);
+        const runData = data as { results: TestCaseResult[]; compileOutput: string | null; allPassed: boolean };
+        setTestResults(runData.results || []);
+        setCompileOutput(runData.compileOutput || null);
         setSubmissionSummary(null);
-        toast.success('Execution completed');
+        if (runData.compileOutput) {
+          toast.error('Compilation / Syntax Error!');
+        } else if (runData.allPassed) {
+          toast.success('All visible test cases passed!');
+        } else {
+          toast('Tests completed with failures.', { icon: '⚠️' });
+        }
       }
     },
     onError: (err: any) => {
@@ -359,6 +371,7 @@ export const CodingProblemPage = () => {
               ) : (
                 <TestResults 
                   results={testResults} 
+                  compileOutput={compileOutput}
                   summary={submissionSummary ? {
                     status: submissionSummary.status,
                     passed: submissionSummary.testCasesPassed,

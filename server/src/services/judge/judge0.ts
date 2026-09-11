@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { env } from '../../config/env.js';
+import { executeLocally } from './localRunner.js';
 
 export const LANGUAGE_IDS: Record<string, number> = {
   java: 62,
@@ -44,80 +45,99 @@ export const submitCode = async (code: string, language: string, stdin: string):
   const language_id = LANGUAGE_IDS[language.toLowerCase()];
   if (!language_id) throw new Error(`Unsupported language: ${language}`);
 
-  if (!env.JUDGE0_API_KEY) {
-    // Fallback local evaluation for demo/development if no key
-    console.warn('⚠️ No JUDGE0_API_KEY provided. Using local fallback evaluation.');
-    return {
-      stdout: stdin, // Dummy echo
-      stderr: null,
-      compile_output: null,
-      status: { id: 3, description: 'Accepted' }, // 3 = Accepted in Judge0
-      time: '0.01',
-      memory: 1024,
-    };
+  if (env.JUDGE0_API_KEY) {
+    try {
+      const response = await judgeApi.post('/submissions?base64_encoded=false&wait=true', {
+        source_code: code,
+        language_id,
+        stdin,
+      });
+      return response.data;
+    } catch (error: any) {
+      console.warn('Judge0 API unavailable, falling back to local compiler:', error?.message);
+    }
   }
 
-  try {
-    const response = await judgeApi.post('/submissions?base64_encoded=false&wait=true', {
-      source_code: code,
-      language_id,
-      stdin,
-    });
-    return response.data;
-  } catch (error: any) {
-    console.error('Judge0 API Error:', error?.response?.data || error.message);
-    throw new Error('Failed to execute code on judge server');
-  }
+  // Real local compilation & sandboxed execution
+  const localRes = await executeLocally(code, language, stdin);
+  return {
+    stdout: localRes.stdout,
+    stderr: localRes.stderr,
+    compile_output: localRes.compile_output,
+    status: localRes.status,
+    time: localRes.time,
+    memory: localRes.memory,
+  };
 };
 
 export const runTestCases = async (
   code: string,
   language: string,
-  testCases: { input: string; expectedOutput: string; isHidden: boolean }[]
+  testCases: { input: string; expectedOutput: string; isHidden?: boolean }[]
 ): Promise<TestCaseResult[]> => {
   const results: TestCaseResult[] = [];
 
-  for (const testCase of testCases) {
+  for (let i = 0; i < testCases.length; i++) {
+    const testCase = testCases[i];
     try {
       const result = await submitCode(code, language, testCase.input);
       
-      const actualOutput = (result.stdout || '').trim();
-      const expectedOutput = testCase.expectedOutput.trim();
+      const actualOutput = (result.stdout || '').replace(/\r\n/g, '\n').trim();
+      const expectedOutput = (testCase.expectedOutput || '').replace(/\r\n/g, '\n').trim();
       
       let passed = false;
-      let error = undefined;
+      let error: string | undefined = undefined;
 
-      if (result.status.id === 3) {
-        // Status 3 is Accepted. Compare outputs
+      if (result.status.id === 6 || result.compile_output) {
+        error = 'Compilation Error';
+        passed = false;
+      } else if (result.status.id === 5) {
+        error = 'Time Limit Exceeded';
+        passed = false;
+      } else if (result.status.id === 11 || result.stderr) {
+        error = 'Runtime Error';
+        passed = false;
+      } else if (result.status.id === 3) {
         passed = actualOutput === expectedOutput;
         if (!passed) error = 'Wrong Answer';
       } else {
-        error = result.compile_output ? 'Compilation Error' : result.stderr ? 'Runtime Error' : result.status.description;
-      }
-
-      // If we used the local fallback dummy
-      if (!env.JUDGE0_API_KEY) {
-        passed = true; // Pretend it passed for dev if no API key
-        error = undefined;
+        error = result.status.description || 'Execution Error';
       }
 
       results.push({
         input: testCase.input,
         expected: expectedOutput,
-        actual: actualOutput || result.compile_output || result.stderr || '',
+        actual: result.compile_output ? result.compile_output : (actualOutput || result.stderr || ''),
         passed,
-        isHidden: testCase.isHidden,
+        isHidden: !!testCase.isHidden,
         executionTime: `${result.time || 0}s`,
         memoryUsed: `${result.memory || 0}KB`,
         error
       });
+
+      // If compilation failed, all subsequent test cases will have the exact same compilation error
+      if (error === 'Compilation Error' && i === 0) {
+        for (let j = 1; j < testCases.length; j++) {
+          results.push({
+            input: testCases[j].input,
+            expected: (testCases[j].expectedOutput || '').replace(/\r\n/g, '\n').trim(),
+            actual: result.compile_output || 'Compilation Error',
+            passed: false,
+            isHidden: !!testCases[j].isHidden,
+            executionTime: '0.00s',
+            memoryUsed: '0KB',
+            error: 'Compilation Error'
+          });
+        }
+        break;
+      }
     } catch (error: any) {
       results.push({
         input: testCase.input,
-        expected: testCase.expectedOutput.trim(),
-        actual: '',
+        expected: (testCase.expectedOutput || '').replace(/\r\n/g, '\n').trim(),
+        actual: error.message,
         passed: false,
-        isHidden: testCase.isHidden,
+        isHidden: !!testCase.isHidden,
         executionTime: '0s',
         memoryUsed: '0KB',
         error: error.message
@@ -127,3 +147,4 @@ export const runTestCases = async (
 
   return results;
 };
+

@@ -1,8 +1,9 @@
 import { TestCaseResult } from '../../services/codingService';
-import { CheckCircle, XCircle, Clock, Cpu } from 'lucide-react';
+import { CheckCircle, XCircle, Clock, Cpu, AlertTriangle } from 'lucide-react';
 
 interface TestResultsProps {
   results: TestCaseResult[];
+  compileOutput?: string | null;
   summary?: {
     status: string;
     passed: number;
@@ -12,11 +13,24 @@ interface TestResultsProps {
   };
 }
 
-export const TestResults = ({ results, summary }: TestResultsProps) => {
-  if (!results || results.length === 0) return null;
+export const TestResults = ({ results, compileOutput, summary }: TestResultsProps) => {
+  if ((!results || results.length === 0) && !compileOutput) return null;
 
   return (
     <div className="flex flex-col h-full space-y-3 font-sans">
+      {/* Compiler Diagnostic Output Banner */}
+      {compileOutput && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-3.5 text-xs font-mono shadow-xs">
+          <div className="flex items-center gap-2 text-red-700 font-bold mb-2">
+            <AlertTriangle className="w-4 h-4 text-red-600" />
+            <span>Compiler Diagnostic / Syntax Error:</span>
+          </div>
+          <pre className="text-red-900 bg-white p-3 rounded-lg border border-red-200 whitespace-pre-wrap text-[11px] overflow-x-auto max-h-52 leading-relaxed">
+            {compileOutput}
+          </pre>
+        </div>
+      )}
+
       {summary && (
         <div className={`p-4 rounded-xl border flex items-center justify-between shadow-xs ${
           summary.status === 'Accepted' 
@@ -45,7 +59,7 @@ export const TestResults = ({ results, summary }: TestResultsProps) => {
       )}
 
       <div className="flex-1 overflow-y-auto space-y-2.5 pb-2">
-        {results.map((res, idx) => (
+        {results && results.map((res, idx) => (
           <div key={idx} className="bg-surface-paper p-3.5 rounded-lg border border-border-hairline shadow-xs">
             <div className="flex items-center justify-between mb-2">
               <span className="font-mono text-xs font-bold text-on-surface">Test Case {idx + 1}</span>
@@ -55,7 +69,7 @@ export const TestResults = ({ results, summary }: TestResultsProps) => {
                 </span>
               ) : (
                 <span className="flex items-center text-[#9c0032] text-xs font-mono font-semibold">
-                  <XCircle className="w-3.5 h-3.5 mr-1 text-accent-pink"/> Failed
+                  <XCircle className="w-3.5 h-3.5 mr-1 text-accent-pink"/> {res.error ? `Failed (${res.error})` : 'Failed'}
                 </span>
               )}
             </div>

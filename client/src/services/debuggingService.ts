@@ -1,5 +1,27 @@
 import api from './api';
 
+export interface TestCaseItem {
+  input: string;
+  expectedOutput: string;
+}
+
+export interface TestCaseResult {
+  input: string;
+  expected: string;
+  actual: string;
+  passed: boolean;
+  isHidden: boolean;
+  executionTime: string;
+  memoryUsed: string;
+  error?: string;
+}
+
+export interface DebugExecutionResponse {
+  results: TestCaseResult[];
+  compileOutput: string | null;
+  allPassed: boolean;
+}
+
 export interface DebuggingProblem {
   _id: string;
   title: string;
@@ -7,10 +29,13 @@ export interface DebuggingProblem {
   buggyCode: string;
   language: string;
   bugType: string;
+  bugCategory?: string;
   difficulty: string;
+  topic?: string;
   hints: string[];
   explanation?: string;
   fixedCode?: string;
+  testCases?: TestCaseItem[];
 }
 
 export const debuggingService = {
@@ -19,16 +44,21 @@ export const debuggingService = {
     return res.data;
   },
   
-  getProblemById: async (id: string) => {
+  getProblemById: async (id: string): Promise<DebuggingProblem> => {
     const res = await api.get(`/debugging/${id}`);
     return res.data;
   },
   
-  getTimedSet: async () => {
+  getTimedSet: async (): Promise<DebuggingProblem[]> => {
     const res = await api.get('/debugging/timed-set');
     return res.data;
   },
   
+  runCode: async (id: string, code: string): Promise<DebugExecutionResponse> => {
+    const res = await api.post(`/debugging/${id}/run`, { code });
+    return res.data;
+  },
+
   submitFix: async (id: string, fixedCode: string) => {
     const res = await api.post(`/debugging/${id}/submit`, { fixedCode });
     return res.data;

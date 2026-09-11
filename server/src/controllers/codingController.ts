@@ -103,6 +103,7 @@ export const submitSolution = async (req: AuthRequest, res: Response) => {
 
     // Strip out hidden results before sending back to client
     const clientResults = results.map(r => r.isHidden ? { ...r, expected: 'Hidden', actual: 'Hidden', input: 'Hidden' } : r);
+    const compileError = results.find(r => r.error === 'Compilation Error')?.actual;
 
     res.status(201).json({
       submissionId: submission._id,
@@ -111,7 +112,8 @@ export const submitSolution = async (req: AuthRequest, res: Response) => {
       totalTestCases,
       executionTime: submission.executionTime,
       memoryUsed: submission.memoryUsed,
-      results: clientResults
+      results: clientResults,
+      compileOutput: compileError || null
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -125,16 +127,20 @@ export const runCode = async (req: Request, res: Response) => {
 
     if (customInput !== undefined) {
       const result = await submitCode(code, language, customInput);
+      const isCompileErr = result.status.id === 6 || !!result.compile_output;
       return res.json({
         results: [{
           input: customInput,
           expected: 'N/A (Custom Input)',
-          actual: result.stdout || result.compile_output || result.stderr || '',
+          actual: result.compile_output ? result.compile_output : (result.stdout || result.stderr || 'No output produced'),
           passed: result.status.id === 3,
           executionTime: `${result.time || 0}s`,
           memoryUsed: `${result.memory || 0}KB`,
-          isHidden: false
-        }]
+          isHidden: false,
+          error: isCompileErr ? 'Compilation Error' : (result.status.id === 11 ? 'Runtime Error' : (result.status.id === 5 ? 'Time Limit Exceeded' : undefined))
+        }],
+        compileOutput: result.compile_output || (isCompileErr ? (result.stderr || 'Compilation Error') : null),
+        allPassed: result.status.id === 3
       });
     }
 
@@ -144,8 +150,13 @@ export const runCode = async (req: Request, res: Response) => {
     // Run against VISIBLE test cases only
     const visibleTestCases = problem.testCases.filter(tc => !tc.isHidden);
     const results = await runTestCases(code, language, visibleTestCases);
+    const compileError = results.find(r => r.error === 'Compilation Error')?.actual;
 
-    res.json({ results });
+    res.json({
+      results,
+      compileOutput: compileError || null,
+      allPassed: results.length > 0 && results.every(r => r.passed)
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

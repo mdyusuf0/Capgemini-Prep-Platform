@@ -8,6 +8,7 @@ export interface TestCaseResult {
   isHidden: boolean;
   executionTime?: string;
   memoryUsed?: string;
+  error?: string;
 }
 
 export interface SubmissionResponse {
@@ -18,6 +19,13 @@ export interface SubmissionResponse {
   executionTime: string;
   memoryUsed: string;
   results: TestCaseResult[];
+  compileOutput?: string | null;
+}
+
+export interface RunCodeResponse {
+  results: TestCaseResult[];
+  compileOutput: string | null;
+  allPassed: boolean;
 }
 
 export interface CodingProblem {
@@ -57,9 +65,9 @@ export const submitSolution = async (id: string, code: string, language: string)
   return data;
 };
 
-export const runCode = async (id: string, code: string, language: string, customInput?: string) => {
+export const runCode = async (id: string, code: string, language: string, customInput?: string): Promise<RunCodeResponse> => {
   const { data } = await api.post(`/coding/${id}/run`, { code, language, customInput });
-  return data.results; // TestCaseResult[]
+  return data;
 };
 
 export const getSubmissions = async (id: string) => {
