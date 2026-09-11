@@ -2,20 +2,46 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { mockService } from '../services/mockService';
+import { getQuestions } from '@/services/questionService';
 import { Button } from '../components/ui/button';
-import { Clock, CheckSquare, Square, Flag, AlertTriangle } from 'lucide-react';
+import { Clock, CheckSquare, Square, Flag, AlertTriangle, BookOpen, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+
+function parseReadingQuestion(rawText: string): { passage: string | null; questionText: string } {
+  if (!rawText) return { passage: null, questionText: '' };
+
+  const matchExcerpt = rawText.match(/(?:Read the excerpt|Passage|Read the following passage)[:\s]*\n*["“]([\s\S]+?)["”]\s*(?:\n+Question:\s*|\n+Q:\s*|\n+)?([\s\S]*)/i);
+  if (matchExcerpt) {
+    const passage = matchExcerpt[1].trim();
+    const prompt = matchExcerpt[2].replace(/^Question:\s*/i, '').trim();
+    return { passage, questionText: prompt || 'Based on the passage above, select the most appropriate option.' };
+  }
+
+  const splitQuestion = rawText.split(/\n+Question:\s*/i);
+  if (splitQuestion.length > 1) {
+    const passage = splitQuestion[0].replace(/^(?:Read the excerpt|Passage)[:\s]*/i, '').trim().replace(/^["“]|["”]$/g, '');
+    const prompt = splitQuestion.slice(1).join('\nQuestion: ').trim();
+    return { passage, questionText: prompt };
+  }
+
+  return { passage: null, questionText: rawText };
+}
 
 export default function MockTestPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   
-  // Dummy data for the UI since we don't have full questions populated in DB yet
-  const [questions] = useState(Array.from({ length: 20 }, (_, i) => ({
-    _id: `q${i}`,
-    text: `Sample Question ${i + 1} text?`,
-    options: ['Option A', 'Option B', 'Option C', 'Option D']
-  })));
+  const { data: questionsData, isLoading } = useQuery({
+    queryKey: ['mock-test-questions', id],
+    queryFn: async () => {
+      const res = await getQuestions({ limit: 25 });
+      return res.data || [];
+    }
+  });
+
+  const questions = (questionsData && questionsData.length > 0) ? questionsData : [
+    { _id: 'q0', question: 'Capgemini Assessment Question initializing...', options: ['Option A', 'Option B', 'Option C', 'Option D'] }
+  ];
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -151,12 +177,41 @@ export default function MockTestPage() {
         <div className="flex-1 flex flex-col bg-surface-cream">
           <div className="flex-1 p-8 overflow-y-auto">
             <div className="max-w-3xl mx-auto">
-              <div className="mb-6">
-                <span className="text-xs font-mono uppercase tracking-wider text-secondary font-bold bg-secondary-fixed px-2.5 py-1 rounded-full border border-secondary/20">
-                  Item {currentIndex + 1} of {questions.length}
-                </span>
-                <h3 className="text-xl md:text-2xl text-on-surface mt-3 font-extrabold tracking-tight leading-snug">{currentQ.text}</h3>
-              </div>
+              {(() => {
+                const rawPrompt = (currentQ as any).question || (currentQ as any).text || (currentQ as any).questionText || '';
+                const { passage, questionText } = parseReadingQuestion(rawPrompt);
+                
+                return (
+                  <div className="mb-6 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono uppercase tracking-wider text-secondary font-bold bg-secondary-fixed px-2.5 py-1 rounded-full border border-secondary/20">
+                        Item {currentIndex + 1} of {questions.length}
+                      </span>
+                      {(currentQ as any).topic && (
+                        <span className="text-xs font-mono text-on-surface-variant">
+                          • {(currentQ as any).topic}
+                        </span>
+                      )}
+                    </div>
+
+                    {passage && (
+                      <div className="bg-white border border-border-hairline rounded-2xl p-5 space-y-2.5 shadow-xs">
+                        <div className="flex items-center gap-2 text-secondary font-mono text-xs font-bold uppercase tracking-wider">
+                          <BookOpen className="w-4 h-4" />
+                          <span>Reading Passage Excerpt</span>
+                        </div>
+                        <div className="text-sm md:text-base leading-relaxed text-on-surface bg-surface-cream/50 p-4 rounded-xl border border-border-hairline/70 font-serif italic">
+                          "{passage}"
+                        </div>
+                      </div>
+                    )}
+
+                    <h3 className="text-xl md:text-2xl text-on-surface mt-2 font-extrabold tracking-tight leading-snug">
+                      {questionText || 'Select the most appropriate answer.'}
+                    </h3>
+                  </div>
+                );
+              })()}
 
               <div className="space-y-3">
                 {currentQ.options.map((opt, i) => (

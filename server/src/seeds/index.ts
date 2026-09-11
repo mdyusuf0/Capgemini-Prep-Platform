@@ -8,12 +8,14 @@ dotenv.config({ path: path.resolve(process.cwd(), 'server/.env') });
 
 import { connectDB } from '../config/db.js';
 import { createAdmin } from './createAdmin.js';
+import { seedBehavioral } from './behavioral.js';
 import { Question } from '../models/Question.js';
 import { PseudocodeQuestion } from '../models/PseudocodeQuestion.js';
 import { CodingProblem } from '../models/CodingProblem.js';
 import { DebuggingProblem } from '../models/DebuggingProblem.js';
 import { AssessmentProfile } from '../models/AssessmentProfile.js';
 import { AITask } from '../models/AITask.js';
+import { InterviewQuestion } from '../models/InterviewQuestion.js';
 
 function loadJson(fileName: string) {
   const fullPath = path.resolve(__dirname, 'data', fileName);
@@ -111,12 +113,39 @@ async function runAllSeeds() {
       console.log(`  ✅ Successfully inserted ${aiTasks.length} AI-Assisted Tasks`);
     }
 
-    // 10. Report Grand Totals
+    // 10. Seed Behavioral & SJT Scenarios
+    console.log(`\n🤝 Seeding Situational Judgment & Behavioral Questions...`);
+    await seedBehavioral();
+
+    // 11. Seed Interview Preparation Questions
+    const interviewData = loadJson('interview-questions.json');
+    if (interviewData && Array.isArray(interviewData)) {
+      console.log(`\n🎙️ Seeding ${interviewData.length} Technical & HR Interview Questions...`);
+      await InterviewQuestion.deleteMany({});
+      const formattedInterviews = interviewData.map((item: any) => ({
+        category: item.type === 'hr' ? 'hr-interview' : item.type === 'project' ? 'project-interview' : 'technical-interview',
+        type: item.type || 'technical',
+        topic: item.topic || 'General',
+        question: item.question,
+        idealAnswer: item.idealAnswer || '',
+        keyPoints: item.keyPoints || [],
+        followUpQuestions: item.followUpQuestions || [],
+        difficulty: (item.difficulty || 'medium').toLowerCase(),
+        priority: item.priority || 'HIGH',
+        frequency: item.frequency || 'HIGH',
+        source: item.source || 'Capgemini Interview Archives'
+      }));
+      await InterviewQuestion.insertMany(formattedInterviews);
+      console.log(`  ✅ Successfully inserted ${formattedInterviews.length} Interview Questions`);
+    }
+
+    // 12. Report Grand Totals
     const totalQuestions = await Question.countDocuments();
     const totalPseudo = await PseudocodeQuestion.countDocuments();
     const totalDebugging = await DebuggingProblem.countDocuments();
     const totalCoding = await CodingProblem.countDocuments();
     const totalAITasks = await AITask.countDocuments();
+    const totalInterviews = await InterviewQuestion.countDocuments();
     const totalProfiles = await AssessmentProfile.countDocuments();
 
     console.log('\n==================================================');
@@ -127,7 +156,8 @@ async function runAllSeeds() {
     console.log(`  • Debugging Challenges:    ${totalDebugging}`);
     console.log(`  • Coding Judge Problems:   ${totalCoding}`);
     console.log(`  • AI-Assisted Tasks:       ${totalAITasks}`);
-    console.log(`  • TOTAL VERIFIED ITEMS:    ${totalQuestions + totalPseudo + totalDebugging + totalCoding + totalAITasks}`);
+    console.log(`  • Interview Prep Archive:  ${totalInterviews}`);
+    console.log(`  • TOTAL VERIFIED ITEMS:    ${totalQuestions + totalPseudo + totalDebugging + totalCoding + totalAITasks + totalInterviews}`);
     console.log('==================================================\n');
 
     process.exit(0);

@@ -13,7 +13,17 @@ interface InterviewQuestion {
   topic: string;
 }
 
-export default function TechInterviewPage() {
+interface TechInterviewPageProps {
+  category?: 'technical-interview' | 'hr-interview' | 'project-interview';
+  title?: string;
+  description?: string;
+}
+
+export default function TechInterviewPage({
+  category = 'technical-interview',
+  title = 'Technical Interview Preparation',
+  description = 'Practice Capgemini-standard technical interview questions. Study structured responses, architectural trade-offs, and follow-up topics.'
+}: TechInterviewPageProps) {
   const [questions, setQuestions] = useState<InterviewQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -21,7 +31,7 @@ export default function TechInterviewPage() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const data = await interviewService.getQuestions('technical-interview');
+        const data = await interviewService.getQuestions(category);
         setQuestions(data);
       } catch (error) {
         console.error('Failed to load questions', error);
@@ -30,7 +40,7 @@ export default function TechInterviewPage() {
       }
     };
     fetchQuestions();
-  }, []);
+  }, [category]);
 
   if (loading) return <div className="p-8 text-on-surface font-mono text-sm">Loading Questions...</div>;
 
@@ -40,8 +50,8 @@ export default function TechInterviewPage() {
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-mono font-medium text-on-surface mb-3">
           <span>✨ CAPGEMINI PREP BY YUSUF</span>
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2">Technical Interview Preparation</h1>
-        <p className="text-on-surface-variant text-sm">Practice Capgemini-standard technical interview questions. Study structured responses, architectural trade-offs, and follow-up topics.</p>
+        <h1 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2">{title}</h1>
+        <p className="text-on-surface-variant text-sm">{description}</p>
       </div>
 
       <div className="space-y-4">

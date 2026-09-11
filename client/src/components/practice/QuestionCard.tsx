@@ -1,7 +1,27 @@
 import React from 'react';
-import { Star, Clock, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { Star, Clock, AlertTriangle, ShieldCheck, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Question } from '@/services/questionService';
+
+function parseReadingQuestion(rawText: string): { passage: string | null; questionText: string } {
+  if (!rawText) return { passage: null, questionText: '' };
+
+  const matchExcerpt = rawText.match(/(?:Read the excerpt|Passage|Read the following passage)[:\s]*\n*["“]([\s\S]+?)["”]\s*(?:\n+Question:\s*|\n+Q:\s*|\n+)?([\s\S]*)/i);
+  if (matchExcerpt) {
+    const passage = matchExcerpt[1].trim();
+    const prompt = matchExcerpt[2].replace(/^Question:\s*/i, '').trim();
+    return { passage, questionText: prompt || 'Based on the passage above, select the most appropriate option.' };
+  }
+
+  const splitQuestion = rawText.split(/\n+Question:\s*/i);
+  if (splitQuestion.length > 1) {
+    const passage = splitQuestion[0].replace(/^(?:Read the excerpt|Passage)[:\s]*/i, '').trim().replace(/^["“]|["”]$/g, '');
+    const prompt = splitQuestion.slice(1).join('\nQuestion: ').trim();
+    return { passage, questionText: prompt };
+  }
+
+  return { passage: null, questionText: rawText };
+}
 
 interface QuestionCardProps {
   question: Question;
@@ -75,10 +95,35 @@ export default function QuestionCard({
         </div>
       </div>
 
-      {/* Question Text */}
-      <div className="text-lg md:text-xl font-medium text-on-surface mb-8 leading-relaxed whitespace-pre-wrap">
-        {question.question || question.questionText || question.description || question.title}
-      </div>
+      {/* Question / Reading Passage Rendering */}
+      {(() => {
+        const rawText = question.question || question.questionText || question.description || question.title || '';
+        const { passage, questionText } = parseReadingQuestion(rawText);
+
+        return (
+          <div className="space-y-4 mb-8">
+            {passage && (
+              <div className="bg-surface-cream/80 border border-border-hairline rounded-2xl p-5 md:p-6 space-y-2.5 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-secondary font-mono text-xs font-bold uppercase tracking-wider">
+                    <BookOpen className="w-4 h-4" />
+                    <span>Reading Passage Excerpt</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-on-surface-variant bg-white px-2.5 py-0.5 rounded-full border border-border-hairline">
+                    Capgemini Verbal Reading Comprehension
+                  </span>
+                </div>
+                <div className="text-sm md:text-base leading-relaxed text-on-surface bg-white/90 p-4 md:p-5 rounded-xl border border-border-hairline/80 font-serif italic shadow-2xs">
+                  "{passage}"
+                </div>
+              </div>
+            )}
+            <div className="text-lg md:text-xl font-bold text-on-surface leading-relaxed tracking-tight">
+              {questionText}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Options */}
       <div className="space-y-3 mb-8">

@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 
 export const getQuestions = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { category, topic, difficulty, relevance, page = '1', limit = '10', search } = req.query;
+    const { category, topic, difficulty, relevance, priority, page = '1', limit = '10', search } = req.query;
     
     const query: any = {};
     const techCategories = ['technical-mcq', 'dsa', 'dbms', 'oops', 'os', 'networks', 'cloud', 'git', 'software-engineering'];
@@ -26,15 +26,31 @@ export const getQuestions = async (req: AuthRequest, res: Response, next: NextFu
       query.category = { $in: techCategories };
     }
 
-    if (topic) query.topic = topic;
     if (difficulty) query.difficulty = difficulty.toString().toLowerCase();
     if (relevance) query.relevance = relevance;
+    if (priority) query.priority = priority;
+
+    const conditions: any[] = [];
+    if (topic) {
+      conditions.push({
+        $or: [
+          { topic: { $regex: topic as string, $options: 'i' } },
+          { subtopic: { $regex: topic as string, $options: 'i' } },
+          { tags: { $in: [new RegExp(topic as string, 'i')] } }
+        ]
+      });
+    }
     if (search) {
-      query.$or = [
-        { question: { $regex: search, $options: 'i' } },
-        { topic: { $regex: search, $options: 'i' } },
-        { tags: { $in: [new RegExp(search as string, 'i')] } }
-      ];
+      conditions.push({
+        $or: [
+          { question: { $regex: search, $options: 'i' } },
+          { topic: { $regex: search, $options: 'i' } },
+          { tags: { $in: [new RegExp(search as string, 'i')] } }
+        ]
+      });
+    }
+    if (conditions.length > 0) {
+      query.$and = conditions;
     }
 
     const pageNum = parseInt(page as string, 10);

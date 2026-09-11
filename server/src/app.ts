@@ -17,6 +17,7 @@ import mockRoutes from './routes/mocks.js';
 import aiRoutes from './routes/ai.js';
 import gameRoutes from './routes/games.js';
 import analyticsRoutes from './routes/analytics.js';
+import interviewRoutes from './routes/interview.js';
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use('/api/mocks', mockRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/interview', interviewRoutes);
 // Base route
 app.get('/', (req: Request, res: Response) => {
   res.send('Capgemini Prep API is running');

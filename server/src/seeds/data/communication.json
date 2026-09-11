@@ -1780,11 +1780,40 @@
       "Complete elimination of cloud computing infrastructure"
     ],
     "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "explanation": "The passage specifically notes that decoupling 'introduces substantial operational complexity' including distributed tracing and inter-service network latency.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Inference",
+      "Capgemini Pattern"
+    ],
+    "priority": "HIGH",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Reading Comprehension",
+    "relevance": "must-know",
+    "capgeminiRelevance": 4
+  },
+  {
+    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in evaluating the transition to microservices?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Author's Tone & Style",
+    "difficulty": "medium",
+    "options": [
+      "Hostile and cynical",
+      "Analytical and pragmatic",
+      "Overly romantic and naive",
+      "Indifferent and dismissive"
+    ],
+    "answer": 1,
+    "explanation": "The author methodically balances developer agility against operational hurdles, maintaining an analytical, objective viewpoint.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Author's Tone & Style",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -1798,20 +1827,21 @@
     "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Factual Recall",
     "difficulty": "medium",
     "options": [
-      "Immediate hardware failure on user workstations",
+      "Hardware failures on individual developer machines",
       "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
+      "Mandatory regulatory penalties from cloud providers",
+      "Immediate loss of database persistence"
     ],
     "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "explanation": "The passage directly highlights that teams without observability experience 'cascading outages that are notoriously difficult to isolate'.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Recall",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -1825,20 +1855,21 @@
     "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
+    "subtopic": "Vocabulary in Context",
     "difficulty": "medium",
     "options": [
       "Monolithic",
       "Decoupled",
       "Obsolete",
-      "Unreliable"
+      "Hierarchical"
     ],
     "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "explanation": "'Decoupled' indicates components being separated and made autonomous, matching the sense of 'decentralized'.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Vocabulary in Context",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -1849,23 +1880,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "question": "Read the excerpt:\n\"The integration of artificial intelligence into clinical diagnostics promises unprecedented speed in oncology imaging and genomic profiling. Deep learning neural networks can detect micro-calcifications and subtle tissue anomalies that often elude the human eye during preliminary scans. However, deploying these systems into frontline healthcare raises acute bioethical dilemmas. Neural networks frequently operate as opaque black boxes, obscuring the algorithmic rationale behind their predictions. When diagnostic models are trained on demographically biased datasets, systemic health disparities are inadvertently codified and amplified, jeopardizing equitable patient outcomes.\"\n\nQuestion: What is the primary diagnostic advantage of AI systems mentioned in the passage?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Factual Recall",
     "difficulty": "medium",
     "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
+      "Eliminating the need for certified physicians entirely",
+      "Rapidly detecting microscopic anomalies and tissue variations that human clinicians might overlook",
+      "Reducing the financial cost of prescription pharmaceuticals",
+      "Automating hospital billing and insurance claims"
     ],
     "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "explanation": "The passage explicitly credits deep learning models with the ability to detect micro-calcifications and subtle tissue anomalies that elude the human eye.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Recall",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -1876,23 +1908,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "question": "Read the excerpt:\n\"The integration of artificial intelligence into clinical diagnostics promises unprecedented speed in oncology imaging and genomic profiling. Deep learning neural networks can detect micro-calcifications and subtle tissue anomalies that often elude the human eye during preliminary scans. However, deploying these systems into frontline healthcare raises acute bioethical dilemmas. Neural networks frequently operate as opaque black boxes, obscuring the algorithmic rationale behind their predictions. When diagnostic models are trained on demographically biased datasets, systemic health disparities are inadvertently codified and amplified, jeopardizing equitable patient outcomes.\"\n\nQuestion: Why does the author characterize clinical neural networks as 'opaque black boxes'?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
+    "subtopic": "Author's Tone & Style",
     "difficulty": "medium",
     "options": [
-      "Higher developer salary costs",
-      "Increased operational complexity in distributed tracing and network latency",
-      "Inability to deploy continuous software releases",
-      "Complete elimination of cloud computing infrastructure"
+      "Their physical servers are housed in light-restricted laboratory cleanrooms",
+      "Their internal decision-making calculations cannot be easily interpreted or explained by clinicians",
+      "They are proprietary trade secrets locked by patent laws",
+      "They only accept binary grayscale image inputs"
     ],
     "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "explanation": "The metaphor 'black box' signifies the lack of explainability, where the algorithmic rationale behind diagnostic predictions remains obscured.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Author's Tone & Style",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -1903,50 +1936,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Immediate hardware failure on user workstations",
-      "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
-    ],
-    "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "question": "Read the excerpt:\n\"The integration of artificial intelligence into clinical diagnostics promises unprecedented speed in oncology imaging and genomic profiling. Deep learning neural networks can detect micro-calcifications and subtle tissue anomalies that often elude the human eye during preliminary scans. However, deploying these systems into frontline healthcare raises acute bioethical dilemmas. Neural networks frequently operate as opaque black boxes, obscuring the algorithmic rationale behind their predictions. When diagnostic models are trained on demographically biased datasets, systemic health disparities are inadvertently codified and amplified, jeopardizing equitable patient outcomes.\"\n\nQuestion: According to the passage, what severe risk arises from training diagnostic models on demographically biased data?",
     "category": "communication",
     "topic": "Reading Comprehension",
     "subtopic": "Factual Inference",
     "difficulty": "medium",
     "options": [
-      "Monolithic",
-      "Decoupled",
-      "Obsolete",
-      "Unreliable"
+      "Catastrophic hardware meltdown in MRI scanners",
+      "The perpetuation and amplification of existing systemic healthcare disparities",
+      "Overwhelming legal liability for cloud storage companies",
+      "An immediate shortage of skilled radiologists"
     ],
     "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "explanation": "The author warns that models trained on skewed demographic cohorts inadvertently codify and amplify systemic health disparities.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Inference",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -1957,23 +1964,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "question": "Read the excerpt:\n\"The integration of artificial intelligence into clinical diagnostics promises unprecedented speed in oncology imaging and genomic profiling. Deep learning neural networks can detect micro-calcifications and subtle tissue anomalies that often elude the human eye during preliminary scans. However, deploying these systems into frontline healthcare raises acute bioethical dilemmas. Neural networks frequently operate as opaque black boxes, obscuring the algorithmic rationale behind their predictions. When diagnostic models are trained on demographically biased datasets, systemic health disparities are inadvertently codified and amplified, jeopardizing equitable patient outcomes.\"\n\nQuestion: In the passage, the word 'acute' is closest in meaning to:",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Vocabulary in Context",
     "difficulty": "medium",
     "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
+      "Trivial",
+      "Intense and pressing",
+      "Geometrical",
+      "Superficial"
     ],
     "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "explanation": "In the context of 'acute bioethical dilemmas', 'acute' signifies severe, critical, or intensely urgent problems.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Vocabulary in Context",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -1984,77 +1992,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
-    "difficulty": "medium",
-    "options": [
-      "Higher developer salary costs",
-      "Increased operational complexity in distributed tracing and network latency",
-      "Inability to deploy continuous software releases",
-      "Complete elimination of cloud computing infrastructure"
-    ],
-    "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Immediate hardware failure on user workstations",
-      "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
-    ],
-    "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "question": "Read the excerpt:\n\"Hyperscale data centers form the structural backbone of modern digital commerce, yet their skyrocketing electrical and aquatic consumption demands scrutiny. As server clusters process compute-intensive machine learning workloads, thermal output escalates exponentially. While operators have achieved remarkable Power Usage Effectiveness (PUE) ratings through immersion liquid cooling and evaporative cooling towers, efficiency gains are often neutralized by the Jevons paradox: cheaper, more efficient computation inevitably drives exponential growth in overall compute consumption.\"\n\nQuestion: According to the passage, what consequence does the Jevons paradox predict in enterprise cloud computing?",
     "category": "communication",
     "topic": "Reading Comprehension",
     "subtopic": "Factual Inference",
     "difficulty": "medium",
     "options": [
-      "Monolithic",
-      "Decoupled",
-      "Obsolete",
-      "Unreliable"
+      "Data centers will run completely out of clean water within five years",
+      "Efficiency gains reduce marginal costs, ultimately sparking higher overall aggregate consumption",
+      "Liquid immersion cooling will replace all electrical fans by 2030",
+      "Cloud providers will be forced to ban large language model training"
     ],
     "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "explanation": "The Jevons paradox posits that technological improvements increasing resource efficiency often lead to increased consumption of that resource rather than conservation.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Inference",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2065,23 +2020,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "question": "Read the excerpt:\n\"Hyperscale data centers form the structural backbone of modern digital commerce, yet their skyrocketing electrical and aquatic consumption demands scrutiny. As server clusters process compute-intensive machine learning workloads, thermal output escalates exponentially. While operators have achieved remarkable Power Usage Effectiveness (PUE) ratings through immersion liquid cooling and evaporative cooling towers, efficiency gains are often neutralized by the Jevons paradox: cheaper, more efficient computation inevitably drives exponential growth in overall compute consumption.\"\n\nQuestion: What technological solution do operators employ to manage the thermal escalation described?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Factual Recall",
     "difficulty": "medium",
     "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
+      "Limiting developer access to daytime hours",
+      "Immersion liquid cooling and evaporative cooling towers",
+      "Relocating all computing infrastructure to high-altitude space stations",
+      "Replacing silicon transistors with vacuum tubes"
     ],
     "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "explanation": "The passage notes that operators achieve improved PUE ratings specifically through 'immersion liquid cooling and evaporative cooling towers'.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Recall",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2092,23 +2048,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "question": "Read the excerpt:\n\"Hyperscale data centers form the structural backbone of modern digital commerce, yet their skyrocketing electrical and aquatic consumption demands scrutiny. As server clusters process compute-intensive machine learning workloads, thermal output escalates exponentially. While operators have achieved remarkable Power Usage Effectiveness (PUE) ratings through immersion liquid cooling and evaporative cooling towers, efficiency gains are often neutralized by the Jevons paradox: cheaper, more efficient computation inevitably drives exponential growth in overall compute consumption.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'escalates'?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
+    "subtopic": "Vocabulary in Context",
     "difficulty": "medium",
     "options": [
-      "Higher developer salary costs",
-      "Increased operational complexity in distributed tracing and network latency",
-      "Inability to deploy continuous software releases",
-      "Complete elimination of cloud computing infrastructure"
+      "Fluctuates",
+      "Surges or intensifies",
+      "Stabilizes",
+      "Diminishes"
     ],
     "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "explanation": "'Escalate' means to increase rapidly in intensity or magnitude, synonymous with surges or intensifies.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Vocabulary in Context",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2119,23 +2076,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "question": "Read the excerpt:\n\"Hyperscale data centers form the structural backbone of modern digital commerce, yet their skyrocketing electrical and aquatic consumption demands scrutiny. As server clusters process compute-intensive machine learning workloads, thermal output escalates exponentially. While operators have achieved remarkable Power Usage Effectiveness (PUE) ratings through immersion liquid cooling and evaporative cooling towers, efficiency gains are often neutralized by the Jevons paradox: cheaper, more efficient computation inevitably drives exponential growth in overall compute consumption.\"\n\nQuestion: What is the primary organizational challenge highlighted regarding data center sustainability?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Main Idea",
     "difficulty": "medium",
     "options": [
-      "Immediate hardware failure on user workstations",
-      "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
+      "Software developers refusing to write multi-threaded code",
+      "Balancing thermal and environmental resource consumption against relentless computational demand",
+      "A worldwide shortage of fiber optic cabling",
+      "Unwillingness of retail consumers to use cloud banking apps"
     ],
     "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "explanation": "The text centers on the tension between sustainable electrical/water usage and the exponential demand driven by AI and digital commerce.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Main Idea",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2146,23 +2104,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "question": "Read the excerpt:\n\"The advent of fault-tolerant quantum computing represents an existential threshold for contemporary cryptography. Modern public-key infrastructure—governing everything from TLS handshakes to digital blockchain ledgers—relies on the mathematical intractability of prime factorization (RSA) and discrete logarithms (ECC). Shor's algorithm demonstrates that a sufficiently scaled quantum computer could unravel these mathematical foundations in polynomial time. Recognizing this eventuality, security agencies advocate an immediate migration toward post-quantum lattice-based algorithms, warning against 'harvest now, decrypt later' espionage campaigns.\"\n\nQuestion: Why are RSA and ECC encryption systems vulnerable to quantum computing architectures?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
+    "subtopic": "Factual Recall",
     "difficulty": "medium",
     "options": [
-      "Monolithic",
-      "Decoupled",
-      "Obsolete",
-      "Unreliable"
+      "They rely on outdated 8-bit binary microcode",
+      "Shor's algorithm solves prime factorization and discrete logarithms in polynomial time",
+      "Quantum computers do not utilize TCP/IP protocols",
+      "They cannot be implemented on multi-core GPU clusters"
     ],
     "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "explanation": "The passage explains that Shor's algorithm can solve the prime factorization and discrete logarithm problems underpinning RSA and ECC in polynomial time.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Recall",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2173,50 +2132,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
-    ],
-    "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "question": "Read the excerpt:\n\"The advent of fault-tolerant quantum computing represents an existential threshold for contemporary cryptography. Modern public-key infrastructure—governing everything from TLS handshakes to digital blockchain ledgers—relies on the mathematical intractability of prime factorization (RSA) and discrete logarithms (ECC). Shor's algorithm demonstrates that a sufficiently scaled quantum computer could unravel these mathematical foundations in polynomial time. Recognizing this eventuality, security agencies advocate an immediate migration toward post-quantum lattice-based algorithms, warning against 'harvest now, decrypt later' espionage campaigns.\"\n\nQuestion: What threat does the phrase 'harvest now, decrypt later' refer to?",
     "category": "communication",
     "topic": "Reading Comprehension",
     "subtopic": "Factual Inference",
     "difficulty": "medium",
     "options": [
-      "Higher developer salary costs",
-      "Increased operational complexity in distributed tracing and network latency",
-      "Inability to deploy continuous software releases",
-      "Complete elimination of cloud computing infrastructure"
+      "Ransomware gangs deleting backup drives before requesting cryptocurrency",
+      "Adversaries intercepting and hoarding encrypted ciphertext today with the intent to decrypt it once quantum machines mature",
+      "Agricultural IoT sensors leaking fertilizer distribution secrets",
+      "Database administrators selling expired SSL certificates on the dark web"
     ],
     "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "explanation": "'Harvest now, decrypt later' describes nation-states intercepting secure traffic now, waiting for quantum capability to break the keys in the future.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Inference",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2227,23 +2160,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
+    "question": "Read the excerpt:\n\"The advent of fault-tolerant quantum computing represents an existential threshold for contemporary cryptography. Modern public-key infrastructure—governing everything from TLS handshakes to digital blockchain ledgers—relies on the mathematical intractability of prime factorization (RSA) and discrete logarithms (ECC). Shor's algorithm demonstrates that a sufficiently scaled quantum computer could unravel these mathematical foundations in polynomial time. Recognizing this eventuality, security agencies advocate an immediate migration toward post-quantum lattice-based algorithms, warning against 'harvest now, decrypt later' espionage campaigns.\"\n\nQuestion: What alternative mathematical framework does the passage propose to replace vulnerable public-key cryptography?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Factual Recall",
     "difficulty": "medium",
     "options": [
-      "Immediate hardware failure on user workstations",
-      "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
+      "Basic symmetric substitution ciphers",
+      "Post-quantum lattice-based algorithms",
+      "Unencrypted peer-to-peer transmission",
+      "Hardwired coaxial fiber connections"
     ],
     "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
+    "explanation": "The passage explicitly identifies 'post-quantum lattice-based algorithms' as the recommended migration path.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Recall",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2254,23 +2188,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "question": "Read the excerpt:\n\"The advent of fault-tolerant quantum computing represents an existential threshold for contemporary cryptography. Modern public-key infrastructure—governing everything from TLS handshakes to digital blockchain ledgers—relies on the mathematical intractability of prime factorization (RSA) and discrete logarithms (ECC). Shor's algorithm demonstrates that a sufficiently scaled quantum computer could unravel these mathematical foundations in polynomial time. Recognizing this eventuality, security agencies advocate an immediate migration toward post-quantum lattice-based algorithms, warning against 'harvest now, decrypt later' espionage campaigns.\"\n\nQuestion: In the passage, the word 'intractability' most nearly means:",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
+    "subtopic": "Vocabulary in Context",
     "difficulty": "medium",
     "options": [
-      "Monolithic",
-      "Decoupled",
-      "Obsolete",
-      "Unreliable"
+      "Extreme computational difficulty or impossibility to solve efficiently",
+      "Simplicity of derivation",
+      "Lack of mathematical rigor",
+      "Inability to be stored on hard drives"
     ],
-    "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "answer": 0,
+    "explanation": "Mathematical intractability refers to problems that cannot be solved within a reasonable or polynomial computational time frame.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Vocabulary in Context",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2281,23 +2216,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "question": "Read the excerpt:\n\"Enterprise agility is frequently stymied when legacy organizations conflate agility with the ritualistic adoption of Scrum ceremonies. True organizational agility requires architectural modularity, autonomous team topology, and continuous deployment pipelines that permit low-risk experimentation. When traditional hierarchies superimpose two-week sprints upon monolithic release cycles with quarterly CAB (Change Advisory Board) approval gates, the result is 'agile in name only'—a toxic hybrid that introduces coordination friction while forfeiting predictability.\"\n\nQuestion: What central flaw does the author criticize regarding corporate agile transformations?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Main Idea",
     "difficulty": "medium",
     "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
+      "Hiring software engineers who refuse to attend standup meetings",
+      "Adopting agile ceremonies superficially without modernizing architectural pipelines and organizational hierarchies",
+      "Paying too much attention to customer feedback during sprint reviews",
+      "Migrating legacy mainframe databases to modern relational databases"
     ],
     "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "explanation": "The author points out that adopting ceremonies while retaining monolithic architectures and bureaucratic CAB gates leads to 'agile in name only'.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Main Idea",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2308,23 +2244,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "question": "Read the excerpt:\n\"Enterprise agility is frequently stymied when legacy organizations conflate agility with the ritualistic adoption of Scrum ceremonies. True organizational agility requires architectural modularity, autonomous team topology, and continuous deployment pipelines that permit low-risk experimentation. When traditional hierarchies superimpose two-week sprints upon monolithic release cycles with quarterly CAB (Change Advisory Board) approval gates, the result is 'agile in name only'—a toxic hybrid that introduces coordination friction while forfeiting predictability.\"\n\nQuestion: What is described as an essential architectural prerequisite for achieving genuine agility?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
+    "subtopic": "Factual Recall",
     "difficulty": "medium",
     "options": [
-      "Higher developer salary costs",
-      "Increased operational complexity in distributed tracing and network latency",
-      "Inability to deploy continuous software releases",
-      "Complete elimination of cloud computing infrastructure"
+      "Quarterly change advisory board meetings",
+      "Architectural modularity, autonomous team topology, and continuous deployment pipelines",
+      "Mandatory 100% test coverage using only one programming language",
+      "Strict waterfall documentation phases spanning six months"
     ],
     "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "explanation": "The passage lists 'architectural modularity, autonomous team topology, and continuous deployment pipelines' as true requirements for agility.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Recall",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2335,50 +2272,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Immediate hardware failure on user workstations",
-      "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
-    ],
-    "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "question": "Read the excerpt:\n\"Enterprise agility is frequently stymied when legacy organizations conflate agility with the ritualistic adoption of Scrum ceremonies. True organizational agility requires architectural modularity, autonomous team topology, and continuous deployment pipelines that permit low-risk experimentation. When traditional hierarchies superimpose two-week sprints upon monolithic release cycles with quarterly CAB (Change Advisory Board) approval gates, the result is 'agile in name only'—a toxic hybrid that introduces coordination friction while forfeiting predictability.\"\n\nQuestion: What does the author imply happens when two-week sprints are paired with quarterly change approvals?",
     "category": "communication",
     "topic": "Reading Comprehension",
     "subtopic": "Factual Inference",
     "difficulty": "medium",
     "options": [
-      "Monolithic",
-      "Decoupled",
-      "Obsolete",
-      "Unreliable"
+      "Developer productivity increases threefold",
+      "It creates coordination friction and erodes predictability without delivering real agility",
+      "Clients immediately cancel their outsourcing contracts",
+      "The software product becomes completely bug-free"
     ],
     "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "explanation": "The author labels this mismatch a 'toxic hybrid' that produces coordination friction while forfeiting predictability.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Inference",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2389,23 +2300,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "question": "Read the excerpt:\n\"Enterprise agility is frequently stymied when legacy organizations conflate agility with the ritualistic adoption of Scrum ceremonies. True organizational agility requires architectural modularity, autonomous team topology, and continuous deployment pipelines that permit low-risk experimentation. When traditional hierarchies superimpose two-week sprints upon monolithic release cycles with quarterly CAB (Change Advisory Board) approval gates, the result is 'agile in name only'—a toxic hybrid that introduces coordination friction while forfeiting predictability.\"\n\nQuestion: In the passage, the word 'stymied' is closest in meaning to:",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Vocabulary in Context",
     "difficulty": "medium",
     "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
+      "Accelerated",
+      "Hindered or thwarted",
+      "Celebrated",
+      "Financed"
     ],
     "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "explanation": "'Stymied' means stopped, blocked, or prevented from making progress, synonymous with hindered.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Vocabulary in Context",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2416,23 +2328,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "question": "Read the excerpt:\n\"The rapid transition toward distributed remote work has radically altered knowledge transmission in technology consultancies. While asynchronous collaboration tools—such as Slack and Jira—excel at linear task management, they fall short in fostering the serendipitous 'watercooler' exchanges where tacit architectural knowledge is informally transmitted. Junior developers in fully distributed teams frequently report feelings of isolation and slower onboarding velocity, as requesting clarification via formal direct message incurs greater psychological friction than turning to an adjacent desk.\"\n\nQuestion: What specific limitation of asynchronous collaboration tools is emphasized in the text?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
+    "subtopic": "Factual Recall",
     "difficulty": "medium",
     "options": [
-      "Higher developer salary costs",
-      "Increased operational complexity in distributed tracing and network latency",
-      "Inability to deploy continuous software releases",
-      "Complete elimination of cloud computing infrastructure"
+      "They cannot store source code in cloud repositories",
+      "They fail to facilitate the spontaneous, informal exchanges where tacit knowledge is shared",
+      "They consume excessive network bandwidth during video meetings",
+      "They do not integrate with enterprise email servers"
     ],
     "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "explanation": "The passage notes that while async tools handle linear tasks, they fall short in fostering serendipitous exchanges where tacit architectural knowledge is transmitted.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Recall",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2443,50 +2356,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Immediate hardware failure on user workstations",
-      "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
-    ],
-    "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
+    "question": "Read the excerpt:\n\"The rapid transition toward distributed remote work has radically altered knowledge transmission in technology consultancies. While asynchronous collaboration tools—such as Slack and Jira—excel at linear task management, they fall short in fostering the serendipitous 'watercooler' exchanges where tacit architectural knowledge is informally transmitted. Junior developers in fully distributed teams frequently report feelings of isolation and slower onboarding velocity, as requesting clarification via formal direct message incurs greater psychological friction than turning to an adjacent desk.\"\n\nQuestion: Why do junior engineers experience greater onboarding friction in fully remote environments?",
     "category": "communication",
     "topic": "Reading Comprehension",
     "subtopic": "Factual Inference",
     "difficulty": "medium",
     "options": [
-      "Monolithic",
-      "Decoupled",
-      "Obsolete",
-      "Unreliable"
+      "They lack modern laptop hardware",
+      "Formally initiating a digital direct message presents greater psychological friction than speaking to an adjacent colleague",
+      "Consultancies restrict junior access to codebase documentation",
+      "Remote work requires knowing more programming languages"
     ],
     "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
+    "explanation": "The author states that requesting help over direct messaging carries higher psychological hesitation than an informal in-person desk conversation.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Factual Inference",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2497,23 +2384,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
+    "question": "Read the excerpt:\n\"The rapid transition toward distributed remote work has radically altered knowledge transmission in technology consultancies. While asynchronous collaboration tools—such as Slack and Jira—excel at linear task management, they fall short in fostering the serendipitous 'watercooler' exchanges where tacit architectural knowledge is informally transmitted. Junior developers in fully distributed teams frequently report feelings of isolation and slower onboarding velocity, as requesting clarification via formal direct message incurs greater psychological friction than turning to an adjacent desk.\"\n\nQuestion: In the context of the passage, 'tacit knowledge' refers to:",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
+    "subtopic": "Vocabulary in Context",
     "difficulty": "medium",
     "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
+      "Information formally written in company employee handbooks",
+      "Unwritten, experiential insights and contextual understanding passed through informal interaction",
+      "Encrypted database passwords and cryptographic keys",
+      "Public marketing materials distributed to clients"
     ],
     "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
+    "explanation": "Tacit knowledge is intuitive, experiential knowledge that is difficult to codify or write down and is shared primarily through interpersonal mentorship.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
+      "Vocabulary in Context",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",
@@ -2524,212 +2412,24 @@
     "capgeminiRelevance": 4
   },
   {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
+    "question": "Read the excerpt:\n\"The rapid transition toward distributed remote work has radically altered knowledge transmission in technology consultancies. While asynchronous collaboration tools—such as Slack and Jira—excel at linear task management, they fall short in fostering the serendipitous 'watercooler' exchanges where tacit architectural knowledge is informally transmitted. Junior developers in fully distributed teams frequently report feelings of isolation and slower onboarding velocity, as requesting clarification via formal direct message incurs greater psychological friction than turning to an adjacent desk.\"\n\nQuestion: Which title best captures the core focus of the passage?",
     "category": "communication",
     "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
+    "subtopic": "Main Idea",
     "difficulty": "medium",
     "options": [
-      "Higher developer salary costs",
-      "Increased operational complexity in distributed tracing and network latency",
-      "Inability to deploy continuous software releases",
-      "Complete elimination of cloud computing infrastructure"
+      "The Complete Failure of Enterprise Cloud Software",
+      "The Hidden Costs of Remote Collaboration on Tacit Knowledge and Mentorship",
+      "Why Face-to-Face Meetings Should Be Outlawed in Tech",
+      "A Step-by-Step Guide to Jira Workflow Setup"
     ],
     "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
+    "explanation": "The passage analyzes the subtle trade-offs of remote work, specifically its dampening effect on informal learning and junior onboarding.",
     "tags": [
       "Reading Comprehension",
       "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Immediate hardware failure on user workstations",
-      "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
-    ],
-    "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
-    "difficulty": "medium",
-    "options": [
-      "Monolithic",
-      "Decoupled",
-      "Obsolete",
-      "Unreliable"
-    ],
-    "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
-    ],
-    "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: According to the passage, what is the primary operational trade-off introduced by adopting microservices?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
-    "difficulty": "medium",
-    "options": [
-      "Higher developer salary costs",
-      "Increased operational complexity in distributed tracing and network latency",
-      "Inability to deploy continuous software releases",
-      "Complete elimination of cloud computing infrastructure"
-    ],
-    "answer": 1,
-    "explanation": "The passage notes that decoupling 'introduces substantial operational complexity' such as distributed tracing and inter-service network latency.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What consequence is highlighted for teams that transition to microservices without automated observability?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Immediate hardware failure on user workstations",
-      "Cascading outages that are exceptionally challenging to diagnose and isolate",
-      "Strict legal penalties from cloud providers",
-      "A return to single-threaded processors"
-    ],
-    "answer": 1,
-    "explanation": "The passage states that inadequate observability leads to 'cascading outages that are notoriously difficult to isolate'.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: Which word used in the passage is closest in meaning to 'decentralized'?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Factual Inference",
-    "difficulty": "medium",
-    "options": [
-      "Monolithic",
-      "Decoupled",
-      "Obsolete",
-      "Unreliable"
-    ],
-    "answer": 1,
-    "explanation": "'Decoupled' conveys the separation and independence of components, matching 'decentralized'.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
-    ],
-    "priority": "HIGH",
-    "frequency": "VERY_HIGH",
-    "sourceType": "practice",
-    "sourceReliability": "high",
-    "source": "Capgemini Verbal Reading Comprehension",
-    "relevance": "must-know",
-    "capgeminiRelevance": 4
-  },
-  {
-    "question": "Read the excerpt:\n\"Cloud computing and microservices have revolutionized corporate software engineering by replacing monolithic codebases with decentralized, independently deployable services. While this decoupling promotes developer agility and continuous integration, it introduces substantial operational complexity. Distributed tracing, eventual consistency in database transactions, and network latency across inter-service RPC calls demand robust monitoring frameworks. Organizations that transition without adequate automated observability often experience cascading outages that are notoriously difficult to isolate.\"\n\nQuestion: What is the author's primary tone in the passage?",
-    "category": "communication",
-    "topic": "Reading Comprehension",
-    "subtopic": "Author's Tone & Vocabulary",
-    "difficulty": "medium",
-    "options": [
-      "Hostile and sarcastic",
-      "Analytical and pragmatic",
-      "Overly enthusiastic and naive",
-      "Indifferent and poetic"
-    ],
-    "answer": 1,
-    "explanation": "The author balances benefits (agility) with drawbacks (complexity), presenting an analytical, objective viewpoint.",
-    "tags": [
-      "Reading Comprehension",
-      "Verbal Ability",
-      "Inference"
+      "Main Idea",
+      "Capgemini Pattern"
     ],
     "priority": "HIGH",
     "frequency": "VERY_HIGH",

@@ -5,13 +5,43 @@ import { getQuestions, submitAnswer } from '@/services/questionService';
 import toast from 'react-hot-toast';
 
 const SECTIONS = [
-  { id: 'all', title: 'All Topics', icon: <Sparkles />, description: 'Comprehensive English communication practice questions.' },
-  { id: 'Grammar', title: 'Grammar & Syntax', icon: <Edit3 />, description: 'Tenses, subject-verb agreement, conditionals.' },
-  { id: 'Sentence', title: 'Sentence Correction', icon: <CheckCircle />, description: 'Spot the error, choose grammatically correct structure.' },
-  { id: 'Prepositions', title: 'Prepositions & Articles', icon: <AlignLeft />, description: 'Prepositions of time, place, and article usage.' },
-  { id: 'Vocabulary', title: 'Vocabulary & Idioms', icon: <Type />, description: 'Synonyms, antonyms, contextual meaning.' },
-  { id: 'Reading', title: 'Reading Comprehension', icon: <BookOpen />, description: 'Inference, main ideas, and passage evaluation.' },
+  { id: 'all', title: 'All Topics', icon: <Sparkles className="w-5 h-5" />, description: 'Comprehensive English communication practice questions.' },
+  { id: 'Grammar', title: 'Grammar & Syntax', icon: <Edit3 className="w-5 h-5" />, description: 'Tenses, subject-verb agreement, conditionals.' },
+  { id: 'Sentence', title: 'Sentence Correction', icon: <CheckCircle className="w-5 h-5" />, description: 'Spot the error, choose grammatically correct structure.' },
+  { id: 'Prepositions', title: 'Prepositions & Articles', icon: <AlignLeft className="w-5 h-5" />, description: 'Prepositions of time, place, and article usage.' },
+  { id: 'Vocabulary', title: 'Vocabulary & Idioms', icon: <Type className="w-5 h-5" />, description: 'Synonyms, antonyms, contextual meaning.' },
+  { id: 'Reading Comprehension', title: 'Reading Comprehension', icon: <BookOpen className="w-5 h-5" />, description: 'Inference, main ideas, and passage evaluation.' },
 ];
+
+/**
+ * Parses question strings that contain reading excerpts or passages
+ * separating the excerpt/passage from the actual evaluation question.
+ */
+function parseReadingQuestion(rawText: string): { passage: string | null; questionText: string } {
+  if (!rawText) return { passage: null, questionText: '' };
+
+  // Format 1: Read the excerpt:\n"..."\n\nQuestion: ...
+  const matchExcerpt = rawText.match(/(?:Read the excerpt|Passage|Read the following passage)[:\s]*\n*["“]([\s\S]+?)["”]\s*(?:\n+Question:\s*|\n+Q:\s*|\n+)?([\s\S]*)/i);
+  if (matchExcerpt) {
+    const passage = matchExcerpt[1].trim();
+    const prompt = matchExcerpt[2].replace(/^Question:\s*/i, '').trim();
+    return { 
+      passage, 
+      questionText: prompt || 'Based on the passage above, select the most appropriate option.' 
+    };
+  }
+
+  // Format 2: Splitting by "\n\nQuestion: "
+  const splitQuestion = rawText.split(/\n+Question:\s*/i);
+  if (splitQuestion.length > 1) {
+    const passage = splitQuestion[0].replace(/^(?:Read the excerpt|Passage)[:\s]*/i, '').trim().replace(/^["“]|["”]$/g, '');
+    const prompt = splitQuestion.slice(1).join('\nQuestion: ').trim();
+    return { passage, questionText: prompt };
+  }
+
+  // Standard question without passage
+  return { passage: null, questionText: rawText };
+}
 
 export const CommunicationPage: React.FC = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
@@ -28,7 +58,7 @@ export const CommunicationPage: React.FC = () => {
     queryFn: () => getQuestions({
       category: 'communication',
       topic: selectedSection === 'all' ? undefined : selectedSection || undefined,
-      limit: 20
+      limit: 25
     }),
     enabled: !!selectedSection
   });
@@ -74,8 +104,17 @@ export const CommunicationPage: React.FC = () => {
 
   if (selectedSection) {
     const sectionInfo = SECTIONS.find(s => s.id === selectedSection) || SECTIONS[0];
+    const rawQuestionText = currentQuestion ? (
+      currentQuestion.question || 
+      (currentQuestion as any).questionText || 
+      (currentQuestion as any).description || 
+      (currentQuestion as any).title || 
+      ''
+    ) : '';
+    const { passage, questionText } = parseReadingQuestion(rawQuestionText);
+
     return (
-      <div className="p-6 md:p-8 max-w-4xl mx-auto space-y-6 text-white">
+      <div className="p-6 md:p-8 max-w-4xl mx-auto space-y-6 text-on-surface">
         <div className="flex items-center justify-between">
           <button 
             onClick={() => setSelectedSection(null)}
@@ -84,7 +123,7 @@ export const CommunicationPage: React.FC = () => {
             <ArrowLeft size={16} /> Return to Verbal Modules
           </button>
           <div className="flex items-center gap-3 text-xs bg-surface-cream px-3 py-1.5 rounded-full border border-border-hairline font-mono">
-            <span className="text-on-surface-variant">Session Velocity:</span>
+            <span className="text-on-surface-variant">Session Score:</span>
             <span className="font-bold text-secondary">{sessionScore} pts</span>
           </div>
         </div>
@@ -113,13 +152,39 @@ export const CommunicationPage: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl border border-border-hairline space-y-6 shadow-sm">
             <div className="flex items-center justify-between text-xs text-on-surface-variant border-b border-border-hairline pb-4 font-mono">
               <span className="font-bold">Item {currentIndex + 1} of {questions.length}</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-surface-cream text-secondary border border-border-hairline font-medium">
-                {currentQuestion.topic || 'Communication'}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full bg-surface-cream text-secondary border border-border-hairline font-medium">
+                  {currentQuestion.topic || 'Communication'}
+                </span>
+                {currentQuestion.subtopic && (
+                  <span className="text-on-surface-variant font-medium text-[11px]">
+                    • {currentQuestion.subtopic}
+                  </span>
+                )}
+              </div>
             </div>
 
+            {/* Reading Comprehension Dedicated Passage Card */}
+            {passage && (
+              <div className="bg-surface-cream/80 border border-border-hairline rounded-2xl p-5 md:p-6 space-y-3 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-secondary font-mono text-xs font-bold uppercase tracking-wider">
+                    <BookOpen className="w-4 h-4" />
+                    <span>Reading Passage Excerpt</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-on-surface-variant bg-white px-2.5 py-0.5 rounded-full border border-border-hairline">
+                    Capgemini Verbal Reading Comprehension
+                  </span>
+                </div>
+                <div className="text-sm md:text-base leading-relaxed text-on-surface bg-white/90 p-4 md:p-5 rounded-xl border border-border-hairline/80 font-serif italic shadow-2xs">
+                  "{passage}"
+                </div>
+              </div>
+            )}
+
+            {/* Question Text / Prompt */}
             <div className="text-lg md:text-xl font-bold text-on-surface leading-relaxed tracking-tight">
-              {(currentQuestion as any).questionText || (currentQuestion as any).description || (currentQuestion as any).title}
+              {questionText}
             </div>
 
             <div className="space-y-3">

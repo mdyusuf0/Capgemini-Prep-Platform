@@ -9,6 +9,8 @@ export interface Question {
   options: string[];
   category: string;
   topic: string;
+  subtopic?: string;
+  tags?: string[];
   difficulty: 'Easy' | 'Medium' | 'Hard' | 'easy' | 'medium' | 'hard';
   relevance?: number;
   sourceType?: string;
@@ -99,12 +101,12 @@ export const removeBookmark = async (itemType: string, itemId: string): Promise<
   await api.delete(`/bookmarks/${itemType}/${itemId}`);
 };
 
-export const getBookmarks = async (): Promise<Bookmark[]> => {
+export const getBookmarks = async (): Promise<any[]> => {
   const response = await api.get('/bookmarks');
-  return response.data;
+  return response.data?.data || response.data || [];
 };
 
-export const getMistakes = async (): Promise<Mistake[]> => {
-  const response = await api.get('/users/mistakes');
-  return response.data;
+export const getMistakes = async (): Promise<any[]> => {
+  const response = await api.get('/mistakes');
+  return response.data?.data || response.data || [];
 };

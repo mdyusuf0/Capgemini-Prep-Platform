@@ -107,9 +107,29 @@ export const BehavioralPage: React.FC = () => {
               <span className="text-xs font-mono text-on-surface-variant">Adept Essentials</span>
             </div>
 
-            <h2 className="text-lg md:text-xl text-on-surface font-bold leading-relaxed tracking-tight">
-              {(currentScenario as any).questionText || (currentScenario as any).description || (currentScenario as any).title}
-            </h2>
+            {(() => {
+              const rawText = currentScenario.question || (currentScenario as any).questionText || (currentScenario as any).description || (currentScenario as any).title || '';
+              const colonIndex = rawText.indexOf(': ');
+              let scenarioTitle = '';
+              let scenarioBody = rawText;
+              if (colonIndex > 0 && colonIndex < 60) {
+                scenarioTitle = rawText.substring(0, colonIndex);
+                scenarioBody = rawText.substring(colonIndex + 2);
+              }
+
+              return (
+                <div className="space-y-2">
+                  {scenarioTitle && (
+                    <div className="text-xs font-mono font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+                      <span>• {scenarioTitle}</span>
+                    </div>
+                  )}
+                  <h2 className="text-lg md:text-xl text-on-surface font-bold leading-relaxed tracking-tight">
+                    {scenarioBody}
+                  </h2>
+                </div>
+              );
+            })()}
             
             <div className="space-y-3">
               {currentScenario.options?.map((opt: string, i: number) => (
