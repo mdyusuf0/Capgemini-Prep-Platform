@@ -106,7 +106,7 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        sans: ['"JetBrains Mono"', 'Inter', 'monospace', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
         code: ['"JetBrains Mono"', 'monospace'],
       },
