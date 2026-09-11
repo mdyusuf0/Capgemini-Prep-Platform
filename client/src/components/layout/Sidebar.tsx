@@ -24,10 +24,14 @@ import {
   XCircle,
   Bookmark,
   Settings,
+  LogOut,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAuthStore } from '@/store/authStore';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -35,6 +39,19 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+  const { logout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success('Logged out successfully');
+      navigate('/login');
+    } catch {
+      navigate('/login');
+    }
+  };
+
   const navGroups = [
     {
       title: 'PRIORITY MODES',
@@ -180,21 +197,30 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         </div>
       )}
 
-      <div className="p-4 border-t border-white/5 shrink-0">
+      <div className="p-3 border-t border-white/5 shrink-0 space-y-1">
         <NavLink
           to="/settings"
           className={({ isActive }) =>
             cn(
-              'flex items-center gap-3 px-4 py-2 text-sm font-medium transition-all group rounded-md',
+              'flex items-center gap-3 px-3 py-2 text-sm font-medium transition-all group rounded-lg',
               isActive
-                ? 'text-primary-400 bg-primary-500/10'
+                ? 'text-indigo-400 bg-indigo-500/10'
                 : 'text-white/60 hover:text-white hover:bg-white/5'
             )
           }
         >
-          <Settings size={20} className="shrink-0 text-white/40 group-hover:text-white" />
+          <Settings size={18} className="shrink-0 text-white/40 group-hover:text-white" />
           {isOpen && <span>Settings</span>}
         </NavLink>
+
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-rose-400/80 hover:text-rose-300 hover:bg-rose-500/10 rounded-lg transition-all cursor-pointer group text-left"
+          title="Log Out"
+        >
+          <LogOut size={18} className="shrink-0 text-rose-400 group-hover:text-rose-300" />
+          {isOpen && <span>Log Out</span>}
+        </button>
       </div>
     </motion.aside>
   );

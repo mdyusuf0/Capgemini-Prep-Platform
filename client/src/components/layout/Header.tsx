@@ -1,7 +1,8 @@
 import React from 'react';
-import { Search, Flame, Bell, User } from 'lucide-react';
+import { Search, Flame, Bell, User, LogOut } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -9,8 +10,19 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success('Logged out successfully');
+      navigate('/login');
+    } catch {
+      navigate('/login');
+    }
+  };
 
   const getPageTitle = () => {
     const path = location.pathname;
@@ -58,7 +70,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
             <div className="text-sm font-medium text-white">{user?.name || 'Yusuf'}</div>
             <div className="text-xs text-indigo-400/80 font-medium">Administrator</div>
           </div>
-          <div className="relative group cursor-pointer">
+          <div className="relative group cursor-pointer" title="Profile">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-200"></div>
             <img
               src="/logo.jpg"
@@ -67,6 +79,14 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
             />
             <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-surface rounded-full"></span>
           </div>
+
+          <button
+            onClick={handleLogout}
+            title="Log Out"
+            className="p-2 text-white/50 hover:text-rose-400 hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer"
+          >
+            <LogOut size={19} />
+          </button>
         </div>
       </div>
     </header>
