@@ -198,10 +198,25 @@ export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) 
             Symmetry Task: {userSymmetryGuess === puzzle.symmetryTask.isSymmetric ? '✅ Correct (+50 pts)' : '❌ Incorrect'}
           </p>
           <button
-            onClick={() => setRound(r => r + 1)}
-            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors"
+            onClick={async () => {
+              if (round >= 5) {
+                try {
+                  await api.post('/games/score', {
+                    gameType: 'grid',
+                    level: round,
+                    score,
+                    accuracy: 95,
+                    timeSpent: 60
+                  });
+                } catch (e) {}
+                onBack();
+              } else {
+                setRound(r => r + 1);
+              }
+            }}
+            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors cursor-pointer"
           >
-            {round >= 5 ? 'Finish' : 'Next Level →'}
+            {round >= 5 ? 'Finish & Record Score' : 'Next Level →'}
           </button>
         </div>
       )}

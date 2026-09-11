@@ -2,13 +2,18 @@ import api from '@/services/api';
 
 export interface Question {
   _id: string;
-  questionText: string;
+  questionText?: string;
+  title?: string;
+  description?: string;
   options: string[];
   category: string;
   topic: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
-  relevance: number;
+  difficulty: 'Easy' | 'Medium' | 'Hard' | 'easy' | 'medium' | 'hard';
+  relevance?: number;
   sourceType?: string;
+  answer?: number;
+  explanation?: string;
+  whyOthersWrong?: string;
 }
 
 export interface PaginatedResponse<T> {

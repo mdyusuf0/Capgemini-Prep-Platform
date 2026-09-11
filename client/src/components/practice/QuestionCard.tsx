@@ -56,7 +56,7 @@ export default function QuestionCard({
         <div className="flex items-center gap-4">
           <div className="flex text-amber-400">
             {[...Array(5)].map((_, i) => (
-              <Star key={i} className={cn("w-4 h-4", i < question.relevance ? "fill-current" : "text-gray-600")} />
+              <Star key={i} className={cn("w-4 h-4", i < (question.relevance || 3) ? "fill-current" : "text-gray-600")} />
             ))}
           </div>
           <div className="flex items-center gap-1.5 text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full font-mono text-sm">
@@ -74,7 +74,7 @@ export default function QuestionCard({
 
       {/* Question Text */}
       <div className="text-xl md:text-2xl font-medium text-white mb-8 leading-relaxed">
-        {question.questionText}
+        {(question as any).questionText || (question as any).description || (question as any).title}
       </div>
 
       {/* Options */}

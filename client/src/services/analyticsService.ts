@@ -1,6 +1,16 @@
 import api from './api';
 
 export const analyticsService = {
+  getDashboardProgress: async () => {
+    const response = await api.get('/analytics/dashboard');
+    return response.data;
+  },
+
+  getRoadmapProgress: async () => {
+    const response = await api.get('/analytics/roadmap');
+    return response.data;
+  },
+
   getOverview: async () => {
     const response = await api.get('/analytics/overview');
     return response.data;

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { CodingProblem } from '../models/CodingProblem.js';
 import { Submission } from '../models/Submission.js';
+import UserProgress from '../models/UserProgress.js';
 import { runTestCases, submitCode } from '../services/judge/judge0.js';
 import { AuthRequest } from '../middleware/auth.js';
 
@@ -85,6 +86,20 @@ export const submitSolution = async (req: AuthRequest, res: Response) => {
       memoryUsed: `${maxMemory}KB`,
       results
     });
+
+    if (userId) {
+      await UserProgress.findOneAndUpdate(
+        { userId, category: 'coding', topic: problem.topics?.[0] || 'Coding' },
+        {
+          $inc: {
+            totalAttempted: 1,
+            correct: overallStatus === 'Accepted' ? 1 : 0
+          },
+          $set: { lastPracticed: new Date() }
+        },
+        { upsert: true, new: true }
+      );
+    }
 
     // Strip out hidden results before sending back to client
     const clientResults = results.map(r => r.isHidden ? { ...r, expected: 'Hidden', actual: 'Hidden', input: 'Hidden' } : r);

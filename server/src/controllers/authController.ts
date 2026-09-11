@@ -35,6 +35,54 @@ const setTokenCookies = (res: Response, accessToken: string, refreshToken: strin
   });
 };
 
+export const register = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { name, displayName, email, password } = req.body;
+    const finalName = name || displayName;
+
+    if (!email || !password || !finalName) {
+      res.status(400).json({ message: 'Please provide name, email, and password' });
+      return;
+    }
+
+    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+    if (existingUser) {
+      res.status(409).json({ message: 'User already exists with this email' });
+      return;
+    }
+
+    const user = new User({
+      email: email.toLowerCase().trim(),
+      displayName: finalName,
+      passwordHash: password,
+      role: 'user',
+      preferences: {
+        defaultLanguage: 'java',
+        theme: 'dark'
+      }
+    });
+
+    await user.save();
+
+    const { accessToken, refreshToken } = generateTokens(String(user._id));
+    setTokenCookies(res, accessToken, refreshToken);
+
+    const userResponse = {
+      _id: user._id,
+      email: user.email,
+      displayName: user.displayName,
+      name: user.displayName,
+      role: user.role,
+      preferences: user.preferences,
+    };
+
+    res.status(201).json({ user: userResponse, accessToken, refreshToken });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ message: 'Server error during registration' });
+  }
+};
+
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
@@ -68,6 +116,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       _id: user._id,
       email: user.email,
       displayName: user.displayName,
+      name: user.displayName,
       role: user.role,
       preferences: user.preferences,
     };

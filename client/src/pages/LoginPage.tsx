@@ -6,11 +6,13 @@ import { useAuthStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
 
 export const LoginPage: React.FC = () => {
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, isAuthenticated } = useAuthStore();
+  const { login, register, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
   if (isAuthenticated) {
@@ -19,6 +21,10 @@ export const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isRegistering && !name.trim()) {
+      toast.error('Please enter your full name');
+      return;
+    }
     if (!email.trim() || !password.trim()) {
       toast.error('Please enter your email and password');
       return;
@@ -26,11 +32,16 @@ export const LoginPage: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      await login({ email: email.trim(), password });
-      toast.success('Login successful!');
+      if (isRegistering) {
+        await register({ name: name.trim(), email: email.trim(), password });
+        toast.success('Account created! Welcome to your prep journey.');
+      } else {
+        await login({ email: email.trim(), password });
+        toast.success('Login successful!');
+      }
       navigate('/dashboard');
     } catch (err: any) {
-      const msg = err.response?.data?.message || 'Invalid credentials. Try again.';
+      const msg = err.response?.data?.message || (isRegistering ? 'Registration failed. Try again.' : 'Invalid credentials. Try again.');
       toast.error(msg);
     } finally {
       setIsSubmitting(false);
@@ -113,22 +124,44 @@ export const LoginPage: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="mb-10 text-center md:text-left">
-            <h2 className="text-2xl font-bold mb-2">Welcome Back</h2>
-            <p className="text-white/50">Enter your credentials to access the prep portal.</p>
+          <div className="mb-8 text-center md:text-left">
+            <h2 className="text-2xl font-bold mb-2">
+              {isRegistering ? 'Create Your Account' : 'Welcome Back'}
+            </h2>
+            <p className="text-white/50 text-sm">
+              {isRegistering 
+                ? 'Sign up to start your personalized preparation journey from 0%.'
+                : 'Enter your credentials to access your preparation dashboard.'}
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {isRegistering && (
+              <div>
+                <label className="block text-sm font-medium text-white/70 mb-2">Full Name</label>
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-background border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
+                    placeholder="e.g. Yusuf Khan"
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium text-white/70 mb-2">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={20} />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" size={18} />
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-background border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all"
-                  placeholder="admin@capgemini-prep.com"
+                  className="w-full bg-background border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
+                  placeholder="name@example.com"
                   required
                 />
               </div>
@@ -137,12 +170,12 @@ export const LoginPage: React.FC = () => {
             <div>
               <label className="block text-sm font-medium text-white/70 mb-2">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={20} />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" size={18} />
                 <input 
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-background border border-white/10 rounded-xl py-3 pl-10 pr-12 text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all"
+                  className="w-full bg-background border border-white/10 rounded-xl py-3 pl-10 pr-12 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
                   placeholder="••••••••"
                   required
                 />
@@ -151,30 +184,40 @@ export const LoginPage: React.FC = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 rounded border-white/10 bg-background text-primary-500 focus:ring-primary-500 focus:ring-offset-background" />
-                <span className="text-sm text-white/60">Remember me</span>
-              </label>
             </div>
 
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="w-full py-3.5 px-4 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-500 hover:to-indigo-500 text-white rounded-xl font-semibold shadow-lg shadow-primary-500/25 transition-all transform hover:scale-[1.02] active:scale-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+              className="w-full py-3.5 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/25 transition-all transform hover:scale-[1.01] active:scale-100 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm cursor-pointer"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
-                'Access Portal'
+                isRegistering ? 'Create Free Account' : 'Access Portal'
               )}
             </button>
           </form>
+
+          <div className="mt-6 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setIsRegistering(!isRegistering);
+                setName('');
+                setEmail('');
+                setPassword('');
+              }}
+              className="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors cursor-pointer"
+            >
+              {isRegistering 
+                ? 'Already have an account? Sign in here' 
+                : "Don't have an account? Create one & start from 0%"}
+            </button>
+          </div>
 
           <p className="mt-8 text-center text-xs text-white/40">
             Capgemini Prep By Yusuf • Engineered by Yusuf for placement excellence.

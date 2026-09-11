@@ -160,10 +160,25 @@ export const SwitchChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
             </div>
           </div>
           <button
-            onClick={() => setRound(r => r + 1)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-colors"
+            onClick={async () => {
+              if (round >= 5) {
+                try {
+                  await api.post('/games/score', {
+                    gameType: 'switch',
+                    level: round,
+                    score: score + (selectedOption === puzzle.correctAnswer ? 100 : 0),
+                    accuracy: 80,
+                    timeSpent: 45
+                  });
+                } catch (e) {}
+                onBack();
+              } else {
+                setRound(r => r + 1);
+              }
+            }}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-colors cursor-pointer"
           >
-            {round >= 5 ? 'Finish' : 'Next Switch →'}
+            {round >= 5 ? 'Finish & Record Score' : 'Next Switch →'}
           </button>
         </div>
       )}

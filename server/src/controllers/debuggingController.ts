@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import { AuthRequest } from '../middleware/auth.js';
 import DebuggingProblem from '../models/DebuggingProblem.js';
+import UserProgress from '../models/UserProgress.js';
 
 export const getProblems = async (req: Request, res: Response) => {
   try {
@@ -43,9 +45,10 @@ export const getProblemById = async (req: Request, res: Response) => {
   }
 };
 
-export const submitFix = async (req: Request, res: Response) => {
+export const submitFix = async (req: AuthRequest, res: Response) => {
   try {
     const { fixedCode } = req.body;
+    const userId = req.user?._id;
     const problem = await DebuggingProblem.findById(req.params.id);
     
     if (!problem) {
@@ -54,6 +57,20 @@ export const submitFix = async (req: Request, res: Response) => {
 
     const normalizeString = (str: string) => str.replace(/\s+/g, ' ').trim();
     const isCorrect = normalizeString(fixedCode) === normalizeString(problem.fixedCode);
+
+    if (userId) {
+      await UserProgress.findOneAndUpdate(
+        { userId, category: 'debugging', topic: problem.bugType || 'Debugging' },
+        {
+          $inc: {
+            totalAttempted: 1,
+            correct: isCorrect ? 1 : 0
+          },
+          $set: { lastPracticed: new Date() }
+        },
+        { upsert: true, new: true }
+      );
+    }
 
     res.json({
       correct: isCorrect,

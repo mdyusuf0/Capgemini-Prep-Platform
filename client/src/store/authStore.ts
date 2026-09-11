@@ -7,6 +7,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
+  register: (data: { name: string; email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   setUser: (user: User | null) => void;
@@ -17,6 +18,22 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   isLoading: false, // Must be false initially so login button is not stuck in spinning state
   setUser: (user) => set({ user, isAuthenticated: !!user, isLoading: false }),
+  register: async (data) => {
+    set({ isLoading: true });
+    try {
+      const response: any = await authService.register(data);
+      const user = response?.user || response?.data?.user;
+      const token = response?.accessToken || response?.data?.accessToken;
+      if (token) {
+        localStorage.setItem('accessToken', token);
+      }
+      set({ user, isAuthenticated: true, isLoading: false });
+    } catch (error) {
+      localStorage.removeItem('accessToken');
+      set({ user: null, isAuthenticated: false, isLoading: false });
+      throw error;
+    }
+  },
   login: async (credentials) => {
     set({ isLoading: true });
     try {

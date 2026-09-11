@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import GameScore from '../models/GameScore.js';
+import UserProgress from '../models/UserProgress.js';
 import { AuthRequest } from '../middleware/auth.js';
 
 export const saveScore = async (req: AuthRequest, res: Response): Promise<void> => {
@@ -22,6 +23,19 @@ export const saveScore = async (req: AuthRequest, res: Response): Promise<void> 
     });
 
     await newScore.save();
+
+    // Also update UserProgress for games
+    await UserProgress.findOneAndUpdate(
+      { userId, category: 'games', topic: gameType },
+      {
+        $inc: {
+          totalAttempted: 1,
+          correct: 1
+        },
+        $set: { lastPracticed: new Date() }
+      },
+      { upsert: true, new: true }
+    );
 
     res.status(201).json({ message: 'Score saved successfully', score: newScore });
   } catch (error) {
