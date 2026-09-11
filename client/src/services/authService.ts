@@ -20,4 +20,14 @@ export const authService = {
     const response = await api.get('/auth/me');
     return response.data;
   },
+
+  updateProfile: async (data: Partial<User>): Promise<any> => {
+    const response = await api.put('/auth/profile', data);
+    return response.data;
+  },
+
+  changePassword: async (data: { oldPassword: string; newPassword: string }): Promise<any> => {
+    const response = await api.put('/auth/change-password', data);
+    return response.data;
+  },
 };

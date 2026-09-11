@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        "on-background": "#1b1b1e",
+        "on-background": "#0f172a",
         "on-secondary-fixed-variant": "#004d64",
-        "on-surface": "#1b1b1e",
+        "on-surface": "#0f172a",
         "inverse-primary": "#c8c6c5",
         "on-secondary-container": "#00607b",
         "surface-charcoal": "#292929",
@@ -36,7 +36,7 @@ export default {
         "surface-container-highest": "#e4e2e5",
         "on-secondary-fixed": "#001f2a",
         "surface-tint": "#5f5e5e",
-        "on-surface-variant": "#444748",
+        "on-surface-variant": "#334155",
         "border-graphite": "#38383a",
         "surface-container": "#efedf1",
         "background": {
@@ -106,9 +106,9 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
-        code: ['JetBrains Mono', 'monospace'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+        code: ['"JetBrains Mono"', 'monospace'],
       },
     },
   },

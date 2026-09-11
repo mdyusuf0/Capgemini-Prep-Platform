@@ -1,8 +1,23 @@
 export interface User {
   id: string;
+  _id?: string;
   name: string;
+  displayName?: string;
   email: string;
   role: 'user' | 'admin';
+  college?: string;
+  branch?: string;
+  graduationYear?: string;
+  targetRole?: string;
+  phoneNumber?: string;
+  bio?: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
+  avatarUrl?: string;
+  preferences?: {
+    defaultLanguage?: string;
+    theme?: string;
+  };
   createdAt: string;
 }
 

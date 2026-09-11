@@ -214,3 +214,84 @@ export const changePassword = async (req: AuthRequest, res: Response): Promise<v
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Not authenticated' });
+      return;
+    }
+
+    const {
+      displayName,
+      email,
+      college,
+      branch,
+      graduationYear,
+      targetRole,
+      phoneNumber,
+      bio,
+      githubUrl,
+      linkedinUrl,
+      avatarUrl,
+      preferences,
+    } = req.body;
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    if (displayName !== undefined && displayName.trim()) user.displayName = displayName.trim();
+    if (email !== undefined && email !== user.email) {
+      const existing = await User.findOne({ email: email.toLowerCase().trim() });
+      if (existing && String(existing._id) !== String(user._id)) {
+        res.status(400).json({ message: 'Email is already registered to another account' });
+        return;
+      }
+      user.email = email.toLowerCase().trim();
+    }
+    if (college !== undefined) user.college = college.trim();
+    if (branch !== undefined) user.branch = branch.trim();
+    if (graduationYear !== undefined) user.graduationYear = graduationYear.trim();
+    if (targetRole !== undefined) user.targetRole = targetRole.trim();
+    if (phoneNumber !== undefined) user.phoneNumber = phoneNumber.trim();
+    if (bio !== undefined) user.bio = bio.trim();
+    if (githubUrl !== undefined) user.githubUrl = githubUrl.trim();
+    if (linkedinUrl !== undefined) user.linkedinUrl = linkedinUrl.trim();
+    if (avatarUrl !== undefined) user.avatarUrl = avatarUrl.trim();
+    if (preferences !== undefined) {
+      user.preferences = { ...user.preferences, ...preferences };
+    }
+
+    await user.save();
+
+    const userResponse = {
+      _id: user._id,
+      id: user._id,
+      email: user.email,
+      displayName: user.displayName,
+      name: user.displayName,
+      role: user.role,
+      college: user.college,
+      branch: user.branch,
+      graduationYear: user.graduationYear,
+      targetRole: user.targetRole,
+      phoneNumber: user.phoneNumber,
+      bio: user.bio,
+      githubUrl: user.githubUrl,
+      linkedinUrl: user.linkedinUrl,
+      avatarUrl: user.avatarUrl,
+      preferences: user.preferences,
+      createdAt: user.createdAt,
+    };
+
+    res.status(200).json({
+      message: 'Profile updated successfully',
+      user: userResponse,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error updating profile', error: error.message });
+  }
+};

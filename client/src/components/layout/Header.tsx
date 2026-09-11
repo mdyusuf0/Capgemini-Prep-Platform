@@ -1,7 +1,8 @@
 import React from 'react';
-import { Search, Flame, Bell, LogOut } from 'lucide-react';
+import { Search, Flame, LogOut } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { NotificationCenter } from './NotificationCenter';
 import toast from 'react-hot-toast';
 
 interface HeaderProps {
@@ -87,29 +88,31 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
         </div>
 
         {/* Notifications */}
-        <button 
-          className="relative p-1.5 rounded-lg hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer"
-          title="Notifications"
-        >
-          <Bell size={18} />
-          <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent-pink" />
-        </button>
+        <NotificationCenter />
 
         {/* User Badge & Logout */}
         <div className="flex items-center gap-2.5 pl-2 border-l border-border-hairline">
-          <div className="hidden md:flex flex-col text-right leading-tight">
-            <span className="text-xs font-semibold text-on-surface">{user?.name || 'Yusuf'}</span>
-            <span className="font-mono text-[10px] text-on-surface-variant">99.4%ile • Admin</span>
-          </div>
+          <button
+            onClick={() => navigate('/profile')}
+            className="hidden md:flex flex-col text-right leading-tight hover:opacity-80 transition-opacity cursor-pointer text-left"
+            title="View & Edit Profile"
+          >
+            <span className="text-xs font-bold text-on-surface">{user?.displayName || user?.name || 'Yusuf Khan'}</span>
+            <span className="font-mono text-[10px] text-on-surface-variant font-medium">99.4%ile • {user?.role === 'admin' ? 'Admin' : 'Candidate'}</span>
+          </button>
 
-          <div className="relative group cursor-pointer" title="Profile">
+          <button 
+            onClick={() => navigate('/profile')}
+            className="relative group cursor-pointer focus:outline-none" 
+            title="Candidate Profile Settings"
+          >
             <img
               src="/logo.jpg"
               alt="Profile"
-              className="w-8 h-8 rounded-full object-cover object-top border border-border-hairline shadow-xs"
+              className="w-8 h-8 rounded-full object-cover object-top border border-border-hairline shadow-xs group-hover:ring-2 group-hover:ring-primary transition-all"
             />
-            <span className="absolute bottom-0 right-0 w-2 h-2 bg-accent-mint border-2 border-surface-paper rounded-full" />
-          </div>
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-accent-mint border-2 border-surface-paper rounded-full" />
+          </button>
 
           <button
             onClick={handleLogout}

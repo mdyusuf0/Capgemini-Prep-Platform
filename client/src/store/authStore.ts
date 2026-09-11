@@ -11,6 +11,7 @@ interface AuthState {
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   setUser: (user: User | null) => void;
+  updateProfile: (data: Partial<User>) => Promise<User>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -18,6 +19,18 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   isLoading: false, // Must be false initially so login button is not stuck in spinning state
   setUser: (user) => set({ user, isAuthenticated: !!user, isLoading: false }),
+  updateProfile: async (data: Partial<User>) => {
+    set({ isLoading: true });
+    try {
+      const response: any = await authService.updateProfile(data);
+      const updatedUser = response?.user || response?.data?.user || response;
+      set({ user: updatedUser, isLoading: false });
+      return updatedUser;
+    } catch (error) {
+      set({ isLoading: false });
+      throw error;
+    }
+  },
   register: async (data) => {
     set({ isLoading: true });
     try {

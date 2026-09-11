@@ -27,7 +27,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ListOrdered,
-  Sparkles
+  Sparkles,
+  UserCheck
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
@@ -202,20 +203,39 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         )}
 
         {isOpen && (
-          <div className="px-2.5 py-1.5 rounded-lg bg-surface-paper border border-border-hairline flex items-center gap-2.5">
+          <NavLink
+            to="/profile"
+            className="px-2.5 py-1.5 rounded-lg bg-surface-paper border border-border-hairline flex items-center gap-2.5 hover:border-secondary/40 transition-colors group cursor-pointer"
+            title="Manage Your Profile"
+          >
             <img
               src="/logo.jpg"
-              alt="Yusuf"
-              className="w-7 h-7 rounded-full object-cover object-top ring-1 ring-border-hairline shrink-0"
+              alt="Avatar"
+              className="w-7 h-7 rounded-full object-cover object-top ring-1 ring-border-hairline shrink-0 group-hover:ring-secondary"
             />
             <div className="min-w-0">
-              <div className="text-[9px] text-on-surface-variant font-medium uppercase font-mono">Platform Author</div>
-              <div className="text-xs font-bold text-on-surface truncate">Yusuf Khan</div>
+              <div className="text-[9px] text-secondary font-semibold uppercase font-mono group-hover:underline">View Profile →</div>
+              <div className="text-xs font-bold text-on-surface truncate">{useAuthStore.getState().user?.displayName || useAuthStore.getState().user?.name || 'Yusuf Khan'}</div>
             </div>
-          </div>
+          </NavLink>
         )}
 
         <div className="space-y-0.5 pt-1">
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              cn(
+                'flex items-center gap-2.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors',
+                isActive
+                  ? 'bg-surface-container-high text-on-surface font-semibold'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+              )
+            }
+          >
+            <UserCheck size={16} className="shrink-0 text-secondary" />
+            {isOpen && <span>My Profile</span>}
+          </NavLink>
+
           <NavLink
             to="/settings"
             className={({ isActive }) =>

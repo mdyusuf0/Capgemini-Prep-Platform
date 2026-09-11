@@ -33,6 +33,7 @@ import RoadmapPage from '@/pages/RoadmapPage';
 import SettingsPage from '@/pages/SettingsPage';
 import MustKnowPage from '@/pages/MustKnowPage';
 import DailyChallengePage from '@/pages/DailyChallengePage';
+import { ProfilePage } from '@/pages/ProfilePage';
 
 const queryClient = new QueryClient();
 
@@ -81,6 +82,7 @@ export default function App() {
               <Route path="/mistakes" element={<MistakesPage />} />
               <Route path="/bookmarks" element={<BookmarksPage />} />
               <Route path="/roadmap" element={<RoadmapPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
             </Route>
           </Route>

@@ -6,6 +6,15 @@ export interface IUser extends Document {
   passwordHash: string;
   displayName: string;
   role: 'admin' | 'user';
+  college?: string;
+  branch?: string;
+  graduationYear?: string;
+  targetRole?: string;
+  phoneNumber?: string;
+  bio?: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
+  avatarUrl?: string;
   preferences: {
     defaultLanguage: string;
     theme: string;
@@ -30,11 +39,56 @@ const userSchema = new Schema<IUser>({
   displayName: {
     type: String,
     required: true,
+    trim: true,
   },
   role: {
     type: String,
     enum: ['admin', 'user'],
     default: 'user',
+  },
+  college: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  branch: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  graduationYear: {
+    type: String,
+    default: '2026',
+    trim: true,
+  },
+  targetRole: {
+    type: String,
+    default: 'Senior Analyst (Exceller)',
+    trim: true,
+  },
+  phoneNumber: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  bio: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  githubUrl: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  linkedinUrl: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  avatarUrl: {
+    type: String,
+    default: '',
   },
   preferences: {
     defaultLanguage: {
@@ -43,7 +97,7 @@ const userSchema = new Schema<IUser>({
     },
     theme: {
       type: String,
-      default: 'dark',
+      default: 'paper',
     },
   },
   createdAt: {
