@@ -5,19 +5,19 @@ import { env } from '../config/env.js';
 import { AuthRequest } from '../middleware/auth.js';
 import bcrypt from 'bcryptjs';
 
-const generateTokens = (userId: string) => {
+const generateTokens = (userId: string, rememberMe: boolean = false) => {
   const accessToken = jwt.sign({ userId }, env.JWT_SECRET, {
     expiresIn: env.JWT_EXPIRE as any,
   });
 
-  const refreshToken = jwt.sign({ userId }, env.JWT_REFRESH_SECRET, {
-    expiresIn: env.JWT_REFRESH_EXPIRE as any,
+  const refreshToken = jwt.sign({ userId, rememberMe: !!rememberMe }, env.JWT_REFRESH_SECRET, {
+    expiresIn: (rememberMe ? '30d' : env.JWT_REFRESH_EXPIRE) as any,
   });
 
   return { accessToken, refreshToken };
 };
 
-const setTokenCookies = (res: Response, accessToken: string, refreshToken: string) => {
+const setTokenCookies = (res: Response, accessToken: string, refreshToken: string, rememberMe: boolean = false) => {
   const isProd = env.NODE_ENV === 'production';
   
   res.cookie('accessToken', accessToken, {
@@ -31,13 +31,13 @@ const setTokenCookies = (res: Response, accessToken: string, refreshToken: strin
     httpOnly: true,
     secure: isProd,
     sameSite: isProd ? 'none' : 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: rememberMe ? 30 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000, // 30 days if remembered, else 7 days
   });
 };
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, displayName, email, password } = req.body;
+    const { name, displayName, email, password, rememberMe } = req.body;
     const finalName = name || displayName;
 
     if (!email || !password || !finalName) {
@@ -64,8 +64,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     await user.save();
 
-    const { accessToken, refreshToken } = generateTokens(String(user._id));
-    setTokenCookies(res, accessToken, refreshToken);
+    const isRemembered = rememberMe !== undefined ? !!rememberMe : true;
+    const { accessToken, refreshToken } = generateTokens(String(user._id), isRemembered);
+    setTokenCookies(res, accessToken, refreshToken, isRemembered);
 
     const userResponse = {
       _id: user._id,
@@ -85,7 +86,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password } = req.body;
+    const { email, password, rememberMe } = req.body;
 
     if (!email || !password) {
       res.status(400).json({ message: 'Please provide email and password' });
@@ -109,8 +110,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     user.lastLogin = new Date();
     await user.save();
 
-    const { accessToken, refreshToken } = generateTokens(String(user._id));
-    setTokenCookies(res, accessToken, refreshToken);
+    const isRemembered = !!rememberMe;
+    const { accessToken, refreshToken } = generateTokens(String(user._id), isRemembered);
+    setTokenCookies(res, accessToken, refreshToken, isRemembered);
 
     const userResponse = {
       _id: user._id,
@@ -156,7 +158,7 @@ export const refreshToken = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const decoded = jwt.verify(rfToken, env.JWT_REFRESH_SECRET) as { userId: string };
+    const decoded = jwt.verify(rfToken, env.JWT_REFRESH_SECRET) as { userId: string; rememberMe?: boolean };
     
     const user = await User.findById(decoded.userId);
     if (!user) {
@@ -164,8 +166,9 @@ export const refreshToken = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = generateTokens(String(user._id));
-    setTokenCookies(res, accessToken, newRefreshToken);
+    const isRemembered = !!decoded.rememberMe;
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens(String(user._id), isRemembered);
+    setTokenCookies(res, accessToken, newRefreshToken, isRemembered);
 
     res.status(200).json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {

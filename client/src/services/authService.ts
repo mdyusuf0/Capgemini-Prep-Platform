@@ -2,12 +2,12 @@ import api from './api';
 import { User, LoginCredentials, ApiResponse } from '@/types';
 
 export const authService = {
-  register: async (data: { name: string; email: string; password: string }): Promise<any> => {
+  register: async (data: { name: string; email: string; password: string; rememberMe?: boolean }): Promise<any> => {
     const response = await api.post('/auth/register', data);
     return response.data;
   },
 
-  login: async (credentials: LoginCredentials): Promise<ApiResponse<{ user: User }>> => {
+  login: async (credentials: LoginCredentials & { rememberMe?: boolean }): Promise<ApiResponse<{ user: User }>> => {
     const response = await api.post('/auth/login', credentials);
     return response.data;
   },

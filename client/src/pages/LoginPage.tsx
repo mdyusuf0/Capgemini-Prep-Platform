@@ -11,6 +11,7 @@ export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(() => localStorage.getItem('rememberMe') !== 'false');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { login, register, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
@@ -33,10 +34,10 @@ export const LoginPage: React.FC = () => {
     setIsSubmitting(true);
     try {
       if (isRegistering) {
-        await register({ name: name.trim(), email: email.trim(), password });
+        await register({ name: name.trim(), email: email.trim(), password, rememberMe });
         toast.success('Account created! Welcome to your prep journey.');
       } else {
-        await login({ email: email.trim(), password });
+        await login({ email: email.trim(), password, rememberMe });
         toast.success('Login successful!');
       }
       navigate('/dashboard');
@@ -186,6 +187,25 @@ export const LoginPage: React.FC = () => {
                   {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                 </button>
               </div>
+            </div>
+
+            {/* Remember Me Option */}
+            <div className="flex items-center justify-between pt-1 pb-1">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input 
+                  type="checkbox" 
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded border-border-hairline text-secondary focus:ring-secondary/30 accent-secondary cursor-pointer"
+                />
+                <span className="text-xs text-on-surface font-medium hover:text-secondary transition-colors">
+                  Remember me
+                </span>
+              </label>
+              
+              <span className="text-[11px] font-mono text-on-surface-variant/80">
+                {rememberMe ? '30-day session' : 'Session only'}
+              </span>
             </div>
 
             <button 

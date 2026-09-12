@@ -38,6 +38,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('persistedUser');
         if (window.location.pathname !== '/login') {
           window.location.href = '/login';
         }
