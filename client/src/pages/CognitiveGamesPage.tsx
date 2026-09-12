@@ -37,6 +37,123 @@ interface RecordsSummary {
   avgAccuracy: number;
 }
 
+// Visual Blueprint Thumbnail previews for each playable game
+const GAME_THUMBNAILS: Record<string, React.ReactNode> = {
+  'grid-challenge': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="grid grid-cols-3 gap-1.5 w-20 h-20">
+        <div className="rounded-xs bg-white/10"></div>
+        <div className="rounded-xs bg-accent-mint animate-pulse"></div>
+        <div className="rounded-xs bg-white/10"></div>
+        <div className="rounded-xs bg-white/10"></div>
+        <div className="rounded-xs bg-white/10"></div>
+        <div className="rounded-xs bg-accent-mint"></div>
+        <div className="rounded-xs bg-white/10"></div>
+        <div className="rounded-xs bg-white/10"></div>
+        <div className="rounded-xs bg-accent-yellow"></div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">MAT: 3x3 → 5x5</div>
+    </div>
+  ),
+  'switch-challenge': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex flex-col items-center gap-1 font-mono text-xs text-white">
+        <div className="flex items-center gap-1.5">
+          <span className="w-5 h-5 rounded bg-secondary flex items-center justify-center text-[10px] font-bold">1</span>
+          <span className="w-5 h-5 rounded bg-white/20 flex items-center justify-center text-[10px] font-bold">2</span>
+          <span className="w-5 h-5 rounded bg-white/20 flex items-center justify-center text-[10px] font-bold">3</span>
+          <span className="w-5 h-5 rounded bg-accent-pink flex items-center justify-center text-[10px] font-bold">4</span>
+        </div>
+        <div className="text-[9px] text-accent-yellow font-mono">OP: [2,4,1,3]</div>
+        <div className="flex items-center gap-1.5">
+          <span className="w-5 h-5 rounded bg-white/20 flex items-center justify-center text-[10px] font-bold">2</span>
+          <span className="w-5 h-5 rounded bg-accent-pink flex items-center justify-center text-[10px] font-bold">4</span>
+          <span className="w-5 h-5 rounded bg-secondary flex items-center justify-center text-[10px] font-bold">1</span>
+          <span className="w-5 h-5 rounded bg-white/20 flex items-center justify-center text-[10px] font-bold">3</span>
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">PERM_SWAP</div>
+    </div>
+  ),
+  'motion-challenge': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="relative w-32 h-16 bg-white/5 rounded border border-white/10 p-1.5 flex flex-col justify-between">
+        <div className="flex justify-between items-center text-[9px] font-mono text-accent-mint">
+          <span>S (0,0)</span>
+          <span className="text-accent-pink">E (4,2)</span>
+        </div>
+        <div className="h-0.5 w-full bg-white/20 relative my-auto">
+          <div className="absolute left-0 top-0 h-full w-3/4 bg-accent-mint"></div>
+          <span className="absolute left-3/4 -top-1 w-2.5 h-2.5 rounded-full bg-accent-yellow"></span>
+        </div>
+        <div className="flex justify-between font-mono text-[8px] text-white/60">
+          <span>LIMIT: 7</span>
+          <span className="text-accent-yellow">REM: 3</span>
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">GRAPH_MIN</div>
+    </div>
+  ),
+  'digit-challenge': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-1.5 font-mono text-sm text-white">
+        <span className="px-2 py-0.5 bg-white/10 rounded font-bold">14</span>
+        <span className="text-accent-pink font-bold">×</span>
+        <span className="px-2 py-0.5 bg-white/10 rounded font-bold">3</span>
+        <span className="text-accent-yellow font-bold">-</span>
+        <span className="px-2 py-0.5 bg-secondary text-white font-bold rounded">?</span>
+        <span className="text-white/60 font-bold">=</span>
+        <span className="px-2 py-0.5 bg-accent-mint text-primary font-bold rounded">35</span>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">LATENCY: 1.2s</div>
+    </div>
+  ),
+  'geo-sudo': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="grid grid-cols-3 gap-1 w-20 h-20 p-1 bg-white/5 rounded">
+        <div className="flex items-center justify-center text-accent-pink text-xs">●</div>
+        <div className="flex items-center justify-center text-accent-mint text-xs">▲</div>
+        <div className="flex items-center justify-center text-accent-yellow text-xs">■</div>
+        <div className="flex items-center justify-center text-accent-yellow text-xs">■</div>
+        <div className="flex items-center justify-center text-accent-pink text-xs">●</div>
+        <div className="flex items-center justify-center text-accent-mint text-xs">▲</div>
+        <div className="flex items-center justify-center text-accent-mint text-xs">▲</div>
+        <div className="flex items-center justify-center border border-dashed border-secondary text-secondary font-mono text-xs font-bold">?</div>
+        <div className="flex items-center justify-center text-accent-pink text-xs">●</div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">LATIN_SQR</div>
+    </div>
+  ),
+  'inductive-reasoning': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 border border-secondary transform rotate-12 flex items-center justify-center">
+          <span className="w-5 h-5 border border-accent-pink transform -rotate-45"></span>
+        </div>
+        <span className="font-mono text-accent-yellow text-xs">↻</span>
+        <div className="w-10 h-10 border border-dashed border-white/40 flex items-center justify-center">
+          <span className="font-mono text-[10px] text-accent-mint font-semibold">θ=90°</span>
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">3D_PROJ</div>
+    </div>
+  ),
+  'color-the-grid': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex flex-col items-center gap-1.5">
+        <div className="grid grid-cols-2 gap-1 w-16 h-16">
+          <div className="rounded-sm bg-accent-mint flex items-center justify-center text-primary text-[10px] font-bold">A</div>
+          <div className="rounded-sm bg-accent-pink flex items-center justify-center text-white text-[10px] font-bold">B</div>
+          <div className="rounded-sm bg-accent-yellow flex items-center justify-center text-primary text-[10px] font-bold">C</div>
+          <div className="rounded-sm border border-dashed border-white/50 flex items-center justify-center text-white/60 text-[10px] font-bold">?</div>
+        </div>
+        <div className="text-[9px] font-mono text-white/60">IF A=mint → D≠pink</div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">COND_CLR</div>
+    </div>
+  ),
+};
+
 const CognitiveArenaContent: React.FC = () => {
   const {
     currentGameId,
@@ -316,6 +433,9 @@ const CognitiveArenaContent: React.FC = () => {
                             {record ? `Peak: LVL ${record.highestLevel}` : 'Unplayed'}
                           </span>
                         </div>
+
+                        {/* Blueprint Visual Thumbnail */}
+                        {GAME_THUMBNAILS[game.id]}
 
                         <h2 className="text-base font-bold text-on-surface group-hover:text-secondary transition-colors">
                           {game.name}
