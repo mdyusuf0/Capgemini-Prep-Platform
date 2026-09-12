@@ -45,24 +45,11 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
 
   return (
     <header className="h-14 flex items-center justify-between px-4 md:px-6 bg-surface-cream/95 backdrop-blur-md border-b border-border-hairline shrink-0 shadow-[0_1px_8px_rgba(0,0,0,0.03)] z-40">
-      {/* Left: Telemetry & Breadcrumb */}
+      {/* Left: Breadcrumb / Title */}
       <div className="flex items-center gap-3">
-        <span className="text-xs text-on-surface-variant flex items-center gap-1.5 bg-surface-paper px-2 py-0.5 rounded border border-border-hairline font-medium">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-mint animate-pulse" />
-          SYS:ONLINE
-        </span>
-
-        <span className="text-border-hairline">/</span>
-
         <div className="text-sm font-semibold text-on-surface">
           {getPageTitle()}
         </div>
-
-        <span className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] font-bold bg-surface-paper text-secondary rounded-full border border-border-hairline shadow-xs">
-          <span>Capgemini Prep</span>
-          <span className="text-zinc-300">•</span>
-          <span className="font-bold text-on-surface">A platform by Yusuf</span>
-        </span>
       </div>
 
       {/* Right: Search, Streaks, Target, Profile */}
