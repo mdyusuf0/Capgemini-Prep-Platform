@@ -4,7 +4,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { mockService } from '../services/mockService';
 import { getQuestions } from '@/services/questionService';
 import { Button } from '../components/ui/button';
-import { Clock, CheckSquare, Square, Flag, AlertTriangle, BookOpen, Loader2 } from 'lucide-react';
+import { Clock, CheckSquare, Square, Flag, AlertTriangle, BookOpen, Loader2, LayoutGrid, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 function parseReadingQuestion(rawText: string): { passage: string | null; questionText: string } {
@@ -47,6 +47,7 @@ export default function MockTestPage() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [reviewMarked, setReviewMarked] = useState<Record<string, boolean>>({});
   const [timeLeft, setTimeLeft] = useState(20 * 60);
+  const [mobileMatrixOpen, setMobileMatrixOpen] = useState(false);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -112,44 +113,62 @@ export default function MockTestPage() {
   const currentQ = questions[currentIndex];
 
   return (
-    <div className="h-screen flex flex-col bg-surface-cream text-on-surface fixed inset-0 z-50">
+    <div className="h-dvh flex flex-col bg-surface-cream text-on-surface fixed inset-0 z-50 overflow-hidden">
       {/* Top Bar */}
-      <div className="h-16 border-b border-border-hairline bg-white flex items-center px-6 justify-between shadow-xs">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-primary-container text-white flex items-center justify-center font-mono font-bold text-xs">
+      <div className="h-14 sm:h-16 border-b border-border-hairline bg-white flex items-center px-3 sm:px-6 justify-between gap-2 shadow-xs shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Mobile Question Matrix Trigger */}
+          <button
+            type="button"
+            onClick={() => setMobileMatrixOpen(true)}
+            className="lg:hidden flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-surface-cream border border-border-hairline text-xs font-mono font-bold text-secondary cursor-pointer touch-manipulation active:scale-95"
+            title="Open Question Matrix"
+          >
+            <LayoutGrid size={14} />
+            <span>{currentIndex + 1}/{questions.length}</span>
+          </button>
+
+          <div className="hidden sm:flex w-8 h-8 rounded-lg bg-primary-container text-white items-center justify-center font-mono font-bold text-xs">
             OA
           </div>
-          <div>
-            <h2 className="text-sm font-bold text-on-surface">Capgemini Simulation Engine</h2>
-            <p className="text-[11px] font-mono text-on-surface-variant">Live Proctoring Active</p>
+          <div className="hidden sm:block">
+            <h2 className="text-sm font-bold text-on-surface">Capgemini Simulation</h2>
+            <p className="text-[10px] font-mono text-on-surface-variant">Live Proctoring Active</p>
           </div>
         </div>
 
-        <div className={`flex items-center gap-2.5 font-mono text-lg font-bold px-4 py-1.5 rounded-full border ${
+        {/* Prominent Timer */}
+        <div className={`flex items-center gap-1.5 sm:gap-2 font-mono text-sm sm:text-lg font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border ${
           timeLeft < 300 ? 'bg-red-50 text-red-700 border-red-300 animate-pulse' : 'bg-surface-cream text-secondary border-border-hairline'
         }`}>
-          <Clock className="w-5 h-5" />
-          {formatTime(timeLeft)}
+          <Clock className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+          <span>{formatTime(timeLeft)}</span>
         </div>
 
-        <Button onClick={handleConfirmSubmit} disabled={completeMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs px-5 py-2 cursor-pointer shadow-sm">
-          Submit Assessment
+        <Button 
+          onClick={handleConfirmSubmit} 
+          disabled={completeMutation.isPending} 
+          className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs px-3 sm:px-5 py-1.5 sm:py-2 cursor-pointer shadow-sm touch-manipulation active:scale-95 h-9"
+        >
+          {completeMutation.isPending ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" /> : null}
+          <span>Submit</span>
+          <span className="hidden sm:inline ml-1">Assessment</span>
         </Button>
       </div>
 
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar - Navigator */}
-        <div className="w-64 border-r border-border-hairline bg-white flex flex-col shadow-xs">
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Desktop Left Sidebar - Navigator */}
+        <div className="hidden lg:flex w-64 border-r border-border-hairline bg-white flex-col shadow-xs shrink-0">
           <div className="p-4 border-b border-border-hairline">
             <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-on-surface-variant">Question Matrix</h3>
           </div>
           <div className="p-4 overflow-y-auto flex-1">
             <div className="grid grid-cols-4 gap-2">
               {questions.map((q, idx) => {
-                let stateClass = 'bg-surface-cream text-zinc-600 border-border-hairline hover:bg-zinc-200'; // not visited
-                if (answers[q._id]) stateClass = 'bg-emerald-50 text-emerald-800 border-emerald-300 font-bold'; // answered
-                if (reviewMarked[q._id]) stateClass = 'bg-amber-50 text-amber-800 border-amber-300 font-bold'; // review
-                if (currentIndex === idx) stateClass = 'bg-primary-container text-white border-black font-bold shadow-xs'; // current
+                let stateClass = 'bg-surface-cream text-zinc-600 border-border-hairline hover:bg-zinc-200';
+                if (answers[q._id]) stateClass = 'bg-emerald-50 text-emerald-800 border-emerald-300 font-bold';
+                if (reviewMarked[q._id]) stateClass = 'bg-amber-50 text-amber-800 border-amber-300 font-bold';
+                if (currentIndex === idx) stateClass = 'bg-primary-container text-white border-black font-bold shadow-xs';
 
                 return (
                   <button
@@ -173,52 +192,110 @@ export default function MockTestPage() {
           </div>
         </div>
 
+        {/* Mobile Slide-Up Question Matrix Drawer */}
+        {mobileMatrixOpen && (
+          <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
+            <div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity" 
+              onClick={() => setMobileMatrixOpen(false)} 
+            />
+            <div className="relative bg-white rounded-t-3xl border-t border-border-hairline shadow-2xl p-5 max-h-[75vh] flex flex-col z-10 animate-in slide-in-from-bottom duration-200">
+              <div className="flex items-center justify-between pb-3 border-b border-border-hairline">
+                <div className="flex items-center gap-2">
+                  <LayoutGrid size={18} className="text-secondary" />
+                  <h3 className="font-mono text-sm font-bold uppercase tracking-wider text-on-surface">Question Matrix</h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setMobileMatrixOpen(false)}
+                  className="p-1.5 rounded-lg hover:bg-surface-cream text-muted cursor-pointer"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Mobile Matrix Grid */}
+              <div className="py-4 overflow-y-auto flex-1">
+                <div className="grid grid-cols-5 gap-2.5">
+                  {questions.map((q, idx) => {
+                    let stateClass = 'bg-surface-cream text-zinc-600 border-border-hairline';
+                    if (answers[q._id]) stateClass = 'bg-emerald-50 text-emerald-800 border-emerald-300 font-bold';
+                    if (reviewMarked[q._id]) stateClass = 'bg-amber-50 text-amber-800 border-amber-300 font-bold';
+                    if (currentIndex === idx) stateClass = 'bg-primary-container text-white border-black font-bold shadow-xs';
+
+                    return (
+                      <button
+                        key={q._id}
+                        onClick={() => {
+                          setCurrentIndex(idx);
+                          setMobileMatrixOpen(false);
+                        }}
+                        className={`h-11 w-full rounded-xl border flex items-center justify-center text-xs font-mono font-semibold transition-all cursor-pointer touch-manipulation active:scale-95 ${stateClass}`}
+                      >
+                        {idx + 1}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Compact Legend */}
+              <div className="pt-3 border-t border-border-hairline flex items-center justify-between text-[11px] text-on-surface-variant font-mono">
+                <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded bg-emerald-500"></div> Done</div>
+                <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded bg-amber-500"></div> Review</div>
+                <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded bg-surface-charcoal"></div> Active</div>
+                <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded bg-zinc-300"></div> Skip</div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Center - Question Area */}
-        <div className="flex-1 flex flex-col bg-surface-cream">
-          <div className="flex-1 p-8 overflow-y-auto">
+        <div className="flex-1 flex flex-col bg-surface-cream min-w-0">
+          <div className="flex-1 p-4 sm:p-8 overflow-y-auto">
             <div className="max-w-3xl mx-auto">
               {(() => {
                 const rawPrompt = (currentQ as any).question || (currentQ as any).text || (currentQ as any).questionText || '';
                 const { passage, questionText } = parseReadingQuestion(rawPrompt);
                 
                 return (
-                  <div className="mb-6 space-y-4">
+                  <div className="mb-5 sm:mb-6 space-y-3 sm:space-y-4">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-mono uppercase tracking-wider text-secondary font-bold bg-secondary-fixed px-2.5 py-1 rounded-full border border-secondary/20">
                         Item {currentIndex + 1} of {questions.length}
                       </span>
                       {(currentQ as any).topic && (
-                        <span className="text-xs font-mono text-on-surface-variant">
+                        <span className="text-xs font-mono text-on-surface-variant truncate">
                           • {(currentQ as any).topic}
                         </span>
                       )}
                     </div>
 
                     {passage && (
-                      <div className="bg-white border border-border-hairline rounded-2xl p-5 space-y-2.5 shadow-xs">
+                      <div className="bg-white border border-border-hairline rounded-2xl p-4 sm:p-5 space-y-2.5 shadow-xs">
                         <div className="flex items-center gap-2 text-secondary font-mono text-xs font-bold uppercase tracking-wider">
                           <BookOpen className="w-4 h-4" />
                           <span>Reading Passage Excerpt</span>
                         </div>
-                        <div className="text-sm md:text-base leading-relaxed text-on-surface bg-surface-cream/50 p-4 rounded-xl border border-border-hairline/70 font-serif italic">
+                        <div className="text-sm md:text-base leading-relaxed text-on-surface bg-surface-cream/50 p-3.5 sm:p-4 rounded-xl border border-border-hairline/70 font-serif italic">
                           "{passage}"
                         </div>
                       </div>
                     )}
 
-                    <h3 className="text-xl md:text-2xl text-on-surface mt-2 font-extrabold tracking-tight leading-snug">
+                    <h3 className="text-lg sm:text-xl md:text-2xl text-on-surface mt-2 font-extrabold tracking-tight leading-snug">
                       {questionText || 'Select the most appropriate answer.'}
                     </h3>
                   </div>
                 );
               })()}
 
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 {currentQ.options.map((opt, i) => (
                   <div
                     key={i}
                     onClick={() => setAnswers({ ...answers, [currentQ._id]: opt })}
-                    className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-3.5 ${
+                    className={`p-3.5 sm:p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-3.5 min-h-[48px] touch-manipulation active:scale-98 ${
                       answers[currentQ._id] === opt 
                         ? 'bg-secondary-fixed/30 border-secondary text-on-surface font-semibold shadow-xs' 
                         : 'bg-white border-border-hairline text-on-surface hover:border-zinc-400'
@@ -229,7 +306,7 @@ export default function MockTestPage() {
                     ) : (
                       <Square className="w-5 h-5 text-zinc-400 shrink-0" />
                     )}
-                    <span className="text-sm font-medium">{opt}</span>
+                    <span className="text-sm sm:text-base font-medium break-words">{opt}</span>
                   </div>
                 ))}
               </div>
@@ -237,33 +314,34 @@ export default function MockTestPage() {
           </div>
 
           {/* Bottom Action Bar */}
-          <div className="h-20 border-t border-border-hairline bg-white flex items-center justify-between px-8 shadow-xs">
+          <div className="h-16 sm:h-20 border-t border-border-hairline bg-white flex items-center justify-between px-3 sm:px-8 shadow-xs pb-safe shrink-0">
             <Button 
               variant="outline" 
               onClick={() => setCurrentIndex(c => Math.max(0, c - 1))}
               disabled={currentIndex === 0}
-              className="rounded-xl text-xs font-semibold px-4"
+              className="rounded-xl text-xs font-semibold px-3 sm:px-4 h-9 sm:h-10 touch-manipulation active:scale-95 cursor-pointer"
             >
               Previous
             </Button>
 
             <Button 
               variant="outline"
-              className={`rounded-xl text-xs font-semibold px-4 ${
+              className={`rounded-xl text-xs font-semibold px-2.5 sm:px-4 h-9 sm:h-10 touch-manipulation active:scale-95 cursor-pointer ${
                 reviewMarked[currentQ._id] 
                   ? 'bg-amber-50 text-amber-800 border-amber-300' 
                   : 'text-on-surface-variant'
               }`}
               onClick={() => setReviewMarked({ ...reviewMarked, [currentQ._id]: !reviewMarked[currentQ._id] })}
             >
-              <Flag className="w-3.5 h-3.5 mr-2" />
-              {reviewMarked[currentQ._id] ? 'Unmark Review' : 'Mark for Review'}
+              <Flag className="w-3.5 h-3.5 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">{reviewMarked[currentQ._id] ? 'Unmark Review' : 'Mark for Review'}</span>
+              <span className="sm:hidden">{reviewMarked[currentQ._id] ? 'Unmark' : 'Review'}</span>
             </Button>
 
             <Button 
               onClick={() => setCurrentIndex(c => Math.min(questions.length - 1, c + 1))}
               disabled={currentIndex === questions.length - 1}
-              className="bg-primary-container hover:bg-black text-white rounded-xl text-xs font-bold px-5 shadow-sm"
+              className="bg-primary-container hover:bg-black text-white rounded-xl text-xs font-bold px-4 sm:px-5 h-9 sm:h-10 shadow-sm touch-manipulation active:scale-95 cursor-pointer"
             >
               Save & Next
             </Button>

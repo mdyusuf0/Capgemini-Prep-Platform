@@ -99,20 +99,20 @@ export const SwitchChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
   ];
 
   const renderSequenceRow = (symbols: string[], label: string) => (
-    <div className="flex flex-col items-center gap-1.5 w-full">
+    <div className="flex flex-col items-center gap-1 sm:gap-1.5 w-full">
       <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted">
         {label}
       </span>
-      <div className="flex items-center justify-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-surface-cream/80 border border-border-hairline rounded-2xl">
+      <div className="flex items-center justify-center gap-1.5 sm:gap-3 p-2 sm:p-3 bg-surface-cream/80 border border-border-hairline rounded-2xl max-w-full overflow-x-auto">
         {symbols.map((sym, i) => {
           const def = SYMBOL_DEFS[sym] || SYMBOL_DEFS['▲'];
           return (
             <div
               key={i}
-              className={`w-11 h-11 sm:w-13 sm:h-13 rounded-xl flex flex-col items-center justify-center border shadow-2xs ${def.bg}`}
+              className={`w-9 h-9 sm:w-13 sm:h-13 rounded-lg sm:rounded-xl flex flex-col items-center justify-center border shadow-2xs shrink-0 ${def.bg}`}
             >
-              <def.icon size={22} strokeWidth={2.5} className={def.color} />
-              <span className="text-[9px] font-mono font-bold text-muted mt-0.5">
+              <def.icon size={18} strokeWidth={2.5} className={def.color} />
+              <span className="text-[8px] sm:text-[9px] font-mono font-bold text-muted mt-0.5">
                 {i + 1}
               </span>
             </div>
@@ -195,7 +195,7 @@ export const SwitchChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
             Select matching switch operator code:
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 w-full">
             {puzzle.options.map((opt, idx) => {
               const isSelected = selectedIdx === idx;
 
@@ -205,16 +205,16 @@ export const SwitchChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
                   type="button"
                   onClick={() => handleOptionSelect(idx)}
                   disabled={feedback !== null}
-                  className={`flex items-center justify-between p-4 rounded-2xl border-2 transition-all cursor-pointer shadow-xs ${
+                  className={`flex items-center justify-between p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all cursor-pointer shadow-xs active:scale-98 ${
                     isSelected && feedback === 'correct'
                       ? 'bg-emerald-50 border-emerald-500 ring-4 ring-emerald-200 scale-102'
                       : isSelected && feedback === 'wrong'
                       ? 'bg-rose-50 border-rose-500 ring-4 ring-rose-200'
-                      : 'bg-surface-paper border-border-hairline hover:border-secondary hover:scale-101 active:scale-98'
+                      : 'bg-surface-paper border-border-hairline hover:border-secondary'
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-lg bg-surface-cream border border-border-hairline text-xs font-mono font-bold flex items-center justify-center text-muted">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-7 h-7 rounded-lg bg-surface-cream border border-border-hairline text-xs font-mono font-bold flex items-center justify-center text-muted shrink-0">
                       {idx + 1}
                     </span>
                     <span className="font-mono text-base sm:text-lg font-black tracking-widest text-foreground">
@@ -222,7 +222,7 @@ export const SwitchChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
                     </span>
                   </div>
                   {isSelected && feedback === 'correct' && (
-                    <Check size={20} className="text-emerald-600 font-bold" />
+                    <Check size={20} className="text-emerald-600 font-bold shrink-0" />
                   )}
                 </button>
               );

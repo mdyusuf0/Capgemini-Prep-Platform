@@ -195,10 +195,10 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
           </button>
         </div>
 
-        {/* Maze Grid */}
-        <div className="p-3 sm:p-4 bg-surface-paper border border-border-hairline rounded-3xl shadow-xs">
+        {/* Maze Grid - Responsive Aspect Container */}
+        <div className="p-2 sm:p-4 bg-surface-paper border border-border-hairline rounded-3xl shadow-xs w-full max-w-[min(88vw,340px)] aspect-square flex items-center justify-center">
           <div
-            className="grid gap-1.5 sm:gap-2"
+            className="grid gap-1 sm:gap-2 w-full h-full"
             style={{ gridTemplateColumns: `repeat(${puzzle.gridSize}, minmax(0, 1fr))` }}
           >
             {Array.from({ length: puzzle.gridSize }).map((_, r) =>
@@ -211,7 +211,7 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
                 return (
                   <div
                     key={`${r}-${c}`}
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all select-none ${
+                    className={`w-full h-full aspect-square rounded-md sm:rounded-xl flex items-center justify-center transition-all select-none ${
                       isWall
                         ? 'bg-slate-700 border border-slate-800 shadow-inner'
                         : isTarget
@@ -220,15 +220,15 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
                     }`}
                   >
                     {isBall && (
-                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-rose-500 border-2 border-white shadow-md flex items-center justify-center animate-pulse" />
+                      <div className="w-3/4 h-3/4 rounded-full bg-rose-500 border-2 border-white shadow-md flex items-center justify-center animate-pulse" />
                     )}
                     {isBlock && !isBall && (
-                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500 border-2 border-blue-200 shadow-xs flex items-center justify-center text-white text-[10px] font-mono font-bold">
+                      <div className="w-3/4 h-3/4 rounded-md sm:rounded-lg bg-blue-500 border-2 border-blue-200 shadow-xs flex items-center justify-center text-white text-[9px] font-mono font-bold">
                         ■
                       </div>
                     )}
                     {isTarget && !isBall && (
-                      <Flag size={18} className="text-amber-600 font-bold" />
+                      <Flag size={15} className="text-amber-600 font-bold" />
                     )}
                   </div>
                 );
@@ -237,13 +237,14 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
           </div>
         </div>
 
-        {/* Directional Arrow Controls */}
-        <div className="flex flex-col items-center gap-1.5">
+        {/* Directional Arrow Controls - Touch Optimized D-Pad */}
+        <div className="flex flex-col items-center gap-1.5 pt-1">
           <button
             type="button"
             onClick={() => moveBall(-1, 0)}
             disabled={feedback !== null}
-            className="w-12 h-12 rounded-xl bg-surface-paper border border-border-hairline hover:border-secondary hover:scale-105 active:scale-95 flex items-center justify-center text-foreground cursor-pointer shadow-xs transition-all"
+            className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-surface-paper border border-border-hairline hover:border-secondary active:scale-95 flex items-center justify-center text-foreground cursor-pointer shadow-xs transition-all"
+            aria-label="Move Up"
           >
             <ArrowUp size={20} />
           </button>
@@ -252,7 +253,8 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
               type="button"
               onClick={() => moveBall(0, -1)}
               disabled={feedback !== null}
-              className="w-12 h-12 rounded-xl bg-surface-paper border border-border-hairline hover:border-secondary hover:scale-105 active:scale-95 flex items-center justify-center text-foreground cursor-pointer shadow-xs transition-all"
+              className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-surface-paper border border-border-hairline hover:border-secondary active:scale-95 flex items-center justify-center text-foreground cursor-pointer shadow-xs transition-all"
+              aria-label="Move Left"
             >
               <ArrowLeft size={20} />
             </button>
@@ -260,7 +262,8 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
               type="button"
               onClick={() => moveBall(1, 0)}
               disabled={feedback !== null}
-              className="w-12 h-12 rounded-xl bg-surface-paper border border-border-hairline hover:border-secondary hover:scale-105 active:scale-95 flex items-center justify-center text-foreground cursor-pointer shadow-xs transition-all"
+              className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-surface-paper border border-border-hairline hover:border-secondary active:scale-95 flex items-center justify-center text-foreground cursor-pointer shadow-xs transition-all"
+              aria-label="Move Down"
             >
               <ArrowDown size={20} />
             </button>
@@ -268,7 +271,8 @@ export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }
               type="button"
               onClick={() => moveBall(0, 1)}
               disabled={feedback !== null}
-              className="w-12 h-12 rounded-xl bg-surface-paper border border-border-hairline hover:border-secondary hover:scale-105 active:scale-95 flex items-center justify-center text-foreground cursor-pointer shadow-xs transition-all"
+              className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-surface-paper border border-border-hairline hover:border-secondary active:scale-95 flex items-center justify-center text-foreground cursor-pointer shadow-xs transition-all"
+              aria-label="Move Right"
             >
               <ArrowRight size={20} />
             </button>

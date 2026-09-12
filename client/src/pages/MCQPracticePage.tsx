@@ -217,15 +217,15 @@ export default function MCQPracticePage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-cream text-on-surface p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-surface-cream text-on-surface p-3 sm:p-5 md:p-8 pb-24 lg:pb-8">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
         {/* Top Header Card */}
-        <div className="bg-surface-paper rounded-xl border border-border-hairline p-4 md:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="bg-surface-paper rounded-2xl border border-border-hairline p-4 md:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2 flex-wrap">
               <button 
                 onClick={() => navigate('/practice')}
-                className="flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface transition-colors text-xs font-medium"
+                className="flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface transition-colors text-xs font-medium cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> Practice Hub
               </button>
@@ -233,12 +233,12 @@ export default function MCQPracticePage() {
               <span className="uppercase px-2 py-0.5 rounded bg-surface-cream text-on-surface-variant border border-border-hairline text-[10px] font-semibold tracking-wider">
                 MODULE: SEC:01
               </span>
-              <span className="text-xs text-secondary font-semibold">[POOL: CAPGEMINI-EXCELLER]</span>
+              <span className="text-xs text-secondary font-semibold">[POOL: CAPGEMINI]</span>
             </div>
             <div className="flex items-baseline gap-3">
               <h1 className="text-xl md:text-2xl font-bold tracking-tight text-on-surface">Capgemini Technical MCQ</h1>
               <span className="px-2 py-0.5 text-xs font-semibold bg-surface-charcoal text-white rounded">
-                ROUND 1.1 FOCUS
+                ROUND 1.1
               </span>
             </div>
           </div>
@@ -251,13 +251,13 @@ export default function MCQPracticePage() {
         </div>
 
         {/* Category Pills Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-3 px-3 sm:mx-0 sm:px-0">
           {techCategories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => handleCategoryChange(cat.id)}
               className={cn(
-                "px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer",
+                "px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer min-h-[38px] touch-manipulation active:scale-95",
                 selectedCategory === cat.id
                   ? "bg-primary-container text-on-primary border-primary-container shadow-xs"
                   : "bg-surface-paper border-border-hairline text-on-surface-variant hover:text-on-surface hover:bg-surface-cream"
@@ -272,7 +272,7 @@ export default function MCQPracticePage() {
           {/* Left Panel - Question Area */}
           <div className="flex-1 lg:w-[70%] space-y-6">
             {questions.length === 0 ? (
-              <div className="bg-surface-paper rounded-xl p-12 text-center border border-border-hairline shadow-xs space-y-4">
+              <div className="bg-surface-paper rounded-2xl p-8 sm:p-12 text-center border border-border-hairline shadow-xs space-y-4">
                 <p className="text-lg font-medium text-on-surface">No questions found for the selected filters.</p>
                 <p className="text-sm text-on-surface-variant max-w-sm mx-auto">
                   Try clearing topic/difficulty filters or selecting a different category from above.
@@ -286,7 +286,7 @@ export default function MCQPracticePage() {
                     setPage(1);
                     setCurrentQuestionIndex(0);
                   }}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-surface-charcoal text-on-primary font-medium text-sm rounded-lg transition-colors cursor-pointer shadow-xs"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-surface-charcoal text-on-primary font-medium text-sm rounded-xl transition-colors cursor-pointer shadow-xs min-h-[44px] touch-manipulation active:scale-95"
                   >
                     <RotateCcw className="w-4 h-4" /> Reset Filters
                   </button>
@@ -299,8 +299,16 @@ export default function MCQPracticePage() {
                     question={currentQuestion}
                     selectedAnswer={selectedAnswer}
                     isAnswered={isAnswered}
-                    onSelectAnswer={setSelectedAnswer}
-                    onSubmit={handleSubmit}
+                    onSelectAnswer={(idx) => {
+                      if (!isAnswered) {
+                        setSelectedAnswer(idx);
+                      }
+                    }}
+                    onSubmit={() => {
+                      if (selectedAnswer !== null && !isAnswered) {
+                        submitMutation.mutate(selectedAnswer);
+                      }
+                    }}
                     onBookmark={toggleBookmark}
                     isBookmarked={isBookmarked}
                     questionNumber={(page - 1) * 10 + currentQuestionIndex + 1}
@@ -309,22 +317,23 @@ export default function MCQPracticePage() {
                   />
                 )}
 
+                {/* Explanation Drawer */}
                 {isAnswered && explanationData && currentQuestion && (
                   <ExplanationPanel 
                     isCorrect={explanationData.correct}
                     explanation={explanationData.explanation}
                     whyOthersWrong={explanationData.whyOthersWrong}
-                    topic={currentQuestion.topic}
+                    topic={currentQuestion.topic || 'Technical'}
                     onNext={handleNext}
                   />
                 )}
 
                 {/* Navigation (Bottom Deck) */}
-                <div className="bg-surface-paper rounded-xl border border-border-hairline p-3 shadow-xs flex items-center justify-between">
+                <div className="bg-surface-paper rounded-2xl border border-border-hairline p-3 shadow-xs flex items-center justify-between gap-2">
                   <button
                     onClick={handlePrev}
                     disabled={currentQuestionIndex === 0 && page === 1}
-                    className="flex items-center gap-1 px-4 py-1.5 bg-surface-cream hover:bg-surface-paper border border-border-hairline disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-colors text-xs font-medium cursor-pointer"
+                    className="flex items-center gap-1 px-4 py-2 bg-surface-cream hover:bg-surface-paper border border-border-hairline disabled:opacity-40 disabled:cursor-not-allowed rounded-xl transition-colors text-xs font-semibold cursor-pointer min-h-[40px] touch-manipulation active:scale-95"
                   >
                     <ChevronLeft className="w-4 h-4" /> Previous
                   </button>
@@ -336,7 +345,7 @@ export default function MCQPracticePage() {
                   <button
                     onClick={handleNext}
                     disabled={currentQuestionIndex === questions.length - 1 && page === totalPages}
-                    className="flex items-center gap-1 px-4 py-1.5 bg-primary hover:bg-surface-charcoal disabled:opacity-40 disabled:cursor-not-allowed text-on-primary rounded-lg transition-colors text-xs font-medium shadow-xs cursor-pointer"
+                    className="flex items-center gap-1 px-5 py-2 bg-primary hover:bg-surface-charcoal disabled:opacity-40 disabled:cursor-not-allowed text-on-primary rounded-xl transition-colors text-xs font-semibold shadow-xs cursor-pointer min-h-[40px] touch-manipulation active:scale-95"
                   >
                     Next <ChevronRight className="w-4 h-4" />
                   </button>

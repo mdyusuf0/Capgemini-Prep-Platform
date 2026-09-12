@@ -223,39 +223,39 @@ export const SpacioGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       <div className="flex flex-col items-center justify-center max-w-xl mx-auto w-full gap-6">
 
         {/* Analogy Pairs Card */}
-        <div className="w-full bg-surface-paper border border-border-hairline rounded-3xl p-5 sm:p-6 shadow-xs flex flex-col gap-5">
+        <div className="w-full bg-surface-paper border border-border-hairline rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-xs flex flex-col gap-3.5 sm:gap-5">
           
           {/* Rule Pair A -> B */}
-          <div className="flex flex-col gap-2">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-muted">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider text-muted">
               Rule Pair (A → B)
             </span>
-            <div className="flex items-center justify-around bg-surface-cream/70 border border-border-hairline rounded-2xl p-4">
+            <div className="flex items-center justify-around bg-surface-cream/70 border border-border-hairline rounded-xl sm:rounded-2xl p-2.5 sm:p-4">
               <div className="flex flex-col items-center gap-1">
-                <VisualFigure entity={puzzle.figureA} size={76} />
-                <span className="text-[11px] font-mono font-bold text-muted">A</span>
+                <VisualFigure entity={puzzle.figureA} size={window.innerWidth < 640 ? 56 : 76} />
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold text-muted">A</span>
               </div>
-              <ArrowRight size={22} className="text-secondary" />
+              <ArrowRight size={20} className="text-secondary shrink-0" />
               <div className="flex flex-col items-center gap-1">
-                <VisualFigure entity={puzzle.figureB} size={76} />
-                <span className="text-[11px] font-mono font-bold text-muted">B</span>
+                <VisualFigure entity={puzzle.figureB} size={window.innerWidth < 640 ? 56 : 76} />
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold text-muted">B</span>
               </div>
             </div>
           </div>
 
           {/* Target Query Pair C -> ? */}
-          <div className="flex flex-col gap-2">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-muted">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider text-muted">
               Apply to Target (C → ?)
             </span>
-            <div className="flex items-center justify-around bg-surface-cream/70 border border-border-hairline rounded-2xl p-4">
+            <div className="flex items-center justify-around bg-surface-cream/70 border border-border-hairline rounded-xl sm:rounded-2xl p-2.5 sm:p-4">
               <div className="flex flex-col items-center gap-1">
-                <VisualFigure entity={puzzle.figureC} size={76} />
-                <span className="text-[11px] font-mono font-bold text-muted">C</span>
+                <VisualFigure entity={puzzle.figureC} size={window.innerWidth < 640 ? 56 : 76} />
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold text-muted">C</span>
               </div>
-              <ArrowRight size={22} className="text-secondary" />
-              <div className="w-18 h-18 rounded-2xl border-2 border-dashed border-amber-400 bg-amber-50/60 flex items-center justify-center animate-pulse">
-                <span className="text-2xl font-black font-mono text-amber-600">?</span>
+              <ArrowRight size={20} className="text-secondary shrink-0" />
+              <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-xl sm:rounded-2xl border-2 border-dashed border-amber-400 bg-amber-50/60 flex items-center justify-center animate-pulse">
+                <span className="text-xl sm:text-2xl font-black font-mono text-amber-600">?</span>
               </div>
             </div>
           </div>
@@ -263,12 +263,12 @@ export const SpacioGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         </div>
 
         {/* Options Grid */}
-        <div className="w-full flex flex-col gap-3">
-          <div className="text-xs font-mono font-bold tracking-wider uppercase text-muted text-center">
+        <div className="w-full flex flex-col gap-2.5 sm:gap-3">
+          <div className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-muted text-center">
             Select matching option:
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {puzzle.options.map((opt, idx) => {
               const isSelected = selectedIdx === idx;
 
@@ -278,17 +278,17 @@ export const SpacioGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   type="button"
                   onClick={() => handleOptionSelect(idx)}
                   disabled={feedback !== null}
-                  className={`flex flex-col items-center justify-center p-4 rounded-2xl border-2 transition-all cursor-pointer shadow-xs ${
+                  className={`flex flex-col items-center justify-center p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all cursor-pointer shadow-xs active:scale-95 ${
                     isSelected && feedback === 'correct'
                       ? 'bg-emerald-50 border-emerald-500 ring-4 ring-emerald-200 scale-103'
                       : isSelected && feedback === 'wrong'
                       ? 'bg-rose-50 border-rose-500 ring-4 ring-rose-200'
-                      : 'bg-surface-paper border-border-hairline hover:border-secondary hover:scale-102 active:scale-95'
+                      : 'bg-surface-paper border-border-hairline hover:border-secondary'
                   }`}
                 >
-                  <VisualFigure entity={opt} size={64} />
-                  <div className="mt-3 px-2 py-0.5 rounded-md bg-surface-cream border border-border-hairline text-[11px] font-mono font-bold text-foreground">
-                    Option {String.fromCharCode(65 + idx)}
+                  <VisualFigure entity={opt} size={window.innerWidth < 640 ? 48 : 64} />
+                  <div className="mt-2 sm:mt-3 px-2 py-0.5 rounded-md bg-surface-cream border border-border-hairline text-[10px] sm:text-[11px] font-mono font-bold text-foreground">
+                    {String.fromCharCode(65 + idx)}
                   </div>
                 </button>
               );

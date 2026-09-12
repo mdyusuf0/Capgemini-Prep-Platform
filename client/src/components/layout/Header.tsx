@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, LogOut } from 'lucide-react';
+import { Search, LogOut, Menu } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NotificationCenter } from './NotificationCenter';
@@ -28,26 +28,35 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
   const getPageTitle = () => {
     const path = location.pathname;
     if (path === '/dashboard') return 'Dashboard';
-    if (path.startsWith('/practice/mcq')) return 'Technical MCQ Practice';
+    if (path.startsWith('/practice/mcq')) return 'Technical MCQ';
     if (path.startsWith('/practice/pseudocode')) return 'Pseudocode Tracing';
     if (path.startsWith('/coding')) return 'Coding Lab';
     if (path.startsWith('/debugging')) return 'Debugging Hub';
     if (path.startsWith('/mocks')) return 'Mock Simulator';
     if (path.startsWith('/games')) return 'Cognitive Mini-Games';
     if (path.startsWith('/behavioral')) return 'Behavioral SJT';
-    if (path.startsWith('/roadmap')) return 'Preparation Roadmap';
-    if (path.startsWith('/analytics')) return 'Analytics Ledger';
+    if (path.startsWith('/roadmap')) return 'Roadmap';
+    if (path.startsWith('/analytics')) return 'Analytics';
     if (path.startsWith('/must-know')) return 'Must-Know 100';
-    if (path.startsWith('/daily-challenge')) return 'Daily Mission Sprint';
+    if (path.startsWith('/daily-challenge')) return 'Daily Mission';
     const parts = path.split('/').filter(Boolean);
     return parts.length > 0 ? parts[parts.length - 1].charAt(0).toUpperCase() + parts[parts.length - 1].slice(1) : 'Home';
   };
 
   return (
-    <header className="h-14 flex items-center justify-between px-4 md:px-6 bg-surface-cream/95 backdrop-blur-md border-b border-border-hairline shrink-0 shadow-[0_1px_8px_rgba(0,0,0,0.03)] z-40">
-      {/* Left: Breadcrumb / Title */}
-      <div className="flex items-center gap-3">
-        <div className="text-sm font-semibold text-on-surface">
+    <header className="h-14 flex items-center justify-between px-3 md:px-6 bg-surface-cream/95 backdrop-blur-md border-b border-border-hairline shrink-0 shadow-[0_1px_8px_rgba(0,0,0,0.03)] z-30 pt-safe">
+      {/* Left: Mobile Hamburger & Title */}
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <button
+          onClick={toggleSidebar}
+          className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-surface-paper border border-border-hairline text-on-surface-variant hover:text-on-surface active:scale-95 transition-all shadow-2xs cursor-pointer shrink-0"
+          aria-label="Open Navigation Menu"
+          title="Open Menu"
+        >
+          <Menu size={18} />
+        </button>
+
+        <div className="text-xs sm:text-sm font-bold text-on-surface truncate max-w-[150px] sm:max-w-xs md:max-w-none font-sans">
           {getPageTitle()}
         </div>
       </div>

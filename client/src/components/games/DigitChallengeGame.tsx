@@ -160,8 +160,8 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
         </div>
 
         {/* Equation Board Display */}
-        <div className="w-full bg-surface-paper border border-border-hairline rounded-3xl p-6 shadow-xs flex flex-col items-center gap-4">
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+        <div className="w-full bg-surface-paper border border-border-hairline rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-xs flex flex-col items-center gap-3 sm:gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3">
             {Array.from({ length: puzzle.operandCount }).map((_, i) => {
               const isMissing = puzzle.missingPositions.includes(i);
               const isCurrent = activeSlotIdx === i;
@@ -176,11 +176,11 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
                     type="button"
                     onClick={() => isMissing && setActiveSlotIdx(i)}
                     disabled={!isMissing || feedback !== null}
-                    className={`w-14 h-15 sm:w-16 sm:h-17 rounded-2xl flex items-center justify-center font-mono font-black text-2xl transition-all shadow-2xs ${
+                    className={`w-11 h-12 sm:w-16 sm:h-17 rounded-xl sm:rounded-2xl flex items-center justify-center font-mono font-black text-lg sm:text-2xl transition-all shadow-2xs touch-manipulation ${
                       !isMissing
                         ? 'bg-surface-cream border-2 border-border-hairline text-foreground cursor-default'
                         : isCurrent
-                        ? 'bg-secondary/10 border-2 border-secondary ring-4 ring-secondary/20 text-secondary scale-103'
+                        ? 'bg-secondary/10 border-2 border-secondary ring-2 sm:ring-4 ring-secondary/20 text-secondary scale-103'
                         : displayVal !== null
                         ? 'bg-surface-paper border-2 border-border-hairline text-foreground hover:border-secondary'
                         : 'bg-amber-50/70 border-2 border-dashed border-amber-300 text-amber-600'
@@ -189,13 +189,13 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
                     {displayVal !== null && displayVal !== undefined ? (
                       displayVal
                     ) : (
-                      <span className="text-xl font-bold opacity-60">?</span>
+                      <span className="text-base sm:text-xl font-bold opacity-60">?</span>
                     )}
                   </button>
 
                   {/* Operator */}
                   {op && (
-                    <span className="text-xl sm:text-2xl font-black font-mono text-muted px-1">
+                    <span className="text-base sm:text-2xl font-black font-mono text-muted px-0.5 sm:px-1">
                       {op}
                     </span>
                   )}
@@ -203,38 +203,38 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
               );
             })}
 
-            <span className="text-2xl font-black font-mono text-muted px-1">=</span>
+            <span className="text-base sm:text-2xl font-black font-mono text-muted px-0.5 sm:px-1">=</span>
 
             {/* Target Value Box */}
-            <div className="w-16 h-15 sm:w-18 sm:h-17 rounded-2xl bg-surface-cream border-2 border-border-hairline flex items-center justify-center font-mono font-black text-2xl sm:text-3xl text-primary shadow-xs">
+            <div className="w-13 h-12 sm:w-18 sm:h-17 rounded-xl sm:rounded-2xl bg-surface-cream border-2 border-border-hairline flex items-center justify-center font-mono font-black text-lg sm:text-3xl text-primary shadow-xs">
               {puzzle.target}
             </div>
           </div>
 
           {/* Feedback Status */}
           {feedback === 'correct' && (
-            <div className="flex items-center gap-2 text-emerald-600 font-mono font-bold text-sm">
+            <div className="flex items-center gap-2 text-emerald-600 font-mono font-bold text-xs sm:text-sm">
               <Check size={18} />
               <span>Correct equation verified!</span>
             </div>
           )}
           {feedback === 'wrong' && (
-            <div className="text-rose-600 font-mono font-bold text-sm">
+            <div className="text-rose-600 font-mono font-bold text-xs sm:text-sm">
               Incorrect calculation. Resetting slots...
             </div>
           )}
         </div>
 
         {/* Digit Selection Palette */}
-        <div className="w-full flex flex-col items-center gap-3">
+        <div className="w-full flex flex-col items-center gap-2.5 sm:gap-3">
           <div className="flex items-center justify-between w-full px-2">
-            <span className="text-xs font-mono font-bold tracking-wider uppercase text-muted">
-              Select Available Digit (No duplicates):
+            <span className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-muted">
+              Select Digit (No duplicates):
             </span>
             <button
               type="button"
               onClick={handleResetAll}
-              className="text-xs font-mono text-muted hover:text-foreground flex items-center gap-1 cursor-pointer transition-colors"
+              className="text-xs font-mono text-muted hover:text-foreground flex items-center gap-1 cursor-pointer transition-colors py-1 px-2 rounded-lg bg-surface-cream border border-border-hairline active:scale-95 touch-manipulation min-h-[32px]"
             >
               <RotateCcw size={13} />
               <span>Reset</span>
@@ -251,7 +251,7 @@ export const DigitChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack })
                   type="button"
                   onClick={() => handleDigitPick(digit)}
                   disabled={isUsed || feedback !== null}
-                  className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 font-mono font-black text-xl transition-all shadow-xs ${
+                  className={`w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl border-2 font-mono font-black text-lg sm:text-xl transition-all shadow-xs touch-manipulation ${
                     isUsed
                       ? 'bg-surface-cream border-border-hairline opacity-30 cursor-not-allowed text-muted'
                       : 'bg-surface-paper border-border-hairline hover:border-secondary hover:scale-105 active:scale-95 text-foreground cursor-pointer'

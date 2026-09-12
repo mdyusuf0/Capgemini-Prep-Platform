@@ -60,7 +60,7 @@ export const DashboardPage: React.FC = () => {
   const debugSec = getSection('Debugging');
 
   return (
-    <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 pb-12">
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-4 sm:gap-6 pb-24 lg:pb-12">
       {/* Top Command Banner */}
       <section className="bg-surface-paper rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-border-hairline shadow-xs">
         <div className="flex flex-col gap-2">

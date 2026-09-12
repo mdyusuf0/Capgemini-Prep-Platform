@@ -23,6 +23,7 @@ export default function DebuggingChallengePage() {
   const [executionResult, setExecutionResult] = useState<DebugExecutionResponse | null>(null);
   const [consoleOpen, setConsoleOpen] = useState(true);
   const [consoleTab, setConsoleTab] = useState<'results' | 'testcases'>('results');
+  const [mobileTab, setMobileTab] = useState<'info' | 'editor' | 'console'>('info');
 
   const { data: problem, isLoading } = useQuery({
     queryKey: ['debugging-problem', id],
@@ -75,6 +76,7 @@ export default function DebuggingChallengePage() {
     setIsTesting(true);
     setConsoleOpen(true);
     setConsoleTab('results');
+    setMobileTab('console');
 
     try {
       const response = await debuggingService.runCode(id, code, selectedLanguage);
@@ -107,6 +109,7 @@ export default function DebuggingChallengePage() {
         });
         setConsoleOpen(true);
         setConsoleTab('results');
+        setMobileTab('console');
       }
       if (data.correct) {
         toast.success('Bug Successfully Fixed! All test cases passed.');
@@ -120,42 +123,42 @@ export default function DebuggingChallengePage() {
   if (!problem) return <div className="text-on-surface font-mono text-sm p-8">Problem not found</div>;
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col bg-surface-cream text-on-surface">
+    <div className="min-h-[calc(100dvh-4rem)] h-[calc(100dvh-4rem)] flex flex-col bg-surface-cream text-on-surface overflow-hidden">
       {/* Header */}
-      <div className="h-14 border-b border-border-hairline bg-white flex items-center px-6 justify-between shadow-xs z-10">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/debugging')} className="text-zinc-600 hover:text-black rounded-lg cursor-pointer font-mono text-xs">
-            <ArrowLeft className="w-4 h-4 mr-1.5" /> Back
+      <div className="h-auto sm:h-14 py-2 sm:py-0 border-b border-border-hairline bg-white flex flex-wrap items-center px-3 sm:px-6 justify-between gap-2 shadow-xs z-10 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/debugging')} className="text-zinc-600 hover:text-black rounded-lg cursor-pointer font-mono text-xs px-2 sm:px-3">
+            <ArrowLeft className="w-4 h-4 mr-1" /> Back
           </Button>
           <div className="h-4 w-px bg-border-hairline hidden md:block"></div>
-          <h2 className="text-base font-bold text-on-surface truncate max-w-md">{problem.title}</h2>
+          <h2 className="text-sm sm:text-base font-bold text-on-surface truncate max-w-[140px] sm:max-w-xs md:max-w-md">{problem.title}</h2>
           
           {/* Active Language Badge */}
-          <span className="px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded-full text-xs text-secondary font-mono font-bold uppercase">
+          <span className="px-2 py-0.5 bg-surface-cream border border-border-hairline rounded-full text-[11px] sm:text-xs text-secondary font-mono font-bold uppercase">
             {selectedLanguage}
           </span>
-          <span className="px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded-full text-xs text-zinc-600 font-mono font-semibold uppercase hidden sm:inline-block">
+          <span className="px-2 py-0.5 bg-surface-cream border border-border-hairline rounded-full text-xs text-zinc-600 font-mono font-semibold uppercase hidden md:inline-block">
             {problem.bugType}
           </span>
         </div>
         
         {/* Controls: Run & Submit */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <Button 
             onClick={handleRunCode}
             disabled={isTesting || submitMutation.isPending}
             variant="outline"
-            className="border-border-hairline hover:bg-surface-cream text-on-surface rounded-xl font-bold font-mono text-xs px-3.5 shadow-xs cursor-pointer h-8"
+            className="border-border-hairline hover:bg-surface-cream text-on-surface rounded-xl font-bold font-mono text-xs px-2.5 sm:px-3.5 shadow-xs cursor-pointer h-8 touch-manipulation active:scale-95"
             title="Compile and test against sample test cases without submitting"
           >
-            {isTesting ? <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin text-secondary" /> : <Play className="w-3.5 h-3.5 mr-1.5 text-secondary fill-secondary" />}
+            {isTesting ? <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin text-secondary" /> : <Play className="w-3.5 h-3.5 mr-1 text-secondary fill-secondary" />}
             {isTesting ? 'Compiling...' : 'Run Code'}
           </Button>
 
           <Button 
             onClick={() => submitMutation.mutate(code)}
             disabled={submitMutation.isPending || isTesting}
-            className="bg-primary-container hover:bg-black text-white rounded-xl font-bold font-mono shadow-sm text-xs px-4 h-8 cursor-pointer"
+            className="bg-primary-container hover:bg-black text-white rounded-xl font-bold font-mono shadow-sm text-xs px-3 sm:px-4 h-8 cursor-pointer touch-manipulation active:scale-95"
             title="Evaluate against all test cases and finalize submission"
           >
             {submitMutation.isPending ? 'Verifying...' : 'Submit Fix'}
@@ -163,12 +166,51 @@ export default function DebuggingChallengePage() {
         </div>
       </div>
 
+      {/* Mobile Tab Switcher (Visible on screens < lg) */}
+      <div className="flex lg:hidden border-b border-border-hairline bg-white shrink-0">
+        <button
+          onClick={() => setMobileTab('info')}
+          className={`flex-1 py-2 text-xs font-mono font-bold text-center border-b-2 transition-all cursor-pointer ${
+            mobileTab === 'info'
+              ? 'border-secondary text-secondary bg-surface-cream/70'
+              : 'border-transparent text-muted hover:text-foreground'
+          }`}
+        >
+          Bug Info
+        </button>
+        <button
+          onClick={() => setMobileTab('editor')}
+          className={`flex-1 py-2 text-xs font-mono font-bold text-center border-b-2 transition-all cursor-pointer ${
+            mobileTab === 'editor'
+              ? 'border-secondary text-secondary bg-surface-cream/70'
+              : 'border-transparent text-muted hover:text-foreground'
+          }`}
+        >
+          Fix Editor
+        </button>
+        <button
+          onClick={() => setMobileTab('console')}
+          className={`flex-1 py-2 text-xs font-mono font-bold text-center border-b-2 transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+            mobileTab === 'console'
+              ? 'border-secondary text-secondary bg-surface-cream/70'
+              : 'border-transparent text-muted hover:text-foreground'
+          }`}
+        >
+          Console
+          {executionResult && (
+            <span className={`w-2 h-2 rounded-full ${executionResult.allPassed ? 'bg-emerald-500' : 'bg-red-500'}`} />
+          )}
+        </button>
+      </div>
+
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Panel - Description & Hints */}
-        <div className="w-1/2 p-6 overflow-y-auto border-r border-border-hairline bg-white space-y-5">
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-cream border border-border-hairline shadow-xs">
-            <div className="p-2 bg-red-100 rounded-lg">
+        {/* Left Panel - Description & Hints (50% on desktop, full-width when active on mobile) */}
+        <div className={`p-4 sm:p-6 overflow-y-auto border-r border-border-hairline bg-white space-y-4 sm:space-y-5 ${
+          mobileTab === 'info' ? 'flex flex-col w-full h-full' : 'hidden'
+        } lg:flex lg:flex-col lg:w-1/2`}>
+          <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-xl bg-surface-cream border border-border-hairline shadow-xs">
+            <div className="p-2 bg-red-100 rounded-lg shrink-0">
               <Bug className="w-5 h-5 text-red-600" />
             </div>
             <div>
@@ -251,9 +293,11 @@ export default function DebuggingChallengePage() {
           </AnimatePresence>
         </div>
 
-        {/* Right Panel - Monaco Editor + Bottom Console Drawer */}
-        <div className="w-1/2 flex flex-col bg-surface-charcoal overflow-hidden">
-          <div className="h-11 bg-primary-container border-b border-white/10 px-4 flex items-center justify-between text-xs font-mono text-white/70">
+        {/* Right Panel - Monaco Editor + Bottom Console Drawer (50% on desktop, full-width on mobile when editor/console active) */}
+        <div className={`overflow-hidden ${
+          mobileTab !== 'info' ? 'flex flex-col w-full h-full' : 'hidden'
+        } lg:flex lg:flex-col lg:w-1/2 bg-surface-charcoal`}>
+          <div className="h-11 bg-primary-container border-b border-white/10 px-3 sm:px-4 flex items-center justify-between text-xs font-mono text-white/70 shrink-0">
             {/* Language Selector Segmented Tabs */}
             <div className="flex items-center gap-1.5 bg-black/40 p-1 rounded-lg border border-white/10">
               <span className="text-[10px] text-white/40 uppercase tracking-wider px-1 font-bold">Lang:</span>
@@ -261,7 +305,7 @@ export default function DebuggingChallengePage() {
                 <button
                   key={lang}
                   onClick={() => handleLanguageChange(lang)}
-                  className={`px-2.5 py-0.5 rounded text-xs font-bold transition-all cursor-pointer ${
+                  className={`px-2 sm:px-2.5 py-0.5 rounded text-xs font-bold transition-all cursor-pointer ${
                     selectedLanguage === lang
                       ? 'bg-white text-on-surface shadow-xs'
                       : 'text-white/60 hover:text-white hover:bg-white/10'
@@ -277,12 +321,14 @@ export default function DebuggingChallengePage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-accent-mint animate-pulse" />
                 {selectedLanguage === 'cpp' ? 'G++ (C++14)' : selectedLanguage === 'java' ? 'JAVAC 23' : 'PYTHON 3.14'}
               </span>
-              <span className="text-[11px] text-white/40 hidden sm:inline-block">CAPGEMINI EVALUATOR</span>
+              <span className="text-[11px] text-white/40 hidden sm:inline-block">CAPGEMINI</span>
             </div>
           </div>
 
           {/* Editor */}
-          <div className={`transition-all duration-200 ${consoleOpen ? 'h-[55%]' : 'h-[calc(100%-2.75rem)]'}`}>
+          <div className={`transition-all duration-200 ${
+            mobileTab === 'console' ? 'hidden lg:block lg:h-[55%]' : consoleOpen ? 'h-[55%]' : 'h-[calc(100%-2.75rem)]'
+          }`}>
             <Editor
               height="100%"
               language={selectedLanguage === 'cpp' ? 'cpp' : selectedLanguage === 'java' ? 'java' : 'python'}
@@ -293,15 +339,20 @@ export default function DebuggingChallengePage() {
                 minimap: { enabled: false },
                 fontSize: 13,
                 fontFamily: 'JetBrains Mono, monospace',
-                padding: { top: 14 },
+                padding: { top: 10 },
                 scrollBeyondLastLine: false,
-                smoothScrolling: true
+                smoothScrolling: true,
+                wordWrap: 'on',
+                automaticLayout: true,
+                lineNumbersMinChars: 3
               }}
             />
           </div>
 
           {/* Interactive Bottom Console / Test Results Drawer */}
-          <div className={`border-t border-border-hairline bg-surface-paper flex flex-col transition-all duration-200 ${consoleOpen ? 'h-[45%]' : 'h-8 overflow-hidden'}`}>
+          <div className={`border-t border-border-hairline bg-surface-paper flex flex-col transition-all duration-200 ${
+            mobileTab === 'console' ? 'flex-1 h-full min-h-0' : consoleOpen ? 'h-[45%]' : 'h-8 overflow-hidden'
+          }`}>
             <div className="h-8 bg-surface-cream border-b border-border-hairline px-4 flex items-center justify-between text-xs font-mono">
               <div className="flex items-center gap-4">
                 <button

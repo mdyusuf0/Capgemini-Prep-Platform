@@ -118,10 +118,10 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           </span>
         </div>
 
-        {/* Latin Square Grid Display */}
-        <div className="p-4 sm:p-5 bg-surface-paper border border-border-hairline rounded-3xl shadow-xs">
+        {/* Latin Square Grid Display - Responsive Aspect Container */}
+        <div className="p-2.5 sm:p-5 bg-surface-paper border border-border-hairline rounded-3xl shadow-xs w-full max-w-[min(90vw,360px)] aspect-square flex items-center justify-center">
           <div
-            className="grid gap-2 sm:gap-2.5"
+            className="grid gap-1.5 sm:gap-2.5 w-full h-full"
             style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}
           >
             {puzzle.grid.map((row, r) =>
@@ -132,7 +132,7 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 return (
                   <div
                     key={`${r}-${c}`}
-                    className={`w-12 h-12 sm:w-15 sm:h-15 rounded-2xl flex items-center justify-center border-2 transition-all select-none ${
+                    className={`w-full h-full aspect-square rounded-xl sm:rounded-2xl flex items-center justify-center border-2 transition-all select-none ${
                       isTarget
                         ? feedback === 'correct'
                           ? 'bg-emerald-50 border-emerald-500 ring-4 ring-emerald-200'
@@ -146,12 +146,12 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   >
                     {isTarget ? (
                       feedback === 'correct' ? (
-                        <Check size={28} className="text-emerald-600 font-bold" />
+                        <Check size={24} className="text-emerald-600 font-bold" />
                       ) : (
-                        <span className="text-xl sm:text-2xl font-black font-mono text-amber-600">?</span>
+                        <span className="text-lg sm:text-2xl font-black font-mono text-amber-600">?</span>
                       )
                     ) : symDef ? (
-                      <symDef.icon size={is5x5 ? 22 : 26} strokeWidth={2.5} className={symDef.color} />
+                      <symDef.icon size={is5x5 ? 18 : 22} strokeWidth={2.5} className={symDef.color} />
                     ) : null}
                   </div>
                 );
@@ -161,12 +161,12 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         </div>
 
         {/* Options / Symbol Palette */}
-        <div className="w-full flex flex-col items-center gap-3">
-          <div className="text-xs font-mono font-bold tracking-wider uppercase text-muted">
+        <div className="w-full flex flex-col items-center gap-2 sm:gap-3">
+          <div className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-muted text-center">
             Choose symbol for Target Cell [ ? ]:
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             {puzzle.options.map((opt, idx) => {
               const symDef = SYMBOL_MAP[opt];
               const isSelected = selectedOption === opt;
@@ -177,19 +177,19 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   type="button"
                   onClick={() => handleOptionSelect(opt)}
                   disabled={feedback !== null}
-                  className={`flex flex-col items-center justify-center w-16 h-16 sm:w-18 sm:h-18 rounded-2xl border-2 transition-all cursor-pointer shadow-xs ${
+                  className={`flex flex-col items-center justify-center w-14 h-14 sm:w-18 sm:h-18 rounded-xl sm:rounded-2xl border-2 transition-all cursor-pointer shadow-xs active:scale-95 ${
                     isSelected && feedback === 'correct'
                       ? 'bg-emerald-50 border-emerald-500 ring-4 ring-emerald-200 scale-105'
                       : isSelected && feedback === 'wrong'
                       ? 'bg-rose-50 border-rose-500 ring-4 ring-rose-200'
-                      : 'bg-surface-paper border-border-hairline hover:border-secondary hover:scale-103 active:scale-95'
+                      : 'bg-surface-paper border-border-hairline hover:border-secondary hover:scale-103'
                   }`}
                 >
                   {symDef && (
-                    <symDef.icon size={26} strokeWidth={2.5} className={symDef.color} />
+                    <symDef.icon size={22} strokeWidth={2.5} className={symDef.color} />
                   )}
-                  <span className="text-[10px] font-mono text-muted font-bold mt-1">
-                    Key {idx + 1}
+                  <span className="text-[9px] sm:text-[10px] font-mono text-muted font-bold mt-0.5 sm:mt-1">
+                    {idx + 1}
                   </span>
                 </button>
               );

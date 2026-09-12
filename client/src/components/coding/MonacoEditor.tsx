@@ -40,7 +40,7 @@ export const MonacoEditor = ({ code, language, onChange, readOnly = false }: Mon
         options={{
           readOnly,
           minimap: { enabled: false },
-          fontSize: 14,
+          fontSize: 13,
           fontFamily: 'JetBrains Mono, monospace',
           scrollBeyondLastLine: false,
           smoothScrolling: true,
@@ -48,6 +48,12 @@ export const MonacoEditor = ({ code, language, onChange, readOnly = false }: Mon
           cursorSmoothCaretAnimation: 'on',
           formatOnPaste: true,
           lineNumbers: 'on',
+          wordWrap: 'on',
+          automaticLayout: true,
+          lineNumbersMinChars: 3,
+          lineDecorationsWidth: 6,
+          overviewRulerBorder: false,
+          padding: { top: 8, bottom: 8 },
         }}
       />
     </div>

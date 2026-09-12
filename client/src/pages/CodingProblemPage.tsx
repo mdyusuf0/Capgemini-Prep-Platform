@@ -16,6 +16,7 @@ export const CodingProblemPage = () => {
   const [code, setCode] = useState('');
   const [activeTab, setActiveTab] = useState<'testcases'|'results'>('testcases');
   const [customInput, setCustomInput] = useState('');
+  const [mobilePane, setMobilePane] = useState<'problem' | 'editor' | 'results'>('problem');
   
   const [testResults, setTestResults] = useState<TestCaseResult[]>([]);
   const [submissionSummary, setSubmissionSummary] = useState<SubmissionResponse | null>(null);
@@ -44,6 +45,7 @@ export const CodingProblemPage = () => {
     },
     onSuccess: (data: any, isSubmit) => {
       setActiveTab('results');
+      setMobilePane('results');
       if (isSubmit) {
         const subData = data as SubmissionResponse;
         setTestResults(subData.results || []);
@@ -112,35 +114,35 @@ export const CodingProblemPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] bg-surface-cream text-on-surface">
+    <div className="flex flex-col min-h-[calc(100dvh-4rem)] h-[calc(100dvh-4rem)] bg-surface-cream text-on-surface overflow-hidden">
       {/* Top Problem Meta Header Strip */}
-      <section className="w-full bg-surface-paper border-b border-border-hairline px-6 py-3 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center flex-wrap gap-2.5 min-w-0">
+      <section className="w-full bg-surface-paper border-b border-border-hairline px-3 sm:px-6 py-2.5 sm:py-3 shadow-xs shrink-0">
+        <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center flex-wrap gap-2 min-w-0">
             <button 
               onClick={() => navigate('/coding')}
-              className="flex items-center text-xs font-mono text-on-surface-variant hover:text-on-surface transition-colors mr-2 cursor-pointer"
+              className="flex items-center text-xs font-mono text-on-surface-variant hover:text-on-surface transition-colors mr-1 cursor-pointer py-1 px-1.5 rounded hover:bg-surface-cream"
             >
               <ArrowLeft className="w-3.5 h-3.5 mr-1" />
               Roster
             </button>
-            <span className="font-mono text-xs text-on-surface-variant bg-surface-cream border border-border-hairline px-2 py-0.5 rounded">
+            <span className="font-mono text-[11px] sm:text-xs text-on-surface-variant bg-surface-cream border border-border-hairline px-1.5 py-0.5 rounded">
               ID: {problem._id ? problem._id.slice(-4) : '074'}
             </span>
-            <h1 className="text-base md:text-lg font-bold text-on-surface tracking-tight truncate max-w-md">
+            <h1 className="text-sm sm:text-base md:text-lg font-bold text-on-surface tracking-tight truncate max-w-[150px] sm:max-w-xs md:max-w-md">
               {problem.title}
             </h1>
-            <span className={`text-xs font-mono font-bold uppercase px-2.5 py-0.5 rounded border ${getDifficultyColor(problem.difficulty)}`}>
+            <span className={`text-[10px] sm:text-xs font-mono font-bold uppercase px-2 py-0.5 rounded border ${getDifficultyColor(problem.difficulty)}`}>
               {problem.difficulty}
             </span>
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-surface-cream border border-border-hairline text-on-surface-variant hidden sm:inline-block">
+            <span className="text-xs font-mono px-2 py-0.5 rounded bg-surface-cream border border-border-hairline text-on-surface-variant hidden md:inline-block">
               {problem.topics?.[0] || 'Algorithms'}
             </span>
           </div>
 
           {/* Quick Benchmark Metrics & Run Controls */}
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-3 font-mono text-xs text-on-surface-variant border-r border-border-hairline pr-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="hidden lg:flex items-center gap-3 font-mono text-xs text-on-surface-variant border-r border-border-hairline pr-3">
               <div className="flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
                 <span>1000ms</span>
@@ -156,37 +158,76 @@ export const CodingProblemPage = () => {
             <button
               onClick={() => runMutation.mutate(false)}
               disabled={runMutation.isPending}
-              className="flex items-center px-3.5 py-1.5 bg-surface-cream hover:bg-surface-paper border border-border-hairline text-on-surface text-xs font-mono font-semibold rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+              className="flex items-center px-2.5 sm:px-3.5 py-1.5 bg-surface-cream hover:bg-surface-paper border border-border-hairline text-on-surface text-xs font-mono font-semibold rounded-lg transition-colors disabled:opacity-50 cursor-pointer touch-manipulation active:scale-95"
             >
               {runMutation.isPending && !runMutation.variables ? (
-                <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin text-secondary" />
+                <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin text-secondary" />
               ) : (
-                <Play className="w-3.5 h-3.5 mr-1.5 text-secondary fill-current" />
+                <Play className="w-3.5 h-3.5 mr-1 text-secondary fill-current" />
               )}
-              Run Code
+              <span className="hidden sm:inline">Run Code</span>
+              <span className="sm:hidden">Run</span>
             </button>
             
             <button
               onClick={() => runMutation.mutate(true)}
               disabled={runMutation.isPending}
-              className="flex items-center px-4 py-1.5 bg-primary hover:bg-surface-charcoal text-on-primary text-xs font-mono font-semibold rounded-lg shadow-xs transition-all disabled:opacity-50 cursor-pointer"
+              className="flex items-center px-3 sm:px-4 py-1.5 bg-primary hover:bg-surface-charcoal text-on-primary text-xs font-mono font-semibold rounded-lg shadow-xs transition-all disabled:opacity-50 cursor-pointer touch-manipulation active:scale-95"
             >
               {runMutation.isPending && runMutation.variables ? (
-                <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
               ) : (
-                <Send className="w-3.5 h-3.5 mr-1.5" />
+                <Send className="w-3.5 h-3.5 mr-1" />
               )}
-              Submit Solution
+              <span className="hidden sm:inline">Submit Solution</span>
+              <span className="sm:hidden">Submit</span>
             </button>
           </div>
         </div>
       </section>
 
+      {/* Mobile Tab Switcher (Visible on screens < lg) */}
+      <div className="flex lg:hidden border-b border-border-hairline bg-surface-paper shrink-0">
+        <button
+          onClick={() => setMobilePane('problem')}
+          className={`flex-1 py-2 text-xs font-mono font-bold text-center border-b-2 transition-all cursor-pointer ${
+            mobilePane === 'problem'
+              ? 'border-secondary text-secondary bg-surface-cream/70'
+              : 'border-transparent text-muted hover:text-foreground'
+          }`}
+        >
+          Problem
+        </button>
+        <button
+          onClick={() => setMobilePane('editor')}
+          className={`flex-1 py-2 text-xs font-mono font-bold text-center border-b-2 transition-all cursor-pointer ${
+            mobilePane === 'editor'
+              ? 'border-secondary text-secondary bg-surface-cream/70'
+              : 'border-transparent text-muted hover:text-foreground'
+          }`}
+        >
+          Editor
+        </button>
+        <button
+          onClick={() => setMobilePane('results')}
+          className={`flex-1 py-2 text-xs font-mono font-bold text-center border-b-2 transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+            mobilePane === 'results'
+              ? 'border-secondary text-secondary bg-surface-cream/70'
+              : 'border-transparent text-muted hover:text-foreground'
+          }`}
+        >
+          Results
+          {submissionSummary?.status === 'Accepted' && <CheckCircle2 className="w-3.5 h-3.5 text-accent-mint" />}
+        </button>
+      </div>
+
       {/* Split-Pane Engineering Workspace */}
       <div className="flex-1 flex overflow-hidden">
         
-        {/* Left Pane: Description & Specifications (45%) */}
-        <div className="w-[45%] border-r border-border-hairline bg-surface-paper overflow-y-auto p-6 space-y-6">
+        {/* Left Pane: Description & Specifications (45% on desktop, full width when active on mobile) */}
+        <div className={`border-r border-border-hairline bg-surface-paper overflow-y-auto p-4 sm:p-6 space-y-6 ${
+          mobilePane === 'problem' ? 'flex flex-col w-full h-full' : 'hidden'
+        } lg:flex lg:flex-col lg:w-[45%]`}>
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-border-hairline">
               <span className="text-xs font-mono uppercase tracking-wider font-semibold text-secondary">
@@ -224,11 +265,11 @@ export const CodingProblemPage = () => {
                   <div className="font-mono text-xs space-y-2">
                     <div>
                       <span className="text-on-surface-variant font-semibold">Input:</span>
-                      <pre className="bg-surface-paper p-2 rounded border border-border-hairline mt-1 text-on-surface overflow-x-auto">{ex.input}</pre>
+                      <pre className="bg-surface-paper p-2 rounded border border-border-hairline mt-1 text-on-surface overflow-x-auto text-[11px] sm:text-xs">{ex.input}</pre>
                     </div>
                     <div>
                       <span className="text-on-surface-variant font-semibold">Output:</span>
-                      <pre className="bg-surface-paper p-2 rounded border border-border-hairline mt-1 text-secondary font-bold overflow-x-auto">{ex.output}</pre>
+                      <pre className="bg-surface-paper p-2 rounded border border-border-hairline mt-1 text-secondary font-bold overflow-x-auto text-[11px] sm:text-xs">{ex.output}</pre>
                     </div>
                     {ex.explanation && (
                       <div>
@@ -273,13 +314,15 @@ export const CodingProblemPage = () => {
           </div>
         </div>
 
-        {/* Right Pane: Monaco Editor & Output Console (55%) */}
-        <div className="w-[55%] flex flex-col bg-surface-charcoal">
+        {/* Right Pane: Monaco Editor & Output Console (55% on desktop, full width on mobile when editor/results active) */}
+        <div className={`bg-surface-charcoal ${
+          mobilePane !== 'problem' ? 'flex flex-col w-full h-full' : 'hidden'
+        } lg:flex lg:flex-col lg:w-[55%]`}>
           
           {/* Editor Header Bar */}
-          <div className="h-10 border-b border-white/10 flex items-center justify-between px-4 bg-primary-container text-on-primary">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5">
+          <div className="h-10 border-b border-white/10 flex items-center justify-between px-3 sm:px-4 bg-primary-container text-on-primary shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="hidden sm:flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-accent-pink inline-block"></span>
                 <span className="w-2.5 h-2.5 rounded-full bg-accent-yellow inline-block"></span>
                 <span className="w-2.5 h-2.5 rounded-full bg-accent-mint inline-block"></span>
@@ -287,7 +330,7 @@ export const CodingProblemPage = () => {
               <select 
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as any)}
-                className="bg-surface-charcoal border border-white/10 text-xs font-mono rounded px-2.5 py-1 text-white focus:outline-none cursor-pointer"
+                className="bg-surface-charcoal border border-white/10 text-xs font-mono rounded px-2 py-1 text-white focus:outline-none cursor-pointer"
               >
                 <option value="java">Java (OpenJDK 17)</option>
                 <option value="cpp">C++ (GCC 12.2)</option>
@@ -298,35 +341,41 @@ export const CodingProblemPage = () => {
             
             <button 
               onClick={() => setCode(problem.starterCode[language] || '')}
-              className="text-[11px] font-mono text-on-primary-container hover:text-white transition-colors cursor-pointer"
+              className="text-[11px] font-mono text-on-primary-container hover:text-white transition-colors cursor-pointer py-1 px-1.5"
             >
-              Reset Starter Code
+              Reset Code
             </button>
           </div>
 
           {/* Monaco Editor Canvas */}
-          <div className="flex-1 min-h-[350px]">
+          <div className={`flex-1 min-h-[260px] lg:min-h-[350px] ${
+            mobilePane === 'results' ? 'hidden lg:flex' : 'flex'
+          }`}>
             <MonacoEditor code={code} language={language} onChange={(val?: string) => setCode(val || '')} />
           </div>
 
           {/* Monaco Status Bar */}
-          <div className="bg-primary-container px-4 py-1 flex items-center justify-between text-on-surface-variant font-mono text-[11px] border-t border-white/5">
-            <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-accent-mint"></span>Monaco v0.45</span>
+          <div className={`bg-primary-container px-3 sm:px-4 py-1 flex items-center justify-between text-on-surface-variant font-mono text-[11px] border-t border-white/5 shrink-0 ${
+            mobilePane === 'results' ? 'hidden lg:flex' : 'flex'
+          }`}>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-accent-mint"></span>Monaco</span>
               <span>Spaces: 4</span>
-              <span>UTF-8</span>
+              <span className="hidden sm:inline">UTF-8</span>
             </div>
-            <span className="text-secondary-fixed">[JUDGE0 CLUSTER ACTIVE]</span>
+            <span className="text-secondary-fixed text-[10px] sm:text-[11px]">[JUDGE0 ACTIVE]</span>
           </div>
 
           {/* Console / Test Results Deck */}
-          <div className="h-64 border-t border-border-hairline flex flex-col bg-surface-paper">
+          <div className={`border-t border-border-hairline flex flex-col bg-surface-paper ${
+            mobilePane === 'editor' ? 'hidden lg:flex lg:h-64' : mobilePane === 'results' ? 'flex-1 h-full min-h-0' : 'h-64'
+          }`}>
             
             {/* Tabs Bar */}
-            <div className="flex border-b border-border-hairline bg-surface-cream/80">
+            <div className="flex border-b border-border-hairline bg-surface-cream/80 shrink-0">
               <button 
                 onClick={() => setActiveTab('testcases')}
-                className={`px-4 py-2 text-xs font-mono font-semibold transition-colors cursor-pointer ${
+                className={`px-3 sm:px-4 py-2 text-xs font-mono font-semibold transition-colors cursor-pointer ${
                   activeTab === 'testcases' 
                     ? 'text-on-surface border-b-2 border-primary bg-surface-paper' 
                     : 'text-on-surface-variant hover:text-on-surface'
@@ -336,7 +385,7 @@ export const CodingProblemPage = () => {
               </button>
               <button 
                 onClick={() => setActiveTab('results')}
-                className={`px-4 py-2 text-xs font-mono font-semibold transition-colors flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3 sm:px-4 py-2 text-xs font-mono font-semibold transition-colors flex items-center gap-1.5 cursor-pointer ${
                   activeTab === 'results' 
                     ? 'text-on-surface border-b-2 border-primary bg-surface-paper' 
                     : 'text-on-surface-variant hover:text-on-surface'
@@ -348,7 +397,7 @@ export const CodingProblemPage = () => {
             </div>
 
             {/* Tab Content */}
-            <div className="flex-1 overflow-y-auto p-4 bg-surface-paper">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 bg-surface-paper">
               {activeTab === 'testcases' ? (
                 <div className="space-y-3 h-full flex flex-col font-mono text-xs">
                   <div>
@@ -359,7 +408,7 @@ export const CodingProblemPage = () => {
                       value={customInput}
                       onChange={(e) => setCustomInput(e.target.value)}
                       placeholder="Enter custom input here..."
-                      className="w-full h-28 bg-surface-cream border border-border-hairline rounded-lg p-2.5 text-xs text-on-surface font-mono focus:outline-none focus:border-secondary resize-none"
+                      className="w-full h-24 sm:h-28 bg-surface-cream border border-border-hairline rounded-lg p-2.5 text-xs text-on-surface font-mono focus:outline-none focus:border-secondary resize-none"
                     />
                   </div>
                   {problem.testCases && problem.testCases.filter((t: any) => !t.isHidden).length > 0 && (

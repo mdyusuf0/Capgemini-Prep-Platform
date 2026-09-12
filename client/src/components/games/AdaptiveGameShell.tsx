@@ -366,106 +366,111 @@ export const AdaptiveGameShell: React.FC<AdaptiveGameShellProps> = ({
   // 3. ACTIVE GAME PLAYING HUD & CONTENT
   return (
     <div className="min-h-screen bg-surface-cream text-on-surface flex flex-col justify-between">
-      {/* Top Header HUD */}
-      <header className="sticky top-0 z-40 bg-surface-paper/95 backdrop-blur-md border-b border-border-hairline px-4 py-3 sm:px-6">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
+      {/* Top Header HUD - Responsive Dual-Tier */}
+      <header className="sticky top-0 z-40 bg-surface-paper/95 backdrop-blur-md border-b border-border-hairline px-3 py-2 sm:px-6 sm:py-3 pt-safe">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-2 sm:gap-3">
           
-          {/* Left: Back & Title */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => {
-                if (window.confirm('Leave assessment session and return to games arena?')) {
-                  resetGame();
-                  onBack();
-                }
-              }}
-              className="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-cream transition-colors cursor-pointer"
-              title="Return to Arena"
-            >
-              <ArrowLeft size={18} />
-            </button>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-sm sm:text-base font-bold text-on-surface tracking-tight leading-none">
-                  {title}
-                </h1>
-                {category && (
-                  <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-mono text-[10px] font-semibold">
-                    {category}
+          {/* Row 1: Back, Title, Mode & Action Controls */}
+          <div className="flex items-center justify-between gap-2 w-full md:w-auto">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <button
+                onClick={() => {
+                  if (window.confirm('Leave assessment session and return to games arena?')) {
+                    resetGame();
+                    onBack();
+                  }
+                }}
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-cream active:scale-95 transition-all cursor-pointer shrink-0"
+                title="Return to Arena"
+                aria-label="Back to Games"
+              >
+                <ArrowLeft size={18} />
+              </button>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <h1 className="text-xs sm:text-base font-bold text-on-surface tracking-tight leading-none truncate max-w-[140px] sm:max-w-none">
+                    {title}
+                  </h1>
+                  {category && (
+                    <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-mono text-[10px] font-semibold truncate">
+                      {category}
+                    </span>
+                  )}
+                  <span className={`px-1.5 py-0.5 rounded font-mono text-[9px] sm:text-[10px] font-bold uppercase shrink-0 ${
+                    gameMode === 'ASSESSMENT' 
+                      ? 'bg-primary text-on-primary' 
+                      : (gameMode === 'CHALLENGE' ? 'bg-amber-500 text-white' : 'bg-surface-cream border border-border-hairline text-on-surface-variant')
+                  }`}>
+                    {gameMode === 'ASSESSMENT' 
+                      ? `${currentAssessmentGameIndex + 1}/${assessmentGames.length}` 
+                      : gameMode}
                   </span>
-                )}
-                <span className={`px-2 py-0.5 rounded font-mono text-[10px] font-bold uppercase ${
-                  gameMode === 'ASSESSMENT' 
-                    ? 'bg-primary text-on-primary' 
-                    : (gameMode === 'CHALLENGE' ? 'bg-amber-500 text-white' : 'bg-surface-cream border border-border-hairline text-on-surface-variant')
-                }`}>
-                  {gameMode === 'ASSESSMENT' 
-                    ? `Assessment ${currentAssessmentGameIndex + 1}/${assessmentGames.length}` 
-                    : gameMode}
-                </span>
+                </div>
               </div>
+            </div>
+
+            {/* Right on mobile Row 1: Audio & Rules toggles */}
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                onClick={handleSoundToggle}
+                className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl border text-xs transition-all active:scale-95 cursor-pointer ${
+                  muted
+                    ? 'bg-surface-cream border-border-hairline text-on-surface-variant'
+                    : 'bg-secondary-fixed/50 border-secondary text-secondary'
+                }`}
+                title={muted ? 'Unmute audio' : 'Mute audio'}
+                aria-label={muted ? 'Unmute audio' : 'Mute audio'}
+              >
+                {muted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+              </button>
+              <button
+                onClick={() => setShowInstructions(true)}
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl bg-surface-cream border border-border-hairline text-on-surface-variant hover:text-on-surface hover:bg-surface-paper active:scale-95 transition-all cursor-pointer"
+                title="View Rules & Instructions"
+                aria-label="View Rules"
+              >
+                <HelpCircle size={15} />
+              </button>
             </div>
           </div>
 
-          {/* Center: Live Level & Streak HUD */}
-          <div className="flex items-center gap-3 sm:gap-5 font-mono">
+          {/* Row 2 (Mobile) / Center (Desktop): Live Metrics HUD Ribbon */}
+          <div className="flex items-center justify-between md:justify-center gap-2 sm:gap-4 font-mono w-full md:w-auto pt-1 md:pt-0 border-t md:border-t-0 border-border-hairline/60">
             {/* Level Pill */}
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-surface-cream rounded-xl border border-border-hairline shadow-xs">
-              <Activity size={14} className="text-secondary" />
-              <span className="text-xs text-on-surface-variant">LVL</span>
-              <span className="text-sm font-black text-on-surface">{level}</span>
+            <div className="flex-1 md:flex-initial flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 py-1 bg-surface-cream rounded-xl border border-border-hairline shadow-2xs">
+              <Activity size={13} className="text-secondary shrink-0" />
+              <span className="text-[10px] sm:text-xs text-on-surface-variant">LVL</span>
+              <span className="text-xs sm:text-sm font-black text-on-surface">{level}</span>
               {targetLevel && (
-                <span className="text-[10px] text-amber-600 font-bold ml-1">
-                  / {targetLevel}
+                <span className="text-[9px] sm:text-[10px] text-amber-600 font-bold">
+                  /{targetLevel}
                 </span>
               )}
             </div>
 
             {/* Live Score */}
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-surface-cream rounded-xl border border-border-hairline shadow-xs">
-              <Award size={14} className="text-amber-500" />
-              <span className="text-sm font-black text-on-surface">{score}</span>
+            <div className="flex-1 md:flex-initial flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 py-1 bg-surface-cream rounded-xl border border-border-hairline shadow-2xs">
+              <Award size={13} className="text-amber-500 shrink-0" />
+              <span className="text-xs sm:text-sm font-black text-on-surface">{score}</span>
               {streak >= 2 && (
-                <span className="flex items-center gap-0.5 text-[10px] font-bold text-amber-600 bg-amber-50 px-1 rounded animate-pulse">
-                  <Flame size={10} className="fill-current" />
-                  {streak >= 6 ? '2.0x' : (streak >= 4 ? '1.5x' : '1.25x')}
+                <span className="flex items-center gap-0.5 text-[9px] sm:text-[10px] font-bold text-amber-600 bg-amber-50 px-1 rounded animate-pulse">
+                  <Flame size={9} className="fill-current" />
+                  {streak >= 6 ? '2x' : (streak >= 4 ? '1.5x' : '1.2x')}
                 </span>
               )}
             </div>
 
             {/* Live Countdown Timer */}
             {timeLeft > 0 && (
-              <div className={`flex items-center gap-1.5 px-3 py-1 rounded-xl border font-mono font-bold text-xs sm:text-sm shadow-xs ${
+              <div className={`flex-1 md:flex-initial flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 py-1 rounded-xl border font-mono font-bold text-xs sm:text-sm shadow-2xs ${
                 timeLeft <= 30
                   ? 'bg-rose-50 border-rose-300 text-rose-600 animate-pulse'
                   : 'bg-surface-cream border-border-hairline text-on-surface'
               }`}>
-                <Timer size={14} className={timeLeft <= 30 ? 'text-rose-600' : 'text-on-surface-variant'} />
+                <Timer size={13} className={`shrink-0 ${timeLeft <= 30 ? 'text-rose-600' : 'text-on-surface-variant'}`} />
                 <span>{formatTime(timeLeft)}</span>
               </div>
             )}
-          </div>
-
-          {/* Right: Sound & Instructions Modal Toggles */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleSoundToggle}
-              className={`p-2 rounded-xl border text-xs transition-colors cursor-pointer ${
-                muted
-                  ? 'bg-surface-cream border-border-hairline text-on-surface-variant'
-                  : 'bg-secondary-fixed/50 border-secondary text-secondary'
-              }`}
-              title={muted ? 'Unmute audio chimes' : 'Mute audio'}
-            >
-              {muted ? <VolumeX size={15} /> : <Volume2 size={15} />}
-            </button>
-            <button
-              onClick={() => setShowInstructions(true)}
-              className="p-2 rounded-xl bg-surface-cream border border-border-hairline text-on-surface-variant hover:text-on-surface hover:bg-surface-paper transition-colors cursor-pointer"
-              title="View Rules & Instructions"
-            >
-              <HelpCircle size={15} />
-            </button>
           </div>
 
         </div>

@@ -147,8 +147,8 @@ const PseudocodePracticePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-surface-cream text-on-surface p-4 md:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto space-y-5">
+    <div className="min-h-screen bg-surface-cream text-on-surface p-3 sm:p-5 md:p-6 lg:p-8 pb-24 lg:pb-8">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-5">
         
         {/* Top Meta Ledger Header */}
         <header className="w-full bg-surface-paper border border-border-hairline rounded-xl p-4 md:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -305,24 +305,24 @@ const PseudocodePracticePage: React.FC = () => {
                       disabled={isSubmitted}
                       onClick={() => setSelectedAnswer(idx)}
                       className={cn(
-                        "w-full text-left p-3 rounded-lg border transition-all flex items-center justify-between cursor-pointer",
+                        "w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between cursor-pointer min-h-[50px] touch-manipulation active:scale-98 shadow-xs",
                         cardStyle
                       )}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 min-w-0">
                         <span className={cn(
-                          "w-6 h-6 rounded-md flex items-center justify-center text-xs font-mono font-semibold shrink-0 border transition-colors",
+                          "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-mono font-bold shrink-0 border transition-colors",
                           badgeStyle
                         )}>
                           {letter}
                         </span>
-                        <span className="font-mono text-sm font-semibold">
+                        <span className="font-mono text-sm font-semibold break-words">
                           {opt}
                         </span>
                       </div>
 
                       {isSubmitted && isCorrect && (
-                        <span className="px-2 py-0.5 rounded bg-accent-mint/20 text-[#1b5e20] text-[10px] font-mono font-bold uppercase tracking-wider">
+                        <span className="px-2 py-0.5 rounded bg-accent-mint/20 text-[#1b5e20] text-[10px] font-mono font-bold uppercase tracking-wider shrink-0 ml-2">
                           Verified
                         </span>
                       )}
@@ -336,7 +336,7 @@ const PseudocodePracticePage: React.FC = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={selectedAnswer === null}
-                  className="w-full py-3 bg-primary hover:bg-surface-charcoal disabled:opacity-40 disabled:cursor-not-allowed text-on-primary rounded-xl font-medium text-xs transition-colors shadow-xs cursor-pointer"
+                  className="w-full py-3.5 bg-primary hover:bg-surface-charcoal disabled:opacity-40 disabled:cursor-not-allowed text-on-primary rounded-xl font-medium text-xs font-mono transition-colors shadow-xs cursor-pointer min-h-[46px] touch-manipulation active:scale-98"
                 >
                   Submit Trace Prediction
                 </button>

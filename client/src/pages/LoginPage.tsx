@@ -57,25 +57,25 @@ export const LoginPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-surface-cream flex flex-col md:flex-row font-sans text-on-surface overflow-hidden relative">
+    <div className="min-h-dvh bg-surface-cream flex flex-col md:flex-row font-sans text-on-surface relative">
       {/* Background accents */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none opacity-40">
         <div className="absolute top-[-10%] left-[-10%] w-[45%] h-[45%] bg-secondary-fixed/40 rounded-full blur-[140px]"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[45%] h-[45%] bg-[#fc618d]/10 rounded-full blur-[140px]"></div>
       </div>
 
-      <div className="flex-1 p-8 md:p-16 lg:p-24 flex flex-col justify-center z-10">
+      <div className="flex-1 p-5 sm:p-8 md:p-16 lg:p-24 flex flex-col justify-center z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center gap-4 mb-8">
+          <div className="inline-flex items-center gap-4 mb-6 sm:mb-8">
             <div className="relative group">
               <img
                 src="/logo.jpg"
                 alt="Capgemini Prep By Yusuf"
-                className="w-16 h-16 rounded-full object-cover object-top border-2 border-border-hairline shadow-md"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-top border-2 border-border-hairline shadow-md"
               />
             </div>
             <div>
@@ -86,26 +86,26 @@ export const LoginPage: React.FC = () => {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 tracking-tight text-on-surface">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-5 tracking-tight text-on-surface">
             Capgemini Prep <br/>
-            <span className="text-secondary text-2xl md:text-3xl lg:text-4xl font-extrabold block mt-2">
+            <span className="text-secondary text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold block mt-2">
               A platform by Yusuf
             </span>
           </h1>
-          <p className="text-base md:text-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-on-surface-variant mb-6 sm:mb-10 max-w-xl leading-relaxed">
             One unified assessment engine. Every round covered with precision telemetry, interactive simulators, and real recruitment benchmark algorithms.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-2xl">
             {features.map((feature, idx) => (
               <motion.div 
                 key={idx}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 + (idx * 0.1) }}
-                className="flex items-start gap-3.5 p-4 rounded-xl bg-white border border-border-hairline shadow-sm hover:border-zinc-400 transition-all"
+                className="flex items-start gap-3.5 p-3.5 sm:p-4 rounded-xl bg-white border border-border-hairline shadow-sm hover:border-zinc-400 transition-all"
               >
-                <div className="p-2.5 bg-surface-cream rounded-lg text-secondary border border-border-hairline">
+                <div className="p-2 sm:p-2.5 bg-surface-cream rounded-lg text-secondary border border-border-hairline shrink-0">
                   <feature.icon size={18} />
                 </div>
                 <div>
@@ -118,17 +118,17 @@ export const LoginPage: React.FC = () => {
         </motion.div>
       </div>
 
-      <div className="w-full md:w-[480px] lg:w-[520px] bg-white flex flex-col justify-center p-8 md:p-12 lg:p-16 border-l border-border-hairline z-10 shadow-lg relative">
+      <div className="w-full md:w-[480px] lg:w-[520px] bg-white flex flex-col justify-center p-5 sm:p-8 md:p-12 lg:p-16 border-t md:border-t-0 md:border-l border-border-hairline z-10 shadow-lg relative">
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          <div className="mb-8 text-center md:text-left">
-            <h2 className="text-2xl font-bold text-on-surface tracking-tight mb-2">
+          <div className="mb-6 sm:mb-8 text-center md:text-left">
+            <h2 className="text-xl sm:text-2xl font-bold text-on-surface tracking-tight mb-2">
               {isRegistering ? 'Create Your Account' : 'Sign in to Terminal'}
             </h2>
-            <p className="text-on-surface-variant text-sm">
+            <p className="text-on-surface-variant text-xs sm:text-sm">
               {isRegistering 
                 ? 'Sign up to start your personalized preparation journey from 0%.'
                 : 'Enter your credentials to access your preparation command center.'}
@@ -144,7 +144,7 @@ export const LoginPage: React.FC = () => {
                     type="text" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 px-4 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-sm"
+                    className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 px-4 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-base sm:text-sm"
                     placeholder="e.g. Yusuf Khan"
                     required
                   />
@@ -160,7 +160,7 @@ export const LoginPage: React.FC = () => {
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 pl-10 pr-4 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-sm"
+                  className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 pl-10 pr-4 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-base sm:text-sm"
                   placeholder="name@example.com"
                   required
                 />
@@ -175,14 +175,14 @@ export const LoginPage: React.FC = () => {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 pl-10 pr-12 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-sm"
+                  className="w-full bg-surface-cream border border-border-hairline rounded-xl py-3 pl-10 pr-12 text-on-surface focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-base sm:text-sm"
                   placeholder="••••••••"
                   required
                 />
                 <button 
                   type="button" 
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors p-1"
                 >
                   {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                 </button>
@@ -211,7 +211,7 @@ export const LoginPage: React.FC = () => {
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="w-full py-3 px-4 bg-primary-container hover:bg-black text-white rounded-xl font-bold shadow-sm transition-all transform active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm cursor-pointer mt-2"
+              className="w-full py-3.5 px-4 bg-primary-container hover:bg-black text-white rounded-xl font-bold shadow-sm transition-all transform active:scale-98 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm cursor-pointer mt-2 min-h-[48px] touch-manipulation"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

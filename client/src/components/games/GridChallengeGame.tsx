@@ -167,13 +167,13 @@ export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) 
 
         {/* Dynamic Display based on Phase */}
         {phase === 'MEMORIZE' && (
-          <div className="w-full bg-surface-paper border border-border-hairline rounded-3xl p-6 shadow-xs flex flex-col items-center gap-4">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-muted">
+          <div className="w-full max-w-[min(90vw,360px)] bg-surface-paper border border-border-hairline rounded-3xl p-3 sm:p-5 shadow-xs flex flex-col items-center gap-3">
+            <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-muted text-center">
               Memorize coordinate location (Dot {currentStep + 1}):
             </span>
 
             <div
-              className="grid gap-2.5 sm:gap-3"
+              className="grid gap-2 sm:gap-3 w-full aspect-square p-2 bg-surface-cream/50 rounded-2xl border border-border-hairline"
               style={{ gridTemplateColumns: `repeat(${puzzle.gridSize}, minmax(0, 1fr))` }}
             >
               {Array.from({ length: puzzle.gridSize }).map((_, r) =>
@@ -184,14 +184,14 @@ export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) 
                   return (
                     <div
                       key={`${r}-${c}`}
-                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center border-2 transition-all ${
+                      className={`w-full h-full aspect-square rounded-xl sm:rounded-2xl flex items-center justify-center border-2 transition-all ${
                         isDot
                           ? 'bg-amber-500 border-amber-600 ring-4 ring-amber-300 scale-105 shadow-md'
                           : 'bg-surface-cream border-border-hairline'
                       }`}
                     >
                       {isDot && (
-                        <div className="w-5 h-5 rounded-full bg-white shadow-inner animate-ping" />
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white shadow-inner animate-ping" />
                       )}
                     </div>
                   );
@@ -202,24 +202,24 @@ export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) 
         )}
 
         {phase === 'DISTRACT' && (
-          <div className="w-full bg-surface-paper border border-border-hairline rounded-3xl p-6 shadow-xs flex flex-col items-center gap-5">
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-muted">
+          <div className="w-full max-w-[min(90vw,380px)] bg-surface-paper border border-border-hairline rounded-3xl p-4 sm:p-6 shadow-xs flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-1 text-center">
+              <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-muted">
                 Distraction Task ({currentTask.axis} Symmetry)
               </span>
-              <span className="text-[11px] font-mono text-muted">
+              <span className="text-[10px] sm:text-[11px] font-mono text-muted">
                 Is the pattern symmetric along the {currentTask.axis} axis?
               </span>
             </div>
 
             {/* 6x6 Symmetry Matrix */}
-            <div className="p-3 bg-surface-cream border border-border-hairline rounded-2xl shadow-inner relative">
-              <div className="grid grid-cols-6 gap-1.5">
+            <div className="p-2 sm:p-3 bg-surface-cream border border-border-hairline rounded-2xl shadow-inner relative max-w-[260px] w-full">
+              <div className="grid grid-cols-6 gap-1 sm:gap-1.5 w-full aspect-square">
                 {currentTask.matrix.map((row, r) =>
                   row.map((val, c) => (
                     <div
                       key={`${r}-${c}`}
-                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md transition-colors ${
+                      className={`w-full h-full aspect-square rounded-sm sm:rounded-md transition-colors ${
                         val ? 'bg-primary shadow-xs' : 'bg-surface-paper border border-border-hairline/60'
                       }`}
                     />
@@ -236,40 +236,40 @@ export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) 
             </div>
 
             {/* Answer Buttons */}
-            <div className="flex items-center gap-4 w-full justify-center">
+            <div className="flex items-center gap-2.5 sm:gap-4 w-full justify-center">
               <button
                 type="button"
                 onClick={() => handleSymmetryAnswer(true)}
-                className="flex-1 max-w-[160px] py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-emerald-700 font-mono font-bold text-sm hover:bg-emerald-100 hover:scale-102 active:scale-98 transition-all cursor-pointer shadow-xs flex items-center justify-center gap-2"
+                className="flex-1 max-w-[160px] py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-emerald-700 font-mono font-bold text-xs sm:text-sm hover:bg-emerald-100 active:scale-95 transition-all cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
               >
                 <span>YES, Symmetric</span>
-                <span className="text-[10px] opacity-70">(S/1)</span>
+                <span className="text-[9px] opacity-70">(S/1)</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleSymmetryAnswer(false)}
-                className="flex-1 max-w-[160px] py-3 rounded-2xl bg-rose-50 border-2 border-rose-300 text-rose-700 font-mono font-bold text-sm hover:bg-rose-100 hover:scale-102 active:scale-98 transition-all cursor-pointer shadow-xs flex items-center justify-center gap-2"
+                className="flex-1 max-w-[160px] py-3 rounded-2xl bg-rose-50 border-2 border-rose-300 text-rose-700 font-mono font-bold text-xs sm:text-sm hover:bg-rose-100 active:scale-95 transition-all cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
               >
                 <span>NO, Asymmetric</span>
-                <span className="text-[10px] opacity-70">(N/2)</span>
+                <span className="text-[9px] opacity-70">(N/2)</span>
               </button>
             </div>
           </div>
         )}
 
         {phase === 'RECALL' && (
-          <div className="w-full bg-surface-paper border border-border-hairline rounded-3xl p-6 shadow-xs flex flex-col items-center gap-5">
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-muted">
-                Recall Phase: Click dots in exact presentation order
+          <div className="w-full max-w-[min(90vw,360px)] bg-surface-paper border border-border-hairline rounded-3xl p-3 sm:p-5 shadow-xs flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center gap-1 text-center">
+              <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-muted">
+                Recall Phase: Click dots in exact order
               </span>
-              <span className="text-[11px] font-mono text-muted">
+              <span className="text-[10px] sm:text-[11px] font-mono text-muted">
                 Selected: {userSequence.length} / {puzzle.sequenceLength}
               </span>
             </div>
 
             <div
-              className="grid gap-2.5 sm:gap-3"
+              className="grid gap-2 sm:gap-3 w-full aspect-square p-2 bg-surface-cream/50 rounded-2xl border border-border-hairline"
               style={{ gridTemplateColumns: `repeat(${puzzle.gridSize}, minmax(0, 1fr))` }}
             >
               {Array.from({ length: puzzle.gridSize }).map((_, r) =>
@@ -283,10 +283,10 @@ export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) 
                       type="button"
                       onClick={() => handleRecallCellClick(r, c)}
                       disabled={feedback !== null || isSelected}
-                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center font-mono font-black text-xl transition-all shadow-2xs ${
+                      className={`w-full h-full aspect-square rounded-xl sm:rounded-2xl flex items-center justify-center font-mono font-black text-base sm:text-xl transition-all shadow-2xs ${
                         isSelected
                           ? 'bg-secondary text-white border-2 border-secondary scale-103 shadow-md'
-                          : 'bg-surface-cream border-2 border-border-hairline hover:border-secondary hover:scale-102 active:scale-95 cursor-pointer'
+                          : 'bg-surface-cream border-2 border-border-hairline hover:border-secondary active:scale-95 cursor-pointer'
                       }`}
                     >
                       {isSelected ? clickIdx + 1 : ''}

@@ -113,18 +113,18 @@ export const ColorTheGridGame: React.FC<{ onBack: () => void }> = ({ onBack }) =
         </div>
 
         {/* Governing Rule Banner Card */}
-        <div className="w-full bg-surface-paper border-2 border-secondary/30 rounded-3xl p-5 shadow-xs flex flex-col items-center gap-2 text-center">
+        <div className="w-full bg-surface-paper border-2 border-secondary/30 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 shadow-xs flex flex-col items-center gap-1.5 sm:gap-2 text-center">
           <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-secondary">
             <Info size={16} />
             <span>Active Classification Rule</span>
           </div>
-          <p className="text-base sm:text-lg font-bold text-foreground leading-snug">
+          <p className="text-sm sm:text-lg font-bold text-foreground leading-snug">
             {puzzle.ruleDescription}
           </p>
         </div>
 
         {/* Color Palette Selector */}
-        <div className="flex items-center justify-center gap-3 flex-wrap">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap w-full">
           {puzzle.allowedColors.map((col, idx) => {
             const isSelected = selectedColor === col.id;
 
@@ -136,13 +136,13 @@ export const ColorTheGridGame: React.FC<{ onBack: () => void }> = ({ onBack }) =
                   playClick();
                   setSelectedColor(col.id);
                 }}
-                className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl border-2 transition-all cursor-pointer shadow-xs ${
+                className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl border-2 transition-all cursor-pointer shadow-xs min-h-[44px] touch-manipulation active:scale-95 ${
                   isSelected
                     ? 'border-foreground ring-3 ring-foreground/20 scale-105'
-                    : 'border-border-hairline hover:border-secondary hover:scale-102 active:scale-95 bg-surface-paper'
+                    : 'border-border-hairline hover:border-secondary hover:scale-102 bg-surface-paper'
                 }`}
               >
-                <div className={`w-5 h-5 rounded-full ${col.bgClass} shadow-2xs`} />
+                <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full ${col.bgClass} shadow-2xs shrink-0`} />
                 <span className="text-xs font-mono font-bold text-foreground">
                   {col.name}
                 </span>
@@ -153,7 +153,7 @@ export const ColorTheGridGame: React.FC<{ onBack: () => void }> = ({ onBack }) =
         </div>
 
         {/* 4 Grid Cards */}
-        <div className="grid grid-cols-2 gap-3.5 sm:gap-4 w-full">
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 w-full">
           {puzzle.cards.map((card, idx) => {
             const assignedColorId = userColors[card.id];
             const colorDef = puzzle.allowedColors.find(c => c.id === assignedColorId);
@@ -164,17 +164,17 @@ export const ColorTheGridGame: React.FC<{ onBack: () => void }> = ({ onBack }) =
                 type="button"
                 onClick={() => handleCardClick(card.id)}
                 disabled={feedback !== null}
-                className={`p-4 rounded-3xl border-2 transition-all cursor-pointer shadow-xs flex flex-col items-center gap-3 ${
+                className={`p-2.5 sm:p-4 rounded-2xl sm:rounded-3xl border-2 transition-all cursor-pointer shadow-xs flex flex-col items-center gap-2 sm:gap-3 touch-manipulation active:scale-98 ${
                   assignedColorId
                     ? `${colorDef?.bgClass} border-transparent text-white ring-2 ring-foreground/10`
                     : 'bg-surface-paper border-border-hairline hover:border-secondary'
                 }`}
               >
-                <div className="grid grid-cols-2 gap-2 w-full">
+                <div className="grid grid-cols-2 gap-1.5 sm:gap-2 w-full">
                   {card.content.map((item, itemIdx) => (
                     <div
                       key={itemIdx}
-                      className={`h-12 sm:h-14 rounded-xl flex items-center justify-center font-mono font-black text-lg transition-colors ${
+                      className={`h-10 sm:h-14 rounded-lg sm:rounded-xl flex items-center justify-center font-mono font-black text-base sm:text-lg transition-colors ${
                         assignedColorId
                           ? 'bg-black/15 text-white'
                           : 'bg-surface-cream border border-border-hairline text-foreground'
@@ -185,16 +185,16 @@ export const ColorTheGridGame: React.FC<{ onBack: () => void }> = ({ onBack }) =
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between w-full px-1">
-                  <span className={`text-[11px] font-mono font-bold ${
+                <div className="flex items-center justify-between w-full px-0.5">
+                  <span className={`text-[10px] sm:text-[11px] font-mono font-bold ${
                     assignedColorId ? 'text-white/80' : 'text-muted'
                   }`}>
                     Card {idx + 1}
                   </span>
-                  <span className={`text-xs font-mono font-bold uppercase ${
+                  <span className={`text-[11px] sm:text-xs font-mono font-bold uppercase ${
                     assignedColorId ? 'text-white underline' : 'text-muted'
                   }`}>
-                    {colorDef ? colorDef.name : 'Click to Color'}
+                    {colorDef ? colorDef.name : 'Tap to Color'}
                   </span>
                 </div>
               </button>
