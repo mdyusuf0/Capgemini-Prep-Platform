@@ -49,19 +49,19 @@ function runProcess(
       proc.stdin.end();
     }
 
-    proc.stdout.on('data', (data) => {
+    proc.stdout.on('data', (data: any) => {
       stdout += data.toString();
     });
 
-    proc.stderr.on('data', (data) => {
+    proc.stderr.on('data', (data: any) => {
       stderr += data.toString();
     });
 
-    proc.on('error', (err) => {
+    proc.on('error', (err: any) => {
       stderr += err.message;
     });
 
-    proc.on('close', (exitCode) => {
+    proc.on('close', (exitCode: any) => {
       clearTimeout(timer);
       const duration = (Date.now() - startTime) / 1000;
       resolve({ stdout, stderr, exitCode, timedOut, duration });
