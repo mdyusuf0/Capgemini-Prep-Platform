@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AdaptiveGameProvider, useAdaptiveGame, GameMode } from '../context/AdaptiveGameContext';
-import { GAME_REGISTRY, PLAYABLE_GAMES, ALL_GAMES, getRandomAssessmentGames, GameDefinition } from '../config/gameRegistry';
+import { GAME_REGISTRY, PLAYABLE_GAMES, ALL_GAMES, CORE_GAMES, getRandomAssessmentGames, GameDefinition } from '../config/gameRegistry';
 import { AssessmentConfig } from '../config/assessmentConfig';
 import api from '../services/api';
 
@@ -19,6 +19,7 @@ import MotionChallengeGame from '../components/games/MotionChallengeGame';
 import SwitchChallengeGame from '../components/games/SwitchChallengeGame';
 import DigitChallengeGame from '../components/games/DigitChallengeGame';
 import ColorTheGridGame from '../components/games/ColorTheGridGame';
+import { ExtendedCognitiveGame } from '../components/games/ExtendedCognitiveGame';
 
 interface PersonalRecord {
   gameId: string;
@@ -152,6 +153,244 @@ const GAME_THUMBNAILS: Record<string, React.ReactNode> = {
       <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">COND_CLR</div>
     </div>
   ),
+  'scale-challenge': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex items-center gap-3 font-mono text-xs text-white">
+          <div className="w-7 h-7 rounded bg-secondary flex items-center justify-center text-[10px] font-bold">1x■</div>
+          <span className="text-accent-yellow font-bold">&gt;</span>
+          <div className="w-7 h-7 rounded bg-accent-mint text-primary flex items-center justify-center text-[10px] font-bold">2x●</div>
+        </div>
+        <div className="w-28 h-0.5 bg-white/40 relative">
+          <div className="w-1.5 h-3 bg-accent-yellow mx-auto -mt-1.5" />
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">BAL_SCALE</div>
+    </div>
+  ),
+  'n-back-memory': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex flex-col items-center gap-1.5">
+        <div className="grid grid-cols-3 gap-1 w-16 h-16 bg-white/5 p-1 rounded-lg">
+          <div className="rounded-xs bg-white/10" />
+          <div className="rounded-xs bg-accent-mint" />
+          <div className="rounded-xs bg-white/10" />
+          <div className="rounded-xs bg-white/10" />
+          <div className="rounded-xs bg-white/10" />
+          <div className="rounded-xs bg-white/10" />
+          <div className="rounded-xs bg-white/10" />
+          <div className="rounded-xs bg-white/10" />
+          <div className="rounded-xs bg-white/10" />
+        </div>
+        <span className="font-mono text-[9px] text-accent-yellow">N=2 RECALL</span>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">N_BACK_2</div>
+    </div>
+  ),
+  'flanker-task': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-1.5 font-mono text-lg font-extrabold text-white">
+        <span className="text-white/40">←</span>
+        <span className="text-white/40">←</span>
+        <span className="text-accent-mint text-2xl font-black scale-125 px-1 bg-white/10 rounded">→</span>
+        <span className="text-white/40">←</span>
+        <span className="text-white/40">←</span>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">FLANKER</div>
+    </div>
+  ),
+  'cube-rotation': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 border-2 border-secondary rotate-12 flex items-center justify-center">
+          <div className="w-4 h-4 bg-accent-mint/40 border border-accent-mint" />
+        </div>
+        <span className="font-mono text-accent-yellow text-xs">⟳ 90°</span>
+        <div className="w-9 h-9 border-2 border-dashed border-white/40 flex items-center justify-center">
+          <div className="w-4 h-4 bg-accent-pink/40 border border-accent-pink" />
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">CUBE_ROT</div>
+    </div>
+  ),
+  'stroop-test': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex flex-col items-center gap-1">
+        <span className="font-black text-xl tracking-wider text-rose-500">BLUE</span>
+        <span className="font-mono text-[9px] text-white/60">INK ≠ TEXT</span>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">STROOP</div>
+    </div>
+  ),
+  'number-series': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-white">
+        <span>3</span>
+        <span className="text-white/40">→</span>
+        <span>6</span>
+        <span className="text-white/40">→</span>
+        <span>12</span>
+        <span className="text-white/40">→</span>
+        <span>24</span>
+        <span className="text-white/40">→</span>
+        <span className="text-accent-yellow bg-white/10 px-1 rounded">[?]</span>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">NUM_SERIES</div>
+    </div>
+  ),
+  'reaction-latency': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shadow-md shadow-emerald-500/50 animate-pulse">
+          <div className="w-3 h-3 rounded-full bg-white" />
+        </div>
+        <div className="flex flex-col font-mono">
+          <span className="text-xs font-bold text-white">184 ms</span>
+          <span className="text-[9px] text-accent-mint">OPTIMAL SPEED</span>
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">REACT_MS</div>
+    </div>
+  ),
+  'spatial-span': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="grid grid-cols-3 gap-1.5 w-20 h-20 p-1">
+        <div className="rounded-md bg-white/10" />
+        <div className="rounded-md bg-accent-yellow flex items-center justify-center text-[9px] font-bold text-primary">1</div>
+        <div className="rounded-md bg-white/10" />
+        <div className="rounded-md bg-accent-yellow flex items-center justify-center text-[9px] font-bold text-primary">3</div>
+        <div className="rounded-md bg-white/10" />
+        <div className="rounded-md bg-accent-yellow flex items-center justify-center text-[9px] font-bold text-primary">2</div>
+        <div className="rounded-md bg-white/10" />
+        <div className="rounded-md bg-white/10" />
+        <div className="rounded-md bg-white/10" />
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">CORSI_SPAN</div>
+    </div>
+  ),
+  'matrix-reasoning': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="grid grid-cols-3 gap-1 w-20 h-20 p-1 bg-white/5 rounded">
+        <div className="flex items-center justify-center text-xs text-white">●</div>
+        <div className="flex items-center justify-center text-xs text-white">●●</div>
+        <div className="flex items-center justify-center text-xs text-white">●●●</div>
+        <div className="flex items-center justify-center text-xs text-white">■</div>
+        <div className="flex items-center justify-center text-xs text-white">■■</div>
+        <div className="flex items-center justify-center text-xs text-white">■■■</div>
+        <div className="flex items-center justify-center text-xs text-white">▲</div>
+        <div className="flex items-center justify-center text-xs text-white">▲▲</div>
+        <div className="flex items-center justify-center border border-dashed border-accent-yellow text-accent-yellow font-mono text-xs font-bold">?</div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">RAVEN_MAT</div>
+    </div>
+  ),
+  'fault-diagnosis': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-2 font-mono text-[10px] text-white">
+        <div className="p-1 rounded bg-white/10">IN: 1,0</div>
+        <span>→</span>
+        <div className="px-1.5 py-0.5 rounded bg-rose-500/20 border border-rose-400 text-rose-300 font-bold">OR [X]</div>
+        <span>→</span>
+        <div className="text-accent-pink font-bold">FAULT!</div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">FAULT_CIR</div>
+    </div>
+  ),
+  'symbol-search': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex flex-col items-center gap-1.5">
+        <span className="font-mono text-[9px] text-accent-yellow">TARGET: Ω</span>
+        <div className="grid grid-cols-4 gap-1 font-mono text-[11px] text-white/80">
+          <span>Ψ</span>
+          <span>λ</span>
+          <span className="text-accent-mint font-bold">Ω</span>
+          <span>θ</span>
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">SYM_SRCH</div>
+    </div>
+  ),
+  'target-tracking': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="relative w-28 h-14 bg-white/5 rounded-xl flex items-center justify-around px-2">
+        <div className="w-3.5 h-3.5 rounded-full bg-accent-yellow shadow-md shadow-amber-500/50 animate-ping" />
+        <div className="w-3.5 h-3.5 rounded-full bg-white/30" />
+        <div className="w-3.5 h-3.5 rounded-full bg-accent-yellow shadow-md shadow-amber-500/50" />
+        <div className="w-3.5 h-3.5 rounded-full bg-white/30" />
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">MOT_TRACK</div>
+    </div>
+  ),
+  'lexical-decision': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex flex-col items-center gap-1">
+        <span className="font-mono text-sm font-black text-accent-mint">RECURSION</span>
+        <span className="text-[9px] font-mono text-white/60">[WORD] vs [PSEUDO]</span>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">LEX_DEC</div>
+    </div>
+  ),
+  'paper-folding': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-2">
+        <div className="w-10 h-10 border border-dashed border-white/60 relative flex items-center justify-center">
+          <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent-pink" />
+        </div>
+        <span className="font-mono text-xs text-accent-yellow">⤹</span>
+        <div className="w-10 h-10 border border-white/30 relative flex items-center justify-center">
+          <div className="w-1.5 h-1.5 rounded-full bg-accent-mint" />
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">FOLD_PUNCH</div>
+    </div>
+  ),
+  'tower-puzzle': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-end gap-3 h-14">
+        <div className="flex flex-col-reverse items-center gap-0.5">
+          <div className="w-9 h-2 bg-secondary rounded-xs" />
+          <div className="w-6 h-2 bg-secondary-fixed rounded-xs" />
+          <div className="w-3 h-2 bg-accent-yellow rounded-xs" />
+          <div className="w-1 h-8 bg-white/30" />
+        </div>
+        <div className="w-1 h-12 bg-white/30" />
+        <div className="w-1 h-12 bg-white/30" />
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">TOWER_DISC</div>
+    </div>
+  ),
+  'rule-switch': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-center gap-2 font-mono text-[10px]">
+        <div className="p-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">COLOR</div>
+        <span>↔</span>
+        <div className="p-1 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40">SHAPE</div>
+        <span>↔</span>
+        <div className="p-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">COUNT</div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">RULE_WCST</div>
+    </div>
+  ),
+  'vessel-water': (
+    <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+      <div className="flex items-end gap-3 font-mono text-[9px] text-white">
+        <div className="flex flex-col items-center">
+          <div className="w-7 h-10 border border-white/50 rounded-b flex flex-col justify-end overflow-hidden">
+            <div className="h-3/4 w-full bg-secondary" />
+          </div>
+          <span>5L</span>
+        </div>
+        <span className="text-accent-yellow">⮂</span>
+        <div className="flex flex-col items-center">
+          <div className="w-7 h-8 border border-white/50 rounded-b flex flex-col justify-end overflow-hidden">
+            <div className="h-1/2 w-full bg-accent-mint" />
+          </div>
+          <span>3L</span>
+        </div>
+      </div>
+      <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/50 tracking-wider">JUG_WATER</div>
+    </div>
+  ),
 };
 
 const CognitiveArenaContent: React.FC = () => {
@@ -224,7 +463,7 @@ const CognitiveArenaContent: React.FC = () => {
       case 'colorthegrid':
         return <ColorTheGridGame onBack={handleBack} />;
       default:
-        return <GridChallengeGame onBack={handleBack} />;
+        return <ExtendedCognitiveGame gameId={currentGameId} onBack={handleBack} />;
     }
   }
 
@@ -341,9 +580,9 @@ const CognitiveArenaContent: React.FC = () => {
               <span className="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider">Active Modules Ready</span>
               <div className="flex items-baseline gap-1 mt-0.5">
                 <span className="text-xl md:text-2xl font-bold text-on-surface tracking-tight">
-                  7<span className="text-on-surface-variant text-base">/24</span>
+                  24<span className="text-on-surface-variant text-base">/24</span>
                 </span>
-                <span className="font-mono text-xs text-secondary font-semibold">Playable</span>
+                <span className="font-mono text-xs text-accent-mint font-semibold">All Playable</span>
               </div>
             </div>
             <div className="w-9 h-9 rounded-xl bg-surface-cream border border-border-hairline flex items-center justify-center text-on-surface">
@@ -393,7 +632,7 @@ const CognitiveArenaContent: React.FC = () => {
                       : 'bg-surface-paper border border-border-hairline text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
-                  Playable Games (7)
+                  Core Assessment Battery (7)
                 </button>
                 <button
                   type="button"
@@ -404,19 +643,19 @@ const CognitiveArenaContent: React.FC = () => {
                       : 'bg-surface-paper border border-border-hairline text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
-                  24-Game Cognitive Pool (17 Extended)
+                  Complete 24-Game Cognitive Pool (All Playable)
                 </button>
               </div>
 
               <span className="font-mono text-[11px] text-on-surface-variant hidden sm:inline-block">
-                [6 Min Timer • Level² Scoring]
+                [6 Min Timer • Level² Scoring • All 24 Active]
               </span>
             </div>
 
             {/* Playable Games List */}
             {selectedTab === 'playable' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {PLAYABLE_GAMES.map((game) => {
+                {CORE_GAMES.map((game) => {
                   const record = personalRecords[game.id];
 
                   return (
@@ -492,34 +731,86 @@ const CognitiveArenaContent: React.FC = () => {
                 })}
               </div>
             ) : (
-              /* 24-Game Cognitive Pool Catalog */
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                {ALL_GAMES.map((game) => (
-                  <div
-                    key={game.id}
-                    className="p-3.5 bg-surface-paper border border-border-hairline rounded-2xl flex flex-col justify-between gap-2 shadow-xs"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-surface-cream border border-border-hairline text-on-surface-variant">
-                          {game.category}
-                        </span>
-                        <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
-                          game.isPlayable ? 'bg-emerald-100 text-emerald-800' : 'bg-surface-cream text-on-surface-variant'
-                        }`}>
-                          {game.isPlayable ? 'Active Ready' : 'Extensible Pool'}
-                        </span>
-                      </div>
-                      <h3 className="text-sm font-bold text-on-surface">{game.name}</h3>
-                      <p className="text-xs text-on-surface-variant mt-1 leading-relaxed">{game.shortDesc}</p>
-                    </div>
+              /* 24-Game Cognitive Pool Catalog - All with Thumbnails & Play Action */
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {ALL_GAMES.map((game) => {
+                  const record = personalRecords[game.id];
 
-                    <div className="text-[10px] font-mono text-on-surface-variant flex justify-between border-t border-border-hairline pt-2">
-                      <span>Scaling: {game.difficultyCurve.scalingFactor}</span>
-                      <span>Cap: LVL {game.difficultyCurve.recommendedCap}</span>
-                    </div>
-                  </div>
-                ))}
+                  return (
+                    <article
+                      key={game.id}
+                      className="bg-surface-paper border border-border-hairline rounded-2xl p-4 shadow-xs flex flex-col justify-between group transition-all duration-200 hover:-translate-y-0.5"
+                    >
+                      <div>
+                        <div className="flex items-start justify-between gap-2 mb-2.5">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-mono text-[10px] font-bold">
+                            {game.category}
+                          </span>
+                          <span className="font-mono text-xs font-bold text-secondary">
+                            {record ? `Peak: LVL ${record.highestLevel}` : `Cap: LVL ${game.difficultyCurve.recommendedCap}`}
+                          </span>
+                        </div>
+
+                        {/* Visual Blueprint Thumbnail */}
+                        {GAME_THUMBNAILS[game.id] || (
+                          <div className="h-28 w-full bg-surface-charcoal rounded-lg p-3 flex items-center justify-center relative overflow-hidden mb-3">
+                            <span className="font-mono text-xs text-white/50">{game.name}</span>
+                          </div>
+                        )}
+
+                        <h2 className="text-base font-bold text-on-surface group-hover:text-secondary transition-colors">
+                          {game.name}
+                        </h2>
+                        <p className="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                          {game.shortDesc}
+                        </p>
+
+                        {/* Skill Tags */}
+                        <div className="flex flex-wrap gap-1.5 mt-2.5">
+                          {game.skills.map((s, idx) => (
+                            <span
+                              key={idx}
+                              className="px-2 py-0.5 rounded-md bg-surface-cream border border-border-hairline font-mono text-[10px] text-on-surface-variant"
+                            >
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Action Bar */}
+                      <div className="mt-4 pt-3 flex flex-col gap-2 bg-surface-cream -mx-4 -mb-4 p-3.5 rounded-b-2xl border-t border-border-hairline">
+                        <div className="flex items-center justify-between font-mono text-xs">
+                          <span className="text-on-surface-variant text-[11px]">Best Record</span>
+                          <span className="font-bold text-on-surface">
+                            {record ? `${record.maxScore} pts (${record.bestAccuracy}% Acc)` : 'Ready to Test'}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 mt-1">
+                          <button
+                            type="button"
+                            onClick={() => handleStartPractice(game.id)}
+                            className="h-8 bg-primary hover:bg-surface-charcoal text-on-primary font-mono text-xs font-semibold rounded-xl flex items-center justify-center gap-1 transition-colors cursor-pointer shadow-xs"
+                          >
+                            <Play className="w-3 h-3 fill-current" />
+                            Practice
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleStartChallenge(game.id)}
+                            className="h-8 bg-secondary hover:bg-secondary-hover text-on-secondary font-mono text-xs font-semibold rounded-xl flex items-center justify-center gap-1 transition-colors cursor-pointer shadow-xs"
+                            title="Target your personal best level"
+                          >
+                            <Flame className="w-3 h-3 fill-current" />
+                            Beat Best
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             )}
 
