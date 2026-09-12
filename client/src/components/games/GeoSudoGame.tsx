@@ -1,205 +1,101 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAdaptiveGame } from '../../context/AdaptiveGameContext';
 import { AdaptiveGameShell, InstructionItem, ShortcutItem } from './AdaptiveGameShell';
-import { Square, Triangle, Circle, Plus, AlertCircle, Check } from 'lucide-react';
-import { playClick } from '../../utils/sound';
+import { Square, Triangle, Circle, Plus, Star, HelpCircle, Check, AlertCircle } from 'lucide-react';
+import { playClick, playCorrect, playWrong } from '../../utils/sound';
+import { GeoSudoEngine, GeoSudoPuzzle } from '../../services/cognitiveEngine';
 
-interface ShapeDef {
-  id: number;
+interface SymbolDef {
+  char: string;
+  name: string;
   icon: React.ComponentType<any>;
   color: string;
   bg: string;
-  name: string;
 }
 
-const SHAPES: ShapeDef[] = [
-  { id: 1, icon: Square, color: 'text-rose-600', bg: 'bg-rose-50 border-rose-200', name: 'Square' },
-  { id: 2, icon: Triangle, color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200', name: 'Triangle' },
-  { id: 3, icon: Circle, color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200', name: 'Circle' },
-  { id: 4, icon: Plus, color: 'text-blue-600', bg: 'bg-blue-50 border-blue-200', name: 'Plus' },
-];
+const SYMBOL_MAP: Record<string, SymbolDef> = {
+  '▲': { char: '▲', name: 'Triangle', icon: Triangle, color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
+  '■': { char: '■', name: 'Square', icon: Square, color: 'text-rose-600', bg: 'bg-rose-50 border-rose-200' },
+  '●': { char: '●', name: 'Circle', icon: Circle, color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200' },
+  '★': { char: '★', name: 'Star', icon: Star, color: 'text-purple-600', bg: 'bg-purple-50 border-purple-200' },
+  '♦': { char: '♦', name: 'Diamond', icon: Plus, color: 'text-blue-600', bg: 'bg-blue-50 border-blue-200' },
+};
 
 export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { level, submitAnswer, resetLevelTimer } = useAdaptiveGame();
-  const [grid, setGrid] = useState<number[][]>([]);
-  const [initialGrid, setInitialGrid] = useState<boolean[][]>([]);
-  const [size] = useState<number>(4);
-  const [selectedCell, setSelectedCell] = useState<{ r: number; c: number }>({ r: 0, c: 0 });
-  const [hasConflict, setHasConflict] = useState<boolean>(false);
+  const [puzzle, setPuzzle] = useState<GeoSudoPuzzle | null>(null);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-  const isValid = useCallback((board: number[][], r: number, c: number, num: number, s: number): boolean => {
-    for (let i = 0; i < s; i++) if (board[r][i] === num) return false;
-    for (let i = 0; i < s; i++) if (board[i][c] === num) return false;
-    return true;
-  }, []);
-
-  const solve = useCallback((board: number[][], s: number): boolean => {
-    for (let r = 0; r < s; r++) {
-      for (let c = 0; c < s; c++) {
-        if (board[r][c] === 0) {
-          const nums = [1, 2, 3, 4].sort(() => Math.random() - 0.5);
-          for (const num of nums) {
-            if (isValid(board, r, c, num, s)) {
-              board[r][c] = num;
-              if (solve(board, s)) return true;
-              board[r][c] = 0;
-            }
-          }
-          return false;
-        }
-      }
-    }
-    return true;
-  }, [isValid]);
-
-  const createSolvedGrid = useCallback((s: number): number[][] => {
-    const board = Array(s).fill(0).map(() => Array(s).fill(0));
-    solve(board, s);
-    return board;
-  }, [solve]);
-
-  const generateLevel = useCallback((s: number) => {
+  const loadPuzzle = useCallback(() => {
     setFeedback(null);
-    const fullGrid = createSolvedGrid(s);
-    // Remove cells based on difficulty: 4 to 8 cells empty
-    const removeCount = Math.min(s * s - 3, Math.max(4, 3 + Math.floor(level * 0.7)));
-    const newGrid = fullGrid.map(row => [...row]);
-    const mask = fullGrid.map(row => row.map(() => true));
-
-    let removed = 0;
-    let attempts = 0;
-    while (removed < removeCount && attempts < 100) {
-      attempts++;
-      const r = Math.floor(Math.random() * s);
-      const c = Math.floor(Math.random() * s);
-      if (newGrid[r][c] !== 0) {
-        newGrid[r][c] = 0;
-        mask[r][c] = false;
-        removed++;
-      }
-    }
-
-    setGrid(newGrid);
-    setInitialGrid(mask);
-
-    // Find first empty cell
-    let firstR = 0, firstC = 0;
-    for (let r = 0; r < s; r++) {
-      for (let c = 0; c < s; c++) {
-        if (!mask[r][c]) {
-          firstR = r;
-          firstC = c;
-          break;
-        }
-      }
-    }
-    setSelectedCell({ r: firstR, c: firstC });
-    setHasConflict(false);
+    setSelectedOption(null);
+    const newPuzzle = GeoSudoEngine.generate(level);
+    setPuzzle(newPuzzle);
     resetLevelTimer();
-  }, [createSolvedGrid, level, resetLevelTimer]);
+  }, [level, resetLevelTimer]);
 
   useEffect(() => {
-    generateLevel(size);
-  }, [level, size, generateLevel]);
+    loadPuzzle();
+  }, [level, loadPuzzle]);
 
-  const checkConflicts = useCallback((currentGrid: number[][]): boolean => {
-    let conflict = false;
-    for (let r = 0; r < size; r++) {
-      const seenRow = new Set<number>();
-      const seenCol = new Set<number>();
-      for (let c = 0; c < size; c++) {
-        const rowVal = currentGrid[r][c];
-        const colVal = currentGrid[c][r];
-        if (rowVal !== 0) {
-          if (seenRow.has(rowVal)) conflict = true;
-          seenRow.add(rowVal);
-        }
-        if (colVal !== 0) {
-          if (seenCol.has(colVal)) conflict = true;
-          seenCol.add(colVal);
-        }
-      }
-    }
-    setHasConflict(conflict);
-    return conflict;
-  }, [size]);
-
-  const handleShapeSelect = useCallback((shapeId: number) => {
-    if (!selectedCell || feedback !== null) return;
-    const { r, c } = selectedCell;
-    if (initialGrid[r] && initialGrid[r][c]) return; // Pre-filled given cell
-
+  const handleOptionSelect = useCallback((symbol: string) => {
+    if (!puzzle || feedback !== null) return;
     playClick();
-    const newGrid = grid.map(row => [...row]);
-    newGrid[r][c] = shapeId;
-    setGrid(newGrid);
+    setSelectedOption(symbol);
 
-    const conflict = checkConflicts(newGrid);
-
-    // Check completion if no empty cells
-    let isFull = true;
-    for (let row = 0; row < size; row++) {
-      for (let col = 0; col < size; col++) {
-        if (newGrid[row][col] === 0) isFull = false;
-      }
-    }
-
-    if (isFull && !conflict) {
+    if (symbol === puzzle.solution) {
       setFeedback('correct');
-      setTimeout(() => submitAnswer(true), 400);
+      playCorrect();
+      setTimeout(() => submitAnswer(true), 500);
+    } else {
+      setFeedback('wrong');
+      playWrong();
+      submitAnswer(false);
+      setTimeout(() => {
+        setFeedback(null);
+        setSelectedOption(null);
+      }, 700);
     }
-  }, [selectedCell, feedback, initialGrid, grid, checkConflicts, size, submitAnswer]);
+  }, [puzzle, feedback, submitAnswer]);
 
-  const handleCellClick = (r: number, c: number) => {
-    if (initialGrid[r] && initialGrid[r][c]) return;
-    playClick();
-    setSelectedCell({ r, c });
-  };
-
-  // Keyboard controls: 1-4 for shapes, Arrows to navigate
+  // Keyboard hotkeys: 1 to 5
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key >= '1' && e.key <= '4') {
+      if (!puzzle || feedback !== null) return;
+      const num = parseInt(e.key, 10);
+      if (num >= 1 && num <= puzzle.options.length) {
         e.preventDefault();
-        handleShapeSelect(Number(e.key));
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setSelectedCell(prev => ({ ...prev, r: Math.max(0, prev.r - 1) }));
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setSelectedCell(prev => ({ ...prev, r: Math.min(size - 1, prev.r + 1) }));
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        setSelectedCell(prev => ({ ...prev, c: Math.max(0, prev.c - 1) }));
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        setSelectedCell(prev => ({ ...prev, c: Math.min(size - 1, prev.c + 1) }));
+        handleOptionSelect(puzzle.options[num - 1]);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleShapeSelect, size]);
+  }, [puzzle, feedback, handleOptionSelect]);
 
-  const SHORTCUTS: ShortcutItem[] = [
-    { key: '1, 2, 3, 4', action: 'Place Shape' },
-    { key: 'Arrow Keys', action: 'Move Cell Cursor' },
-  ];
+  if (!puzzle) return null;
+
+  const size = puzzle.size;
+  const is5x5 = size === 5;
 
   const INSTRUCTIONS: InstructionItem[] = [
     {
-      title: "Latin-Square Sudoku Logic",
-      desc: "Each row and each column must contain exactly one of each geometric symbol: Square, Triangle, Circle, and Plus.",
+      title: "Latin-Square Deductive Logic",
+      desc: `Each row and column must contain every geometric symbol exactly once (${size} distinct symbols).`,
     },
     {
-      title: "Select Cell & Place Shape",
-      desc: "Click on an empty dashed cell, then pick the non-conflicting shape from the palette (or press keys 1 to 4).",
+      title: "Find the Missing Symbol at '?'",
+      desc: "Identify the unique symbol that must occupy the highlighted target cell '?' through row and column elimination.",
     },
     {
-      title: "Instant Verification",
-      desc: "If any row or column contains duplicate shapes, an active conflict warning appears. Fill all cells cleanly to complete the level.",
+      title: "Select from Palette",
+      desc: "Click the correct symbol below or press keys 1 through " + size + ".",
     }
+  ];
+
+  const SHORTCUTS: ShortcutItem[] = [
+    { key: `1 to ${size}`, action: 'Select Candidate Symbol' },
   ];
 
   return (
@@ -212,83 +108,94 @@ export const GeoSudoGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     >
       <div className="flex flex-col items-center justify-center max-w-xl mx-auto w-full gap-6">
 
-        {/* Status / Conflict Warning Banner */}
-        {hasConflict && (
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono font-bold animate-pulse shadow-xs">
-            <AlertCircle size={15} />
-            <span>Conflict Detected: Duplicate symbol in row or column</span>
-          </div>
-        )}
+        {/* Level & Depth Header Badge */}
+        <div className="flex items-center gap-3 text-xs font-mono text-muted">
+          <span className="px-2.5 py-1 rounded-lg bg-surface-cream border border-border-hairline font-bold text-foreground">
+            {size}×{size} Latin Square
+          </span>
+          <span className="px-2.5 py-1 rounded-lg bg-surface-cream border border-border-hairline">
+            Deductive Depth: Level {puzzle.deductiveDepth}
+          </span>
+        </div>
 
-        {/* 4x4 Latin Square Board */}
-        <div className="p-3 sm:p-4 bg-surface-paper border border-border-hairline rounded-3xl shadow-xs">
-          <div className="grid grid-cols-4 gap-2 sm:gap-3">
-            {grid.map((row, r) =>
+        {/* Latin Square Grid Display */}
+        <div className="p-4 sm:p-5 bg-surface-paper border border-border-hairline rounded-3xl shadow-xs">
+          <div
+            className="grid gap-2 sm:gap-2.5"
+            style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}
+          >
+            {puzzle.grid.map((row, r) =>
               row.map((val, c) => {
-                const isPreFilled = initialGrid[r] && initialGrid[r][c];
-                const isSelected = selectedCell.r === r && selectedCell.c === c;
-                const shape = SHAPES.find(s => s.id === val);
+                const isTarget = puzzle.targetCell.row === r && puzzle.targetCell.col === c;
+                const symDef = val ? SYMBOL_MAP[val] : null;
 
                 return (
-                  <button
+                  <div
                     key={`${r}-${c}`}
-                    type="button"
-                    onClick={() => handleCellClick(r, c)}
-                    disabled={isPreFilled}
-                    className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all cursor-pointer border-2 shadow-2xs ${
-                      isSelected
-                        ? 'border-secondary ring-3 ring-secondary/20 scale-102'
-                        : isPreFilled
-                        ? 'bg-surface-cream border-border-hairline cursor-default'
-                        : 'bg-surface-paper border-dashed border-border-hairline hover:border-secondary'
+                    className={`w-12 h-12 sm:w-15 sm:h-15 rounded-2xl flex items-center justify-center border-2 transition-all select-none ${
+                      isTarget
+                        ? feedback === 'correct'
+                          ? 'bg-emerald-50 border-emerald-500 ring-4 ring-emerald-200'
+                          : feedback === 'wrong'
+                          ? 'bg-rose-50 border-rose-500 ring-4 ring-rose-200'
+                          : 'bg-amber-50/80 border-amber-400 ring-4 ring-amber-200/60 shadow-xs animate-pulse'
+                        : val !== null
+                        ? 'bg-surface-cream/70 border-border-hairline'
+                        : 'bg-surface-paper border-dashed border-border-hairline/80'
                     }`}
                   >
-                    {shape && (
-                      <shape.icon
-                        size={28}
-                        strokeWidth={2.5}
-                        className={`${shape.color} ${isPreFilled ? 'opacity-90' : 'scale-105'}`}
-                      />
-                    )}
-                    {!shape && isSelected && (
-                      <span className="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
-                    )}
-                  </button>
+                    {isTarget ? (
+                      feedback === 'correct' ? (
+                        <Check size={28} className="text-emerald-600 font-bold" />
+                      ) : (
+                        <span className="text-xl sm:text-2xl font-black font-mono text-amber-600">?</span>
+                      )
+                    ) : symDef ? (
+                      <symDef.icon size={is5x5 ? 22 : 26} strokeWidth={2.5} className={symDef.color} />
+                    ) : null}
+                  </div>
                 );
               })
             )}
           </div>
         </div>
 
-        {/* Shape Palette */}
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-on-surface-variant">
-            Place Symbol into Selected Cell
-          </span>
+        {/* Options / Symbol Palette */}
+        <div className="w-full flex flex-col items-center gap-3">
+          <div className="text-xs font-mono font-bold tracking-wider uppercase text-muted">
+            Choose symbol for Target Cell [ ? ]:
+          </div>
 
-          <div className="flex gap-2.5">
-            {SHAPES.map((shape) => (
-              <button
-                key={shape.id}
-                type="button"
-                onClick={() => handleShapeSelect(shape.id)}
-                className={`flex flex-col items-center gap-1 p-3 rounded-2xl border transition-all cursor-pointer shadow-xs ${shape.bg} hover:scale-105`}
-              >
-                <shape.icon size={26} strokeWidth={2.5} className={shape.color} />
-                <span className="text-[10px] font-mono font-bold text-on-surface-variant">
-                  Key [{shape.id}]
-                </span>
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {puzzle.options.map((opt, idx) => {
+              const symDef = SYMBOL_MAP[opt];
+              const isSelected = selectedOption === opt;
+
+              return (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => handleOptionSelect(opt)}
+                  disabled={feedback !== null}
+                  className={`flex flex-col items-center justify-center w-16 h-16 sm:w-18 sm:h-18 rounded-2xl border-2 transition-all cursor-pointer shadow-xs ${
+                    isSelected && feedback === 'correct'
+                      ? 'bg-emerald-50 border-emerald-500 ring-4 ring-emerald-200 scale-105'
+                      : isSelected && feedback === 'wrong'
+                      ? 'bg-rose-50 border-rose-500 ring-4 ring-rose-200'
+                      : 'bg-surface-paper border-border-hairline hover:border-secondary hover:scale-103 active:scale-95'
+                  }`}
+                >
+                  {symDef && (
+                    <symDef.icon size={26} strokeWidth={2.5} className={symDef.color} />
+                  )}
+                  <span className="text-[10px] font-mono text-muted font-bold mt-1">
+                    Key {idx + 1}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
-
-        {/* Solved feedback banner */}
-        {feedback === 'correct' && (
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-white font-mono text-xs font-bold shadow-md">
-            <Check size={16} /> Latin Square Solved! Advancing to Level {level + 1}...
-          </div>
-        )}
 
       </div>
     </AdaptiveGameShell>

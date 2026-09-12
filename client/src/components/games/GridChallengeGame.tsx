@@ -1,143 +1,113 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useAdaptiveGame } from '../../context/AdaptiveGameContext';
 import { AdaptiveGameShell, InstructionItem, ShortcutItem } from './AdaptiveGameShell';
-import { motion } from 'framer-motion';
-import { playClick } from '../../utils/sound';
-import { Brain, Check, HelpCircle } from 'lucide-react';
+import { Brain, Check, AlertCircle, Sparkles } from 'lucide-react';
+import { playClick, playCorrect, playWrong } from '../../utils/sound';
+import { GridEngine, GridPuzzle, GridCoordinate, SymmetryTaskData } from '../../services/cognitiveEngine';
 
-interface Coord {
-  r: number;
-  c: number;
-}
-
-interface SymmetryTask {
-  matrix: boolean[][];
-  isSymmetric: boolean;
-}
+type GamePhase = 'MEMORIZE' | 'DISTRACT' | 'RECALL';
 
 export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { level, submitAnswer, resetLevelTimer } = useAdaptiveGame();
-
-  // Phases: 'MEMORIZE', 'DISTRACT', 'RECALL'
-  const [phase, setPhase] = useState<'MEMORIZE' | 'DISTRACT' | 'RECALL'>('MEMORIZE');
-  const [sequence, setSequence] = useState<Coord[]>([]);
+  const [puzzle, setPuzzle] = useState<GridPuzzle | null>(null);
+  const [phase, setPhase] = useState<GamePhase>('MEMORIZE');
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [userSequence, setUserSequence] = useState<Coord[]>([]);
-  const [symmetryTask, setSymmetryTask] = useState<SymmetryTask | null>(null);
+  const [userSequence, setUserSequence] = useState<GridCoordinate[]>([]);
+  const [symmetryErrors, setSymmetryErrors] = useState<number>(0);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
 
-  const gridSize = Math.min(5, 3 + Math.floor(level / 4)); // 3x3 to 5x5
-  const sequenceLength = Math.min(5, 2 + Math.floor(level / 3)); // 2 to 5 dots
-
-  // Generate matrix for symmetry distraction task
-  const generateSymmetryTask = useCallback(() => {
-    const matrixSize = 6;
-    const isSymmetric = Math.random() > 0.5;
-    const matrix = Array(matrixSize).fill(0).map(() => Array(matrixSize).fill(false));
-
-    // Generate left half
-    for (let r = 0; r < matrixSize; r++) {
-      for (let c = 0; c < matrixSize / 2; c++) {
-        const filled = Math.random() > 0.55;
-        matrix[r][c] = filled;
-        // Mirror to right half
-        matrix[r][matrixSize - 1 - c] = filled;
-      }
-    }
-
-    // If asymmetric, flip cells on the right
-    if (!isSymmetric) {
-      const flipR = Math.floor(Math.random() * matrixSize);
-      const flipC = matrixSize - 1 - Math.floor(Math.random() * (matrixSize / 2));
-      matrix[flipR][flipC] = !matrix[flipR][flipC];
-    }
-
-    setSymmetryTask({ matrix, isSymmetric });
-  }, []);
-
-  const startLevel = useCallback(() => {
+  const loadPuzzle = useCallback(() => {
     setFeedback(null);
-    const newSeq: Coord[] = [];
-    while (newSeq.length < sequenceLength) {
-      const r = Math.floor(Math.random() * gridSize);
-      const c = Math.floor(Math.random() * gridSize);
-      if (!newSeq.some(p => p.r === r && p.c === c)) {
-        newSeq.push({ r, c });
-      }
-    }
-    setSequence(newSeq);
+    const newPuzzle = GridEngine.generate(level);
+    setPuzzle(newPuzzle);
+    setPhase('MEMORIZE');
     setCurrentStep(0);
     setUserSequence([]);
-    setPhase('MEMORIZE');
+    setSymmetryErrors(0);
     resetLevelTimer();
-  }, [gridSize, sequenceLength, resetLevelTimer]);
+  }, [level, resetLevelTimer]);
 
   useEffect(() => {
-    startLevel();
-  }, [level, startLevel]);
+    loadPuzzle();
+  }, [level, loadPuzzle]);
 
-  // Timer to cycle between MEMORIZE and DISTRACT
+  // Phase transition timer: MEMORIZE (dot flash) -> DISTRACT (symmetry test)
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (phase === 'MEMORIZE') {
-      timer = setTimeout(() => {
-        generateSymmetryTask();
-        setPhase('DISTRACT');
-      }, 1500);
-    }
+    if (!puzzle || phase !== 'MEMORIZE') return;
+
+    const timer = setTimeout(() => {
+      setPhase('DISTRACT');
+    }, puzzle.flashDurationMs);
+
     return () => clearTimeout(timer);
-  }, [phase, generateSymmetryTask]);
+  }, [puzzle, phase, currentStep]);
 
+  // Handle symmetry answer in DISTRACT phase
   const handleSymmetryAnswer = useCallback((answer: boolean) => {
+    if (!puzzle || phase !== 'DISTRACT') return;
     playClick();
-    if (currentStep < sequence.length - 1) {
+
+    const currentTask = puzzle.symmetryTasks[currentStep];
+    const isCorrect = answer === currentTask.isSymmetric;
+    if (!isCorrect) {
+      setSymmetryErrors(prev => prev + 1);
+    }
+
+    if (currentStep < puzzle.sequenceLength - 1) {
       setCurrentStep(prev => prev + 1);
       setPhase('MEMORIZE');
     } else {
       setPhase('RECALL');
     }
-  }, [currentStep, sequence.length]);
+  }, [puzzle, phase, currentStep]);
 
-  const handleGridClick = useCallback((r: number, c: number) => {
-    if (phase !== 'RECALL' || feedback !== null) return;
-    if (userSequence.some(p => p.r === r && p.c === c)) return;
-
+  // Handle recall grid clicks
+  const handleRecallCellClick = useCallback((row: number, col: number) => {
+    if (!puzzle || phase !== 'RECALL' || feedback !== null) return;
     playClick();
-    const newSeq = [...userSequence, { r, c }];
-    setUserSequence(newSeq);
 
-    if (newSeq.length === sequence.length) {
-      // Check sequence accuracy
-      let correct = true;
-      for (let i = 0; i < sequence.length; i++) {
-        if (newSeq[i].r !== sequence[i].r || newSeq[i].c !== sequence[i].c) {
-          correct = false;
-          break;
-        }
-      }
+    // Check if cell already clicked in this recall
+    if (userSequence.some(p => p.row === row && p.col === col)) return;
 
-      if (correct) {
+    const nextUserSeq = [...userSequence, { row, col }];
+    setUserSequence(nextUserSeq);
+
+    if (nextUserSeq.length === puzzle.sequenceLength) {
+      // Validate full sequence match
+      const sequenceCorrect = puzzle.sequence.every(
+        (target, idx) => target.row === nextUserSeq[idx].row && target.col === nextUserSeq[idx].col
+      );
+
+      // Symmetry check: max 1 error allowed to pass dual-task threshold
+      const symmetryPass = symmetryErrors <= Math.floor(puzzle.sequenceLength * 0.35);
+
+      if (sequenceCorrect && symmetryPass) {
         setFeedback('correct');
-        setTimeout(() => submitAnswer(true), 400);
+        playCorrect();
+        setTimeout(() => submitAnswer(true), 500);
       } else {
         setFeedback('wrong');
+        playWrong();
         submitAnswer(false);
-        setTimeout(() => startLevel(), 800);
+        setTimeout(() => {
+          setFeedback(null);
+          loadPuzzle();
+        }, 800);
       }
     }
-  }, [phase, feedback, userSequence, sequence, submitAnswer, startLevel]);
+  }, [puzzle, phase, feedback, userSequence, symmetryErrors, submitAnswer, loadPuzzle]);
 
-  // Keyboard support: Y/N for symmetry
+  // Hotkeys: S (Symmetric) / N (Non-Symmetric) during DISTRACT
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (phase === 'DISTRACT') {
-        if (e.key.toLowerCase() === 'y' || e.key === 'ArrowLeft') {
-          e.preventDefault();
-          handleSymmetryAnswer(true);
-        } else if (e.key.toLowerCase() === 'n' || e.key === 'ArrowRight') {
-          e.preventDefault();
-          handleSymmetryAnswer(false);
-        }
+      if (phase !== 'DISTRACT') return;
+      const key = e.key.toLowerCase();
+      if (key === 'y' || key === 's' || key === 'arrowleft' || key === '1') {
+        e.preventDefault();
+        handleSymmetryAnswer(true);
+      } else if (key === 'n' || key === 'arrowright' || key === '2') {
+        e.preventDefault();
+        handleSymmetryAnswer(false);
       }
     };
 
@@ -145,71 +115,84 @@ export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) 
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase, handleSymmetryAnswer]);
 
-  const SHORTCUTS: ShortcutItem[] = [
-    { key: 'Y / Arrow Left', action: 'Answer YES (Symmetric)' },
-    { key: 'N / Arrow Right', action: 'Answer NO (Asymmetric)' },
-  ];
+  if (!puzzle) return null;
+
+  const currentTask = puzzle.symmetryTasks[currentStep] || puzzle.symmetryTasks[0];
 
   const INSTRUCTIONS: InstructionItem[] = [
     {
-      title: "Dual-Task Working Memory",
-      desc: "Observe the highlighted dot on the grid and commit its spatial position to memory.",
+      title: "Dual-Task Executive Working Memory",
+      desc: "Memorize the sequence of flashing dots across the grid while completing interleaved symmetry verification tests.",
     },
     {
-      title: "Interference Task: Vertical Symmetry",
-      desc: "Quickly determine whether the 6x6 pixel figure is vertically symmetrical across its central axis (Press Y for Yes, N for No).",
+      title: "Interleaved Symmetry Test",
+      desc: "Verify whether the 6x6 pixel grid is vertically or horizontally symmetric. Submitting incorrect symmetry answers penalizes your score.",
     },
     {
-      title: "Sequential Coordinate Recall",
-      desc: "Once all items have been presented, click the grid cells in the exact order they appeared.",
+      title: "Final Sequence Recall",
+      desc: "In the recall phase, click the remembered cells in the exact order they were presented.",
     }
   ];
 
-  const activeDot = sequence[currentStep];
+  const SHORTCUTS: ShortcutItem[] = [
+    { key: 'S / 1 / ←', action: 'Answer "Symmetric"' },
+    { key: 'N / 2 / →', action: 'Answer "Asymmetric"' },
+  ];
 
   return (
     <AdaptiveGameShell
       title="Grid Challenge"
-      category="Working Memory"
+      category="Dual-Task Working Memory"
       instructions={INSTRUCTIONS}
       shortcuts={SHORTCUTS}
       onBack={onBack}
     >
       <div className="flex flex-col items-center justify-center max-w-xl mx-auto w-full gap-6">
 
-        {/* Phase Indicator */}
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-paper border border-border-hairline shadow-xs font-mono text-xs font-bold text-on-surface">
-          <Brain size={14} className="text-secondary" />
-          <span>
-            {phase === 'MEMORIZE' && `Memorize Dot ${currentStep + 1} of ${sequence.length}`}
-            {phase === 'DISTRACT' && `Distraction Task: Is this figure vertically symmetric?`}
-            {phase === 'RECALL' && `Recall: Click dots in order (${userSequence.length}/${sequence.length})`}
+        {/* Phase Header Badge */}
+        <div className="flex items-center gap-3 text-xs font-mono">
+          <span className="px-2.5 py-1 rounded-lg bg-surface-cream border border-border-hairline font-bold text-foreground">
+            {puzzle.gridSize}×{puzzle.gridSize} Grid • Span {puzzle.sequenceLength}
+          </span>
+          <span className={`px-2.5 py-1 rounded-lg border font-bold ${
+            phase === 'MEMORIZE'
+              ? 'bg-amber-50 border-amber-300 text-amber-700 animate-pulse'
+              : phase === 'DISTRACT'
+              ? 'bg-blue-50 border-blue-300 text-blue-700'
+              : 'bg-emerald-50 border-emerald-300 text-emerald-700'
+          }`}>
+            Phase: {phase} ({currentStep + 1}/{puzzle.sequenceLength})
           </span>
         </div>
 
-        {/* Phase 1: MEMORIZE PHASE */}
-        {phase === 'MEMORIZE' && activeDot && (
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-[11px] font-mono text-on-surface-variant font-semibold uppercase tracking-wider">
-              Target Dot Coordinate
+        {/* Dynamic Display based on Phase */}
+        {phase === 'MEMORIZE' && (
+          <div className="w-full bg-surface-paper border border-border-hairline rounded-3xl p-6 shadow-xs flex flex-col items-center gap-4">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-muted">
+              Memorize coordinate location (Dot {currentStep + 1}):
             </span>
+
             <div
-              className="p-3 bg-surface-paper rounded-3xl border border-border-hairline shadow-xs grid gap-2"
-              style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}
+              className="grid gap-2.5 sm:gap-3"
+              style={{ gridTemplateColumns: `repeat(${puzzle.gridSize}, minmax(0, 1fr))` }}
             >
-              {Array.from({ length: gridSize }).map((_, r) =>
-                Array.from({ length: gridSize }).map((_, c) => {
-                  const isDot = activeDot.r === r && activeDot.c === c;
+              {Array.from({ length: puzzle.gridSize }).map((_, r) =>
+                Array.from({ length: puzzle.gridSize }).map((_, c) => {
+                  const target = puzzle.sequence[currentStep];
+                  const isDot = target && target.row === r && target.col === c;
+
                   return (
                     <div
                       key={`${r}-${c}`}
-                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center border transition-all ${
+                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center border-2 transition-all ${
                         isDot
-                          ? 'bg-secondary border-secondary shadow-md scale-105'
+                          ? 'bg-amber-500 border-amber-600 ring-4 ring-amber-300 scale-105 shadow-md'
                           : 'bg-surface-cream border-border-hairline'
                       }`}
                     >
-                      {isDot && <span className="w-4 h-4 rounded-full bg-white shadow-xs"></span>}
+                      {isDot && (
+                        <div className="w-5 h-5 rounded-full bg-white shadow-inner animate-ping" />
+                      )}
                     </div>
                   );
                 })
@@ -218,86 +201,112 @@ export const GridChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) 
           </div>
         )}
 
-        {/* Phase 2: DISTRACT PHASE (Symmetry Check) */}
-        {phase === 'DISTRACT' && symmetryTask && (
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative p-3 bg-surface-paper rounded-2xl border border-border-hairline shadow-xs">
+        {phase === 'DISTRACT' && (
+          <div className="w-full bg-surface-paper border border-border-hairline rounded-3xl p-6 shadow-xs flex flex-col items-center gap-5">
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-muted">
+                Distraction Task ({currentTask.axis} Symmetry)
+              </span>
+              <span className="text-[11px] font-mono text-muted">
+                Is the pattern symmetric along the {currentTask.axis} axis?
+              </span>
+            </div>
+
+            {/* 6x6 Symmetry Matrix */}
+            <div className="p-3 bg-surface-cream border border-border-hairline rounded-2xl shadow-inner relative">
               <div className="grid grid-cols-6 gap-1.5">
-                {symmetryTask.matrix.map((row, r) =>
+                {currentTask.matrix.map((row, r) =>
                   row.map((val, c) => (
                     <div
                       key={`${r}-${c}`}
-                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg border transition-colors ${
-                        val
-                          ? 'bg-on-surface border-on-surface'
-                          : 'bg-surface-cream border-border-hairline'
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md transition-colors ${
+                        val ? 'bg-primary shadow-xs' : 'bg-surface-paper border border-border-hairline/60'
                       }`}
                     />
                   ))
                 )}
               </div>
-              {/* Vertical axis line */}
-              <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-secondary/50 transform -translate-x-1/2 pointer-events-none"></div>
+
+              {/* Mirror Axis Guideline */}
+              {currentTask.axis === 'vertical' ? (
+                <div className="absolute top-2 bottom-2 left-1/2 w-0.5 bg-rose-500/60 -translate-x-1/2 pointer-events-none" />
+              ) : (
+                <div className="absolute left-2 right-2 top-1/2 h-0.5 bg-rose-500/60 -translate-y-1/2 pointer-events-none" />
+              )}
             </div>
 
-            <div className="flex gap-4">
+            {/* Answer Buttons */}
+            <div className="flex items-center gap-4 w-full justify-center">
               <button
                 type="button"
                 onClick={() => handleSymmetryAnswer(true)}
-                className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
+                className="flex-1 max-w-[160px] py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-emerald-700 font-mono font-bold text-sm hover:bg-emerald-100 hover:scale-102 active:scale-98 transition-all cursor-pointer shadow-xs flex items-center justify-center gap-2"
               >
-                YES (Symmetric) [Y]
+                <span>YES, Symmetric</span>
+                <span className="text-[10px] opacity-70">(S/1)</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleSymmetryAnswer(false)}
-                className="px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-mono text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
+                className="flex-1 max-w-[160px] py-3 rounded-2xl bg-rose-50 border-2 border-rose-300 text-rose-700 font-mono font-bold text-sm hover:bg-rose-100 hover:scale-102 active:scale-98 transition-all cursor-pointer shadow-xs flex items-center justify-center gap-2"
               >
-                NO (Asymmetric) [N]
+                <span>NO, Asymmetric</span>
+                <span className="text-[10px] opacity-70">(N/2)</span>
               </button>
             </div>
           </div>
         )}
 
-        {/* Phase 3: RECALL PHASE */}
         {phase === 'RECALL' && (
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-[11px] font-mono text-on-surface-variant font-semibold uppercase tracking-wider">
-              Click in chronological order
-            </span>
+          <div className="w-full bg-surface-paper border border-border-hairline rounded-3xl p-6 shadow-xs flex flex-col items-center gap-5">
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-muted">
+                Recall Phase: Click dots in exact presentation order
+              </span>
+              <span className="text-[11px] font-mono text-muted">
+                Selected: {userSequence.length} / {puzzle.sequenceLength}
+              </span>
+            </div>
+
             <div
-              className="p-3 bg-surface-paper rounded-3xl border border-border-hairline shadow-xs grid gap-2"
-              style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}
+              className="grid gap-2.5 sm:gap-3"
+              style={{ gridTemplateColumns: `repeat(${puzzle.gridSize}, minmax(0, 1fr))` }}
             >
-              {Array.from({ length: gridSize }).map((_, r) =>
-                Array.from({ length: gridSize }).map((_, c) => {
-                  const clickIdx = userSequence.findIndex(p => p.r === r && p.c === c);
-                  const isClicked = clickIdx !== -1;
+              {Array.from({ length: puzzle.gridSize }).map((_, r) =>
+                Array.from({ length: puzzle.gridSize }).map((_, c) => {
+                  const clickIdx = userSequence.findIndex(p => p.row === r && p.col === c);
+                  const isSelected = clickIdx !== -1;
 
                   return (
                     <button
                       key={`${r}-${c}`}
                       type="button"
-                      onClick={() => handleGridClick(r, c)}
-                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center font-mono font-bold text-sm transition-all cursor-pointer border ${
-                        isClicked
-                          ? 'bg-secondary text-on-secondary border-secondary shadow-xs scale-102'
-                          : 'bg-surface-cream hover:bg-surface-paper border-border-hairline hover:border-secondary'
+                      onClick={() => handleRecallCellClick(r, c)}
+                      disabled={feedback !== null || isSelected}
+                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center font-mono font-black text-xl transition-all shadow-2xs ${
+                        isSelected
+                          ? 'bg-secondary text-white border-2 border-secondary scale-103 shadow-md'
+                          : 'bg-surface-cream border-2 border-border-hairline hover:border-secondary hover:scale-102 active:scale-95 cursor-pointer'
                       }`}
                     >
-                      {isClicked && <span>#{clickIdx + 1}</span>}
+                      {isSelected ? clickIdx + 1 : ''}
                     </button>
                   );
                 })
               )}
             </div>
-          </div>
-        )}
 
-        {/* Solved feedback */}
-        {feedback === 'correct' && (
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-white font-mono text-xs font-bold shadow-md">
-            <Check size={16} /> Perfect Recall! Advancing to Level {level + 1}...
+            {feedback === 'correct' && (
+              <div className="flex items-center gap-2 text-emerald-600 font-mono font-bold text-sm">
+                <Check size={18} />
+                <span>Working memory sequence perfectly matched!</span>
+              </div>
+            )}
+            {feedback === 'wrong' && (
+              <div className="text-rose-600 font-mono font-bold text-sm">
+                Sequence mismatch or failed interference threshold.
+              </div>
+            )}
           </div>
         )}
 
