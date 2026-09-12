@@ -254,6 +254,40 @@ export const getDailyMission = async (req: AuthRequest, res: Response, next: Nex
   }
 };
 
+export const getDailySprintQuestions = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const limit = parseInt(req.query.limit as string, 10) || 50;
+    const techCategories = ['dsa', 'dbms', 'oops', 'os', 'networks', 'cloud', 'git', 'software-engineering', 'technical-mcq'];
+
+    // High-performance aggregation pipeline with absolute guarantee of zero duplicate question text
+    const pipeline: any[] = [
+      { $match: { category: { $in: techCategories } } },
+      { $sample: { size: Math.max(100, limit * 2) } },
+      {
+        $group: {
+          _id: '$question',
+          doc: { $first: '$$ROOT' }
+        }
+      },
+      { $replaceRoot: { newRoot: '$doc' } },
+      { $limit: limit }
+    ];
+
+    const questions = await Question.aggregate(pipeline);
+
+    // Shuffle the final array to mix categories thoroughly
+    const shuffled = questions.sort(() => Math.random() - 0.5);
+
+    res.json({
+      success: true,
+      data: shuffled,
+      total: shuffled.length
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const addBookmark = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userId = req.user?._id;

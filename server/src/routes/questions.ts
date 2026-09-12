@@ -7,6 +7,7 @@ import {
   submitAnswer,
   getProgress,
   getDailyMission,
+  getDailySprintQuestions,
   addBookmark,
   removeBookmark,
   getBookmarks,
@@ -20,6 +21,7 @@ router.get('/', optionalAuth, getQuestions);
 router.get('/topics', optionalAuth, getTopics);
 router.get('/topics/:category', optionalAuth, getTopics);
 router.get('/daily-mission', optionalAuth, getDailyMission);
+router.get('/daily-sprint', optionalAuth, getDailySprintQuestions);
 router.get('/:id', optionalAuth, getQuestionById);
 
 // Protected endpoints requiring authenticated user session

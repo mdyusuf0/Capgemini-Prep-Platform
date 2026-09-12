@@ -22,9 +22,30 @@ export default function DailyChallengePage() {
   const { data: questions, isLoading } = useQuery<DailyItem[]>({
     queryKey: ['daily-50-challenge'],
     queryFn: async () => {
-      // Fetch mixed 50 questions across categories
-      const res = await api.get('/questions?limit=50');
-      return res.data?.data || res.data || [];
+      let list: DailyItem[] = [];
+      try {
+        const res = await api.get('/questions/daily-sprint?limit=50');
+        list = res.data?.data || res.data || [];
+      } catch {
+        const res = await api.get('/questions?limit=50');
+        list = res.data?.data || res.data || [];
+      }
+
+      // Strict client-side deduplication safeguard
+      const seen = new Set<string>();
+      const deduplicated: DailyItem[] = [];
+      for (const q of list) {
+        const clean = (q.question || '').replace(/^\[[^\]]+\]\s*/i, '').trim();
+        const key = clean.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          deduplicated.push({
+            ...q,
+            question: clean
+          });
+        }
+      }
+      return deduplicated;
     }
   });
 
