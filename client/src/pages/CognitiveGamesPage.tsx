@@ -35,7 +35,7 @@ export default function CognitiveGamesPage() {
             <div className="flex items-center gap-2 flex-wrap">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-surface-paper border border-border-hairline text-on-surface font-mono text-[11px] uppercase shadow-xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent-mint animate-pulse"></span>
-                CapPrep Engine // Evaluator v2.4
+                Capgemini Prep • A platform by Yusuf
               </span>
               <span className="font-mono text-xs text-on-surface-variant font-medium">MOD_ID: COG_SIM_6X</span>
             </div>

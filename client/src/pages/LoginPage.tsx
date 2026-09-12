@@ -86,9 +86,9 @@ export const LoginPage: React.FC = () => {
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 tracking-tight text-on-surface">
-            CAPGEMINI PREP <br/>
-            <span className="text-secondary">
-              BY YUSUF
+            Capgemini Prep <br/>
+            <span className="text-secondary text-2xl md:text-3xl lg:text-4xl font-extrabold block mt-2">
+              A platform by Yusuf
             </span>
           </h1>
           <p className="text-base md:text-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">

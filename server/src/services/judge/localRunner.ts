@@ -76,7 +76,7 @@ export async function executeLocally(
 ): Promise<LocalExecutionResult> {
   const lang = language.toLowerCase();
   const runId = crypto.randomBytes(8).toString('hex');
-  const tempDir = path.join(os.tmpdir(), `capprep_${runId}`);
+  const tempDir = path.join(os.tmpdir(), `capgeminiprep_${runId}`);
 
   try {
     fs.mkdirSync(tempDir, { recursive: true });

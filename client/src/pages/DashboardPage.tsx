@@ -76,7 +76,7 @@ export const DashboardPage: React.FC = () => {
             Welcome back, {user?.name || 'Yusuf'}
           </h1>
           <p className="text-xs md:text-sm text-on-surface-variant">
-            Cohort cycle active. Benchmark calibration synchronized via local CapPrep runner.
+            Cohort cycle active. Benchmark calibration synchronized for Capgemini recruitment drives.
           </p>
         </div>
 
@@ -638,8 +638,8 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       <footer className="pt-6 border-t border-border-hairline text-center text-xs text-on-surface-variant space-y-1">
-        <p className="font-semibold text-on-surface">Capgemini Prep By Yusuf • Paper Engine 2026/2027</p>
-        <p className="text-[11px]">Procedural assessment architecture and preparation platform designed by Yusuf Khan</p>
+        <p className="font-bold text-on-surface">Capgemini Prep • A platform by Yusuf</p>
+        <p className="text-[11px]">Procedural assessment architecture and recruitment preparation platform</p>
       </footer>
     </div>
   );

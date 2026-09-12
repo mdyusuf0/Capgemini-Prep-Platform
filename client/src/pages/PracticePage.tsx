@@ -46,7 +46,7 @@ export default function PracticePage() {
           <div>
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded text-[11px] font-semibold text-secondary mb-2">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-mint animate-pulse"></span>
-              <span>CapPrep // Curated Syllabus Matrix</span>
+              <span>Capgemini Prep • A platform by Yusuf</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">Capgemini Practice Hub</h1>
             <p className="text-xs text-on-surface-variant mt-1">

@@ -108,7 +108,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       className="flex flex-col h-full bg-surface-cream border-r border-border-hairline relative flex-shrink-0 transition-all select-none"
     >
       {/* Brand Header */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-border-hairline shrink-0 bg-surface-cream">
+      <div className="min-h-[4.5rem] py-3 flex items-center justify-between px-4 border-b border-border-hairline shrink-0 bg-surface-cream">
         <div className="flex items-center gap-3 overflow-hidden">
           {/* Paper Engine Custom SVG Mark */}
           <div className="shrink-0 w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-sm">
@@ -122,11 +122,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
           {isOpen && (
             <div className="flex flex-col min-w-0">
-              <span className="font-semibold text-sm text-on-surface tracking-tight leading-none truncate font-sans">
-                Paper Engine
+              <span className="font-black text-base text-on-surface tracking-tight leading-tight truncate font-sans">
+                Capgemini Prep
               </span>
-              <span className="text-[10px] text-on-surface-variant leading-none mt-1 truncate">
-                CapPrep / v2.4 • Yusuf
+              <span className="text-sm font-extrabold text-secondary leading-snug mt-0.5 truncate">
+                A platform by Yusuf
               </span>
             </div>
           )}
@@ -134,7 +134,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
         <button
           onClick={toggleSidebar}
-          className="absolute -right-3 top-5 bg-surface-paper border border-border-hairline rounded-full p-1 text-on-surface-variant hover:text-on-surface shadow-sm cursor-pointer z-10 transition-colors"
+          className="absolute -right-3 top-6 bg-surface-paper border border-border-hairline rounded-full p-1 text-on-surface-variant hover:text-on-surface shadow-sm cursor-pointer z-10 transition-colors"
           title={isOpen ? "Collapse Sidebar" : "Expand Sidebar"}
         >
           {isOpen ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
