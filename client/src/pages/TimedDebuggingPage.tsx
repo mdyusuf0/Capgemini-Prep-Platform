@@ -45,19 +45,40 @@ export default function TimedDebuggingPage() {
     return () => clearInterval(timer);
   }, [isLoading, isSubmitted]);
 
+  const [languageMap, setLanguageMap] = useState<Record<string, 'python' | 'cpp' | 'java'>>({});
+
   useEffect(() => {
-    if (problems && problems[currentIndex] && answers[problems[currentIndex]._id] === undefined) {
-      setAnswers(prev => ({
-        ...prev,
-        [problems[currentIndex]._id]: problems[currentIndex].buggyCode
-      }));
+    if (problems && problems[currentIndex]) {
+      const p = problems[currentIndex];
+      const defaultLang: 'python' | 'cpp' | 'java' = languageMap[p._id] || 
+        (p.variants?.python ? 'python' : p.language === 'cpp' ? 'cpp' : p.language === 'java' ? 'java' : 'python');
+
+      if (!languageMap[p._id]) {
+        setLanguageMap(prev => ({ ...prev, [p._id]: defaultLang }));
+      }
+
+      if (answers[p._id] === undefined) {
+        const initialCode = p.variants?.[defaultLang]?.buggyCode || p.buggyCode;
+        setAnswers(prev => ({
+          ...prev,
+          [p._id]: initialCode
+        }));
+      }
     }
     setShowHint(false);
   }, [problems, currentIndex]);
 
   const currentProblem = problems ? problems[currentIndex] : null;
-  const currentCode = currentProblem ? (answers[currentProblem._id] || currentProblem.buggyCode) : '';
+  const currentLang = currentProblem ? (languageMap[currentProblem._id] || 'python') : 'python';
+  const currentCode = currentProblem ? (answers[currentProblem._id] || currentProblem.variants?.[currentLang]?.buggyCode || currentProblem.buggyCode) : '';
   const currentExecution = currentProblem ? testResultsMap[currentProblem._id] : null;
+
+  const handleLanguageChange = (newLang: 'python' | 'cpp' | 'java') => {
+    if (!currentProblem || newLang === currentLang) return;
+    setLanguageMap(prev => ({ ...prev, [currentProblem._id]: newLang }));
+    const newCode = currentProblem.variants?.[newLang]?.buggyCode || currentProblem.buggyCode;
+    setAnswers(prev => ({ ...prev, [currentProblem._id]: newCode }));
+  };
 
   const handleRunAndTest = async () => {
     if (!currentProblem) return;
@@ -66,7 +87,7 @@ export default function TimedDebuggingPage() {
     setConsoleTab('results');
 
     try {
-      const response = await debuggingService.runCode(currentProblem._id, currentCode);
+      const response = await debuggingService.runCode(currentProblem._id, currentCode, currentLang);
       setTestResultsMap(prev => ({ ...prev, [currentProblem._id]: response }));
       setQuestionStatusMap(prev => ({
         ...prev,
@@ -97,9 +118,10 @@ export default function TimedDebuggingPage() {
     toast.loading('Evaluating and grading your fixes...', { id: 'eval' });
     
     for (const prob of problems) {
-      const code = answers[prob._id] || prob.buggyCode;
+      const probLang = languageMap[prob._id] || (prob.variants?.python ? 'python' : prob.language || 'python');
+      const code = answers[prob._id] || prob.variants?.[probLang]?.buggyCode || prob.buggyCode;
       try {
-        const res = await debuggingService.submitFix(prob._id, code);
+        const res = await debuggingService.submitFix(prob._id, code, probLang);
         if (res.correct) score++;
         finalResults.push({ problem: prob, correct: res.correct, explanation: res.explanation });
       } catch (e) {
@@ -323,10 +345,24 @@ export default function TimedDebuggingPage() {
         {/* Right Panel: Terminal Monaco IDE + Interactive Test Results Drawer */}
         <div className="w-1/2 flex flex-col bg-surface-charcoal overflow-hidden">
           {/* IDE Action Header Bar */}
-          <div className="h-10 bg-primary-container border-b border-white/10 px-4 flex items-center justify-between text-xs font-mono text-white/70">
+          <div className="h-11 bg-primary-container border-b border-white/10 px-4 flex items-center justify-between text-xs font-mono text-white/70">
             <div className="flex items-center gap-2">
-              <Terminal className="w-3.5 h-3.5 text-accent-mint" />
-              <span>TERMINAL IDE: {currentProblem?.language.toUpperCase()}</span>
+              <div className="flex items-center gap-1.5 bg-black/40 p-1 rounded-lg border border-white/10">
+                <span className="text-[10px] text-white/40 uppercase tracking-wider px-1 font-bold">Lang:</span>
+                {(['python', 'cpp', 'java'] as const).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => handleLanguageChange(lang)}
+                    className={`px-2.5 py-0.5 rounded text-xs font-bold transition-all cursor-pointer ${
+                      currentLang === lang
+                        ? 'bg-white text-on-surface shadow-xs'
+                        : 'text-white/60 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    {lang === 'python' ? 'Python' : lang === 'cpp' ? 'C++' : 'Java'}
+                  </button>
+                ))}
+              </div>
             </div>
             
             {/* Run & Test Code Button */}
@@ -340,12 +376,12 @@ export default function TimedDebuggingPage() {
                 {isTesting ? (
                   <>
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    Compiling & Running...
+                    Compiling...
                   </>
                 ) : (
                   <>
                     <Play className="w-3.5 h-3.5 fill-current" />
-                    Run & Test Code
+                    Run Code
                   </>
                 )}
               </Button>
@@ -353,14 +389,10 @@ export default function TimedDebuggingPage() {
           </div>
 
           {/* Monaco Editor Container */}
-          <div className={`transition-all duration-200 ${consoleOpen ? 'h-[55%]' : 'h-[calc(100%-2.5rem)]'}`}>
+          <div className={`transition-all duration-200 ${consoleOpen ? 'h-[55%]' : 'h-[calc(100%-2.75rem)]'}`}>
             <Editor
               height="100%"
-              language={
-                currentProblem?.language === 'cpp' ? 'cpp' : 
-                currentProblem?.language === 'python' ? 'python' : 
-                currentProblem?.language === 'java' ? 'java' : 'c'
-              }
+              language={currentLang === 'cpp' ? 'cpp' : currentLang === 'java' ? 'java' : 'python'}
               theme="paper-charcoal"
               value={currentCode}
               onChange={(val) => setAnswers(prev => ({ ...prev, [currentProblem!._id]: val || '' }))}

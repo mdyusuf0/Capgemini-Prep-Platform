@@ -13,6 +13,8 @@ export default function DebuggingChallengePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [code, setCode] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState<'python' | 'cpp' | 'java'>('python');
+  const [codeByLanguage, setCodeByLanguage] = useState<Record<string, string>>({});
   const [showHint, setShowHint] = useState(false);
   const [result, setResult] = useState<any>(null);
 
@@ -30,30 +32,61 @@ export default function DebuggingChallengePage() {
 
   useEffect(() => {
     if (problem) {
-      setCode(problem.buggyCode);
+      const initialLang: 'python' | 'cpp' | 'java' = 
+        problem.variants?.python ? 'python' :
+        problem.language === 'cpp' ? 'cpp' :
+        problem.language === 'java' ? 'java' : 'python';
+
+      setSelectedLanguage(initialLang);
+
+      const initialCodeMap: Record<string, string> = {};
+      if (problem.variants?.python?.buggyCode) initialCodeMap['python'] = problem.variants.python.buggyCode;
+      if (problem.variants?.cpp?.buggyCode) initialCodeMap['cpp'] = problem.variants.cpp.buggyCode;
+      if (problem.variants?.java?.buggyCode) initialCodeMap['java'] = problem.variants.java.buggyCode;
+      if (!initialCodeMap[initialLang]) initialCodeMap[initialLang] = problem.buggyCode;
+
+      setCodeByLanguage(initialCodeMap);
+      setCode(initialCodeMap[initialLang] || problem.buggyCode);
       setResult(null);
       setExecutionResult(null);
       setShowHint(false);
     }
   }, [problem]);
 
-  const handleRunAndTest = async () => {
+  const handleLanguageChange = (newLang: 'python' | 'cpp' | 'java') => {
+    if (newLang === selectedLanguage) return;
+
+    // Cache current edits for the outgoing language
+    setCodeByLanguage(prev => ({
+      ...prev,
+      [selectedLanguage]: code
+    }));
+
+    // Retrieve edits or default buggy code for the incoming language
+    const nextCode = codeByLanguage[newLang] || problem?.variants?.[newLang]?.buggyCode || problem?.buggyCode || '';
+    setCode(nextCode);
+    setSelectedLanguage(newLang);
+    setExecutionResult(null);
+    toast.success(`Active compiler switched to ${newLang === 'cpp' ? 'C++' : newLang === 'java' ? 'Java' : 'Python'}`);
+  };
+
+  const handleRunCode = async () => {
     if (!id) return;
     setIsTesting(true);
     setConsoleOpen(true);
     setConsoleTab('results');
 
     try {
-      const response = await debuggingService.runCode(id, code);
+      const response = await debuggingService.runCode(id, code, selectedLanguage);
       setExecutionResult(response);
 
       if (response.compileOutput) {
-        toast.error('Compilation Error. Review compiler console below.', { id: 'comp-err' });
+        toast.error('Compilation / Syntax Error. Review compiler console below.', { id: 'comp-err' });
       } else if (response.allPassed) {
-        toast.success('All test cases passed!', { id: 'test-pass' });
+        toast.success('Sample test cases passed! Ready to submit.', { id: 'test-pass' });
       } else {
         const passedCount = response.results.filter(r => r.passed).length;
-        toast.error(`Passed ${passedCount} of ${response.results.length} test cases`, { id: 'test-fail' });
+        toast.error(`Passed ${passedCount} of ${response.results.length} sample test cases`, { id: 'test-fail' });
       }
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Error executing test suite');
@@ -63,7 +96,7 @@ export default function DebuggingChallengePage() {
   };
 
   const submitMutation = useMutation({
-    mutationFn: (fixedCode: string) => debuggingService.submitFix(id!, fixedCode),
+    mutationFn: (fixedCode: string) => debuggingService.submitFix(id!, fixedCode, selectedLanguage),
     onSuccess: (data) => {
       setResult(data);
       if (data.results) {
@@ -76,9 +109,9 @@ export default function DebuggingChallengePage() {
         setConsoleTab('results');
       }
       if (data.correct) {
-        toast.success('Bug Successfully Fixed!');
+        toast.success('Bug Successfully Fixed! All test cases passed.');
       } else {
-        toast.error('Correction incomplete. Review test results below.');
+        toast.error('Correction incomplete. Review evaluation results below.');
       }
     }
   });
@@ -96,30 +129,34 @@ export default function DebuggingChallengePage() {
           </Button>
           <div className="h-4 w-px bg-border-hairline hidden md:block"></div>
           <h2 className="text-base font-bold text-on-surface truncate max-w-md">{problem.title}</h2>
+          
+          {/* Active Language Badge */}
           <span className="px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded-full text-xs text-secondary font-mono font-bold uppercase">
-            {problem.language}
+            {selectedLanguage}
           </span>
           <span className="px-2.5 py-0.5 bg-surface-cream border border-border-hairline rounded-full text-xs text-zinc-600 font-mono font-semibold uppercase hidden sm:inline-block">
             {problem.bugType}
           </span>
         </div>
         
-        {/* Controls */}
+        {/* Controls: Run & Submit */}
         <div className="flex items-center gap-2.5">
           <Button 
-            onClick={handleRunAndTest}
+            onClick={handleRunCode}
             disabled={isTesting || submitMutation.isPending}
             variant="outline"
             className="border-border-hairline hover:bg-surface-cream text-on-surface rounded-xl font-bold font-mono text-xs px-3.5 shadow-xs cursor-pointer h-8"
+            title="Compile and test against sample test cases without submitting"
           >
             {isTesting ? <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin text-secondary" /> : <Play className="w-3.5 h-3.5 mr-1.5 text-secondary fill-secondary" />}
-            {isTesting ? 'Testing...' : 'Run & Test'}
+            {isTesting ? 'Compiling...' : 'Run Code'}
           </Button>
 
           <Button 
             onClick={() => submitMutation.mutate(code)}
             disabled={submitMutation.isPending || isTesting}
             className="bg-primary-container hover:bg-black text-white rounded-xl font-bold font-mono shadow-sm text-xs px-4 h-8 cursor-pointer"
+            title="Evaluate against all test cases and finalize submission"
           >
             {submitMutation.isPending ? 'Verifying...' : 'Submit Fix'}
           </Button>
@@ -216,23 +253,39 @@ export default function DebuggingChallengePage() {
 
         {/* Right Panel - Monaco Editor + Bottom Console Drawer */}
         <div className="w-1/2 flex flex-col bg-surface-charcoal overflow-hidden">
-          <div className="h-10 bg-primary-container border-b border-white/10 px-4 flex items-center justify-between text-xs font-mono text-white/70">
-            <div className="flex items-center gap-2">
-              <Terminal className="w-3.5 h-3.5 text-accent-mint" />
-              <span>TERMINAL IDE: {problem.language.toUpperCase()}</span>
+          <div className="h-11 bg-primary-container border-b border-white/10 px-4 flex items-center justify-between text-xs font-mono text-white/70">
+            {/* Language Selector Segmented Tabs */}
+            <div className="flex items-center gap-1.5 bg-black/40 p-1 rounded-lg border border-white/10">
+              <span className="text-[10px] text-white/40 uppercase tracking-wider px-1 font-bold">Lang:</span>
+              {(['python', 'cpp', 'java'] as const).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => handleLanguageChange(lang)}
+                  className={`px-2.5 py-0.5 rounded text-xs font-bold transition-all cursor-pointer ${
+                    selectedLanguage === lang
+                      ? 'bg-white text-on-surface shadow-xs'
+                      : 'text-white/60 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {lang === 'python' ? 'Python 3' : lang === 'cpp' ? 'C++' : 'Java'}
+                </button>
+              ))}
             </div>
-            <span className="text-[11px] text-white/50">CAPGEMINI EVALUATOR</span>
+
+            <div className="flex items-center gap-3">
+              <span className="text-[11px] text-accent-mint font-semibold flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-mint animate-pulse" />
+                {selectedLanguage === 'cpp' ? 'G++ (C++14)' : selectedLanguage === 'java' ? 'JAVAC 23' : 'PYTHON 3.14'}
+              </span>
+              <span className="text-[11px] text-white/40 hidden sm:inline-block">CAPGEMINI EVALUATOR</span>
+            </div>
           </div>
 
           {/* Editor */}
-          <div className={`transition-all duration-200 ${consoleOpen ? 'h-[55%]' : 'h-[calc(100%-2.5rem)]'}`}>
+          <div className={`transition-all duration-200 ${consoleOpen ? 'h-[55%]' : 'h-[calc(100%-2.75rem)]'}`}>
             <Editor
               height="100%"
-              language={
-                problem.language === 'cpp' ? 'cpp' : 
-                problem.language === 'python' ? 'python' : 
-                problem.language === 'java' ? 'java' : 'c'
-              }
+              language={selectedLanguage === 'cpp' ? 'cpp' : selectedLanguage === 'java' ? 'java' : 'python'}
               theme="paper-charcoal"
               value={code}
               onChange={(val) => setCode(val || '')}
@@ -292,14 +345,14 @@ export default function DebuggingChallengePage() {
                       <div className="text-center py-6 text-on-surface-variant">
                         <Terminal className="w-8 h-8 mx-auto mb-2 text-zinc-300" />
                         <p className="font-semibold">Ready to compile and evaluate.</p>
-                        <p className="text-[11px] text-zinc-400 mt-0.5">Click "Run & Test" above to verify your fix against sample test cases.</p>
+                        <p className="text-[11px] text-zinc-400 mt-0.5">Click "Run Code" above to compile and verify your fix against sample test cases.</p>
                       </div>
                     )}
 
                     {isTesting && (
                       <div className="flex items-center justify-center py-6 text-secondary gap-2">
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>Compiling code with {problem.language.toUpperCase()} compiler...</span>
+                        <span>Compiling code with {selectedLanguage === 'cpp' ? 'G++ (C++14)' : selectedLanguage === 'java' ? 'Java 23' : 'Python 3'} compiler...</span>
                       </div>
                     )}
 

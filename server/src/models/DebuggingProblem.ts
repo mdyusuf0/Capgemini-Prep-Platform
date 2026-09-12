@@ -1,10 +1,23 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
+export interface ILanguageVariant {
+  buggyCode: string;
+  fixedCode: string;
+  explanation?: string;
+  hints?: string[];
+}
+
 export interface IDebuggingProblem extends Document {
   title: string;
   description: string;
   buggyCode: string;
   language: 'java' | 'cpp' | 'python' | 'c';
+  availableLanguages?: ('java' | 'cpp' | 'python')[];
+  variants?: {
+    cpp?: ILanguageVariant;
+    java?: ILanguageVariant;
+    python?: ILanguageVariant;
+  };
   bugType: string;
   bugCategory?: string;
   hints: string[];
@@ -35,6 +48,30 @@ const debuggingProblemSchema = new Schema<IDebuggingProblem>({
     type: String, 
     required: true, 
     enum: ['java', 'cpp', 'python', 'c'] 
+  },
+  availableLanguages: [{
+    type: String,
+    enum: ['java', 'cpp', 'python', 'c']
+  }],
+  variants: {
+    cpp: {
+      buggyCode: { type: String },
+      fixedCode: { type: String },
+      explanation: { type: String },
+      hints: [{ type: String }]
+    },
+    java: {
+      buggyCode: { type: String },
+      fixedCode: { type: String },
+      explanation: { type: String },
+      hints: [{ type: String }]
+    },
+    python: {
+      buggyCode: { type: String },
+      fixedCode: { type: String },
+      explanation: { type: String },
+      hints: [{ type: String }]
+    }
   },
   bugType: { 
     type: String, 

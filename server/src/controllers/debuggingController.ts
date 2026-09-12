@@ -17,7 +17,7 @@ export const getProblems = async (req: Request, res: Response) => {
     const skip = (parseInt(page as string) - 1) * parseInt(limit as string);
 
     const problems = await DebuggingProblem.find(query)
-      .select('-fixedCode')
+      .select('-fixedCode -variants.cpp.fixedCode -variants.java.fixedCode -variants.python.fixedCode')
       .skip(skip)
       .limit(parseInt(limit as string))
       .sort({ capgeminiRelevance: -1, createdAt: -1 });
@@ -36,7 +36,8 @@ export const getProblems = async (req: Request, res: Response) => {
 
 export const getProblemById = async (req: Request, res: Response) => {
   try {
-    const problem = await DebuggingProblem.findById(req.params.id).select('-fixedCode');
+    const problem = await DebuggingProblem.findById(req.params.id)
+      .select('-fixedCode -variants.cpp.fixedCode -variants.java.fixedCode -variants.python.fixedCode');
     if (!problem) {
       return res.status(404).json({ message: 'Problem not found' });
     }
@@ -48,23 +49,32 @@ export const getProblemById = async (req: Request, res: Response) => {
 
 export const runDebuggingCode = async (req: Request, res: Response) => {
   try {
-    const { code } = req.body;
+    const { code, language } = req.body;
     const problem = await DebuggingProblem.findById(req.params.id);
     if (!problem) {
       return res.status(404).json({ message: 'Problem not found' });
     }
 
-    const testCases = problem.testCases && problem.testCases.length > 0
+    const rawLang = (language || problem.language || 'cpp').toLowerCase();
+    const targetLang = rawLang === 'c++' ? 'cpp' : rawLang === 'py' ? 'python' : rawLang;
+
+    const allCases = problem.testCases && problem.testCases.length > 0
       ? problem.testCases
       : [{ input: '', expectedOutput: '', isHidden: false }];
 
-    const results = await runTestCases(code, problem.language || 'cpp', testCases);
+    // Run against sample test cases (up to first 2 test cases)
+    const sampleCases = allCases.slice(0, Math.min(2, allCases.length));
+
+    const results = await runTestCases(code, targetLang, sampleCases);
     const compileError = results.find(r => r.error === 'Compilation Error')?.actual;
 
     res.json({
+      success: true,
+      language: targetLang,
       results,
       compileOutput: compileError || null,
-      allPassed: results.every(r => r.passed)
+      allPassed: results.every(r => r.passed),
+      isSampleRun: true
     });
   } catch (error: any) {
     res.status(500).json({ message: 'Error executing code', error: error.message });
@@ -73,7 +83,7 @@ export const runDebuggingCode = async (req: Request, res: Response) => {
 
 export const submitFix = async (req: AuthRequest, res: Response) => {
   try {
-    const { fixedCode } = req.body;
+    const { fixedCode, language } = req.body;
     const userId = req.user?._id;
     const problem = await DebuggingProblem.findById(req.params.id);
     
@@ -81,17 +91,26 @@ export const submitFix = async (req: AuthRequest, res: Response) => {
       return res.status(404).json({ message: 'Problem not found' });
     }
 
+    const rawLang = (language || problem.language || 'cpp').toLowerCase();
+    const targetLang = rawLang === 'c++' ? 'cpp' : rawLang === 'py' ? 'python' : rawLang;
+
     const testCases = problem.testCases && problem.testCases.length > 0
       ? problem.testCases
       : [{ input: '', expectedOutput: '', isHidden: false }];
 
-    const results = await runTestCases(fixedCode, problem.language || 'cpp', testCases);
+    // Submit tests against ALL test cases
+    const results = await runTestCases(fixedCode, targetLang, testCases);
     const compileError = results.find(r => r.error === 'Compilation Error')?.actual;
     const allPassed = results.length > 0 && results.every(r => r.passed);
 
+    // Identify variant-specific fixed code and explanation
+    const variant = (problem.variants as any)?.[targetLang];
+    const targetFixedCode = variant?.fixedCode || problem.fixedCode;
+    const targetExplanation = variant?.explanation || problem.explanation;
+
     // Normalize comparison as secondary fallback check
-    const normalizeString = (str: string) => str.replace(/\s+/g, ' ').trim();
-    const matchesSolution = normalizeString(fixedCode) === normalizeString(problem.fixedCode);
+    const normalizeString = (str: string) => (str || '').replace(/\s+/g, ' ').trim();
+    const matchesSolution = normalizeString(fixedCode) === normalizeString(targetFixedCode);
     const isCorrect = allPassed || matchesSolution;
 
     if (userId) {
@@ -110,8 +129,9 @@ export const submitFix = async (req: AuthRequest, res: Response) => {
 
     res.json({
       correct: isCorrect,
-      explanation: problem.explanation,
-      fixedCode: problem.fixedCode,
+      language: targetLang,
+      explanation: targetExplanation,
+      fixedCode: targetFixedCode,
       results,
       compileOutput: compileError || null
     });
@@ -124,7 +144,14 @@ export const getTimedSet = async (req: Request, res: Response) => {
   try {
     const problems = await DebuggingProblem.aggregate([
       { $sample: { size: 10 } },
-      { $project: { fixedCode: 0 } }
+      { 
+        $project: { 
+          fixedCode: 0,
+          'variants.cpp.fixedCode': 0,
+          'variants.java.fixedCode': 0,
+          'variants.python.fixedCode': 0
+        } 
+      }
     ]);
     res.json(problems);
   } catch (error) {

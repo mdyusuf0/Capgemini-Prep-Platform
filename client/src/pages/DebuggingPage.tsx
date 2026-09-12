@@ -57,9 +57,11 @@ export default function DebuggingPage() {
             </p>
 
             <div className="flex items-center gap-2 mb-6">
-              <span className="flex items-center text-xs font-mono text-zinc-700 bg-surface-cream border border-border-hairline px-2.5 py-1 rounded-md">
-                <Code className="w-3 h-3 mr-1 text-secondary" />
-                {problem.language}
+              <span className="flex items-center text-xs font-mono text-zinc-700 bg-surface-cream border border-border-hairline px-2.5 py-1 rounded-md uppercase font-semibold">
+                <Code className="w-3 h-3 mr-1.5 text-secondary" />
+                {problem.availableLanguages && problem.availableLanguages.length > 0 
+                  ? 'Python • C++ • Java' 
+                  : problem.language}
               </span>
               <span className="flex items-center text-xs font-mono text-zinc-700 bg-surface-cream border border-border-hairline px-2.5 py-1 rounded-md">
                 <Bug className="w-3 h-3 mr-1 text-[#fc618d]" />

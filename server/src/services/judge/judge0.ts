@@ -5,7 +5,9 @@ import { executeLocally } from './localRunner.js';
 export const LANGUAGE_IDS: Record<string, number> = {
   java: 62,
   cpp: 54,
+  'c++': 54,
   python: 71,
+  py: 71,
   c: 50,
 };
 
@@ -42,7 +44,8 @@ const judgeApi = axios.create({
 });
 
 export const submitCode = async (code: string, language: string, stdin: string): Promise<JudgeResult> => {
-  const language_id = LANGUAGE_IDS[language.toLowerCase()];
+  const normLang = language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase() === 'py' ? 'python' : language.toLowerCase();
+  const language_id = LANGUAGE_IDS[normLang];
   if (!language_id) throw new Error(`Unsupported language: ${language}`);
 
   if (env.JUDGE0_API_KEY) {
@@ -59,7 +62,7 @@ export const submitCode = async (code: string, language: string, stdin: string):
   }
 
   // Real local compilation & sandboxed execution
-  const localRes = await executeLocally(code, language, stdin);
+  const localRes = await executeLocally(code, normLang, stdin);
   return {
     stdout: localRes.stdout,
     stderr: localRes.stderr,

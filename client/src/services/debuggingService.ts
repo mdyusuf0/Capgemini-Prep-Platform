@@ -22,12 +22,25 @@ export interface DebugExecutionResponse {
   allPassed: boolean;
 }
 
+export interface ILanguageVariant {
+  buggyCode: string;
+  fixedCode?: string;
+  explanation?: string;
+  hints?: string[];
+}
+
 export interface DebuggingProblem {
   _id: string;
   title: string;
   description: string;
   buggyCode: string;
   language: string;
+  availableLanguages?: ('python' | 'cpp' | 'java')[];
+  variants?: {
+    cpp?: ILanguageVariant;
+    java?: ILanguageVariant;
+    python?: ILanguageVariant;
+  };
   bugType: string;
   bugCategory?: string;
   difficulty: string;
@@ -54,13 +67,13 @@ export const debuggingService = {
     return res.data;
   },
   
-  runCode: async (id: string, code: string): Promise<DebugExecutionResponse> => {
-    const res = await api.post(`/debugging/${id}/run`, { code });
+  runCode: async (id: string, code: string, language?: string): Promise<DebugExecutionResponse> => {
+    const res = await api.post(`/debugging/${id}/run`, { code, language });
     return res.data;
   },
 
-  submitFix: async (id: string, fixedCode: string) => {
-    const res = await api.post(`/debugging/${id}/submit`, { fixedCode });
+  submitFix: async (id: string, fixedCode: string, language?: string) => {
+    const res = await api.post(`/debugging/${id}/submit`, { fixedCode, language });
     return res.data;
   }
 };

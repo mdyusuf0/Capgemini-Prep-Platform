@@ -1,15 +1,13 @@
 import express from 'express';
 import { getProblems, getProblemById, submitFix, getTimedSet, runDebuggingCode } from '../controllers/debuggingController.js';
-import { protect } from '../middleware/auth.js';
+import { optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.use(protect);
-
-router.get('/', getProblems);
-router.get('/timed-set', getTimedSet);
-router.get('/:id', getProblemById);
-router.post('/:id/run', runDebuggingCode);
-router.post('/:id/submit', submitFix);
+router.get('/', optionalAuth, getProblems);
+router.get('/timed-set', optionalAuth, getTimedSet);
+router.get('/:id', optionalAuth, getProblemById);
+router.post('/:id/run', optionalAuth, runDebuggingCode);
+router.post('/:id/submit', optionalAuth, submitFix);
 
 export default router;
