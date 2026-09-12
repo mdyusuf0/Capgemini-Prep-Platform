@@ -1,5 +1,5 @@
 import express from 'express';
-import { protect } from '../middleware/auth.js';
+import { protect, optionalAuth } from '../middleware/auth.js';
 import {
   getQuestions,
   getQuestionById,
@@ -15,17 +15,17 @@ import {
 
 const router = express.Router();
 
-// Apply auth middleware to all routes
-router.use(protect);
+// Read endpoints allow optionalAuth so students can view questions reliably
+router.get('/', optionalAuth, getQuestions);
+router.get('/topics', optionalAuth, getTopics);
+router.get('/topics/:category', optionalAuth, getTopics);
+router.get('/daily-mission', optionalAuth, getDailyMission);
+router.get('/:id', optionalAuth, getQuestionById);
 
-router.get('/', getQuestions);
-router.get('/topics', getTopics);
-router.get('/topics/:category', getTopics);
-router.get('/progress', getProgress);
-router.get('/daily-mission', getDailyMission);
-router.get('/:id', getQuestionById);
-router.post('/submit', submitAnswer);
-router.post('/:id/submit', submitAnswer);
+// Protected endpoints requiring authenticated user session
+router.get('/progress', protect, getProgress);
+router.post('/submit', protect, submitAnswer);
+router.post('/:id/submit', protect, submitAnswer);
 
 // Since user request says to mount bookmarks/mistakes under question routes,
 // but endpoints are /api/bookmarks, we'll keep them here assuming this router 

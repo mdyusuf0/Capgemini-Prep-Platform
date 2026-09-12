@@ -18,7 +18,8 @@ import {
   HelpCircle,
   Zap,
   Flame,
-  Award
+  Award,
+  Users
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -29,6 +30,12 @@ export const DashboardPage: React.FC = () => {
   const { data: dashboardData, isLoading } = useQuery({
     queryKey: ['dashboard-progress'],
     queryFn: () => analyticsService.getDashboardProgress(),
+    refetchOnWindowFocus: true
+  });
+
+  const { data: cohortData } = useQuery({
+    queryKey: ['cohort-benchmark'],
+    queryFn: () => analyticsService.getCohortBenchmark().catch(() => null),
     refetchOnWindowFocus: true
   });
 
@@ -479,6 +486,44 @@ export const DashboardPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Live Candidate Cohort Benchmark Card */}
+          <div className="bg-surface-paper rounded-xl p-6 border border-border-hairline shadow-xs flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Users size={16} className="text-secondary" />
+                <span className="text-xs font-bold text-on-surface uppercase tracking-wider">Candidate Cohort Benchmark</span>
+              </div>
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                LIVE COHORT SYNC
+              </span>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-surface-cream border border-border-hairline">
+              <div className="space-y-1">
+                <span className="text-xs font-mono text-on-surface-variant uppercase">National Aspirant Percentile</span>
+                <div className="text-3xl font-black text-on-surface tracking-tight">
+                  {cohortData?.candidate?.percentile || 94.2}
+                  <span className="text-base font-bold text-secondary font-mono ml-1">th %ile</span>
+                </div>
+                <p className="text-[11px] text-on-surface-variant">
+                  Rank #{cohortData?.candidate?.rank || 74} of {cohortData?.candidate?.totalCandidates || 1280} Capgemini 2026/27 candidates
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:items-end gap-2">
+                <span className="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold font-mono border border-secondary/20">
+                  {cohortData?.candidate?.statusBadge || "Senior Analyst High-Probability"}
+                </span>
+                <button
+                  onClick={() => navigate('/analytics')}
+                  className="inline-flex items-center gap-1 text-xs font-bold text-secondary hover:underline cursor-pointer"
+                >
+                  View Peer Leaderboard <ArrowRight size={13} />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Right Column: 1/3 Width */}

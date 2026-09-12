@@ -34,5 +34,10 @@ export const analyticsService = {
   getCoachAdvice: async () => {
     const response = await api.get('/analytics/coach-advice');
     return response.data;
+  },
+
+  getCohortBenchmark: async () => {
+    const response = await api.get('/analytics/cohort');
+    return response.data;
   }
 };

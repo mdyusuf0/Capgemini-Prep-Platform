@@ -23,12 +23,19 @@ export const AILiteracyPage: React.FC = () => {
 
   const queryClient = useQueryClient();
 
+  // Query summary of all AI literacy questions for real-time counts on topic cards
+  const { data: allAiData } = useQuery({
+    queryKey: ['ai-literacy-summary'],
+    queryFn: () => getQuestions({ category: 'ai-literacy', limit: 200 }),
+    staleTime: 60000,
+  });
+
   const { data: questionsData, isLoading } = useQuery({
     queryKey: ['ai-literacy-questions', selectedTopic],
     queryFn: () => getQuestions({
       category: 'ai-literacy',
       topic: selectedTopic === 'all' ? undefined : selectedTopic || undefined,
-      limit: 30
+      limit: 100
     }),
     enabled: !!selectedTopic
   });
@@ -140,20 +147,34 @@ export const AILiteracyPage: React.FC = () => {
             <div className="space-y-3">
               {currentQuestion.options?.map((opt: string, idx: number) => {
                 const isSelected = selectedAnswer === idx;
+                const isCorrectOption = isAnswered && (currentQuestion.answer === idx || (result?.correct && isSelected));
+                const isWrongSelected = isAnswered && isSelected && !result?.correct;
+
+                let cardStyle = 'bg-white border-border-hairline hover:border-zinc-400 hover:bg-surface-cream text-on-surface';
+                if (isCorrectOption) {
+                  cardStyle = 'bg-emerald-50 border-emerald-500 text-emerald-950 font-semibold ring-1 ring-emerald-500';
+                } else if (isWrongSelected) {
+                  cardStyle = 'bg-red-50 border-red-400 text-red-950 font-semibold';
+                } else if (isSelected) {
+                  cardStyle = 'bg-secondary-fixed/40 border-secondary text-on-surface font-semibold shadow-xs';
+                }
+
                 return (
                   <button
                     key={idx}
                     disabled={isAnswered || submitMutation.isPending}
                     onClick={() => setSelectedAnswer(idx)}
-                    className={`w-full text-left p-4 rounded-xl border text-xs md:text-sm font-medium transition-all flex items-center justify-between cursor-pointer ${
-                      isSelected
-                        ? 'bg-secondary-fixed/40 border-secondary text-on-surface font-semibold shadow-xs'
-                        : 'bg-white border-border-hairline hover:border-zinc-400 hover:bg-surface-cream text-on-surface'
-                    }`}
+                    className={`w-full text-left p-4 rounded-xl border text-xs md:text-sm font-medium transition-all flex items-center justify-between cursor-pointer ${cardStyle}`}
                   >
                     <span className="leading-snug">{opt}</span>
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center text-xs font-mono font-bold shrink-0 ml-3 ${
-                      isSelected ? 'border-secondary bg-secondary text-white' : 'border-border-hairline bg-surface-cream text-zinc-500'
+                      isCorrectOption
+                        ? 'border-emerald-600 bg-emerald-600 text-white'
+                        : isWrongSelected
+                        ? 'border-red-600 bg-red-600 text-white'
+                        : isSelected
+                        ? 'border-secondary bg-secondary text-white'
+                        : 'border-border-hairline bg-surface-cream text-zinc-500'
                     }`}>
                       {String.fromCharCode(65 + idx)}
                     </div>
@@ -222,11 +243,22 @@ export const AILiteracyPage: React.FC = () => {
     );
   }
 
+  const getTopicCount = (topicId: string) => {
+    if (!allAiData?.data) return 0;
+    if (topicId === 'all') return allAiData.data.length;
+    return allAiData.data.filter((q: any) => 
+      q.topic?.toLowerCase().includes(topicId.toLowerCase()) || 
+      (topicId === 'RAG' && (q.topic?.includes('RAG') || q.topic?.includes('Vector'))) ||
+      (topicId === 'Responsible AI' && q.topic?.includes('Responsible')) ||
+      (topicId === 'AI Security' && q.topic?.includes('Security'))
+    ).length;
+  };
+
   return (
     <div className="p-8 max-w-6xl mx-auto space-y-8 text-on-surface">
       <div>
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-border-hairline rounded-full text-xs font-mono font-medium text-on-surface mb-3">
-          <span>✨ CAPGEMINI PREP BY YUSUF</span>
+          <span>✨ CAPGEMINI PREP • 2026/2027 EXCELLER PATTERN</span>
         </div>
         <h1 className="text-3xl font-extrabold text-on-surface tracking-tight mb-2">AI Literacy & Prompt Engineering</h1>
         <p className="text-on-surface-variant text-sm max-w-2xl">
@@ -235,19 +267,36 @@ export const AILiteracyPage: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {TOPICS.map((topic) => (
-          <div 
-            key={topic.id}
-            onClick={() => handleSelectTopic(topic.id)}
-            className="bg-white p-6 rounded-2xl border border-border-hairline hover:border-zinc-400 cursor-pointer transition-all hover:-translate-y-0.5 shadow-sm group"
-          >
-            <div className="w-12 h-12 bg-secondary-fixed text-on-secondary-fixed rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform border border-secondary/20">
-              {topic.icon}
+        {TOPICS.map((topic) => {
+          const count = getTopicCount(topic.id);
+          return (
+            <div 
+              key={topic.id}
+              onClick={() => handleSelectTopic(topic.id)}
+              className="bg-white p-6 rounded-2xl border border-border-hairline hover:border-zinc-400 cursor-pointer transition-all hover:-translate-y-0.5 shadow-sm group flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 bg-secondary-fixed text-on-secondary-fixed rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform border border-secondary/20">
+                    {topic.icon}
+                  </div>
+                  <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-surface-cream text-secondary border border-border-hairline">
+                    {count > 0 ? `${count} Questions` : 'Curated Bank'}
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-on-surface mb-1.5">{topic.title}</h3>
+                <p className="text-xs text-on-surface-variant leading-relaxed">{topic.description}</p>
+              </div>
+
+              <div className="flex items-center justify-between mt-5 pt-3 border-t border-border-hairline text-[11px] font-mono">
+                <span className="text-secondary font-semibold">Round 1 AI Module</span>
+                <span className="text-on-surface-variant flex items-center gap-1 group-hover:text-primary transition-colors font-medium">
+                  Start Practice <ChevronRight size={12} />
+                </span>
+              </div>
             </div>
-            <h3 className="text-base font-bold text-on-surface mb-1.5">{topic.title}</h3>
-            <p className="text-xs text-on-surface-variant leading-relaxed">{topic.description}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

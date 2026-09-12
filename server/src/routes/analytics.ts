@@ -6,7 +6,8 @@ import {
   getWeakAreas, 
   getCoachAdvice,
   getDashboardOverview,
-  getRoadmapProgress
+  getRoadmapProgress,
+  getCohortBenchmark
 } from '../controllers/analyticsController.js';
 import { protect } from '../middleware/auth.js';
 
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.get('/dashboard', protect, getDashboardOverview);
 router.get('/roadmap', protect, getRoadmapProgress);
+router.get('/cohort', protect, getCohortBenchmark);
 router.get('/overview', protect, getOverview);
 router.get('/category/:category', protect, getCategoryStats);
 router.get('/trends', protect, getTrends);
