@@ -31,6 +31,9 @@ export function sanitizeMongoUri(uri: string): string {
 }
 
 export const connectDB = async (): Promise<void> => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
   const targetUri = sanitizeMongoUri(env.MONGODB_URI);
 
   // If using MongoDB Atlas SRV URI, configure reliable public DNS servers for Windows SRV resolution
