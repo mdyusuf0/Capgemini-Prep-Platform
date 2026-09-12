@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Flame, LogOut } from 'lucide-react';
+import { Search, LogOut } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NotificationCenter } from './NotificationCenter';
@@ -65,11 +65,6 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           <kbd className="absolute right-2 text-[10px] text-on-surface-variant bg-surface-container-high px-1 py-0.2 rounded border border-border-hairline font-medium">⌘K</kbd>
         </div>
 
-        {/* Streak Pill */}
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-paper border border-border-hairline shadow-xs">
-          <span className="text-accent-pink text-xs">🔥</span>
-          <span className="text-xs font-semibold text-on-surface">12 Days</span>
-        </div>
 
         {/* Target Drive Tag */}
         <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-secondary-fixed text-on-secondary-fixed text-xs font-semibold border border-secondary/20">
