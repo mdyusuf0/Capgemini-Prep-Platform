@@ -2,11 +2,12 @@
  * Procedural Cognitive Puzzle Generator for Capgemini Games
  * Generates mathematically guaranteed, unique, solvable puzzles for:
  * 1. Geo-Sudo (Deductive Latin-Square Reasoning)
- * 2. Spacio (Inductive Matrix Transformation)
+ * 2. Spacio / Inductive Reasoning (Inductive Matrix Transformation)
  * 3. Grid Challenge (Working Memory & Coordinate Recall)
  * 4. Motion Challenge (Optimal Pathfinding Maze)
  * 5. Switch Challenge (Transformation Sequence Permutation)
- * 6. Digit Challenge (Arithmetic Target Generation)
+ * 6. Digit Challenge (Mental Arithmetic Velocity)
+ * 7. Color The Grid (Rule-Based Conditional Classification)
  */
 
 export interface GeoSudoPuzzle {
@@ -49,7 +50,7 @@ export interface MotionPuzzle {
 export interface SwitchPuzzle {
   type: 'switch';
   inputSequence: string[];
-  switchRule: number[]; // e.g. [2, 0, 3, 1] means pos 0 goes to pos 2, etc.
+  switchRule: number[]; // e.g. [2, 0, 3, 1] means pos 0 goes to pos 2
   outputSequence: string[];
   options: number[][]; // candidate switch rules
   correctAnswer: number;
@@ -60,11 +61,23 @@ export interface DigitPuzzle {
   target: number;
   availableDigits: number[];
   solutionFormula: string;
+  missingIndex?: number;
+  operators?: string[];
+}
+
+export interface ColorTheGridPuzzle {
+  type: 'color-the-grid';
+  ruleText: string;
+  ruleCategory: string;
+  grids: (string | number)[][];
+  expectedColors: string[];
+  allowedColors: string[];
 }
 
 export class CognitiveGenerator {
   // 1. Geo-Sudo (Deductive Reasoning)
-  static generateGeoSudo(size: 4 | 5 = 4): GeoSudoPuzzle {
+  static generateGeoSudo(levelOrSize: number = 1): GeoSudoPuzzle {
+    const size: 4 | 5 = (levelOrSize >= 5 || levelOrSize === 5) ? 5 : 4;
     const symbolPool = ['▲', '■', '●', '★', '♦'];
     const symbols = symbolPool.slice(0, size);
 
@@ -84,17 +97,30 @@ export class CognitiveGenerator {
       fullGrid[j] = temp;
     }
 
+    for (let c = 0; c < size; c++) {
+      const j = Math.floor(Math.random() * size);
+      for (let r = 0; r < size; r++) {
+        const temp = fullGrid[r][c];
+        fullGrid[r][c] = fullGrid[r][j];
+        fullGrid[r][j] = temp;
+      }
+    }
+
     const targetRow = Math.floor(Math.random() * size);
     const targetCol = Math.floor(Math.random() * size);
     const solution = fullGrid[targetRow][targetCol];
 
-    // Create puzzle grid with target cell as null and a few hints
+    // Determine cell blanking density based on level
+    const keepDensity = Math.max(0.35, 0.7 - (levelOrSize * 0.04));
+
     const puzzleGrid: (string | null)[][] = fullGrid.map((row, rIdx) =>
       row.map((val, cIdx) => {
         if (rIdx === targetRow && cIdx === targetCol) return null;
-        // Keep most cells visible in target row/col so deduction is uniquely obvious
-        if (rIdx === targetRow || cIdx === targetCol) return val;
-        return Math.random() > 0.4 ? val : null;
+        // Keep target row & col sufficiently populated so logical deduction is solvable
+        if (rIdx === targetRow || cIdx === targetCol) {
+          return Math.random() > 0.3 ? val : null;
+        }
+        return Math.random() < keepDensity ? val : null;
       })
     );
 
@@ -110,27 +136,39 @@ export class CognitiveGenerator {
   }
 
   // 2. Spacio (Inductive Reasoning)
-  static generateSpacio(): SpacioPuzzle {
-    const shapes = ['square', 'circle', 'triangle', 'diamond'];
+  static generateSpacio(level: number = 1): SpacioPuzzle {
+    const shapes = ['square', 'circle', 'triangle', 'diamond', 'hexagon'];
     const fills = ['solid', 'outline', 'striped'];
     const baseShape = shapes[Math.floor(Math.random() * shapes.length)];
     const queryShape = shapes.filter(s => s !== baseShape)[Math.floor(Math.random() * (shapes.length - 1))];
 
-    // Rule: Rotate 90 deg and toggle fill
-    const pairA = { shape: baseShape, rotation: 0, fill: 'solid' };
-    const pairB = { shape: baseShape, rotation: 90, fill: 'outline' };
-    const queryC = { shape: queryShape, rotation: 0, fill: 'solid' };
-    const correctD = { shape: queryShape, rotation: 90, fill: 'outline' };
+    // Scale rotation angle: 90, 180, 270
+    const rotations = [90, 180, 270];
+    const ruleRotation = rotations[Math.floor(Math.random() * rotations.length)];
+    const ruleFillToggle = level >= 3;
+
+    const baseFill = fills[0];
+    const nextFill = ruleFillToggle ? fills[1] : baseFill;
+
+    const pairA = { shape: baseShape, rotation: 0, fill: baseFill };
+    const pairB = { shape: baseShape, rotation: ruleRotation, fill: nextFill };
+    const queryC = { shape: queryShape, rotation: 0, fill: baseFill };
+    const correctD = { shape: queryShape, rotation: ruleRotation, fill: nextFill };
 
     const distractors = [
-      { shape: queryShape, rotation: 180, fill: 'outline' },
-      { shape: queryShape, rotation: 90, fill: 'solid' },
-      { shape: baseShape, rotation: 90, fill: 'outline' }
+      { shape: queryShape, rotation: (ruleRotation + 90) % 360, fill: nextFill },
+      { shape: queryShape, rotation: ruleRotation, fill: baseFill },
+      { shape: baseShape, rotation: ruleRotation, fill: nextFill },
+      { shape: queryShape, rotation: (ruleRotation + 180) % 360, fill: ruleFillToggle ? fills[2] : nextFill }
     ];
 
-    const options = [correctD, ...distractors].sort(() => 0.5 - Math.random());
-    const correctAnswer = options.findIndex(o => 
-      o.shape === correctD.shape && o.rotation === correctD.rotation && o.fill === correctD.fill
+    const uniqueDistractors = distractors.filter(
+      d => !(d.shape === correctD.shape && d.rotation === correctD.rotation && d.fill === correctD.fill)
+    ).slice(0, 3);
+
+    const options = [correctD, ...uniqueDistractors].sort(() => 0.5 - Math.random());
+    const correctAnswer = options.findIndex(
+      o => o.shape === correctD.shape && o.rotation === correctD.rotation && o.fill === correctD.fill
     );
 
     return {
@@ -140,14 +178,14 @@ export class CognitiveGenerator {
       queryC,
       options,
       correctAnswer,
-      ruleExplanation: 'The object rotates 90 degrees clockwise and its interior fill changes from solid to outline.'
+      ruleExplanation: `The figure rotates ${ruleRotation}° clockwise${ruleFillToggle ? ' and the interior fill shifts to outline' : ''}.`
     };
   }
 
-  // 3. Grid Challenge
+  // 3. Grid Challenge (Working Memory)
   static generateGridChallenge(level: number = 1): GridPuzzle {
-    const gridSize = 4;
-    const sequenceLength = Math.min(3 + level, 6);
+    const gridSize = level >= 6 ? 5 : (level >= 3 ? 4 : 3);
+    const sequenceLength = Math.min(2 + Math.floor(level * 0.6), gridSize * gridSize - 1);
     const sequence: { row: number; col: number }[] = [];
 
     while (sequence.length < sequenceLength) {
@@ -158,25 +196,28 @@ export class CognitiveGenerator {
       }
     }
 
-    // Generate symmetry distractor task
+    // Symmetry distractor task
     const isSymmetric = Math.random() > 0.5;
     const symGrid: boolean[][] = Array.from({ length: 4 }, () => Array(4).fill(false));
-    
+
     if (isSymmetric) {
       for (let r = 0; r < 4; r++) {
         for (let c = 0; c < 2; c++) {
-          if (Math.random() > 0.5) {
+          if (Math.random() > 0.45) {
             symGrid[r][c] = true;
-            symGrid[r][3 - c] = true; // Mirror
+            symGrid[r][3 - c] = true;
           }
         }
       }
     } else {
       for (let r = 0; r < 4; r++) {
         for (let c = 0; c < 4; c++) {
-          symGrid[r][c] = Math.random() > 0.6;
+          symGrid[r][c] = Math.random() > 0.5;
         }
       }
+      // Guarantee asymmetry
+      symGrid[0][0] = true;
+      symGrid[0][3] = false;
     }
 
     return {
@@ -188,16 +229,18 @@ export class CognitiveGenerator {
     };
   }
 
-  // 4. Motion Challenge (Maze Pathfinding)
-  static generateMotionChallenge(): MotionPuzzle {
+  // 4. Motion Challenge (Pathfinding Maze)
+  static generateMotionChallenge(level: number = 1): MotionPuzzle {
     const gridSize = 6;
     const start = { row: 0, col: 0 };
     const target = { row: gridSize - 1, col: gridSize - 1 };
     const obstacles: { row: number; col: number }[] = [];
 
-    // Place random obstacles without blocking all paths
-    const numObstacles = 7;
-    while (obstacles.length < numObstacles) {
+    const numObstacles = Math.min(11, 4 + Math.floor(level * 0.7));
+    let attempts = 0;
+
+    while (obstacles.length < numObstacles && attempts < 50) {
+      attempts++;
       const r = Math.floor(Math.random() * gridSize);
       const c = Math.floor(Math.random() * gridSize);
       if ((r === start.row && c === start.col) || (r === target.row && c === target.col)) continue;
@@ -233,9 +276,9 @@ export class CognitiveGenerator {
       }
     }
 
-    // If blocked, fallback to Manhattan distance without obstacles
-    if (optimalMoves === -1) {
-      return this.generateMotionChallenge();
+    if (optimalMoves === -1 || optimalMoves < 4) {
+      // Regenerate if no valid path or trivially short
+      return this.generateMotionChallenge(level);
     }
 
     return {
@@ -248,22 +291,23 @@ export class CognitiveGenerator {
     };
   }
 
-  // 5. Switch Challenge
-  static generateSwitchChallenge(): SwitchPuzzle {
+  // 5. Switch Challenge (Permutation Switch)
+  static generateSwitchChallenge(level: number = 1): SwitchPuzzle {
     const symbols = ['▲', '■', '●', '★'];
-    const inputSequence = [...symbols];
-    
-    // Generate permutation of [0, 1, 2, 3]
-    const switchRule = [0, 1, 2, 3].sort(() => 0.5 - Math.random());
+    const inputSequence = [...symbols].sort(() => 0.5 - Math.random());
+
+    // Permutation of [0, 1, 2, 3]
+    const indices = [0, 1, 2, 3];
+    const switchRule = [...indices].sort(() => 0.5 - Math.random());
     const outputSequence = new Array(4);
     for (let i = 0; i < 4; i++) {
-      outputSequence[switchRule[i]] = inputSequence[i];
+      outputSequence[i] = inputSequence[switchRule[i]];
     }
 
     // Generate distractors
     const candidateRules = [switchRule];
     while (candidateRules.length < 4) {
-      const cand = [0, 1, 2, 3].sort(() => 0.5 - Math.random());
+      const cand = [...indices].sort(() => 0.5 - Math.random());
       if (!candidateRules.some(r => r.every((val, idx) => val === cand[idx]))) {
         candidateRules.push(cand);
       }
@@ -282,27 +326,121 @@ export class CognitiveGenerator {
     };
   }
 
-  // 6. Digit Challenge
-  static generateDigitChallenge(): DigitPuzzle {
-    const targets = [24, 36, 48, 60, 72, 84, 96, 120];
-    const target = targets[Math.floor(Math.random() * targets.length)];
-
-    // Pre-calculated verified combinations
-    const puzzleSet = [
-      { target: 24, digits: [4, 6, 2, 3], formula: "(4 * 6) * (3 - 2) = 24" },
-      { target: 36, digits: [6, 6, 2, 1], formula: "(6 * 6) * (2 - 1) = 36" },
-      { target: 48, digits: [8, 6, 3, 2], formula: "(8 * 6) + (3 - 3) = 48" },
-      { target: 60, digits: [5, 12, 2, 2], formula: "(5 * 12) = 60" },
-      { target: 72, digits: [9, 8, 4, 4], formula: "(9 * 8) = 72" },
-      { target: 96, digits: [12, 8, 1, 1], formula: "(12 * 8) = 96" }
+  // 6. Digit Challenge (Mental Arithmetic Velocity)
+  static generateDigitChallenge(level: number = 1): DigitPuzzle {
+    // Generate procedurally based on level
+    const basePuzzles = [
+      { target: 24, digits: [4, 6, 2, 3], formula: "(4 * 6) * (3 - 2)" },
+      { target: 36, digits: [6, 6, 2, 1], formula: "(6 * 6) * (2 - 1)" },
+      { target: 48, digits: [8, 6, 4, 3], formula: "(8 * 6) + (4 - 4)" },
+      { target: 50, digits: [5, 10, 2, 1], formula: "(5 * 10) * (2 - 1)" },
+      { target: 60, digits: [5, 12, 3, 3], formula: "(5 * 12) + (3 - 3)" },
+      { target: 72, digits: [9, 8, 4, 3], formula: "(9 * 8) + (4 - 4)" },
+      { target: 84, digits: [12, 7, 2, 1], formula: "(12 * 7) * (2 - 1)" },
+      { target: 96, digits: [12, 8, 3, 2], formula: "(12 * 8) + (3 - 3)" },
+      { target: 108, digits: [12, 9, 2, 1], formula: "(12 * 9) * (2 - 1)" },
+      { target: 120, digits: [15, 8, 4, 2], formula: "(15 * 8) + (4 - 4)" },
+      { target: 144, digits: [12, 12, 3, 2], formula: "(12 * 12) * (3 - 2)" },
+      { target: 150, digits: [25, 6, 2, 1], formula: "(25 * 6) * (2 - 1)" },
     ];
 
-    const p = puzzleSet.find(item => item.target === target) || puzzleSet[0];
+    // Pick a puzzle appropriate for level
+    const pool = level <= 3 ? basePuzzles.slice(0, 4) :
+                 (level <= 7 ? basePuzzles.slice(2, 8) : basePuzzles.slice(5));
+
+    const selected = pool[Math.floor(Math.random() * pool.length)] || basePuzzles[0];
+
     return {
       type: 'digit',
-      target: p.target,
-      availableDigits: p.digits.sort(() => 0.5 - Math.random()),
-      solutionFormula: p.formula
+      target: selected.target,
+      availableDigits: [...selected.digits].sort(() => 0.5 - Math.random()),
+      solutionFormula: selected.formula
+    };
+  }
+
+  // 7. Color The Grid (Rule-Based Conditional Classification)
+  static generateColorTheGrid(level: number = 1): ColorTheGridPuzzle {
+    const rules = [
+      {
+        category: 'Character Presence',
+        text: "If grid contains 'Z', mark Orange. Otherwise mark Blue.",
+        check: (content: (string | number)[]) => content.includes('Z') ? 'orange' : 'blue',
+        allowedColors: ['orange', 'blue'],
+      },
+      {
+        category: 'Number Parity',
+        text: "If all numbers are Even, mark Green. Otherwise mark Grey.",
+        check: (content: (string | number)[]) => {
+          const nums = content.filter((c): c is number => typeof c === 'number');
+          const allEven = nums.length > 0 && nums.every(n => n % 2 === 0);
+          return allEven ? 'green' : 'grey';
+        },
+        allowedColors: ['green', 'grey'],
+      },
+      {
+        category: 'Vowel Detection',
+        text: "If grid contains any Vowel (A, E, I), mark Orange. Otherwise mark Blue.",
+        check: (content: (string | number)[]) => 
+          content.some(c => typeof c === 'string' && 'AEI'.includes(c)) ? 'orange' : 'blue',
+        allowedColors: ['orange', 'blue'],
+      },
+      {
+        category: 'Sum Threshold',
+        text: `If the sum of all numbers exceeds ${level >= 5 ? '12' : '10'}, mark Green. Otherwise mark Grey.`,
+        check: (content: (string | number)[]) => {
+          const threshold = level >= 5 ? 12 : 10;
+          const sum = content.filter((c): c is number => typeof c === 'number').reduce((a, b) => a + b, 0);
+          return sum > threshold ? 'green' : 'grey';
+        },
+        allowedColors: ['green', 'grey'],
+      },
+      {
+        category: 'Quantity Threshold',
+        text: "If grid contains 3 or more Numbers, mark Orange. Otherwise mark Blue.",
+        check: (content: (string | number)[]) => {
+          const numCount = content.filter(c => typeof c === 'number').length;
+          return numCount >= 3 ? 'orange' : 'blue';
+        },
+        allowedColors: ['orange', 'blue'],
+      },
+      {
+        category: 'Odd Parity Check',
+        text: "If grid contains at least one Odd number, mark Green. Otherwise mark Grey.",
+        check: (content: (string | number)[]) => {
+          const hasOdd = content.some(c => typeof c === 'number' && c % 2 !== 0);
+          return hasOdd ? 'green' : 'grey';
+        },
+        allowedColors: ['green', 'grey'],
+      }
+    ];
+
+    const chosenRule = rules[Math.floor(Math.random() * rules.length)];
+
+    // Generate 4 grids
+    const chars = 'ABEZXY';
+    const grids: (string | number)[][] = [];
+    const expectedColors: string[] = [];
+
+    for (let g = 0; g < 4; g++) {
+      const gridContent: (string | number)[] = [];
+      for (let i = 0; i < 4; i++) {
+        if (Math.random() > 0.45) {
+          gridContent.push(Math.floor(Math.random() * 9) + 1);
+        } else {
+          gridContent.push(chars[Math.floor(Math.random() * chars.length)]);
+        }
+      }
+      grids.push(gridContent);
+      expectedColors.push(chosenRule.check(gridContent));
+    }
+
+    return {
+      type: 'color-the-grid',
+      ruleText: chosenRule.text,
+      ruleCategory: chosenRule.category,
+      grids,
+      expectedColors,
+      allowedColors: chosenRule.allowedColors
     };
   }
 }

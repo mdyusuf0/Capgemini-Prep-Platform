@@ -1,188 +1,249 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, CheckCircle2, XCircle } from 'lucide-react';
-import api from '@/services/api';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useAdaptiveGame } from '../../context/AdaptiveGameContext';
+import { AdaptiveGameShell, InstructionItem, ShortcutItem } from './AdaptiveGameShell';
+import { Circle, Square, Check } from 'lucide-react';
+import { playClick } from '../../utils/sound';
 
-interface SpacioShape {
-  shape: string;
+interface ArrowProps {
   rotation: number;
-  fill: string;
 }
 
-interface SpacioPuzzle {
-  pairA: SpacioShape;
-  pairB: SpacioShape;
-  queryC: SpacioShape;
-  options: SpacioShape[];
-  correctAnswer: number;
-  ruleExplanation: string;
+const ArrowIcon: React.FC<ArrowProps> = ({ rotation }) => (
+  <svg
+    width="30"
+    height="30"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ transform: `rotate(${rotation}deg)` }}
+    className="transition-transform duration-200"
+  >
+    <line x1="12" y1="19" x2="12" y2="5" />
+    <polyline points="5 12 12 5 19 12" />
+  </svg>
+);
+
+interface QuestionOption {
+  id: number;
+  type: 'rotation' | 'count' | 'fill' | 'shape_kind';
+  rotation?: number;
+  count?: number;
+  filled?: boolean;
+  shapeKind?: 'square' | 'circle';
 }
 
-const renderShapeIcon = (s: SpacioShape) => {
-  const isSolid = s.fill === 'solid';
-  const rotationStyle = { transform: `rotate(${s.rotation}deg)` };
-
-  return (
-    <div className="w-12 h-12 flex items-center justify-center transition-transform" style={rotationStyle}>
-      {s.shape === 'square' && <div className={`w-8 h-8 rounded-sm ${isSolid ? 'bg-secondary' : 'border-2 border-secondary'}`} />}
-      {s.shape === 'circle' && <div className={`w-8 h-8 rounded-full ${isSolid ? 'bg-purple-600' : 'border-2 border-purple-600'}`} />}
-      {s.shape === 'triangle' && (
-        <div className={`w-0 h-0 border-l-[16px] border-l-transparent border-r-[16px] border-r-transparent border-b-[28px] ${isSolid ? 'border-b-amber-500' : 'border-b-amber-500/40'}`} />
-      )}
-      {s.shape === 'diamond' && <div className={`w-8 h-8 rotate-45 rounded-sm ${isSolid ? 'bg-emerald-600' : 'border-2 border-emerald-600'}`} />}
-    </div>
-  );
-};
+interface QuestionState {
+  options: QuestionOption[];
+  correct: number;
+  explanation: string;
+}
 
 export const SpacioGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [puzzle, setPuzzle] = useState<SpacioPuzzle | null>(null);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [score, setScore] = useState(0);
-  const [round, setRound] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const { level, submitAnswer, resetLevelTimer } = useAdaptiveGame();
+  const [currentQuestion, setCurrentQuestion] = useState<QuestionState | null>(null);
+  const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
 
-  const fetchPuzzle = async () => {
-    setLoading(true);
-    setSelectedOption(null);
-    try {
-      const { data } = await api.get('/games/generate/spacio');
-      setPuzzle(data);
-    } catch {
-      setPuzzle({
-        pairA: { shape: 'square', rotation: 0, fill: 'solid' },
-        pairB: { shape: 'square', rotation: 90, fill: 'outline' },
-        queryC: { shape: 'triangle', rotation: 0, fill: 'solid' },
-        options: [
-          { shape: 'triangle', rotation: 90, fill: 'outline' },
-          { shape: 'triangle', rotation: 180, fill: 'outline' },
-          { shape: 'triangle', rotation: 90, fill: 'solid' },
-          { shape: 'square', rotation: 90, fill: 'outline' }
-        ],
-        correctAnswer: 0,
-        ruleExplanation: "The object rotates 90 degrees clockwise and its interior fill changes from solid to outline."
-      });
-    } finally {
-      setLoading(false);
+  const generateQuestion = useCallback(() => {
+    setFeedback(null);
+    const ruleTypes: ('ROTATION' | 'COUNT' | 'FILL' | 'SIDES')[] = ['ROTATION', 'COUNT', 'FILL', 'SIDES'];
+    const chosenType = ruleTypes[Math.floor(Math.random() * ruleTypes.length)];
+    const correctIdx = Math.floor(Math.random() * 5);
+    const options: QuestionOption[] = [];
+    let ruleExplanation = '';
+
+    if (chosenType === 'ROTATION') {
+      const step = Math.random() > 0.5 ? 90 : 45;
+      const start = Math.floor(Math.random() * 8) * 45;
+      for (let i = 0; i < 5; i++) {
+        let rot = (start + i * step) % 360;
+        if (i === correctIdx) {
+          rot = (rot + (step === 90 ? 45 : 90)) % 360;
+        }
+        options.push({ id: i, rotation: rot, type: 'rotation' });
+      }
+      ruleExplanation = `All arrows rotate sequentially by ${step}° clockwise, except Option ${String.fromCharCode(65 + correctIdx)}.`;
+    } else if (chosenType === 'COUNT') {
+      const baseCount = Math.floor(Math.random() * 3) + 2; // 2, 3, 4
+      for (let i = 0; i < 5; i++) {
+        let count = baseCount;
+        if (i === correctIdx) {
+          count = baseCount + 1;
+        }
+        options.push({ id: i, count, type: 'count' });
+      }
+      ruleExplanation = `All figures contain exactly ${baseCount} items, except Option ${String.fromCharCode(65 + correctIdx)} which has ${baseCount + 1}.`;
+    } else if (chosenType === 'FILL') {
+      const majorityFilled = Math.random() > 0.5;
+      for (let i = 0; i < 5; i++) {
+        const filled = (i === correctIdx) ? !majorityFilled : majorityFilled;
+        options.push({ id: i, filled, type: 'fill' });
+      }
+      ruleExplanation = `Option ${String.fromCharCode(65 + correctIdx)} is the only ${majorityFilled ? 'hollow' : 'filled'} shape.`;
+    } else {
+      // SIDES / SHAPE TYPE
+      for (let i = 0; i < 5; i++) {
+        const shapeKind = (i === correctIdx) ? 'square' : 'circle';
+        options.push({ id: i, shapeKind, type: 'shape_kind' });
+      }
+      ruleExplanation = `Option ${String.fromCharCode(65 + correctIdx)} is a Square, while all other options are Circles.`;
     }
-  };
+
+    setCurrentQuestion({ options, correct: correctIdx, explanation: ruleExplanation });
+    resetLevelTimer();
+  }, [resetLevelTimer]);
 
   useEffect(() => {
-    fetchPuzzle();
-  }, [round]);
+    generateQuestion();
+  }, [level, generateQuestion]);
 
-  const handleSelect = (idx: number) => {
-    if (selectedOption !== null || !puzzle) return;
-    setSelectedOption(idx);
-    if (idx === puzzle.correctAnswer) {
-      setScore(s => s + 100);
+  const handleOptionClick = useCallback((idx: number) => {
+    if (!currentQuestion || feedback !== null) return;
+    playClick();
+
+    if (idx === currentQuestion.correct) {
+      setFeedback('correct');
+      setTimeout(() => submitAnswer(true), 400);
+    } else {
+      setFeedback('wrong');
+      submitAnswer(false);
+      setTimeout(() => generateQuestion(), 700);
     }
-  };
+  }, [currentQuestion, feedback, submitAnswer, generateQuestion]);
 
-  if (loading || !puzzle) {
-    return (
-      <div className="flex items-center justify-center p-12 text-on-surface-variant">
-        <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
+  // Keyboard Hotkeys: A-E or 1-5
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const keyMap: Record<string, number> = {
+        '1': 0, '2': 1, '3': 2, '4': 3, '5': 4,
+        'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4,
+      };
+      const lower = e.key.toLowerCase();
+      if (lower in keyMap) {
+        e.preventDefault();
+        handleOptionClick(keyMap[lower]);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleOptionClick]);
+
+  const SHORTCUTS: ShortcutItem[] = [
+    { key: 'A, B, C, D, E', action: 'Select Figure' },
+    { key: '1, 2, 3, 4, 5', action: 'Alternative Option Keys' },
+  ];
+
+  const INSTRUCTIONS: InstructionItem[] = [
+    {
+      title: "Identify the Pattern Breaker",
+      desc: "Four of the five figures adhere to a consistent logical transformation rule. Exactly one figure violates the pattern.",
+    },
+    {
+      title: "Transformation Principles",
+      desc: "Analyze sequential rotation angles (45° / 90°), count symmetry, solid vs hollow shading, and shape topology.",
+    },
+    {
+      title: "High-Velocity Selection",
+      desc: "Press [A] through [E] or [1] through [5] on your keyboard to instantly record your deduction.",
+    }
+  ];
+
+  if (!currentQuestion) return null;
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6 text-on-surface">
-      <div className="flex items-center justify-between border-b border-border-hairline pb-4">
-        <button onClick={onBack} className="flex items-center text-xs font-mono font-bold text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Return to Arena
-        </button>
-        <div className="flex items-center space-x-6 text-xs font-mono">
-          <div><span className="text-on-surface-variant">Round:</span> <span className="font-bold text-on-surface">{round}/5</span></div>
-          <div><span className="text-on-surface-variant">Velocity Score:</span> <span className="font-bold text-secondary">{score}</span></div>
-        </div>
-      </div>
+    <AdaptiveGameShell
+      title="Inductive Reasoning (Spacio)"
+      category="Inductive Logic"
+      instructions={INSTRUCTIONS}
+      shortcuts={SHORTCUTS}
+      onBack={onBack}
+    >
+      <div className="flex flex-col items-center justify-center max-w-3xl mx-auto w-full gap-7">
 
-      <div className="text-center space-y-1">
-        <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">Spacio (Inductive Reasoning)</h2>
-        <p className="text-on-surface-variant text-xs">
-          Observe how Figure A transforms into Figure B. Determine the underlying geometric rule and apply it to Figure C.
-        </p>
-      </div>
-
-      {/* Demonstration Row: A -> B and C -> ? */}
-      <div className="bg-white border border-border-hairline rounded-2xl p-6 flex flex-col md:flex-row items-center justify-around gap-6 shadow-sm">
-        <div className="flex items-center gap-4">
-          <div className="p-4 bg-surface-cream rounded-xl border border-border-hairline flex flex-col items-center">
-            <span className="text-xs text-on-surface-variant mb-2 font-mono font-bold">Figure A</span>
-            {renderShapeIcon(puzzle.pairA)}
-          </div>
-          <span className="text-2xl font-bold text-secondary">→</span>
-          <div className="p-4 bg-surface-cream rounded-xl border border-border-hairline flex flex-col items-center">
-            <span className="text-xs text-on-surface-variant mb-2 font-mono font-bold">Figure B</span>
-            {renderShapeIcon(puzzle.pairB)}
-          </div>
+        <div className="text-center">
+          <span className="text-[11px] font-bold font-mono text-on-surface-variant uppercase tracking-wider block mb-1">
+            Level {level} Inductive Rule Discovery
+          </span>
+          <h2 className="text-base sm:text-lg font-bold text-on-surface">
+            Which figure does NOT belong in this set?
+          </h2>
         </div>
 
-        <div className="w-px h-16 bg-border-hairline hidden md:block" />
+        {/* 5 Options Row */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 w-full">
+          {currentQuestion.options.map((opt, idx) => {
+            const letter = String.fromCharCode(65 + idx);
+            const isCorrectSelected = feedback === 'correct' && idx === currentQuestion.correct;
+            const isWrongSelected = feedback === 'wrong' && idx === currentQuestion.correct;
 
-        <div className="flex items-center gap-4">
-          <div className="p-4 bg-surface-cream rounded-xl border border-border-hairline flex flex-col items-center">
-            <span className="text-xs text-on-surface-variant mb-2 font-mono font-bold">Figure C</span>
-            {renderShapeIcon(puzzle.queryC)}
-          </div>
-          <span className="text-2xl font-bold text-secondary">→</span>
-          <div className="w-24 h-24 p-4 bg-secondary-fixed/20 border-2 border-dashed border-secondary rounded-xl flex items-center justify-center text-2xl font-bold text-secondary animate-pulse">
-            ?
-          </div>
-        </div>
-      </div>
-
-      {/* Options */}
-      <div className="space-y-4">
-        <span className="text-xs text-on-surface-variant uppercase tracking-wider font-mono font-semibold block text-center">
-          Choose the transformed figure:
-        </span>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {puzzle.options.map((opt, idx) => {
-            const isSelected = selectedOption === idx;
-            const isCorrect = idx === puzzle.correctAnswer;
             return (
               <button
                 key={idx}
-                disabled={selectedOption !== null}
-                onClick={() => handleSelect(idx)}
-                className={`p-6 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all transform hover:scale-105 active:scale-95 disabled:pointer-events-none cursor-pointer shadow-xs ${
-                  selectedOption !== null
-                    ? isCorrect
-                      ? 'bg-emerald-50 border-2 border-emerald-500 text-emerald-900'
-                      : isSelected ? 'bg-red-50 border-2 border-red-500 text-red-900' : 'bg-surface-cream opacity-40 border-border-hairline'
-                    : 'bg-white hover:bg-surface-cream border-border-hairline hover:border-zinc-400'
+                type="button"
+                onClick={() => handleOptionClick(idx)}
+                className={`flex flex-col items-center gap-2 p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer shadow-xs ${
+                  isCorrectSelected
+                    ? 'bg-emerald-600 text-white border-emerald-600 scale-105'
+                    : isWrongSelected
+                    ? 'bg-rose-100 border-rose-400'
+                    : 'bg-surface-paper border-border-hairline hover:border-secondary hover:bg-surface-cream'
                 }`}
               >
-                <span className="text-xs text-on-surface-variant font-mono font-bold">Option {String.fromCharCode(65 + idx)}</span>
-                {renderShapeIcon(opt)}
+                {/* Visual Representation */}
+                <div className="w-16 h-16 sm:w-18 sm:h-18 flex items-center justify-center bg-surface-cream rounded-xl border border-border-hairline shadow-2xs">
+                  {opt.type === 'rotation' && opt.rotation !== undefined && (
+                    <ArrowIcon rotation={opt.rotation} />
+                  )}
+
+                  {opt.type === 'count' && opt.count !== undefined && (
+                    <div className="flex flex-wrap gap-1 items-center justify-center max-w-10">
+                      {Array.from({ length: opt.count }).map((_, i) => (
+                        <div key={i} className="w-3 h-3 rounded-full bg-secondary"></div>
+                      ))}
+                    </div>
+                  )}
+
+                  {opt.type === 'fill' && (
+                    <div
+                      className={`w-7 h-7 rounded-lg border-2 border-secondary ${
+                        opt.filled ? 'bg-secondary' : 'bg-transparent'
+                      }`}
+                    />
+                  )}
+
+                  {opt.type === 'shape_kind' && (
+                    <>
+                      {opt.shapeKind === 'square' ? (
+                        <Square size={28} className="text-secondary fill-secondary/20" />
+                      ) : (
+                        <Circle size={28} className="text-secondary fill-secondary/20" />
+                      )}
+                    </>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1 font-mono text-xs font-bold text-on-surface">
+                  <span>[{letter}]</span>
+                  <span className="text-on-surface-variant font-normal">#{idx + 1}</span>
+                </div>
               </button>
             );
           })}
         </div>
-      </div>
 
-      {/* Result feedback */}
-      {selectedOption !== null && (
-        <div className={`p-4 rounded-xl flex items-center justify-between border shadow-xs animate-in fade-in slide-in-from-bottom-2 ${
-          selectedOption === puzzle.correctAnswer ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-red-50 border-red-300 text-red-950'
-        }`}>
-          <div className="flex items-center space-x-3">
-            {selectedOption === puzzle.correctAnswer ? <CheckCircle2 className="w-6 h-6 text-emerald-600" /> : <XCircle className="w-6 h-6 text-red-600" />}
-            <div>
-              <div className="font-bold text-sm">{selectedOption === puzzle.correctAnswer ? 'Pattern Discovered!' : 'Incorrect Transformation'}</div>
-              <div className="text-xs text-on-surface-variant font-mono">{puzzle.ruleExplanation}</div>
-            </div>
+        {/* Solved feedback */}
+        {feedback === 'correct' && (
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-white font-mono text-xs font-bold shadow-md">
+            <Check size={16} /> Pattern Exception Found! Advancing to Level {level + 1}...
           </div>
-          <button
-            onClick={() => setRound(r => r + 1)}
-            className="px-4 py-2 bg-primary-container hover:bg-black text-white text-xs font-mono font-bold rounded-lg transition-colors cursor-pointer shadow-xs"
-          >
-            {round >= 5 ? 'Finish Game' : 'Next Puzzle →'}
-          </button>
-        </div>
-      )}
-    </div>
+        )}
+
+      </div>
+    </AdaptiveGameShell>
   );
 };
+
 export default SpacioGame;

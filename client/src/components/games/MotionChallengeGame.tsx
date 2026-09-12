@@ -1,175 +1,308 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Move, RotateCcw, CheckCircle2 } from 'lucide-react';
-import api from '@/services/api';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useAdaptiveGame } from '../../context/AdaptiveGameContext';
+import { AdaptiveGameShell, InstructionItem, ShortcutItem } from './AdaptiveGameShell';
+import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, RotateCcw, Flag } from 'lucide-react';
+import { playClick } from '../../utils/sound';
 
-interface MotionPuzzle {
-  gridSize: number;
-  start: { row: number; col: number };
-  target: { row: number; col: number };
-  obstacles: { row: number; col: number }[];
-  optimalMoves: number;
-}
+// Cell codes: 0 = Empty, 1 = Wall, 2 = Movable Block, 3 = Red Ball (Player), 4 = Goal Hole
+const LEVELS: number[][][] = [
+  // Level 1: Open corridor
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 3, 0, 2, 0, 1],
+    [1, 0, 1, 2, 0, 1],
+    [1, 0, 2, 0, 0, 1],
+    [1, 0, 1, 0, 4, 1],
+    [1, 1, 1, 1, 1, 1],
+  ],
+  // Level 2: The Corridor
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 3, 0, 0, 1, 1],
+    [1, 1, 2, 0, 0, 1],
+    [1, 1, 0, 2, 0, 1],
+    [1, 1, 0, 0, 4, 1],
+    [1, 1, 1, 1, 1, 1],
+  ],
+  // Level 3: Two Rooms
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 3, 0, 1, 0, 1],
+    [1, 2, 2, 1, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 1, 4, 0, 1],
+    [1, 1, 1, 1, 1, 1],
+  ],
+  // Level 4: The Squeeze
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 3, 2, 0, 2, 1],
+    [1, 0, 1, 0, 1, 1],
+    [1, 0, 2, 0, 0, 1],
+    [1, 0, 1, 2, 4, 1],
+    [1, 1, 1, 1, 1, 1],
+  ],
+  // Level 5: Open Field
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 3, 0, 2, 0, 1],
+    [1, 0, 0, 2, 0, 1],
+    [1, 2, 0, 0, 2, 1],
+    [1, 0, 2, 4, 0, 1],
+    [1, 1, 1, 1, 1, 1],
+  ],
+  // Level 6: Zig-Zag Alley
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 3, 2, 0, 0, 1],
+    [1, 1, 1, 2, 0, 1],
+    [1, 0, 0, 0, 2, 1],
+    [1, 0, 1, 1, 4, 1],
+    [1, 1, 1, 1, 1, 1],
+  ],
+  // Level 7: The Crossroad
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 3, 0, 1],
+    [1, 0, 1, 2, 0, 1],
+    [1, 2, 2, 0, 2, 1],
+    [1, 0, 4, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1],
+  ],
+  // Level 8: Double Obstacle Chamber
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 3, 0, 1, 0, 1],
+    [1, 2, 0, 2, 0, 1],
+    [1, 0, 2, 1, 2, 1],
+    [1, 0, 0, 0, 4, 1],
+    [1, 1, 1, 1, 1, 1],
+  ]
+];
 
 export const MotionChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [puzzle, setPuzzle] = useState<MotionPuzzle | null>(null);
-  const [playerPos, setPlayerPos] = useState<{ row: number; col: number }>({ row: 0, col: 0 });
-  const [moves, setMoves] = useState(0);
-  const [score, setScore] = useState(0);
-  const [won, setWon] = useState(false);
-  const [round, setRound] = useState(1);
+  const { level, submitAnswer, resetLevelTimer } = useAdaptiveGame();
+  const [grid, setGrid] = useState<number[][]>([]);
+  const [selectedItem, setSelectedItem] = useState<{ r: number; c: number; val: number } | null>(null);
+  const [moves, setMoves] = useState<number>(0);
+  const [feedback, setFeedback] = useState<'correct' | null>(null);
 
-  const fetchPuzzle = async () => {
-    setWon(false);
+  const loadLevel = useCallback(() => {
+    setFeedback(null);
+    const levelIndex = (level - 1) % LEVELS.length;
+    const template = LEVELS[levelIndex];
+    const newGrid = template.map(row => [...row]);
+
+    setGrid(newGrid);
     setMoves(0);
-    try {
-      const { data } = await api.get('/games/generate/motion');
-      setPuzzle(data);
-      setPlayerPos(data.start);
-    } catch {
-      setPuzzle({
-        gridSize: 6,
-        start: { row: 0, col: 0 },
-        target: { row: 5, col: 5 },
-        obstacles: [{ row: 1, col: 1 }, { row: 2, col: 2 }, { row: 3, col: 3 }],
-        optimalMoves: 10
-      });
-      setPlayerPos({ row: 0, col: 0 });
+
+    // Auto-select Ball (val = 3)
+    for (let r = 0; r < newGrid.length; r++) {
+      for (let c = 0; c < newGrid[r].length; c++) {
+        if (newGrid[r][c] === 3) {
+          setSelectedItem({ r, c, val: 3 });
+          break;
+        }
+      }
     }
-  };
+    resetLevelTimer();
+  }, [level, resetLevelTimer]);
 
   useEffect(() => {
-    fetchPuzzle();
-  }, [round]);
+    loadLevel();
+  }, [loadLevel]);
 
-  const handleMove = (dr: number, dc: number) => {
-    if (!puzzle || won) return;
-    const nr = playerPos.row + dr;
-    const nc = playerPos.col + dc;
-
-    if (nr < 0 || nr >= puzzle.gridSize || nc < 0 || nc >= puzzle.gridSize) return;
-    if (puzzle.obstacles.some(o => o.row === nr && o.col === nc)) return;
-
-    const nextPos = { row: nr, col: nc };
-    setPlayerPos(nextPos);
-    setMoves(m => m + 1);
-
-    if (nextPos.row === puzzle.target.row && nextPos.col === puzzle.target.col) {
-      setWon(true);
-      const moveEfficiency = Math.max(0, 100 - (moves + 1 - puzzle.optimalMoves) * 10);
-      setScore(s => s + moveEfficiency);
+  const handleCellClick = (r: number, c: number) => {
+    const val = grid[r][c];
+    if (val === 2 || val === 3) {
+      playClick();
+      setSelectedItem({ r, c, val });
     }
   };
 
-  if (!puzzle) {
-    return (
-      <div className="flex items-center justify-center p-12 text-on-surface-variant">
-        <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
+  const moveItem = useCallback((dr: number, dc: number) => {
+    if (!selectedItem || feedback !== null) return;
+
+    const { r, c, val } = selectedItem;
+    const nr = r + dr;
+    const nc = c + dc;
+
+    // Check grid bounds
+    if (nr < 0 || nr >= grid.length || nc < 0 || nc >= grid[0].length) return;
+
+    const targetCell = grid[nr][nc];
+
+    // Ball reaches Goal Hole (val = 3 to cell 4)
+    if (targetCell === 4 && val === 3) {
+      playClick();
+      const newGrid = grid.map(row => [...row]);
+      newGrid[r][c] = 0;
+      setGrid(newGrid);
+      setMoves(m => m + 1);
+      setFeedback('correct');
+      setTimeout(() => submitAnswer(true), 400);
+      return;
+    }
+
+    // Only move into empty cell (val = 0)
+    if (targetCell === 0) {
+      playClick();
+      const newGrid = grid.map(row => [...row]);
+      newGrid[r][c] = 0;
+      newGrid[nr][nc] = val;
+      setGrid(newGrid);
+      setSelectedItem({ r: nr, c: nc, val });
+      setMoves(m => m + 1);
+    }
+  }, [selectedItem, feedback, grid, submitAnswer]);
+
+  // Keyboard navigation: Arrows and WASD
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase();
+      if (['arrowup', 'w'].includes(key)) {
+        e.preventDefault();
+        moveItem(-1, 0);
+      } else if (['arrowdown', 's'].includes(key)) {
+        e.preventDefault();
+        moveItem(1, 0);
+      } else if (['arrowleft', 'a'].includes(key)) {
+        e.preventDefault();
+        moveItem(0, -1);
+      } else if (['arrowright', 'd'].includes(key)) {
+        e.preventDefault();
+        moveItem(0, 1);
+      } else if (key === 'r') {
+        e.preventDefault();
+        loadLevel();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [moveItem, loadLevel]);
+
+  const SHORTCUTS: ShortcutItem[] = [
+    { key: 'Arrow Keys / WASD', action: 'Move Selected Piece' },
+    { key: 'R', action: 'Reset Maze' },
+    { key: 'Click Piece', action: 'Switch Ball / Block' },
+  ];
+
+  const INSTRUCTIONS: InstructionItem[] = [
+    {
+      title: "Pathfinding to Target",
+      desc: "Navigate the red sphere into the target goal hole using the fewest possible moves.",
+    },
+    {
+      title: "Movable Obstacle Blocks",
+      desc: "Click on grey obstacle blocks to select and push them out of your path into vacant corridors.",
+    },
+    {
+      title: "Lookahead Planning",
+      desc: "Plan several steps in advance to avoid dead-ends or trapping movable blocks against walls.",
+    }
+  ];
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6 text-on-surface">
-      <div className="flex items-center justify-between border-b border-border-hairline pb-4">
-        <button onClick={onBack} className="flex items-center text-xs font-mono font-bold text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Return to Arena
-        </button>
-        <div className="flex items-center space-x-6 text-xs font-mono">
-          <div><span className="text-on-surface-variant">Moves:</span> <span className="font-bold text-on-surface">{moves}</span> (Optimal: {puzzle.optimalMoves})</div>
-          <div><span className="text-on-surface-variant">Velocity Score:</span> <span className="font-bold text-secondary">{score}</span></div>
-        </div>
-      </div>
+    <AdaptiveGameShell
+      title="Motion Challenge"
+      category="Spatial Reasoning"
+      instructions={INSTRUCTIONS}
+      shortcuts={SHORTCUTS}
+      onBack={onBack}
+    >
+      <div className="flex flex-col items-center justify-center max-w-xl mx-auto w-full gap-5">
 
-      <div className="text-center space-y-1">
-        <h2 className="text-2xl font-extrabold text-on-surface flex items-center justify-center gap-2 tracking-tight">
-          <Move className="text-secondary w-6 h-6" /> Motion Challenge (Pathfinding)
-        </h2>
-        <p className="text-on-surface-variant text-xs">
-          Navigate from Start to the Target Destination with the fewest possible steps. Avoid red obstacles.
-        </p>
-      </div>
-
-      {/* Grid */}
-      <div className="flex justify-center my-4">
-        <div 
-          className="grid gap-1.5 p-3 bg-white border border-border-hairline rounded-2xl shadow-sm"
-          style={{ gridTemplateColumns: `repeat(${puzzle.gridSize}, minmax(0, 1fr))` }}
-        >
-          {Array.from({ length: puzzle.gridSize * puzzle.gridSize }).map((_, idx) => {
-            const r = Math.floor(idx / puzzle.gridSize);
-            const c = idx % puzzle.gridSize;
-            const isPlayer = playerPos.row === r && playerPos.col === c;
-            const isTarget = puzzle.target.row === r && puzzle.target.col === c;
-            const isObstacle = puzzle.obstacles.some(o => o.row === r && o.col === c);
-
-            return (
-              <div
-                key={idx}
-                className={`w-11 h-11 md:w-13 md:h-13 rounded-lg flex items-center justify-center font-bold text-sm transition-all ${
-                  isPlayer
-                    ? 'bg-primary-container text-white shadow-md scale-105'
-                    : isTarget
-                      ? 'bg-emerald-100 border-2 border-emerald-500 text-emerald-700 animate-pulse font-black'
-                      : isObstacle
-                        ? 'bg-red-50 border border-red-200 text-red-500'
-                        : 'bg-surface-cream border border-border-hairline/60'
-                }`}
-              >
-                {isPlayer ? '●' : isTarget ? '★' : isObstacle ? '✕' : ''}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="flex flex-col items-center gap-2">
-        <button
-          onClick={() => handleMove(-1, 0)}
-          className="w-12 h-12 bg-white hover:bg-surface-cream border border-border-hairline hover:border-zinc-400 rounded-xl font-bold text-on-surface text-lg active:scale-95 shadow-xs cursor-pointer flex items-center justify-center transition-all"
-        >
-          ▲
-        </button>
-        <div className="flex gap-2">
-          <button
-            onClick={() => handleMove(0, -1)}
-            className="w-12 h-12 bg-white hover:bg-surface-cream border border-border-hairline hover:border-zinc-400 rounded-xl font-bold text-on-surface text-lg active:scale-95 shadow-xs cursor-pointer flex items-center justify-center transition-all"
-          >
-            ◀
-          </button>
-          <button
-            onClick={() => handleMove(1, 0)}
-            className="w-12 h-12 bg-white hover:bg-surface-cream border border-border-hairline hover:border-zinc-400 rounded-xl font-bold text-on-surface text-lg active:scale-95 shadow-xs cursor-pointer flex items-center justify-center transition-all"
-          >
-            ▼
-          </button>
-          <button
-            onClick={() => handleMove(0, 1)}
-            className="w-12 h-12 bg-white hover:bg-surface-cream border border-border-hairline hover:border-zinc-400 rounded-xl font-bold text-on-surface text-lg active:scale-95 shadow-xs cursor-pointer flex items-center justify-center transition-all"
-          >
-            ▶
-          </button>
-        </div>
-      </div>
-
-      {won && (
-        <div className="p-4 bg-emerald-50 border border-emerald-300 rounded-xl flex items-center justify-between text-emerald-950 shadow-xs">
-          <div className="flex items-center gap-3">
-            <CheckCircle2 className="w-6 h-6 text-emerald-600" />
-            <div>
-              <div className="font-bold text-sm">Destination Reached!</div>
-              <div className="text-xs text-on-surface-variant font-mono">Moves taken: {moves} (Optimal: {puzzle.optimalMoves})</div>
-            </div>
+        {/* Moves Ribbon & Reset */}
+        <div className="flex items-center justify-between w-full max-w-sm px-4 py-2 bg-surface-paper rounded-2xl border border-border-hairline shadow-xs text-xs font-mono">
+          <div className="flex items-center gap-1.5">
+            <span className="text-on-surface-variant">Step Count:</span>
+            <span className="font-bold text-secondary text-sm">{moves}</span>
           </div>
           <button
-            onClick={() => setRound(r => r + 1)}
-            className="px-4 py-2 bg-primary-container hover:bg-black text-white rounded-lg text-xs font-mono font-bold transition-colors cursor-pointer shadow-xs"
+            type="button"
+            onClick={loadLevel}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-cream hover:bg-surface-paper border border-border-hairline text-on-surface transition-colors cursor-pointer"
           >
-            Next Maze →
+            <RotateCcw size={12} /> Reset [R]
           </button>
         </div>
-      )}
-    </div>
+
+        {/* 6x6 Maze Grid */}
+        <div className="p-3 sm:p-4 bg-surface-paper rounded-3xl border border-border-hairline shadow-xs">
+          <div className="grid grid-cols-6 gap-1.5 sm:gap-2">
+            {grid.map((row, r) =>
+              row.map((val, c) => {
+                const isSelected = selectedItem?.r === r && selectedItem?.c === c;
+
+                return (
+                  <button
+                    key={`${r}-${c}`}
+                    type="button"
+                    onClick={() => handleCellClick(r, c)}
+                    className={`w-11 h-11 sm:w-13 sm:h-13 rounded-xl flex items-center justify-center transition-all border ${
+                      val === 1
+                        ? 'bg-surface-charcoal border-surface-charcoal cursor-not-allowed shadow-inner'
+                        : val === 2
+                        ? `bg-slate-400 border-slate-500 cursor-pointer shadow-xs ${
+                            isSelected ? 'ring-3 ring-secondary scale-105' : ''
+                          }`
+                        : val === 3
+                        ? `bg-rose-500 border-rose-600 cursor-pointer shadow-md ${
+                            isSelected ? 'ring-3 ring-rose-300 scale-105' : ''
+                          }`
+                        : val === 4
+                        ? 'bg-emerald-100 border-emerald-400'
+                        : 'bg-surface-cream border-border-hairline hover:bg-surface-paper'
+                    }`}
+                  >
+                    {val === 3 && <div className="w-5 h-5 rounded-full bg-white shadow-xs"></div>}
+                    {val === 2 && <div className="w-4 h-4 rounded-xs bg-slate-200"></div>}
+                    {val === 4 && <Flag size={18} className="text-emerald-600" />}
+                  </button>
+                );
+              })
+            )}
+          </div>
+        </div>
+
+        {/* Directional Pad */}
+        <div className="flex flex-col items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => moveItem(-1, 0)}
+            className="w-12 h-12 rounded-xl bg-surface-paper border border-border-hairline hover:bg-surface-cream flex items-center justify-center text-on-surface shadow-xs cursor-pointer"
+          >
+            <ArrowUp size={20} />
+          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => moveItem(0, -1)}
+              className="w-12 h-12 rounded-xl bg-surface-paper border border-border-hairline hover:bg-surface-cream flex items-center justify-center text-on-surface shadow-xs cursor-pointer"
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <button
+              type="button"
+              onClick={() => moveItem(1, 0)}
+              className="w-12 h-12 rounded-xl bg-surface-paper border border-border-hairline hover:bg-surface-cream flex items-center justify-center text-on-surface shadow-xs cursor-pointer"
+            >
+              <ArrowDown size={20} />
+            </button>
+            <button
+              type="button"
+              onClick={() => moveItem(0, 1)}
+              className="w-12 h-12 rounded-xl bg-surface-paper border border-border-hairline hover:bg-surface-cream flex items-center justify-center text-on-surface shadow-xs cursor-pointer"
+            >
+              <ArrowRight size={20} />
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </AdaptiveGameShell>
   );
 };
+
 export default MotionChallengeGame;

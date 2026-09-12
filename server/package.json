@@ -7,7 +7,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "seed": "tsx src/seeds/index.ts",
-    "seed:admin": "tsx src/seeds/createAdmin.ts"
+    "seed:admin": "tsx src/seeds/createAdmin.ts",
+    "test:cognitive": "tsx src/tests/cognitiveAssessment.test.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

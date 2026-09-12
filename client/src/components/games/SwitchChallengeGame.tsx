@@ -1,188 +1,218 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, CheckCircle2, XCircle, Shuffle } from 'lucide-react';
-import api from '@/services/api';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useAdaptiveGame } from '../../context/AdaptiveGameContext';
+import { AdaptiveGameShell, InstructionItem, ShortcutItem } from './AdaptiveGameShell';
+import { motion } from 'framer-motion';
+import { Square, Triangle, Circle, Plus, ArrowDown } from 'lucide-react';
+import { playClick } from '../../utils/sound';
 
-interface SwitchPuzzle {
-  inputSequence: string[];
-  switchRule: number[];
-  outputSequence: string[];
-  options: number[][];
-  correctAnswer: number;
+interface ShapeDef {
+  id: string;
+  icon: React.ComponentType<any>;
+  color: string;
+  bg: string;
+  name: string;
 }
 
-export const SwitchChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [puzzle, setPuzzle] = useState<SwitchPuzzle | null>(null);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [score, setScore] = useState(0);
-  const [round, setRound] = useState(1);
-  const [loading, setLoading] = useState(true);
+const SHAPES: ShapeDef[] = [
+  { id: 'square', icon: Square, color: 'text-rose-600', bg: 'bg-rose-50 border-rose-200', name: 'Square' },
+  { id: 'triangle', icon: Triangle, color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200', name: 'Triangle' },
+  { id: 'circle', icon: Circle, color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200', name: 'Circle' },
+  { id: 'plus', icon: Plus, color: 'text-blue-600', bg: 'bg-blue-50 border-blue-200', name: 'Plus' },
+];
 
-  const fetchPuzzle = async () => {
-    setLoading(true);
-    setSelectedOption(null);
-    try {
-      const { data } = await api.get('/games/generate/switch');
-      setPuzzle(data);
-    } catch {
-      setPuzzle({
-        inputSequence: ['▲', '■', '●', '★'],
-        switchRule: [3, 2, 1, 0],
-        outputSequence: ['★', '●', '■', '▲'],
-        options: [
-          [3, 2, 1, 0],
-          [2, 1, 0, 3],
-          [2, 3, 1, 0],
-          [1, 2, 3, 0]
-        ],
-        correctAnswer: 0
-      });
-    } finally {
-      setLoading(false);
+export const SwitchChallengeGame: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  const { level, submitAnswer, resetLevelTimer } = useAdaptiveGame();
+  const [inputSeq, setInputSeq] = useState<ShapeDef[]>([]);
+  const [outputSeq, setOutputSeq] = useState<ShapeDef[]>([]);
+  const [options, setOptions] = useState<string[]>([]);
+  const [correctOption, setCorrectOption] = useState<string>('');
+  const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+
+  const generateLevel = useCallback(() => {
+    setFeedback(null);
+
+    // 1. Generate random input sequence (4 distinct shapes)
+    const shuffled = [...SHAPES].sort(() => Math.random() - 0.5);
+    setInputSeq(shuffled);
+
+    // 2. Generate random permutation code of [1, 2, 3, 4]
+    const indices = [1, 2, 3, 4];
+    const perm = [...indices].sort(() => Math.random() - 0.5);
+    const code = perm.join('');
+    setCorrectOption(code);
+
+    // 3. Output sequence: Output[i] = inputSeq[perm[i] - 1]
+    const newOutput = perm.map(p => shuffled[p - 1]);
+    setOutputSeq(newOutput);
+
+    // 4. Generate distractors
+    const distractors = new Set<string>();
+    distractors.add(code);
+    while (distractors.size < 4) {
+      const d = [1, 2, 3, 4].sort(() => Math.random() - 0.5).join('');
+      distractors.add(d);
     }
-  };
+    setOptions(Array.from(distractors).sort());
+    resetLevelTimer();
+  }, [resetLevelTimer]);
 
   useEffect(() => {
-    fetchPuzzle();
-  }, [round]);
+    generateLevel();
+  }, [level, generateLevel]);
 
-  const handleSelect = (idx: number) => {
-    if (selectedOption !== null || !puzzle) return;
-    setSelectedOption(idx);
-    if (idx === puzzle.correctAnswer) {
-      setScore(s => s + 100);
+  const handleOptionClick = useCallback((opt: string) => {
+    if (feedback !== null) return;
+    playClick();
+
+    if (opt === correctOption) {
+      setFeedback('correct');
+      setTimeout(() => submitAnswer(true), 400);
+    } else {
+      setFeedback('wrong');
+      submitAnswer(false);
+      setTimeout(() => setFeedback(null), 700);
     }
-  };
+  }, [correctOption, feedback, submitAnswer]);
 
-  if (loading || !puzzle) {
-    return (
-      <div className="flex items-center justify-center p-12 text-on-surface-variant">
-        <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
+  // Keyboard Hotkeys: 1-4 and A-D
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (feedback !== null) return;
+      const keyMap: Record<string, number> = {
+        '1': 0, '2': 1, '3': 2, '4': 3,
+        'a': 0, 'b': 1, 'c': 2, 'd': 3
+      };
+      const lowerKey = e.key.toLowerCase();
+      if (lowerKey in keyMap && options[keyMap[lowerKey]]) {
+        e.preventDefault();
+        handleOptionClick(options[keyMap[lowerKey]]);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [options, handleOptionClick, feedback]);
+
+  const SHORTCUTS: ShortcutItem[] = [
+    { key: '1, 2, 3, 4', action: 'Select Option 1 to 4' },
+    { key: 'A, B, C, D', action: 'Alternative Keys' },
+  ];
+
+  const INSTRUCTIONS: InstructionItem[] = [
+    {
+      title: "Inspect Input & Output Sequences",
+      desc: "The top row shows the input positions 1, 2, 3, 4. The bottom row shows the transformed output positions.",
+    },
+    {
+      title: "Decode the 4-Digit Permutation",
+      desc: "Each digit in the code indicates the ORIGINAL index of the item that now occupies that position in the output.",
+    },
+    {
+      title: "Fast Keyboard Selection",
+      desc: "Press 1, 2, 3, 4 or A, B, C, D on your keyboard to lock in your answer with maximum speed.",
+    }
+  ];
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6 text-on-surface">
-      <div className="flex items-center justify-between border-b border-border-hairline pb-4">
-        <button onClick={onBack} className="flex items-center text-xs font-mono font-bold text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Return to Arena
-        </button>
-        <div className="flex items-center space-x-6 text-xs font-mono">
-          <div><span className="text-on-surface-variant">Round:</span> <span className="font-bold text-on-surface">{round}/5</span></div>
-          <div><span className="text-on-surface-variant">Velocity Score:</span> <span className="font-bold text-secondary">{score}</span></div>
-        </div>
-      </div>
+    <AdaptiveGameShell
+      title="Switch Challenge"
+      category="Deductive Logic"
+      instructions={INSTRUCTIONS}
+      shortcuts={SHORTCUTS}
+      onBack={onBack}
+    >
+      <div className="flex flex-col items-center justify-center max-w-2xl mx-auto w-full gap-7">
 
-      <div className="text-center space-y-1">
-        <h2 className="text-2xl font-extrabold text-on-surface flex items-center justify-center gap-2 tracking-tight">
-          <Shuffle className="text-secondary w-6 h-6" /> Switch Challenge (Sequence Permutation)
-        </h2>
-        <p className="text-on-surface-variant text-xs">
-          The input shapes pass through a transformation switch that reorders positions. Deduce which switch rule produced the output sequence.
-        </p>
-      </div>
-
-      {/* Demonstration Card */}
-      <div className="bg-white border border-border-hairline rounded-2xl p-6 flex flex-col items-center space-y-6 shadow-sm">
-        <div className="flex items-center gap-3">
-          <span className="text-xs text-on-surface-variant font-mono w-16 font-bold">INPUT:</span>
-          <div className="flex gap-2">
-            {puzzle.inputSequence.map((sym, idx) => (
-              <div key={idx} className="w-12 h-12 rounded-xl bg-surface-cream border border-border-hairline flex items-center justify-center text-xl font-bold text-on-surface shadow-xs">
-                {sym}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="w-48 py-2 bg-secondary-fixed/40 border border-secondary/30 rounded-lg text-center text-xs font-mono font-bold text-secondary tracking-wider animate-pulse">
-          ▼ [SWITCH OPERATOR ?] ▼
-        </div>
-
-        <div className="flex items-center gap-3">
-          <span className="text-xs text-on-surface-variant font-mono w-16 font-bold">OUTPUT:</span>
-          <div className="flex gap-2">
-            {puzzle.outputSequence.map((sym, idx) => (
-              <div key={idx} className="w-12 h-12 rounded-xl bg-secondary-fixed/20 border border-secondary flex items-center justify-center text-xl font-bold text-secondary shadow-xs">
-                {sym}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Options */}
-      <div className="space-y-4">
-        <span className="text-xs text-on-surface-variant uppercase tracking-wider font-mono font-semibold block text-center">
-          Which position mapping rule is correct?
-        </span>
-        <div className="grid grid-cols-2 gap-4">
-          {puzzle.options.map((rule, idx) => {
-            const isSelected = selectedOption === idx;
-            const isCorrect = idx === puzzle.correctAnswer;
-            return (
-              <button
-                key={idx}
-                disabled={selectedOption !== null}
-                onClick={() => handleSelect(idx)}
-                className={`p-4 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer shadow-xs ${
-                  selectedOption !== null
-                    ? isCorrect
-                      ? 'bg-emerald-50 border-2 border-emerald-500 text-emerald-950'
-                      : isSelected ? 'bg-red-50 border-2 border-red-500 text-red-950' : 'bg-surface-cream opacity-40 border-border-hairline'
-                    : 'bg-white hover:bg-surface-cream border-border-hairline hover:border-zinc-400 text-on-surface'
-                }`}
-              >
-                <span className="text-xs text-on-surface-variant font-mono font-bold">Switch {String.fromCharCode(65 + idx)}</span>
-                <div className="flex gap-1.5 font-mono text-sm font-bold">
-                  {rule.map((r, i) => (
-                    <span key={i} className="px-2.5 py-0.5 bg-surface-cream rounded border border-border-hairline text-on-surface">
-                      {r + 1}
-                    </span>
-                  ))}
+        {/* Input Sequence */}
+        <div className="flex flex-col items-center">
+          <span className="text-[11px] font-bold font-mono text-on-surface-variant uppercase tracking-wider mb-2">
+            Input Sequence (Positions 1 to 4)
+          </span>
+          <div className="flex gap-3 sm:gap-4 p-3.5 sm:p-4 bg-surface-paper rounded-2xl shadow-xs border border-border-hairline">
+            {inputSeq.map((shape, i) => (
+              <div key={i} className="flex flex-col items-center gap-1">
+                <div
+                  className={`w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-xl border ${shape.bg} ${shape.color} shadow-2xs`}
+                >
+                  <shape.icon size={28} strokeWidth={2.5} />
                 </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Feedback banner */}
-      {selectedOption !== null && (
-        <div className={`p-4 rounded-xl flex items-center justify-between border shadow-xs animate-in fade-in slide-in-from-bottom-2 ${
-          selectedOption === puzzle.correctAnswer ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-red-50 border-red-300 text-red-950'
-        }`}>
-          <div className="flex items-center space-x-3">
-            {selectedOption === puzzle.correctAnswer ? <CheckCircle2 className="w-6 h-6 text-emerald-600" /> : <XCircle className="w-6 h-6 text-red-600" />}
-            <div>
-              <div className="font-bold text-sm">{selectedOption === puzzle.correctAnswer ? 'Correct Mapping!' : 'Incorrect Mapping'}</div>
-              <div className="text-xs text-on-surface-variant font-mono">Position mapping: {puzzle.switchRule.map(r => r + 1).join(' → ')}</div>
-            </div>
+                <span className="text-xs font-mono font-bold text-on-surface-variant">{i + 1}</span>
+              </div>
+            ))}
           </div>
-          <button
-            onClick={async () => {
-              if (round >= 5) {
-                try {
-                  await api.post('/games/score', {
-                    gameType: 'switch',
-                    level: round,
-                    score: score + (selectedOption === puzzle.correctAnswer ? 100 : 0),
-                    accuracy: 80,
-                    timeSpent: 45
-                  });
-                } catch (e) {}
-                onBack();
-              } else {
-                setRound(r => r + 1);
-              }
-            }}
-            className="px-4 py-2 bg-primary-container hover:bg-black text-white rounded-lg text-xs font-mono font-bold transition-colors cursor-pointer shadow-xs"
-          >
-            {round >= 5 ? 'Finish & Record Score' : 'Next Switch →'}
-          </button>
         </div>
-      )}
-    </div>
+
+        {/* Switch Funnel Visual */}
+        <div className="flex flex-col items-center gap-1 text-on-surface-variant">
+          <div className="px-4 py-1.5 bg-secondary-fixed/50 border border-secondary/30 rounded-xl text-xs font-mono font-bold text-secondary flex items-center gap-1.5 shadow-2xs animate-pulse">
+            <ArrowDown size={14} />
+            <span>[ SWITCH OPERATOR ? ]</span>
+            <ArrowDown size={14} />
+          </div>
+        </div>
+
+        {/* Output Sequence */}
+        <div className="flex flex-col items-center">
+          <span className="text-[11px] font-bold font-mono text-on-surface-variant uppercase tracking-wider mb-2">
+            Transformed Output Sequence
+          </span>
+          <div className="flex gap-3 sm:gap-4 p-3.5 sm:p-4 bg-surface-paper rounded-2xl shadow-xs border border-border-hairline">
+            {outputSeq.map((shape, i) => (
+              <div key={i} className="flex flex-col items-center gap-1">
+                <div
+                  className={`w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-xl border ${shape.bg} ${shape.color} shadow-2xs`}
+                >
+                  <shape.icon size={28} strokeWidth={2.5} />
+                </div>
+                <span className="text-xs font-mono font-bold text-on-surface-variant">Pos {i + 1}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 4 Permutation Options */}
+        <div className="w-full max-w-lg mt-2">
+          <span className="text-xs text-on-surface-variant uppercase tracking-wider font-mono font-semibold block text-center mb-3">
+            Which position mapping rule produced this output?
+          </span>
+
+          <div className="grid grid-cols-2 gap-3">
+            {options.map((opt, idx) => {
+              const keyLetter = String.fromCharCode(65 + idx);
+              const isSelectedFeedback = feedback !== null && opt === correctOption;
+              const isWrongFeedback = feedback === 'wrong';
+
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => handleOptionClick(opt)}
+                  className={`p-3.5 rounded-2xl border text-center transition-all cursor-pointer font-mono flex items-center justify-between shadow-xs ${
+                    isSelectedFeedback
+                      ? 'bg-emerald-600 text-white border-transparent scale-102'
+                      : isWrongFeedback
+                      ? 'bg-surface-cream border-border-hairline opacity-75'
+                      : 'bg-surface-paper border-border-hairline hover:border-secondary hover:bg-surface-cream'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-lg bg-surface-cream border border-border-hairline text-on-surface text-xs font-bold flex items-center justify-center">
+                      {idx + 1}
+                    </span>
+                    <span className="text-xs text-on-surface-variant font-bold">[{keyLetter}]</span>
+                  </div>
+                  <span className="text-base font-black tracking-widest text-on-surface">
+                    {opt.split('').join(' ')}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+      </div>
+    </AdaptiveGameShell>
   );
 };
+
 export default SwitchChallengeGame;

@@ -1,10 +1,23 @@
 import express, { Request, Response } from 'express';
-import { saveScore, getUserScores, getLeaderboard } from '../controllers/gameController.js';
+import { 
+  saveScore, 
+  getUserScores, 
+  getLeaderboard,
+  saveCognitiveAttempt,
+  getUserPersonalBests,
+  getUserAttempts
+} from '../controllers/gameController.js';
 import { protect } from '../middleware/auth.js';
 import { CognitiveGenerator } from '../services/cognitiveGenerator.js';
 
 const router = express.Router();
 
+// Cognitive Attempt & Telemetry Endpoints
+router.post('/attempt', protect, saveCognitiveAttempt);
+router.get('/records', protect, getUserPersonalBests);
+router.get('/attempts', protect, getUserAttempts);
+
+// Legacy Score & Leaderboard Endpoints
 router.post('/score', protect, saveScore);
 router.get('/scores', protect, getUserScores);
 router.get('/leaderboard/:gameType', getLeaderboard);
@@ -16,26 +29,37 @@ router.get('/generate/:gameType', (req: Request, res: Response) => {
 
   try {
     let puzzle: any;
-    switch (gameType.toLowerCase()) {
+    const normalized = gameType.toLowerCase().replace(/-/g, '');
+
+    switch (normalized) {
       case 'geosudo':
       case 'deductive':
-        puzzle = CognitiveGenerator.generateGeoSudo(level >= 3 ? 5 : 4);
+        puzzle = CognitiveGenerator.generateGeoSudo(level);
         break;
       case 'spacio':
+      case 'inductivereasoning':
       case 'inductive':
-        puzzle = CognitiveGenerator.generateSpacio();
+        puzzle = CognitiveGenerator.generateSpacio(level);
         break;
       case 'grid':
+      case 'gridchallenge':
         puzzle = CognitiveGenerator.generateGridChallenge(level);
         break;
       case 'motion':
-        puzzle = CognitiveGenerator.generateMotionChallenge();
+      case 'motionchallenge':
+        puzzle = CognitiveGenerator.generateMotionChallenge(level);
         break;
       case 'switch':
-        puzzle = CognitiveGenerator.generateSwitchChallenge();
+      case 'switchchallenge':
+        puzzle = CognitiveGenerator.generateSwitchChallenge(level);
         break;
       case 'digit':
-        puzzle = CognitiveGenerator.generateDigitChallenge();
+      case 'digitchallenge':
+        puzzle = CognitiveGenerator.generateDigitChallenge(level);
+        break;
+      case 'colorthegrid':
+      case 'colorgrid':
+        puzzle = CognitiveGenerator.generateColorTheGrid(level);
         break;
       default:
         return res.status(400).json({ message: `Unknown game type '${gameType}'` });
