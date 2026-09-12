@@ -23,7 +23,6 @@ const app = express();
 
 // Security Middleware
 app.use(helmet());
-
 const allowedOrigins = [
   env.FRONTEND_URL,
   env.FRONTEND_URL ? env.FRONTEND_URL.replace(/\/$/, '') : '',
@@ -34,16 +33,15 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    // allow requests with no origin (like mobile apps, curl, serverless internal)
     if (!origin) return callback(null, true);
     if (
       allowedOrigins.includes(origin) ||
       origin.endsWith('.vercel.app') ||
+      origin.endsWith('.netlify.app') ||
       origin.includes('localhost')
     ) {
       return callback(null, true);
     }
-    // Fallback allows legitimate frontend callers with reflected origin
     return callback(null, true);
   },
   credentials: true,
