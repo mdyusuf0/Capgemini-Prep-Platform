@@ -479,27 +479,6 @@ export const DashboardPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Execution Trace Preview Cell (Charcoal terminal IDE) */}
-          <div className="bg-surface-charcoal text-inverse-on-surface rounded-xl p-6 shadow-sm flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-accent-mint animate-pulse" />
-                <span className="text-xs text-surface-container-high font-semibold tracking-wider">TERMINAL PREVIEW // TRACE_ENGINE_V2</span>
-              </div>
-              <span className="text-xs text-on-primary-container">[RUN_ID: #7729-CP]</span>
-            </div>
-            <pre className="font-code text-xs bg-primary p-4 rounded-lg text-surface-dim overflow-x-auto leading-relaxed border border-border-graphite">
-              <code>{`<span class="text-accent-pink">function</span> <span class="text-secondary-fixed">evaluateBitTree</span>(node, mask) {
-  <span class="text-accent-pink">if</span> (!node) <span class="text-accent-pink">return</span> (mask & <span class="text-accent-yellow">0x0F</span>);
-  <span class="text-outline-variant">// Current branch trace: node.val = 14, depth = 3</span>
-  <span class="text-accent-mint">return</span> (node.val ^ mask) + evaluateBitTree(node.left, mask >> <span class="text-accent-yellow">1</span>);
-}`}</code>
-            </pre>
-            <div className="flex items-center justify-between text-surface-dim text-[11px] pt-1">
-              <span>Execution Time: 0.041ms</span>
-              <span className="text-accent-mint font-semibold">Memory Delta: 0 KB (Optimal)</span>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: 1/3 Width */}
