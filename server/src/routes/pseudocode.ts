@@ -1,5 +1,5 @@
 import express from 'express';
-import { protect } from '../middleware/auth.js';
+import { optionalAuth } from '../middleware/auth.js';
 import {
   getPseudocodeQuestions,
   getPseudocodeById,
@@ -10,12 +10,10 @@ import {
 
 const router = express.Router();
 
-router.use(protect);
-
-router.get('/', getPseudocodeQuestions);
-router.get('/topics', getPseudocodeTopics);
-router.get('/speed-set', getPseudocodeSpeedSet);
-router.get('/:id', getPseudocodeById);
-router.post('/submit', submitPseudocodeAnswer);
+router.get('/', optionalAuth, getPseudocodeQuestions);
+router.get('/topics', optionalAuth, getPseudocodeTopics);
+router.get('/speed-set', optionalAuth, getPseudocodeSpeedSet);
+router.get('/:id', optionalAuth, getPseudocodeById);
+router.post('/submit', optionalAuth, submitPseudocodeAnswer);
 
 export default router;

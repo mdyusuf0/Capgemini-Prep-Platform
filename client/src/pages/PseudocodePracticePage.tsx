@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { pseudocodeService, PseudocodeQuestion } from '../services/pseudocodeService';
+import { FALLBACK_PSEUDOCODE_QUESTIONS } from '../data/pseudocodeFallback';
 import CodeBlock from '../components/practice/CodeBlock';
 import DryRunTrace from '../components/practice/DryRunTrace';
 import toast from 'react-hot-toast';
@@ -14,15 +15,15 @@ import { cn } from '@/lib/utils';
 
 const PseudocodePracticePage: React.FC = () => {
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState<PseudocodeQuestion[]>([]);
+  const [questions, setQuestions] = useState<PseudocodeQuestion[]>(FALLBACK_PSEUDOCODE_QUESTIONS);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [topics, setTopics] = useState<string[]>([]);
+  const [topics, setTopics] = useState<string[]>(['All', 'Bitwise Operators', 'Loops & Conditions', 'Recursion', 'Arrays & Pointers', 'Bitwise Shift']);
   const [selectedTopic, setSelectedTopic] = useState('All');
   
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [resultInfo, setResultInfo] = useState<{ correct: boolean; correctAnswer: number; explanation: string; dryRunTrace?: string } | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   // Timer
@@ -44,9 +45,14 @@ const PseudocodePracticePage: React.FC = () => {
   const fetchTopics = async () => {
     try {
       const data = await pseudocodeService.getTopics();
-      setTopics(['All', ...data]);
+      if (Array.isArray(data) && data.length > 0) {
+        const cleanTopics = data.filter(t => typeof t === 'string' && t.length > 1 && !t.includes('<'));
+        if (cleanTopics.length > 0) {
+          setTopics(['All', ...cleanTopics]);
+        }
+      }
     } catch (err) {
-      toast.error('Failed to load topics');
+      console.warn('Failed to load topics from API, using default topics');
     }
   };
 
@@ -57,11 +63,24 @@ const PseudocodePracticePage: React.FC = () => {
         topic: selectedTopic !== 'All' ? selectedTopic : undefined, 
         limit: 50 
       });
-      setQuestions(data.questions);
+      if (data && Array.isArray(data.questions) && data.questions.length > 0) {
+        setQuestions(data.questions);
+      } else {
+        const local = selectedTopic !== 'All'
+          ? FALLBACK_PSEUDOCODE_QUESTIONS.filter(q => q.topic.toLowerCase() === selectedTopic.toLowerCase())
+          : FALLBACK_PSEUDOCODE_QUESTIONS;
+        setQuestions(local.length > 0 ? local : FALLBACK_PSEUDOCODE_QUESTIONS);
+      }
       setCurrentIndex(0);
       resetState();
     } catch (err) {
-      toast.error('Failed to load questions');
+      console.warn('Failed to load questions from backend, using fallback bank:', err);
+      const local = selectedTopic !== 'All'
+        ? FALLBACK_PSEUDOCODE_QUESTIONS.filter(q => q.topic.toLowerCase() === selectedTopic.toLowerCase())
+        : FALLBACK_PSEUDOCODE_QUESTIONS;
+      setQuestions(local.length > 0 ? local : FALLBACK_PSEUDOCODE_QUESTIONS);
+      setCurrentIndex(0);
+      resetState();
     } finally {
       setLoading(false);
     }
@@ -75,7 +94,9 @@ const PseudocodePracticePage: React.FC = () => {
     setIsBookmarked(false);
   };
 
-  const currentQ = questions[currentIndex];
+  const currentQ = (questions && questions.length > 0 && questions[currentIndex])
+    ? questions[currentIndex]
+    : (FALLBACK_PSEUDOCODE_QUESTIONS[0] || {} as PseudocodeQuestion);
 
   const handleSubmit = async () => {
     if (selectedAnswer === null || !currentQ) return;
@@ -177,11 +198,11 @@ const PseudocodePracticePage: React.FC = () => {
               </h1>
               <span className={cn(
                 "px-2 py-0.5 rounded text-xs font-mono font-bold uppercase",
-                currentQ.difficulty === 'easy' ? "bg-accent-mint/20 text-[#1b5e20] border border-accent-mint/30" :
-                currentQ.difficulty === 'medium' ? "bg-accent-yellow/30 text-[#7c5e00] border border-accent-yellow/40" :
+                (currentQ?.difficulty || 'medium') === 'easy' ? "bg-accent-mint/20 text-[#1b5e20] border border-accent-mint/30" :
+                (currentQ?.difficulty || 'medium') === 'medium' ? "bg-accent-yellow/30 text-[#7c5e00] border border-accent-yellow/40" :
                 "bg-accent-pink/20 text-[#9c0032] border border-accent-pink/30"
               )}>
-                {currentQ.difficulty || 'MEDIUM'}
+                {currentQ?.difficulty || 'MEDIUM'}
               </span>
             </div>
           </div>
@@ -219,7 +240,7 @@ const PseudocodePracticePage: React.FC = () => {
           <section className="lg:col-span-7 flex flex-col gap-4 min-w-0">
             {/* Terminal IDE Card with Line Numbers & Syntax */}
             <CodeBlock 
-              code={currentQ.codeBlock} 
+              code={currentQ?.codeBlock || ''} 
               filename={`trace_problem_${currentIndex + 1}.pseudo`} 
             />
 
@@ -261,11 +282,11 @@ const PseudocodePracticePage: React.FC = () => {
                     Evaluation Prompt
                   </span>
                   <span className="font-mono text-xs text-on-surface-variant">
-                    [{currentQ.topic || 'Trace'}]
+                    [{currentQ?.topic || 'Trace'}]
                   </span>
                 </div>
                 <h2 className="text-base md:text-lg font-semibold text-on-surface leading-snug">
-                  {currentQ.question}
+                  {currentQ?.question || 'What will be the output of the following pseudocode?'}
                 </h2>
                 <p className="text-xs text-on-surface-variant">
                   Trace each iteration carefully. Beware of bitwise arithmetic operators masquerading as standard arithmetic.
@@ -274,7 +295,7 @@ const PseudocodePracticePage: React.FC = () => {
 
               {/* 4 Selectable Option Cards */}
               <div className="flex flex-col gap-2.5">
-                {currentQ.options.map((opt, idx) => {
+                {(currentQ?.options || []).map((opt, idx) => {
                   const letter = String.fromCharCode(65 + idx);
                   const isSelected = selectedAnswer === idx;
                   const isCorrect = isSubmitted && resultInfo?.correctAnswer === idx;

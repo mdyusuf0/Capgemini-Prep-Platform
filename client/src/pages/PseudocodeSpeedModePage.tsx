@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, Flag, CheckCircle, XCircle } from 'lucide-react';
 import { pseudocodeService, PseudocodeQuestion } from '../services/pseudocodeService';
+import { FALLBACK_PSEUDOCODE_QUESTIONS } from '../data/pseudocodeFallback';
 import CodeBlock from '../components/practice/CodeBlock';
 import toast from 'react-hot-toast';
 
@@ -11,17 +12,19 @@ interface SpeedAnswer {
 }
 
 const PseudocodeSpeedModePage: React.FC = () => {
-  const [questions, setQuestions] = useState<PseudocodeQuestion[]>([]);
+  const [questions, setQuestions] = useState<PseudocodeQuestion[]>(() => 
+    [...FALLBACK_PSEUDOCODE_QUESTIONS].sort(() => 0.5 - Math.random()).slice(0, 30)
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [flagged, setFlagged] = useState<Set<string>>(new Set());
   
   // Timer state
   const [timeLeft, setTimeLeft] = useState(30 * 60); // 30 minutes
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   
   const [isFinished, setIsFinished] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   
   // Results
   const [score, setScore] = useState(0);
@@ -30,12 +33,12 @@ const PseudocodeSpeedModePage: React.FC = () => {
     const fetchSpeedSet = async () => {
       try {
         const data = await pseudocodeService.getSpeedSet();
-        setQuestions(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setQuestions(data);
+        }
         setIsActive(true);
       } catch (err) {
-        toast.error('Failed to load speed set');
-      } finally {
-        setLoading(false);
+        console.warn('Failed to load speed set from API, using local questions bank:', err);
       }
     };
     fetchSpeedSet();
@@ -64,7 +67,8 @@ const PseudocodeSpeedModePage: React.FC = () => {
   };
 
   const handleSelectAnswer = (answerIdx: number) => {
-    const qId = questions[currentIndex]._id;
+    if (!currentQ) return;
+    const qId = currentQ._id || `speed_q_${currentIndex}`;
     setAnswers(prev => ({ ...prev, [qId]: answerIdx }));
     // Auto advance unless it's the last question
     if (currentIndex < questions.length - 1) {
@@ -73,7 +77,8 @@ const PseudocodeSpeedModePage: React.FC = () => {
   };
 
   const toggleFlag = () => {
-    const qId = questions[currentIndex]._id;
+    if (!currentQ) return;
+    const qId = currentQ._id || `speed_q_${currentIndex}`;
     setFlagged(prev => {
       const newSet = new Set(prev);
       if (newSet.has(qId)) newSet.delete(qId);
@@ -121,8 +126,10 @@ const PseudocodeSpeedModePage: React.FC = () => {
     );
   }
 
-  const currentQ = questions[currentIndex];
-  const qId = currentQ._id;
+  const currentQ = (questions && questions.length > 0 && questions[currentIndex])
+    ? questions[currentIndex]
+    : (FALLBACK_PSEUDOCODE_QUESTIONS[0] || {} as PseudocodeQuestion);
+  const qId = currentQ?._id || `speed_q_${currentIndex}`;
 
   return (
     <div className="min-h-screen bg-surface-cream text-on-surface p-6 flex flex-col">
@@ -161,12 +168,12 @@ const PseudocodeSpeedModePage: React.FC = () => {
             </button>
           </div>
           
-          <h2 className="text-base font-bold text-on-surface mb-4 leading-snug">{currentQ.question}</h2>
+          <h2 className="text-base font-bold text-on-surface mb-4 leading-snug">{currentQ?.question || 'What will be the output of the following pseudocode?'}</h2>
           
-          <CodeBlock code={currentQ.codeBlock} />
+          <CodeBlock code={currentQ?.codeBlock || ''} />
 
           <div className="mt-6 space-y-3 flex-1">
-            {currentQ.options.map((opt, idx) => (
+            {(currentQ?.options || []).map((opt, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSelectAnswer(idx)}
@@ -202,10 +209,11 @@ const PseudocodeSpeedModePage: React.FC = () => {
         <div className="w-full lg:w-72 bg-white rounded-2xl p-6 shadow-sm border border-border-hairline h-fit">
           <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-4">Question Grid</h3>
           <div className="grid grid-cols-5 gap-2">
-            {questions.map((q, idx) => {
+            {(questions || []).map((q, idx) => {
+              const qKey = q?._id || `speed_cell_${idx}`;
               const isCurrent = idx === currentIndex;
-              const isDone = answers[q._id] !== undefined;
-              const isFlagged = flagged.has(q._id);
+              const isDone = answers[qKey] !== undefined;
+              const isFlagged = flagged.has(qKey);
               
               let classes = "h-9 w-full flex items-center justify-center rounded-xl text-xs font-mono font-bold transition-all cursor-pointer border ";
               
@@ -216,7 +224,7 @@ const PseudocodeSpeedModePage: React.FC = () => {
 
               return (
                 <button
-                  key={q._id}
+                  key={qKey}
                   onClick={() => setCurrentIndex(idx)}
                   className={classes}
                 >

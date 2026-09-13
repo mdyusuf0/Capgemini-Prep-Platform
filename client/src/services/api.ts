@@ -29,7 +29,17 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Intercept SPA catch-all fallback where Netlify or static host returns index.html for API requests
+    const contentType = response.headers ? response.headers['content-type'] : '';
+    if (
+      (typeof response.data === 'string' && (response.data.trim().startsWith('<!DOCTYPE html') || response.data.trim().startsWith('<html'))) ||
+      (typeof contentType === 'string' && contentType.includes('text/html') && typeof response.data === 'string')
+    ) {
+      return Promise.reject(new Error('API endpoint returned HTML index document instead of JSON. Backend service may be waking up or VITE_API_URL is unconfigured.'));
+    }
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
     // Do not attempt refresh on auth routes themselves

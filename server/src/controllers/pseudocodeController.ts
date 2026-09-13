@@ -89,36 +89,38 @@ export const submitPseudocodeAnswer = async (req: AuthRequest, res: Response): P
 
     const isCorrect = question.answer === selectedAnswer;
 
-    // Track Progress using correct UserProgress schema
-    const progress = await UserProgress.findOneAndUpdate(
-      { userId, category: 'pseudocode', topic: question.topic },
-      {
-        $inc: {
-          totalAttempted: 1,
-          correct: isCorrect ? 1 : 0
-        },
-        $set: { lastPracticed: new Date() }
-      },
-      { upsert: true, new: true }
-    );
-    if (progress) {
-      progress.accuracy = progress.totalAttempted > 0 ? Math.round((progress.correct / progress.totalAttempted) * 100) : 0;
-      await progress.save();
-    }
-
-    // Handle Mistake
-    if (!isCorrect) {
-      await Mistake.findOneAndUpdate(
-        { userId, itemType: 'pseudocode', itemId: questionId },
-        { 
-          $set: { 
-            wrongAnswer: selectedAnswer,
-            correctAnswer: question.answer,
-            attemptedAt: new Date()
-          }
+    // Track Progress using correct UserProgress schema (if authenticated)
+    if (userId) {
+      const progress = await UserProgress.findOneAndUpdate(
+        { userId, category: 'pseudocode', topic: question.topic },
+        {
+          $inc: {
+            totalAttempted: 1,
+            correct: isCorrect ? 1 : 0
+          },
+          $set: { lastPracticed: new Date() }
         },
         { upsert: true, new: true }
       );
+      if (progress) {
+        progress.accuracy = progress.totalAttempted > 0 ? Math.round((progress.correct / progress.totalAttempted) * 100) : 0;
+        await progress.save();
+      }
+
+      // Handle Mistake
+      if (!isCorrect) {
+        await Mistake.findOneAndUpdate(
+          { userId, itemType: 'pseudocode', itemId: questionId },
+          { 
+            $set: { 
+              wrongAnswer: selectedAnswer,
+              correctAnswer: question.answer,
+              attemptedAt: new Date()
+            }
+          },
+          { upsert: true, new: true }
+        );
+      }
     }
 
     res.json({

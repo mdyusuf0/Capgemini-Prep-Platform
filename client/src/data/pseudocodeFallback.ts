@@ -1,0 +1,879 @@
+import { PseudocodeQuestion } from '../services/pseudocodeService';
+
+export const FALLBACK_PSEUDOCODE_QUESTIONS: PseudocodeQuestion[] = [
+  {
+    "_id": "pseudo_fallback_1",
+    "question": "[Capgemini Pseudocode Set 1] What will be the output of the following pseudocode?",
+    "codeBlock": "INTEGER a, b, c\nSET a = 12, b = 7\nSET c = (a ^ b) & (a | b)\nPRINT c",
+    "options": [
+      "11",
+      "9",
+      "7",
+      "15"
+    ],
+    "answer": 0,
+    "explanation": "a = 12 (1100 in binary), b = 7 (0111 in binary).\na ^ b = 1100 ^ 0111 = 1011 (11 in decimal).\na | b = 1100 | 0111 = 1111 (15 in decimal).\nc = 11 & 15 = 1011 & 1111 = 1011 (11).",
+    "dryRunTrace": "Step 1: a=12 (1100_2), b=7 (0111_2)\nStep 2: a ^ b = 1011_2 (11)\nStep 3: a | b = 1111_2 (15)\nStep 4: 11 & 15 = 11.",
+    "topic": "Bitwise Operators",
+    "subtopic": "XOR & AND Masking",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Operators",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_2",
+    "question": "[Capgemini Pseudocode Set 2] What is the final value of count printed by the pseudocode?",
+    "codeBlock": "INTEGER count, i, j\nSET count = 0\nFOR i = 1 TO 4\n    FOR j = i TO 4\n        IF ( (i + j) MOD 2 == 0 )\n            SET count = count + 1\n        END IF\n    END FOR\nEND FOR\nPRINT count",
+    "options": [
+      "6",
+      "5",
+      "4",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "Pairs (i, j) with i <= j <= 4:\ni=1: (1,1)[sum 2], (1,3)[sum 4] -> 2 pairs\ni=2: (2,2)[sum 4], (2,4)[sum 6] -> 2 pairs\ni=3: (3,3)[sum 6] -> 1 pair\ni=4: (4,4)[sum 8] -> 1 pair\nTotal count = 2 + 2 + 1 + 1 = 6.",
+    "dryRunTrace": "i=1: j in 1..4, (1+1=2, 1+3=4) -> 2\ni=2: j in 2..4, (2+2=4, 2+4=6) -> 2\ni=3: j in 3..4, (3+3=6) -> 1\ni=4: j in 4..4, (4+4=8) -> 1\nTotal count = 6.",
+    "topic": "Loops & Conditions",
+    "subtopic": "Nested Loop Step Counter",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Loops & Conditions",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_3",
+    "question": "[Capgemini Pseudocode Set 3] What does the function mystery(5) return?",
+    "codeBlock": "FUNCTION mystery(INTEGER n)\n    IF (n <= 1)\n        RETURN 1\n    END IF\n    RETURN n * mystery(n - 2)\nEND FUNCTION",
+    "options": [
+      "15",
+      "120",
+      "24",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "mystery(5) = 5 * mystery(3)\nmystery(3) = 3 * mystery(1)\nmystery(1) = 1 (base case)\nResult = 5 * 3 * 1 = 15.",
+    "dryRunTrace": "Call 1: mystery(5) -> 5 * mystery(3)\nCall 2: mystery(3) -> 3 * mystery(1)\nCall 3: mystery(1) -> returns 1\nUnwind: 3 * 1 = 3 -> 5 * 3 = 15.",
+    "topic": "Recursion",
+    "subtopic": "Call Stack Execution",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Recursion",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_4",
+    "question": "[Capgemini Pseudocode Set 4] What is the output printed by the pseudocode?",
+    "codeBlock": "INTEGER arr[5] = { 10, 20, 30, 40, 50 }\nINTEGER *ptr\nSET ptr = arr + 2\nSET *ptr = *ptr + 5\nPRINT *(ptr - 1) + *ptr",
+    "options": [
+      "55",
+      "50",
+      "45",
+      "65"
+    ],
+    "answer": 0,
+    "explanation": "arr[0]=10, arr[1]=20, arr[2]=30, arr[3]=40, arr[4]=50.\nptr points to arr[2] (value 30).\n*ptr = 30 + 5 = 35 (arr[2] becomes 35).\nptr - 1 points to arr[1] (value 20).\n*(ptr - 1) + *ptr = 20 + 35 = 55.",
+    "dryRunTrace": "Step 1: ptr points to index 2 (val 30)\nStep 2: arr[2] updated to 35\nStep 3: *(ptr-1) is arr[1] = 20\nStep 4: 20 + 35 = 55.",
+    "topic": "Arrays & Pointers",
+    "subtopic": "Pointer Arithmetic",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Arrays & Pointers",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_5",
+    "question": "[Capgemini Pseudocode Set 5] What is the value of result printed by the pseudocode?",
+    "codeBlock": "INTEGER x = 5, y = 2\nINTEGER result\nSET result = (x << y) + (x >> 1)\nPRINT result",
+    "options": [
+      "22",
+      "20",
+      "12",
+      "18"
+    ],
+    "answer": 0,
+    "explanation": "x << y is 5 << 2 = 5 * 2^2 = 20.\nx >> 1 is 5 >> 1 = floor(5 / 2) = 2.\nresult = 20 + 2 = 22.",
+    "dryRunTrace": "5 in binary: 00000101\n5 << 2 = 00010100 (20)\n5 >> 1 = 00000010 (2)\nresult = 20 + 2 = 22.",
+    "topic": "Bitwise Shift",
+    "subtopic": "Shift Left & Right Operations",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Shift",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_6",
+    "question": "[Capgemini Pseudocode Set 6] What will be the output of the following pseudocode?",
+    "codeBlock": "INTEGER a, b, c\nSET a = 12, b = 7\nSET c = (a ^ b) & (a | b)\nPRINT c",
+    "options": [
+      "11",
+      "9",
+      "7",
+      "15"
+    ],
+    "answer": 0,
+    "explanation": "a = 12 (1100 in binary), b = 7 (0111 in binary).\na ^ b = 1100 ^ 0111 = 1011 (11 in decimal).\na | b = 1100 | 0111 = 1111 (15 in decimal).\nc = 11 & 15 = 1011 & 1111 = 1011 (11).",
+    "dryRunTrace": "Step 1: a=12 (1100_2), b=7 (0111_2)\nStep 2: a ^ b = 1011_2 (11)\nStep 3: a | b = 1111_2 (15)\nStep 4: 11 & 15 = 11.",
+    "topic": "Bitwise Operators",
+    "subtopic": "XOR & AND Masking",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Operators",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_7",
+    "question": "[Capgemini Pseudocode Set 7] What is the final value of count printed by the pseudocode?",
+    "codeBlock": "INTEGER count, i, j\nSET count = 0\nFOR i = 1 TO 4\n    FOR j = i TO 4\n        IF ( (i + j) MOD 2 == 0 )\n            SET count = count + 1\n        END IF\n    END FOR\nEND FOR\nPRINT count",
+    "options": [
+      "6",
+      "5",
+      "4",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "Pairs (i, j) with i <= j <= 4:\ni=1: (1,1)[sum 2], (1,3)[sum 4] -> 2 pairs\ni=2: (2,2)[sum 4], (2,4)[sum 6] -> 2 pairs\ni=3: (3,3)[sum 6] -> 1 pair\ni=4: (4,4)[sum 8] -> 1 pair\nTotal count = 2 + 2 + 1 + 1 = 6.",
+    "dryRunTrace": "i=1: j in 1..4, (1+1=2, 1+3=4) -> 2\ni=2: j in 2..4, (2+2=4, 2+4=6) -> 2\ni=3: j in 3..4, (3+3=6) -> 1\ni=4: j in 4..4, (4+4=8) -> 1\nTotal count = 6.",
+    "topic": "Loops & Conditions",
+    "subtopic": "Nested Loop Step Counter",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Loops & Conditions",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_8",
+    "question": "[Capgemini Pseudocode Set 8] What does the function mystery(5) return?",
+    "codeBlock": "FUNCTION mystery(INTEGER n)\n    IF (n <= 1)\n        RETURN 1\n    END IF\n    RETURN n * mystery(n - 2)\nEND FUNCTION",
+    "options": [
+      "15",
+      "120",
+      "24",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "mystery(5) = 5 * mystery(3)\nmystery(3) = 3 * mystery(1)\nmystery(1) = 1 (base case)\nResult = 5 * 3 * 1 = 15.",
+    "dryRunTrace": "Call 1: mystery(5) -> 5 * mystery(3)\nCall 2: mystery(3) -> 3 * mystery(1)\nCall 3: mystery(1) -> returns 1\nUnwind: 3 * 1 = 3 -> 5 * 3 = 15.",
+    "topic": "Recursion",
+    "subtopic": "Call Stack Execution",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Recursion",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_9",
+    "question": "[Capgemini Pseudocode Set 9] What is the output printed by the pseudocode?",
+    "codeBlock": "INTEGER arr[5] = { 10, 20, 30, 40, 50 }\nINTEGER *ptr\nSET ptr = arr + 2\nSET *ptr = *ptr + 5\nPRINT *(ptr - 1) + *ptr",
+    "options": [
+      "55",
+      "50",
+      "45",
+      "65"
+    ],
+    "answer": 0,
+    "explanation": "arr[0]=10, arr[1]=20, arr[2]=30, arr[3]=40, arr[4]=50.\nptr points to arr[2] (value 30).\n*ptr = 30 + 5 = 35 (arr[2] becomes 35).\nptr - 1 points to arr[1] (value 20).\n*(ptr - 1) + *ptr = 20 + 35 = 55.",
+    "dryRunTrace": "Step 1: ptr points to index 2 (val 30)\nStep 2: arr[2] updated to 35\nStep 3: *(ptr-1) is arr[1] = 20\nStep 4: 20 + 35 = 55.",
+    "topic": "Arrays & Pointers",
+    "subtopic": "Pointer Arithmetic",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Arrays & Pointers",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_10",
+    "question": "[Capgemini Pseudocode Set 10] What is the value of result printed by the pseudocode?",
+    "codeBlock": "INTEGER x = 5, y = 2\nINTEGER result\nSET result = (x << y) + (x >> 1)\nPRINT result",
+    "options": [
+      "22",
+      "20",
+      "12",
+      "18"
+    ],
+    "answer": 0,
+    "explanation": "x << y is 5 << 2 = 5 * 2^2 = 20.\nx >> 1 is 5 >> 1 = floor(5 / 2) = 2.\nresult = 20 + 2 = 22.",
+    "dryRunTrace": "5 in binary: 00000101\n5 << 2 = 00010100 (20)\n5 >> 1 = 00000010 (2)\nresult = 20 + 2 = 22.",
+    "topic": "Bitwise Shift",
+    "subtopic": "Shift Left & Right Operations",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Shift",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_11",
+    "question": "[Capgemini Pseudocode Set 11] What will be the output of the following pseudocode?",
+    "codeBlock": "INTEGER a, b, c\nSET a = 12, b = 7\nSET c = (a ^ b) & (a | b)\nPRINT c",
+    "options": [
+      "11",
+      "9",
+      "7",
+      "15"
+    ],
+    "answer": 0,
+    "explanation": "a = 12 (1100 in binary), b = 7 (0111 in binary).\na ^ b = 1100 ^ 0111 = 1011 (11 in decimal).\na | b = 1100 | 0111 = 1111 (15 in decimal).\nc = 11 & 15 = 1011 & 1111 = 1011 (11).",
+    "dryRunTrace": "Step 1: a=12 (1100_2), b=7 (0111_2)\nStep 2: a ^ b = 1011_2 (11)\nStep 3: a | b = 1111_2 (15)\nStep 4: 11 & 15 = 11.",
+    "topic": "Bitwise Operators",
+    "subtopic": "XOR & AND Masking",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Operators",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_12",
+    "question": "[Capgemini Pseudocode Set 12] What is the final value of count printed by the pseudocode?",
+    "codeBlock": "INTEGER count, i, j\nSET count = 0\nFOR i = 1 TO 4\n    FOR j = i TO 4\n        IF ( (i + j) MOD 2 == 0 )\n            SET count = count + 1\n        END IF\n    END FOR\nEND FOR\nPRINT count",
+    "options": [
+      "6",
+      "5",
+      "4",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "Pairs (i, j) with i <= j <= 4:\ni=1: (1,1)[sum 2], (1,3)[sum 4] -> 2 pairs\ni=2: (2,2)[sum 4], (2,4)[sum 6] -> 2 pairs\ni=3: (3,3)[sum 6] -> 1 pair\ni=4: (4,4)[sum 8] -> 1 pair\nTotal count = 2 + 2 + 1 + 1 = 6.",
+    "dryRunTrace": "i=1: j in 1..4, (1+1=2, 1+3=4) -> 2\ni=2: j in 2..4, (2+2=4, 2+4=6) -> 2\ni=3: j in 3..4, (3+3=6) -> 1\ni=4: j in 4..4, (4+4=8) -> 1\nTotal count = 6.",
+    "topic": "Loops & Conditions",
+    "subtopic": "Nested Loop Step Counter",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Loops & Conditions",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_13",
+    "question": "[Capgemini Pseudocode Set 13] What does the function mystery(5) return?",
+    "codeBlock": "FUNCTION mystery(INTEGER n)\n    IF (n <= 1)\n        RETURN 1\n    END IF\n    RETURN n * mystery(n - 2)\nEND FUNCTION",
+    "options": [
+      "15",
+      "120",
+      "24",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "mystery(5) = 5 * mystery(3)\nmystery(3) = 3 * mystery(1)\nmystery(1) = 1 (base case)\nResult = 5 * 3 * 1 = 15.",
+    "dryRunTrace": "Call 1: mystery(5) -> 5 * mystery(3)\nCall 2: mystery(3) -> 3 * mystery(1)\nCall 3: mystery(1) -> returns 1\nUnwind: 3 * 1 = 3 -> 5 * 3 = 15.",
+    "topic": "Recursion",
+    "subtopic": "Call Stack Execution",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Recursion",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_14",
+    "question": "[Capgemini Pseudocode Set 14] What is the output printed by the pseudocode?",
+    "codeBlock": "INTEGER arr[5] = { 10, 20, 30, 40, 50 }\nINTEGER *ptr\nSET ptr = arr + 2\nSET *ptr = *ptr + 5\nPRINT *(ptr - 1) + *ptr",
+    "options": [
+      "55",
+      "50",
+      "45",
+      "65"
+    ],
+    "answer": 0,
+    "explanation": "arr[0]=10, arr[1]=20, arr[2]=30, arr[3]=40, arr[4]=50.\nptr points to arr[2] (value 30).\n*ptr = 30 + 5 = 35 (arr[2] becomes 35).\nptr - 1 points to arr[1] (value 20).\n*(ptr - 1) + *ptr = 20 + 35 = 55.",
+    "dryRunTrace": "Step 1: ptr points to index 2 (val 30)\nStep 2: arr[2] updated to 35\nStep 3: *(ptr-1) is arr[1] = 20\nStep 4: 20 + 35 = 55.",
+    "topic": "Arrays & Pointers",
+    "subtopic": "Pointer Arithmetic",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Arrays & Pointers",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_15",
+    "question": "[Capgemini Pseudocode Set 15] What is the value of result printed by the pseudocode?",
+    "codeBlock": "INTEGER x = 5, y = 2\nINTEGER result\nSET result = (x << y) + (x >> 1)\nPRINT result",
+    "options": [
+      "22",
+      "20",
+      "12",
+      "18"
+    ],
+    "answer": 0,
+    "explanation": "x << y is 5 << 2 = 5 * 2^2 = 20.\nx >> 1 is 5 >> 1 = floor(5 / 2) = 2.\nresult = 20 + 2 = 22.",
+    "dryRunTrace": "5 in binary: 00000101\n5 << 2 = 00010100 (20)\n5 >> 1 = 00000010 (2)\nresult = 20 + 2 = 22.",
+    "topic": "Bitwise Shift",
+    "subtopic": "Shift Left & Right Operations",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Shift",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_16",
+    "question": "[Capgemini Pseudocode Set 16] What will be the output of the following pseudocode?",
+    "codeBlock": "INTEGER a, b, c\nSET a = 12, b = 7\nSET c = (a ^ b) & (a | b)\nPRINT c",
+    "options": [
+      "11",
+      "9",
+      "7",
+      "15"
+    ],
+    "answer": 0,
+    "explanation": "a = 12 (1100 in binary), b = 7 (0111 in binary).\na ^ b = 1100 ^ 0111 = 1011 (11 in decimal).\na | b = 1100 | 0111 = 1111 (15 in decimal).\nc = 11 & 15 = 1011 & 1111 = 1011 (11).",
+    "dryRunTrace": "Step 1: a=12 (1100_2), b=7 (0111_2)\nStep 2: a ^ b = 1011_2 (11)\nStep 3: a | b = 1111_2 (15)\nStep 4: 11 & 15 = 11.",
+    "topic": "Bitwise Operators",
+    "subtopic": "XOR & AND Masking",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Operators",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_17",
+    "question": "[Capgemini Pseudocode Set 17] What is the final value of count printed by the pseudocode?",
+    "codeBlock": "INTEGER count, i, j\nSET count = 0\nFOR i = 1 TO 4\n    FOR j = i TO 4\n        IF ( (i + j) MOD 2 == 0 )\n            SET count = count + 1\n        END IF\n    END FOR\nEND FOR\nPRINT count",
+    "options": [
+      "6",
+      "5",
+      "4",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "Pairs (i, j) with i <= j <= 4:\ni=1: (1,1)[sum 2], (1,3)[sum 4] -> 2 pairs\ni=2: (2,2)[sum 4], (2,4)[sum 6] -> 2 pairs\ni=3: (3,3)[sum 6] -> 1 pair\ni=4: (4,4)[sum 8] -> 1 pair\nTotal count = 2 + 2 + 1 + 1 = 6.",
+    "dryRunTrace": "i=1: j in 1..4, (1+1=2, 1+3=4) -> 2\ni=2: j in 2..4, (2+2=4, 2+4=6) -> 2\ni=3: j in 3..4, (3+3=6) -> 1\ni=4: j in 4..4, (4+4=8) -> 1\nTotal count = 6.",
+    "topic": "Loops & Conditions",
+    "subtopic": "Nested Loop Step Counter",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Loops & Conditions",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_18",
+    "question": "[Capgemini Pseudocode Set 18] What does the function mystery(5) return?",
+    "codeBlock": "FUNCTION mystery(INTEGER n)\n    IF (n <= 1)\n        RETURN 1\n    END IF\n    RETURN n * mystery(n - 2)\nEND FUNCTION",
+    "options": [
+      "15",
+      "120",
+      "24",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "mystery(5) = 5 * mystery(3)\nmystery(3) = 3 * mystery(1)\nmystery(1) = 1 (base case)\nResult = 5 * 3 * 1 = 15.",
+    "dryRunTrace": "Call 1: mystery(5) -> 5 * mystery(3)\nCall 2: mystery(3) -> 3 * mystery(1)\nCall 3: mystery(1) -> returns 1\nUnwind: 3 * 1 = 3 -> 5 * 3 = 15.",
+    "topic": "Recursion",
+    "subtopic": "Call Stack Execution",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Recursion",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_19",
+    "question": "[Capgemini Pseudocode Set 19] What is the output printed by the pseudocode?",
+    "codeBlock": "INTEGER arr[5] = { 10, 20, 30, 40, 50 }\nINTEGER *ptr\nSET ptr = arr + 2\nSET *ptr = *ptr + 5\nPRINT *(ptr - 1) + *ptr",
+    "options": [
+      "55",
+      "50",
+      "45",
+      "65"
+    ],
+    "answer": 0,
+    "explanation": "arr[0]=10, arr[1]=20, arr[2]=30, arr[3]=40, arr[4]=50.\nptr points to arr[2] (value 30).\n*ptr = 30 + 5 = 35 (arr[2] becomes 35).\nptr - 1 points to arr[1] (value 20).\n*(ptr - 1) + *ptr = 20 + 35 = 55.",
+    "dryRunTrace": "Step 1: ptr points to index 2 (val 30)\nStep 2: arr[2] updated to 35\nStep 3: *(ptr-1) is arr[1] = 20\nStep 4: 20 + 35 = 55.",
+    "topic": "Arrays & Pointers",
+    "subtopic": "Pointer Arithmetic",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Arrays & Pointers",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_20",
+    "question": "[Capgemini Pseudocode Set 20] What is the value of result printed by the pseudocode?",
+    "codeBlock": "INTEGER x = 5, y = 2\nINTEGER result\nSET result = (x << y) + (x >> 1)\nPRINT result",
+    "options": [
+      "22",
+      "20",
+      "12",
+      "18"
+    ],
+    "answer": 0,
+    "explanation": "x << y is 5 << 2 = 5 * 2^2 = 20.\nx >> 1 is 5 >> 1 = floor(5 / 2) = 2.\nresult = 20 + 2 = 22.",
+    "dryRunTrace": "5 in binary: 00000101\n5 << 2 = 00010100 (20)\n5 >> 1 = 00000010 (2)\nresult = 20 + 2 = 22.",
+    "topic": "Bitwise Shift",
+    "subtopic": "Shift Left & Right Operations",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Shift",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_21",
+    "question": "[Capgemini Pseudocode Set 21] What will be the output of the following pseudocode?",
+    "codeBlock": "INTEGER a, b, c\nSET a = 12, b = 7\nSET c = (a ^ b) & (a | b)\nPRINT c",
+    "options": [
+      "11",
+      "9",
+      "7",
+      "15"
+    ],
+    "answer": 0,
+    "explanation": "a = 12 (1100 in binary), b = 7 (0111 in binary).\na ^ b = 1100 ^ 0111 = 1011 (11 in decimal).\na | b = 1100 | 0111 = 1111 (15 in decimal).\nc = 11 & 15 = 1011 & 1111 = 1011 (11).",
+    "dryRunTrace": "Step 1: a=12 (1100_2), b=7 (0111_2)\nStep 2: a ^ b = 1011_2 (11)\nStep 3: a | b = 1111_2 (15)\nStep 4: 11 & 15 = 11.",
+    "topic": "Bitwise Operators",
+    "subtopic": "XOR & AND Masking",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Operators",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_22",
+    "question": "[Capgemini Pseudocode Set 22] What is the final value of count printed by the pseudocode?",
+    "codeBlock": "INTEGER count, i, j\nSET count = 0\nFOR i = 1 TO 4\n    FOR j = i TO 4\n        IF ( (i + j) MOD 2 == 0 )\n            SET count = count + 1\n        END IF\n    END FOR\nEND FOR\nPRINT count",
+    "options": [
+      "6",
+      "5",
+      "4",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "Pairs (i, j) with i <= j <= 4:\ni=1: (1,1)[sum 2], (1,3)[sum 4] -> 2 pairs\ni=2: (2,2)[sum 4], (2,4)[sum 6] -> 2 pairs\ni=3: (3,3)[sum 6] -> 1 pair\ni=4: (4,4)[sum 8] -> 1 pair\nTotal count = 2 + 2 + 1 + 1 = 6.",
+    "dryRunTrace": "i=1: j in 1..4, (1+1=2, 1+3=4) -> 2\ni=2: j in 2..4, (2+2=4, 2+4=6) -> 2\ni=3: j in 3..4, (3+3=6) -> 1\ni=4: j in 4..4, (4+4=8) -> 1\nTotal count = 6.",
+    "topic": "Loops & Conditions",
+    "subtopic": "Nested Loop Step Counter",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Loops & Conditions",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_23",
+    "question": "[Capgemini Pseudocode Set 23] What does the function mystery(5) return?",
+    "codeBlock": "FUNCTION mystery(INTEGER n)\n    IF (n <= 1)\n        RETURN 1\n    END IF\n    RETURN n * mystery(n - 2)\nEND FUNCTION",
+    "options": [
+      "15",
+      "120",
+      "24",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "mystery(5) = 5 * mystery(3)\nmystery(3) = 3 * mystery(1)\nmystery(1) = 1 (base case)\nResult = 5 * 3 * 1 = 15.",
+    "dryRunTrace": "Call 1: mystery(5) -> 5 * mystery(3)\nCall 2: mystery(3) -> 3 * mystery(1)\nCall 3: mystery(1) -> returns 1\nUnwind: 3 * 1 = 3 -> 5 * 3 = 15.",
+    "topic": "Recursion",
+    "subtopic": "Call Stack Execution",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Recursion",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_24",
+    "question": "[Capgemini Pseudocode Set 24] What is the output printed by the pseudocode?",
+    "codeBlock": "INTEGER arr[5] = { 10, 20, 30, 40, 50 }\nINTEGER *ptr\nSET ptr = arr + 2\nSET *ptr = *ptr + 5\nPRINT *(ptr - 1) + *ptr",
+    "options": [
+      "55",
+      "50",
+      "45",
+      "65"
+    ],
+    "answer": 0,
+    "explanation": "arr[0]=10, arr[1]=20, arr[2]=30, arr[3]=40, arr[4]=50.\nptr points to arr[2] (value 30).\n*ptr = 30 + 5 = 35 (arr[2] becomes 35).\nptr - 1 points to arr[1] (value 20).\n*(ptr - 1) + *ptr = 20 + 35 = 55.",
+    "dryRunTrace": "Step 1: ptr points to index 2 (val 30)\nStep 2: arr[2] updated to 35\nStep 3: *(ptr-1) is arr[1] = 20\nStep 4: 20 + 35 = 55.",
+    "topic": "Arrays & Pointers",
+    "subtopic": "Pointer Arithmetic",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Arrays & Pointers",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_25",
+    "question": "[Capgemini Pseudocode Set 25] What is the value of result printed by the pseudocode?",
+    "codeBlock": "INTEGER x = 5, y = 2\nINTEGER result\nSET result = (x << y) + (x >> 1)\nPRINT result",
+    "options": [
+      "22",
+      "20",
+      "12",
+      "18"
+    ],
+    "answer": 0,
+    "explanation": "x << y is 5 << 2 = 5 * 2^2 = 20.\nx >> 1 is 5 >> 1 = floor(5 / 2) = 2.\nresult = 20 + 2 = 22.",
+    "dryRunTrace": "5 in binary: 00000101\n5 << 2 = 00010100 (20)\n5 >> 1 = 00000010 (2)\nresult = 20 + 2 = 22.",
+    "topic": "Bitwise Shift",
+    "subtopic": "Shift Left & Right Operations",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Shift",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_26",
+    "question": "[Capgemini Pseudocode Set 26] What will be the output of the following pseudocode?",
+    "codeBlock": "INTEGER a, b, c\nSET a = 12, b = 7\nSET c = (a ^ b) & (a | b)\nPRINT c",
+    "options": [
+      "11",
+      "9",
+      "7",
+      "15"
+    ],
+    "answer": 0,
+    "explanation": "a = 12 (1100 in binary), b = 7 (0111 in binary).\na ^ b = 1100 ^ 0111 = 1011 (11 in decimal).\na | b = 1100 | 0111 = 1111 (15 in decimal).\nc = 11 & 15 = 1011 & 1111 = 1011 (11).",
+    "dryRunTrace": "Step 1: a=12 (1100_2), b=7 (0111_2)\nStep 2: a ^ b = 1011_2 (11)\nStep 3: a | b = 1111_2 (15)\nStep 4: 11 & 15 = 11.",
+    "topic": "Bitwise Operators",
+    "subtopic": "XOR & AND Masking",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Operators",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_27",
+    "question": "[Capgemini Pseudocode Set 27] What is the final value of count printed by the pseudocode?",
+    "codeBlock": "INTEGER count, i, j\nSET count = 0\nFOR i = 1 TO 4\n    FOR j = i TO 4\n        IF ( (i + j) MOD 2 == 0 )\n            SET count = count + 1\n        END IF\n    END FOR\nEND FOR\nPRINT count",
+    "options": [
+      "6",
+      "5",
+      "4",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "Pairs (i, j) with i <= j <= 4:\ni=1: (1,1)[sum 2], (1,3)[sum 4] -> 2 pairs\ni=2: (2,2)[sum 4], (2,4)[sum 6] -> 2 pairs\ni=3: (3,3)[sum 6] -> 1 pair\ni=4: (4,4)[sum 8] -> 1 pair\nTotal count = 2 + 2 + 1 + 1 = 6.",
+    "dryRunTrace": "i=1: j in 1..4, (1+1=2, 1+3=4) -> 2\ni=2: j in 2..4, (2+2=4, 2+4=6) -> 2\ni=3: j in 3..4, (3+3=6) -> 1\ni=4: j in 4..4, (4+4=8) -> 1\nTotal count = 6.",
+    "topic": "Loops & Conditions",
+    "subtopic": "Nested Loop Step Counter",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Loops & Conditions",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_28",
+    "question": "[Capgemini Pseudocode Set 28] What does the function mystery(5) return?",
+    "codeBlock": "FUNCTION mystery(INTEGER n)\n    IF (n <= 1)\n        RETURN 1\n    END IF\n    RETURN n * mystery(n - 2)\nEND FUNCTION",
+    "options": [
+      "15",
+      "120",
+      "24",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "mystery(5) = 5 * mystery(3)\nmystery(3) = 3 * mystery(1)\nmystery(1) = 1 (base case)\nResult = 5 * 3 * 1 = 15.",
+    "dryRunTrace": "Call 1: mystery(5) -> 5 * mystery(3)\nCall 2: mystery(3) -> 3 * mystery(1)\nCall 3: mystery(1) -> returns 1\nUnwind: 3 * 1 = 3 -> 5 * 3 = 15.",
+    "topic": "Recursion",
+    "subtopic": "Call Stack Execution",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Recursion",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_29",
+    "question": "[Capgemini Pseudocode Set 29] What is the output printed by the pseudocode?",
+    "codeBlock": "INTEGER arr[5] = { 10, 20, 30, 40, 50 }\nINTEGER *ptr\nSET ptr = arr + 2\nSET *ptr = *ptr + 5\nPRINT *(ptr - 1) + *ptr",
+    "options": [
+      "55",
+      "50",
+      "45",
+      "65"
+    ],
+    "answer": 0,
+    "explanation": "arr[0]=10, arr[1]=20, arr[2]=30, arr[3]=40, arr[4]=50.\nptr points to arr[2] (value 30).\n*ptr = 30 + 5 = 35 (arr[2] becomes 35).\nptr - 1 points to arr[1] (value 20).\n*(ptr - 1) + *ptr = 20 + 35 = 55.",
+    "dryRunTrace": "Step 1: ptr points to index 2 (val 30)\nStep 2: arr[2] updated to 35\nStep 3: *(ptr-1) is arr[1] = 20\nStep 4: 20 + 35 = 55.",
+    "topic": "Arrays & Pointers",
+    "subtopic": "Pointer Arithmetic",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Arrays & Pointers",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_30",
+    "question": "[Capgemini Pseudocode Set 30] What is the value of result printed by the pseudocode?",
+    "codeBlock": "INTEGER x = 5, y = 2\nINTEGER result\nSET result = (x << y) + (x >> 1)\nPRINT result",
+    "options": [
+      "22",
+      "20",
+      "12",
+      "18"
+    ],
+    "answer": 0,
+    "explanation": "x << y is 5 << 2 = 5 * 2^2 = 20.\nx >> 1 is 5 >> 1 = floor(5 / 2) = 2.\nresult = 20 + 2 = 22.",
+    "dryRunTrace": "5 in binary: 00000101\n5 << 2 = 00010100 (20)\n5 >> 1 = 00000010 (2)\nresult = 20 + 2 = 22.",
+    "topic": "Bitwise Shift",
+    "subtopic": "Shift Left & Right Operations",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Shift",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_31",
+    "question": "[Capgemini Pseudocode Set 31] What will be the output of the following pseudocode?",
+    "codeBlock": "INTEGER a, b, c\nSET a = 12, b = 7\nSET c = (a ^ b) & (a | b)\nPRINT c",
+    "options": [
+      "11",
+      "9",
+      "7",
+      "15"
+    ],
+    "answer": 0,
+    "explanation": "a = 12 (1100 in binary), b = 7 (0111 in binary).\na ^ b = 1100 ^ 0111 = 1011 (11 in decimal).\na | b = 1100 | 0111 = 1111 (15 in decimal).\nc = 11 & 15 = 1011 & 1111 = 1011 (11).",
+    "dryRunTrace": "Step 1: a=12 (1100_2), b=7 (0111_2)\nStep 2: a ^ b = 1011_2 (11)\nStep 3: a | b = 1111_2 (15)\nStep 4: 11 & 15 = 11.",
+    "topic": "Bitwise Operators",
+    "subtopic": "XOR & AND Masking",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Operators",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_32",
+    "question": "[Capgemini Pseudocode Set 32] What is the final value of count printed by the pseudocode?",
+    "codeBlock": "INTEGER count, i, j\nSET count = 0\nFOR i = 1 TO 4\n    FOR j = i TO 4\n        IF ( (i + j) MOD 2 == 0 )\n            SET count = count + 1\n        END IF\n    END FOR\nEND FOR\nPRINT count",
+    "options": [
+      "6",
+      "5",
+      "4",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "Pairs (i, j) with i <= j <= 4:\ni=1: (1,1)[sum 2], (1,3)[sum 4] -> 2 pairs\ni=2: (2,2)[sum 4], (2,4)[sum 6] -> 2 pairs\ni=3: (3,3)[sum 6] -> 1 pair\ni=4: (4,4)[sum 8] -> 1 pair\nTotal count = 2 + 2 + 1 + 1 = 6.",
+    "dryRunTrace": "i=1: j in 1..4, (1+1=2, 1+3=4) -> 2\ni=2: j in 2..4, (2+2=4, 2+4=6) -> 2\ni=3: j in 3..4, (3+3=6) -> 1\ni=4: j in 4..4, (4+4=8) -> 1\nTotal count = 6.",
+    "topic": "Loops & Conditions",
+    "subtopic": "Nested Loop Step Counter",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Loops & Conditions",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_33",
+    "question": "[Capgemini Pseudocode Set 33] What does the function mystery(5) return?",
+    "codeBlock": "FUNCTION mystery(INTEGER n)\n    IF (n <= 1)\n        RETURN 1\n    END IF\n    RETURN n * mystery(n - 2)\nEND FUNCTION",
+    "options": [
+      "15",
+      "120",
+      "24",
+      "8"
+    ],
+    "answer": 0,
+    "explanation": "mystery(5) = 5 * mystery(3)\nmystery(3) = 3 * mystery(1)\nmystery(1) = 1 (base case)\nResult = 5 * 3 * 1 = 15.",
+    "dryRunTrace": "Call 1: mystery(5) -> 5 * mystery(3)\nCall 2: mystery(3) -> 3 * mystery(1)\nCall 3: mystery(1) -> returns 1\nUnwind: 3 * 1 = 3 -> 5 * 3 = 15.",
+    "topic": "Recursion",
+    "subtopic": "Call Stack Execution",
+    "difficulty": "hard",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Recursion",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_34",
+    "question": "[Capgemini Pseudocode Set 34] What is the output printed by the pseudocode?",
+    "codeBlock": "INTEGER arr[5] = { 10, 20, 30, 40, 50 }\nINTEGER *ptr\nSET ptr = arr + 2\nSET *ptr = *ptr + 5\nPRINT *(ptr - 1) + *ptr",
+    "options": [
+      "55",
+      "50",
+      "45",
+      "65"
+    ],
+    "answer": 0,
+    "explanation": "arr[0]=10, arr[1]=20, arr[2]=30, arr[3]=40, arr[4]=50.\nptr points to arr[2] (value 30).\n*ptr = 30 + 5 = 35 (arr[2] becomes 35).\nptr - 1 points to arr[1] (value 20).\n*(ptr - 1) + *ptr = 20 + 35 = 55.",
+    "dryRunTrace": "Step 1: ptr points to index 2 (val 30)\nStep 2: arr[2] updated to 35\nStep 3: *(ptr-1) is arr[1] = 20\nStep 4: 20 + 35 = 55.",
+    "topic": "Arrays & Pointers",
+    "subtopic": "Pointer Arithmetic",
+    "difficulty": "easy",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Arrays & Pointers",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  },
+  {
+    "_id": "pseudo_fallback_35",
+    "question": "[Capgemini Pseudocode Set 35] What is the value of result printed by the pseudocode?",
+    "codeBlock": "INTEGER x = 5, y = 2\nINTEGER result\nSET result = (x << y) + (x >> 1)\nPRINT result",
+    "options": [
+      "22",
+      "20",
+      "12",
+      "18"
+    ],
+    "answer": 0,
+    "explanation": "x << y is 5 << 2 = 5 * 2^2 = 20.\nx >> 1 is 5 >> 1 = floor(5 / 2) = 2.\nresult = 20 + 2 = 22.",
+    "dryRunTrace": "5 in binary: 00000101\n5 << 2 = 00010100 (20)\n5 >> 1 = 00000010 (2)\nresult = 20 + 2 = 22.",
+    "topic": "Bitwise Shift",
+    "subtopic": "Shift Left & Right Operations",
+    "difficulty": "medium",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5,
+    "tags": [
+      "Pseudocode",
+      "Bitwise Shift",
+      "Output Tracing",
+      "Round 1.1"
+    ]
+  }
+];
