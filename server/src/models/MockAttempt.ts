@@ -7,11 +7,14 @@ export interface IMockAttempt extends Document {
   completedAt?: Date;
   status: 'in-progress' | 'completed' | 'abandoned';
   answers: {
-    questionId: mongoose.Types.ObjectId;
+    questionId: any;
     questionType: string;
     selectedAnswer: any;
     isCorrect: boolean;
     timeTaken: number;
+    questionText?: string;
+    correctAnswer?: any;
+    explanation?: string;
   }[];
   score: number;
   totalQuestions: number;
@@ -36,11 +39,14 @@ const mockAttemptSchema = new Schema<IMockAttempt>({
     default: 'in-progress'
   },
   answers: [{
-    questionId: { type: Schema.Types.ObjectId, required: true },
+    questionId: { type: Schema.Types.Mixed, required: true },
     questionType: { type: String, required: true },
     selectedAnswer: { type: Schema.Types.Mixed },
     isCorrect: { type: Boolean, default: false },
-    timeTaken: { type: Number, default: 0 }
+    timeTaken: { type: Number, default: 0 },
+    questionText: { type: String },
+    correctAnswer: { type: Schema.Types.Mixed },
+    explanation: { type: String }
   }],
   score: { type: Number, default: 0 },
   totalQuestions: { type: Number, default: 0 },

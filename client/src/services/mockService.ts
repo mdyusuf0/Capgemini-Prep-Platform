@@ -38,8 +38,8 @@ export const mockService = {
     return res.data;
   },
   
-  completeMock: async (attemptId: string, answers: any[], timeSpent: number) => {
-    const res = await api.post('/mocks/complete', { attemptId, answers, timeSpent });
+  completeMock: async (attemptId: string, answers: any[], timeSpent: number, sectionScores?: any[]) => {
+    const res = await api.post('/mocks/complete', { attemptId, answers, timeSpent, sectionScores });
     return res.data;
   },
   

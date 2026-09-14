@@ -33,13 +33,15 @@ export const generateMock = async (req: AuthRequest, res: Response) => {
         questionIds: [] // Populate with real IDs later
       });
       totalTime = 20;
-    } else if (type === 'full-capgemini') {
+    } else if (type === 'full-capgemini' || type === 'full-oa') {
       newSections = [
-        { name: 'Technical MCQ', category: 'technical', questionCount: 40, timeMinutes: 40, questionIds: [] },
-        { name: 'Pseudocode', category: 'pseudocode', questionCount: 15, timeMinutes: 15, questionIds: [] },
-        { name: 'Communication', category: 'communication', questionCount: 30, timeMinutes: 30, questionIds: [] }
+        { name: 'Technical MCQs', category: 'technical', questionCount: 20, timeMinutes: 20, questionIds: [] },
+        { name: 'Pseudocode Tracing', category: 'pseudocode', questionCount: 20, timeMinutes: 25, questionIds: [] },
+        { name: 'English Verbal', category: 'communication', questionCount: 30, timeMinutes: 30, questionIds: [] },
+        { name: 'Cognitive Games', category: 'cognitive', questionCount: 4, timeMinutes: 25, questionIds: [] },
+        { name: 'Coding Round', category: 'coding', questionCount: 2, timeMinutes: 45, questionIds: [] }
       ];
-      totalTime = 85;
+      totalTime = 165;
     } else {
       newSections = sections || [];
       totalTime = sections?.reduce((acc: number, s: any) => acc + s.timeMinutes, 0) || 60;
@@ -105,23 +107,34 @@ export const submitAnswer = async (req: AuthRequest, res: Response) => {
 
 export const completeMock = async (req: AuthRequest, res: Response) => {
   try {
-    const { attemptId, answers, timeSpent } = req.body;
+    const { attemptId, answers, timeSpent, sectionScores } = req.body;
     
-    // In a real app, validate answers on backend. Using client truth for now for brevity.
     let correct = 0;
     answers.forEach((a: any) => {
       if (a.isCorrect) correct++;
     });
 
+    const updateData: any = {
+      status: 'completed',
+      completedAt: new Date(),
+      answers,
+      timeSpent,
+      score: correct,
+      totalQuestions: answers.length
+    };
+
+    if (sectionScores && Array.isArray(sectionScores)) {
+      updateData.sectionScores = sectionScores;
+    }
+
+    const query: any = { _id: attemptId };
+    if (req.user?._id) {
+      query.userId = req.user._id;
+    }
+
     const attempt = await MockAttempt.findOneAndUpdate(
-      { _id: attemptId, userId: req.user?._id },
-      {
-        status: 'completed',
-        completedAt: new Date(),
-        answers,
-        timeSpent,
-        score: correct
-      },
+      query,
+      updateData,
       { new: true }
     );
 
