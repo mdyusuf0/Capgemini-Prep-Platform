@@ -88,11 +88,16 @@ export async function executeLocally(
 
       const compile = await runProcess('g++', ['-O2', '-std=c++14', 'main.cpp', '-o', 'main.exe'], '', tempDir, 10000);
       if (compile.exitCode !== 0) {
+        const isMissing = compile.exitCode === 127 || (compile.stderr && (
+          compile.stderr.includes('not found') ||
+          compile.stderr.includes('is not recognized') ||
+          compile.stderr.includes('No such file')
+        ));
         return {
           stdout: null,
           stderr: compile.stderr,
-          compile_output: compile.stderr || 'Compilation error with exit code ' + compile.exitCode,
-          status: { id: 6, description: 'Compilation Error' },
+          compile_output: isMissing ? null : (compile.stderr || 'Compilation error with exit code ' + compile.exitCode),
+          status: { id: isMissing ? 13 : 6, description: isMissing ? 'Host Compiler Not Installed' : 'Compilation Error' },
           time: '0.00',
           memory: 0
         };
@@ -188,11 +193,16 @@ export async function executeLocally(
 
       const compile = await runProcess('javac', [`${className}.java`], '', tempDir, 10000);
       if (compile.exitCode !== 0) {
+        const isMissing = compile.exitCode === 127 || (compile.stderr && (
+          compile.stderr.includes('not found') ||
+          compile.stderr.includes('is not recognized') ||
+          compile.stderr.includes('No such file')
+        ));
         return {
           stdout: null,
           stderr: compile.stderr,
-          compile_output: compile.stderr || 'Compilation error in Java program',
-          status: { id: 6, description: 'Compilation Error' },
+          compile_output: isMissing ? null : (compile.stderr || 'Compilation error in Java program'),
+          status: { id: isMissing ? 13 : 6, description: isMissing ? 'Host Compiler Not Installed' : 'Compilation Error' },
           time: '0.00',
           memory: 0
         };
@@ -234,7 +244,8 @@ export async function executeLocally(
       const srcFile = path.join(tempDir, 'solution.py');
       fs.writeFileSync(srcFile, code, 'utf8');
 
-      const run = await runProcess('python', ['-u', 'solution.py'], stdin, tempDir, EXECUTION_TIMEOUT_MS);
+      const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
+      const run = await runProcess(pythonCmd, ['-u', 'solution.py'], stdin, tempDir, EXECUTION_TIMEOUT_MS);
       if (run.timedOut) {
         return {
           stdout: run.stdout,
@@ -246,6 +257,21 @@ export async function executeLocally(
         };
       }
       if (run.exitCode !== 0) {
+        const isMissing = run.exitCode === 127 || (run.stderr && (
+          run.stderr.includes('not found') ||
+          run.stderr.includes('is not recognized') ||
+          run.stderr.includes('No such file')
+        ));
+        if (isMissing) {
+          return {
+            stdout: null,
+            stderr: run.stderr,
+            compile_output: null,
+            status: { id: 13, description: 'Host Compiler Not Installed' },
+            time: '0.00',
+            memory: 0
+          };
+        }
         const isSyntax = run.stderr.includes('SyntaxError') || run.stderr.includes('IndentationError');
         return {
           stdout: run.stdout,

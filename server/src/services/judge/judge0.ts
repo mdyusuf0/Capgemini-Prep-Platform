@@ -34,13 +34,22 @@ export interface TestCaseResult {
   error?: string;
 }
 
-const judgeApi = axios.create({
+const publicJudgeApi = axios.create({
+  baseURL: 'https://ce.judge0.com',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  timeout: 12000,
+});
+
+const customJudgeApi = axios.create({
   baseURL: env.JUDGE0_API_URL || 'https://judge0-ce.p.rapidapi.com',
   headers: {
     'Content-Type': 'application/json',
     ...(env.JUDGE0_API_KEY && { 'x-rapidapi-key': env.JUDGE0_API_KEY }),
     'x-rapidapi-host': new URL(env.JUDGE0_API_URL || 'https://judge0-ce.p.rapidapi.com').hostname,
   },
+  timeout: 12000,
 });
 
 export const submitCode = async (code: string, language: string, stdin: string): Promise<JudgeResult> => {
@@ -48,28 +57,80 @@ export const submitCode = async (code: string, language: string, stdin: string):
   const language_id = LANGUAGE_IDS[normLang];
   if (!language_id) throw new Error(`Unsupported language: ${language}`);
 
-  if (env.JUDGE0_API_KEY) {
-    try {
-      const response = await judgeApi.post('/submissions?base64_encoded=false&wait=true', {
-        source_code: code,
-        language_id,
-        stdin,
-      });
-      return response.data;
-    } catch (error: any) {
-      console.warn('Judge0 API unavailable, falling back to local compiler:', error?.message);
+  // Normalize Java code for remote compilation so class is always Main
+  let processedCode = code;
+  if (normLang === 'java') {
+    if (/public\s+class\s+([A-Za-z0-9_]+)/.test(processedCode)) {
+      processedCode = processedCode.replace(/public\s+class\s+([A-Za-z0-9_]+)/, 'public class Main');
+    } else if (!/class\s+Main/.test(processedCode)) {
+      processedCode = `public class Main {\n${processedCode}\n}`;
     }
   }
 
-  // Real local compilation & sandboxed execution
-  const localRes = await executeLocally(code, normLang, stdin);
+  // Tier 1: User-configured custom RapidAPI Judge0 (if API key provided)
+  if (env.JUDGE0_API_KEY) {
+    try {
+      const response = await customJudgeApi.post('/submissions?base64_encoded=false&wait=true', {
+        source_code: processedCode,
+        language_id,
+        stdin,
+      });
+      if (response.data && response.data.status) {
+        return response.data;
+      }
+    } catch (error: any) {
+      console.warn('Custom Judge0 API unavailable, falling back to public Judge0 CE:', error?.message);
+    }
+  }
+
+  // Tier 2: Public Judge0 CE Sandbox (free, fast, sandbox with OpenJDK 21, GCC 13, Python 3)
+  try {
+    const response = await publicJudgeApi.post('/submissions?base64_encoded=false&wait=true', {
+      source_code: processedCode,
+      language_id,
+      stdin,
+    });
+    if (response.data && response.data.status) {
+      return response.data;
+    }
+  } catch (error: any) {
+    console.warn('Public Judge0 CE unavailable, attempting local runner:', error?.message);
+  }
+
+  // Tier 3: Local compilation & sandboxed execution (if host environment has javac/g++/python)
+  try {
+    const localRes = await executeLocally(code, normLang, stdin);
+    const isMissingCompiler = Boolean(
+      localRes.status?.id === 13 ||
+      (localRes.stderr && (
+        localRes.stderr.includes('not found') ||
+        localRes.stderr.includes('is not recognized') ||
+        localRes.stderr.includes('No such file')
+      ))
+    );
+    if (!isMissingCompiler) {
+      return {
+        stdout: localRes.stdout,
+        stderr: localRes.stderr,
+        compile_output: localRes.compile_output,
+        status: localRes.status,
+        time: localRes.time,
+        memory: localRes.memory,
+      };
+    }
+    console.warn(`Local runner compiler binary for ${normLang} not found on host system.`);
+  } catch (err: any) {
+    console.warn('Local execution failed:', err?.message);
+  }
+
+  // Tier 4: Fallback message if all compiler engines are unreachable
   return {
-    stdout: localRes.stdout,
-    stderr: localRes.stderr,
-    compile_output: localRes.compile_output,
-    status: localRes.status,
-    time: localRes.time,
-    memory: localRes.memory,
+    stdout: null,
+    stderr: `Compiler service for ${normLang} is temporarily unavailable.`,
+    compile_output: `Compiler service unavailable.`,
+    status: { id: 13, description: 'Compiler Unavailable' },
+    time: '0.00',
+    memory: 0,
   };
 };
 
@@ -91,7 +152,10 @@ export const runTestCases = async (
       let passed = false;
       let error: string | undefined = undefined;
 
-      if (result.status.id === 6 || result.compile_output) {
+      if (result.status.id === 13) {
+        error = 'Compiler Unavailable';
+        passed = false;
+      } else if (result.status.id === 6 || result.compile_output) {
         error = 'Compilation Error';
         passed = false;
       } else if (result.status.id === 5) {
