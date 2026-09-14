@@ -147,7 +147,7 @@ export const AILiteracyPage: React.FC = () => {
             <div className="space-y-3">
               {currentQuestion.options?.map((opt: string, idx: number) => {
                 const isSelected = selectedAnswer === idx;
-                const isCorrectOption = isAnswered && (currentQuestion.answer === idx || (result?.correct && isSelected));
+                const isCorrectOption = isAnswered && (Number(currentQuestion.answer) === idx || (result?.correct && isSelected));
                 const isWrongSelected = isAnswered && isSelected && !result?.correct;
 
                 let cardStyle = 'bg-white border-border-hairline hover:border-zinc-400 hover:bg-surface-cream text-on-surface';

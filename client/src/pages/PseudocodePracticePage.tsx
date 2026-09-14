@@ -189,7 +189,7 @@ const PseudocodePracticePage: React.FC = () => {
                 [ID: #PSEUDO-{currentIndex + 1}]
               </span>
               <span className="font-mono text-xs text-on-surface-variant ml-2 font-medium">
-                5/5 Capgemini Pool
+                {currentIndex + 1}/{questions.length} Capgemini Pool
               </span>
             </div>
             <div className="flex items-baseline gap-3">
@@ -298,7 +298,7 @@ const PseudocodePracticePage: React.FC = () => {
                 {(currentQ?.options || []).map((opt, idx) => {
                   const letter = String.fromCharCode(65 + idx);
                   const isSelected = selectedAnswer === idx;
-                  const isCorrect = isSubmitted && resultInfo?.correctAnswer === idx;
+                  const isCorrect = isSubmitted && (Number(resultInfo?.correctAnswer) === idx || (resultInfo?.correct && isSelected));
                   const isWrong = isSubmitted && isSelected && !isCorrect;
 
                   let cardStyle = "bg-surface-cream/70 border-border-hairline hover:bg-surface-cream text-on-surface";

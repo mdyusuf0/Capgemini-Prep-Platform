@@ -118,18 +118,33 @@ export const submitAnswer = async (req: AuthRequest, res: Response, next: NextFu
     const { selectedAnswer } = req.body;
     const userId = req.user?._id;
 
-    if (!userId) {
-      res.status(401).json({ success: false, message: 'Unauthorized' });
-      return;
-    }
-
     const question = await Question.findById(questionId);
     if (!question) {
       res.status(404).json({ success: false, message: 'Question not found' });
       return;
     }
 
-    const isCorrect = question.answer === selectedAnswer;
+    let isCorrect = false;
+    if (typeof question.answer === 'number' && typeof selectedAnswer === 'number') {
+      isCorrect = question.answer === selectedAnswer;
+    } else if (!isNaN(Number(selectedAnswer)) && !isNaN(Number(question.answer))) {
+      isCorrect = Number(question.answer) === Number(selectedAnswer);
+    } else if (typeof selectedAnswer === 'string' && question.options && question.options[question.answer] !== undefined) {
+      isCorrect = selectedAnswer.trim().toLowerCase() === question.options[question.answer].trim().toLowerCase();
+    }
+
+    // Allow guest evaluation if user is not authenticated
+    if (!userId) {
+      res.json({
+        success: true,
+        correct: isCorrect,
+        correctAnswer: question.answer,
+        correctAnswerText: question.options ? question.options[question.answer] : undefined,
+        explanation: question.explanation,
+        whyOthersWrong: question.whyOthersWrong
+      });
+      return;
+    }
 
     // Update Progress
     const category = question.category;
@@ -164,6 +179,8 @@ export const submitAnswer = async (req: AuthRequest, res: Response, next: NextFu
     res.json({
       success: true,
       correct: isCorrect,
+      correctAnswer: question.answer,
+      correctAnswerText: question.options ? question.options[question.answer] : undefined,
       explanation: question.explanation,
       whyOthersWrong: question.whyOthersWrong
     });

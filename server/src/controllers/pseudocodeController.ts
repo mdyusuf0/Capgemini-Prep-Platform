@@ -87,7 +87,14 @@ export const submitPseudocodeAnswer = async (req: AuthRequest, res: Response): P
       return;
     }
 
-    const isCorrect = question.answer === selectedAnswer;
+    let isCorrect = false;
+    if (typeof question.answer === 'number' && typeof selectedAnswer === 'number') {
+      isCorrect = question.answer === selectedAnswer;
+    } else if (!isNaN(Number(selectedAnswer)) && !isNaN(Number(question.answer))) {
+      isCorrect = Number(question.answer) === Number(selectedAnswer);
+    } else if (typeof selectedAnswer === 'string' && question.options && question.options[question.answer] !== undefined) {
+      isCorrect = selectedAnswer.trim().toLowerCase() === question.options[question.answer].trim().toLowerCase();
+    }
 
     // Track Progress using correct UserProgress schema (if authenticated)
     if (userId) {

@@ -190,20 +190,40 @@ export const CommunicationPage: React.FC = () => {
             <div className="space-y-3">
               {currentQuestion.options?.map((opt: string, idx: number) => {
                 const isSelected = selectedAnswer === idx;
+                const isCorrectOption = isAnswered && (
+                  (result && typeof (result as any).correctAnswer === 'number' && Number((result as any).correctAnswer) === idx) ||
+                  (currentQuestion.answer !== undefined && Number(currentQuestion.answer) === idx) ||
+                  (result?.correct && isSelected)
+                );
+                const isWrongSelected = isAnswered && isSelected && !result?.correct;
+
+                let cardStyle = 'bg-white border-border-hairline hover:border-zinc-400 hover:bg-surface-cream text-on-surface';
+                if (isCorrectOption) {
+                  cardStyle = 'bg-emerald-50 border-emerald-500 text-emerald-950 font-semibold ring-1 ring-emerald-500';
+                } else if (isWrongSelected) {
+                  cardStyle = 'bg-red-50 border-red-400 text-red-950 font-semibold';
+                } else if (isSelected) {
+                  cardStyle = 'bg-secondary-fixed/40 border-secondary text-on-surface font-semibold shadow-xs';
+                } else if (isAnswered) {
+                  cardStyle = 'bg-surface-cream/30 border-border-hairline opacity-50 text-on-surface-variant';
+                }
+
                 return (
                   <button
                     key={idx}
                     disabled={isAnswered || submitMutation.isPending}
                     onClick={() => setSelectedAnswer(idx)}
-                    className={`w-full text-left p-4 rounded-xl border text-xs md:text-sm font-medium transition-all flex items-center justify-between cursor-pointer ${
-                      isSelected
-                        ? 'bg-secondary-fixed/40 border-secondary text-on-surface font-semibold shadow-xs'
-                        : 'bg-white border-border-hairline hover:border-zinc-400 hover:bg-surface-cream text-on-surface'
-                    }`}
+                    className={`w-full text-left p-4 rounded-xl border text-xs md:text-sm font-medium transition-all flex items-center justify-between cursor-pointer ${cardStyle}`}
                   >
                     <span className="leading-snug">{opt}</span>
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center text-xs font-mono font-bold shrink-0 ml-3 ${
-                      isSelected ? 'border-secondary bg-secondary text-white' : 'border-border-hairline bg-surface-cream text-zinc-500'
+                      isCorrectOption
+                        ? 'border-emerald-600 bg-emerald-600 text-white'
+                        : isWrongSelected
+                        ? 'border-red-600 bg-red-600 text-white'
+                        : isSelected
+                        ? 'border-secondary bg-secondary text-white'
+                        : 'border-border-hairline bg-surface-cream text-zinc-500'
                     }`}>
                       {String.fromCharCode(65 + idx)}
                     </div>

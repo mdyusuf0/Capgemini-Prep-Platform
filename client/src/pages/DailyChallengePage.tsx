@@ -73,7 +73,7 @@ export default function DailyChallengePage() {
     if (!questions) return 0;
     let correct = 0;
     questions.forEach((q, idx) => {
-      if (selectedAnswers[idx] === q.answer) correct++;
+      if (selectedAnswers[idx] !== undefined && Number(selectedAnswers[idx]) === Number(q.answer)) correct++;
     });
     return correct;
   };
@@ -150,7 +150,7 @@ export default function DailyChallengePage() {
           <div className="space-y-3 pt-1">
             {currentQ.options.map((opt, oIdx) => {
               const isSelected = selectedAnswers[currentIndex] === oIdx;
-              const isCorrect = currentQ.answer === oIdx;
+              const isCorrect = Number(currentQ.answer) === oIdx;
               let style = 'bg-white hover:bg-surface-cream border-border-hairline hover:border-zinc-400 text-on-surface';
 
               if (submitted) {

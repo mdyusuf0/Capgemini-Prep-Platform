@@ -114,8 +114,8 @@ export default function MistakesPage() {
                 {item.options && Array.isArray(item.options) && (
                   <div className="space-y-2 pt-1">
                     {item.options.map((opt: string, idx: number) => {
-                      const isWrongChoice = m.userAnswer === idx || m.wrongOptionSelected === idx;
-                      const isCorrectChoice = item.answer === idx;
+                      const isWrongChoice = (m.userAnswer !== undefined && Number(m.userAnswer) === idx) || (m.wrongOptionSelected !== undefined && Number(m.wrongOptionSelected) === idx);
+                      const isCorrectChoice = Number(item.answer) === idx;
 
                       let style = 'bg-surface-cream/40 border-border-hairline text-on-surface-variant';
                       if (isCorrectChoice) {

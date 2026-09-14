@@ -116,7 +116,7 @@ export default function MustKnowPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-2">
                     {q.options.map((opt, oIdx) => {
                       const isChosen = selectedAns === oIdx;
-                      const isCorrect = q.answer === oIdx;
+                      const isCorrect = Number(q.answer) === oIdx;
                       let btnStyle = 'bg-white hover:bg-surface-cream border-border-hairline hover:border-zinc-400 text-on-surface';
 
                       if (isAnswered) {

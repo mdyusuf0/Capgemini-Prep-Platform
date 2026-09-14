@@ -211,19 +211,26 @@ function parseReadingQuestion(rawText: string): { passage: string | null; questi
 // Real answer evaluation: Compares candidate's choice with the question's actual answer key
 export function evaluateAnswer(q: any, selectedChoice: string): boolean {
   if (!selectedChoice) return false;
+  const selClean = selectedChoice.trim().toLowerCase();
   
-  if (typeof q.answer === 'number' && q.options && q.options[q.answer] !== undefined) {
-    return selectedChoice.trim().toLowerCase() === q.options[q.answer].trim().toLowerCase();
+  // 1. Check numeric / string-numeric answer index pointing into options
+  const rawIdx = q.answer !== undefined ? q.answer : q.correctAnswer;
+  if (rawIdx !== undefined && rawIdx !== null) {
+    const num = Number(rawIdx);
+    if (!isNaN(num) && q.options && q.options[num] !== undefined) {
+      if (selClean === q.options[num].trim().toLowerCase()) return true;
+      if (selClean === String(num)) return true;
+    }
   }
-  if (typeof q.correctAnswer === 'number' && q.options && q.options[q.correctAnswer] !== undefined) {
-    return selectedChoice.trim().toLowerCase() === q.options[q.correctAnswer].trim().toLowerCase();
+
+  // 2. Direct string equality against answer or correctAnswer
+  if (typeof q.correctAnswer === 'string' && selClean === q.correctAnswer.trim().toLowerCase()) {
+    return true;
   }
-  if (typeof q.correctAnswer === 'string') {
-    return selectedChoice.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase();
+  if (typeof q.answer === 'string' && selClean === q.answer.trim().toLowerCase()) {
+    return true;
   }
-  if (typeof q.answer === 'string') {
-    return selectedChoice.trim().toLowerCase() === q.answer.trim().toLowerCase();
-  }
+
   return false;
 }
 

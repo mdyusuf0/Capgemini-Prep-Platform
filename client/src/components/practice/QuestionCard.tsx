@@ -129,7 +129,7 @@ export default function QuestionCard({
       <div className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
         {question.options.map((option, idx) => {
           const isSelected = selectedAnswer === idx;
-          const isCorrect = question.answer !== undefined && idx === question.answer;
+          const isCorrect = isAnswered && question.answer !== undefined && Number(question.answer) === idx;
           const isWrong = isAnswered && isSelected && !isCorrect;
 
           let optionStyle = "border-border-hairline bg-surface-cream/60 hover:bg-surface-cream hover:border-on-surface-variant/30 text-on-surface";

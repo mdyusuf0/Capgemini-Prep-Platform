@@ -24,10 +24,10 @@ router.get('/daily-mission', optionalAuth, getDailyMission);
 router.get('/daily-sprint', optionalAuth, getDailySprintQuestions);
 router.get('/:id', optionalAuth, getQuestionById);
 
-// Protected endpoints requiring authenticated user session
+// Answer submission endpoints (uses optionalAuth so practice works for both logged-in and guest users)
 router.get('/progress', protect, getProgress);
-router.post('/submit', protect, submitAnswer);
-router.post('/:id/submit', protect, submitAnswer);
+router.post('/submit', optionalAuth, submitAnswer);
+router.post('/:id/submit', optionalAuth, submitAnswer);
 
 // Since user request says to mount bookmarks/mistakes under question routes,
 // but endpoints are /api/bookmarks, we'll keep them here assuming this router 
