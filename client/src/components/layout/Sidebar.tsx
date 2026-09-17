@@ -29,6 +29,7 @@ import {
   ListOrdered,
   Sparkles,
   UserCheck,
+  History,
   X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -70,6 +71,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         { icon: Code2, label: 'Pseudocode Tracing', path: '/practice/pseudocode' },
         { icon: Terminal, label: 'Coding Lab', path: '/coding' },
         { icon: Bug, label: 'Debugging Hub', path: '/debugging' },
+      ],
+    },
+    {
+      title: 'PYQ Revision Section',
+      items: [
+        { icon: History, label: 'PYQ Revision', path: '/pyq-revision', badge: '2017–23' },
       ],
     },
     {
@@ -141,6 +148,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                         )}
                       />
                       {(isOpen || isMobile) && <span className="truncate">{item.label}</span>}
+                      {(isOpen || isMobile) && (item as any).badge && (
+                        <span className={cn(
+                          "ml-auto text-[9px] px-1.5 py-0.5 rounded-full font-mono font-bold tracking-tight shrink-0",
+                          isActive
+                            ? "bg-on-primary/20 text-on-primary"
+                            : "bg-secondary/10 text-secondary"
+                        )}>
+                          {(item as any).badge}
+                        </span>
+                      )}
                     </>
                   )}
                 </NavLink>

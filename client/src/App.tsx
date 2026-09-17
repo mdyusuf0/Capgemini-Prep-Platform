@@ -34,6 +34,7 @@ import SettingsPage from '@/pages/SettingsPage';
 import MustKnowPage from '@/pages/MustKnowPage';
 import DailyChallengePage from '@/pages/DailyChallengePage';
 import { ProfilePage } from '@/pages/ProfilePage';
+import { PYQRevisionPage } from '@/pages/PYQRevisionPage';
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ export default function App() {
               
               <Route path="/must-know" element={<MustKnowPage />} />
               <Route path="/daily-challenge" element={<DailyChallengePage />} />
+              <Route path="/pyq-revision" element={<PYQRevisionPage />} />
 
               <Route path="/practice" element={<PracticePage />} />
               <Route path="/practice/mcq/:category?" element={<MCQPracticePage />} />
