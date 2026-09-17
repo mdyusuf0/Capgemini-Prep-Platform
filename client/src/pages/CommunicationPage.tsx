@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { BookOpen, Edit3, Type, FileText, CheckCircle, AlignLeft, ArrowLeft, ChevronRight, CheckCircle2, XCircle, Sparkles, Loader2 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getQuestions, submitAnswer } from '@/services/questionService';
+import { FALLBACK_COMMUNICATION_QUESTIONS } from '@/data/communicationFallback';
 import toast from 'react-hot-toast';
 
 const SECTIONS = [
@@ -48,7 +49,7 @@ export const CommunicationPage: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
-  const [result, setResult] = useState<{ correct: boolean; explanation: string } | null>(null);
+  const [result, setResult] = useState<{ correct: boolean; explanation: string; correctAnswer?: number } | null>(null);
   const [sessionScore, setSessionScore] = useState(0);
 
   const queryClient = useQueryClient();
@@ -58,16 +59,51 @@ export const CommunicationPage: React.FC = () => {
     queryFn: () => getQuestions({
       category: 'communication',
       topic: selectedSection === 'all' ? undefined : selectedSection || undefined,
-      limit: 25
+      limit: 100
     }),
     enabled: !!selectedSection
   });
 
-  const questions = questionsData?.data || [];
+  const fallbackQuestions = useMemo(() => {
+    if (!selectedSection) return [];
+    if (selectedSection === 'all') return FALLBACK_COMMUNICATION_QUESTIONS;
+    return FALLBACK_COMMUNICATION_QUESTIONS.filter(
+      q => q.topic.toLowerCase() === selectedSection.toLowerCase()
+    );
+  }, [selectedSection]);
+
+  const questions = (questionsData?.data && questionsData.data.length > 0)
+    ? questionsData.data
+    : fallbackQuestions;
   const currentQuestion = questions[currentIndex];
 
   const submitMutation = useMutation({
-    mutationFn: (answerIdx: number) => submitAnswer(currentQuestion._id, answerIdx),
+    mutationFn: async (answerIdx: number) => {
+      if (!currentQuestion) throw new Error('No question selected');
+      
+      const isFallback = (currentQuestion._id && currentQuestion._id.startsWith('comm_fb_')) || !questionsData?.data?.length;
+      if (isFallback) {
+        const isCorrect = currentQuestion.answer !== undefined && Number(currentQuestion.answer) === answerIdx;
+        return {
+          correct: isCorrect,
+          correctAnswer: currentQuestion.answer,
+          explanation: currentQuestion.explanation || 'Verified communication answer analysis.'
+        };
+      }
+
+      try {
+        const res = await submitAnswer(currentQuestion._id, answerIdx);
+        return res;
+      } catch (err) {
+        // Fallback local evaluation if network or server error occurs
+        const isCorrect = currentQuestion.answer !== undefined && Number(currentQuestion.answer) === answerIdx;
+        return {
+          correct: isCorrect,
+          correctAnswer: currentQuestion.answer,
+          explanation: currentQuestion.explanation || 'Verified communication answer analysis.'
+        };
+      }
+    },
     onSuccess: (data) => {
       setIsAnswered(true);
       setResult(data);

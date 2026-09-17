@@ -2438,5 +2438,680 @@
     "source": "Capgemini Verbal Reading Comprehension",
     "relevance": "must-know",
     "capgeminiRelevance": 4
+  },
+  {
+    "question": "Identify the segment that contains a grammatical error. If there is no error, select 'No error':\n\n\"Two border guards patrolling (1) / the nearby frontier with Georgia have also (2) / been reported missing from Friday night (3).\"",
+    "category": "communication",
+    "topic": "Sentence",
+    "subtopic": "Error Spotting",
+    "difficulty": "easy",
+    "options": [
+      "Two border guards patrolling",
+      "the nearby frontier with Georgia have also",
+      "No Error",
+      "been reported missing from Friday night."
+    ],
+    "answer": 3,
+    "explanation": "In standard English grammar with present perfect tense (\"have also been reported missing\"), a specific starting point in the past continuing to the present requires the preposition 'since' rather than 'from' (\"since Friday night\").",
+    "tags": [
+      "Verbal Ability",
+      "Grammar",
+      "Error Spotting",
+      "Prepositions",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "The following sentence has been split into four segments. Identify the segment that contains an error:\n\n\"The newspaper reported / that it was a mystery / how the thieves enter / the house.\"",
+    "category": "communication",
+    "topic": "Sentence",
+    "subtopic": "Sequence of Tenses",
+    "difficulty": "easy",
+    "options": [
+      "the house",
+      "how the thieves enter",
+      "that it was a mystery",
+      "The newspaper reported"
+    ],
+    "answer": 1,
+    "explanation": "Sequence of tenses rule: The principal reporting clause is in past tense (\"reported\", \"it was a mystery\"). Therefore, the subordinate clause describing the past intrusion must also be in past tense (\"how the thieves entered\" instead of \"enter\").",
+    "tags": [
+      "Verbal Ability",
+      "Grammar",
+      "Tenses",
+      "Sentence Correction",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Identify the segment that contains a grammatical error in the given sentence:\n\n\"The reduced air pressure on airline flights can lessen the amount of oxygen in passenger's blood for twenty-five percent.\"",
+    "category": "communication",
+    "topic": "Prepositions",
+    "subtopic": "Preposition of Extent",
+    "difficulty": "medium",
+    "options": [
+      "The reduced air pressure on airline flights",
+      "No error",
+      "in passenger's blood for twenty-five percent",
+      "can lessen the amount of oxygen"
+    ],
+    "answer": 2,
+    "explanation": "Preposition of extent/margin: The preposition 'for' is incorrectly used to indicate the degree of change. The preposition 'by' should be used to denote percentage differences or margins (\"by twenty-five percent\").",
+    "tags": [
+      "Verbal Ability",
+      "Prepositions",
+      "Error Spotting",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Identify the segment that contains an error in the sentence:\n\n\"The dignitaries / had left before / the Minister / had arrived at the venue.\"",
+    "category": "communication",
+    "topic": "Grammar",
+    "subtopic": "Past Perfect Tense",
+    "difficulty": "medium",
+    "options": [
+      "had left before",
+      "The dignitaries",
+      "had arrived at the venue",
+      "the Minister"
+    ],
+    "answer": 2,
+    "explanation": "Past perfect rule with 'before': When two past actions are linked by a time conjunction like 'before', the earlier completed action takes the past perfect tense (\"had left\"), while the subsequent action takes the simple past tense (\"arrived\", not \"had arrived\").",
+    "tags": [
+      "Verbal Ability",
+      "Grammar",
+      "Past Perfect",
+      "Tenses",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Fill in the blank with the appropriate phrasal verb:\n\n\"The PM will ____________ the flood victims tomorrow.\"",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "call at",
+      "call in",
+      "call on",
+      "call for"
+    ],
+    "answer": 2,
+    "explanation": "\"Call on\" means to pay a formal or brief visit to a person (\"call on someone\"). In contrast, \"call at\" refers to stopping at a place/port, \"call in\" means to summon assistance, and \"call for\" means to demand.",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Phrasal Verbs",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Fill in the blank with the appropriate phrasal verb:\n\n\"The police personnel ____________ on the suspect.\"",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "close at",
+      "close in",
+      "close on",
+      "close for"
+    ],
+    "answer": 1,
+    "explanation": "The phrasal verb \"close in on\" means to move in surrounding or encircling a target, progressively cutting off avenues of escape.",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Phrasal Verbs",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Fill in the blank with the correct prepositional/phrasal combination:\n\n\"He was ____________ by the Judge.\"",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "clear at",
+      "clear in",
+      "clear on",
+      "clear of"
+    ],
+    "answer": 3,
+    "explanation": "To be \"clear of\" (or \"cleared of all charges\") means to be formally acquitted, exonerated, or declared innocent of allegations by a judge or court.",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Phrasal Verbs",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Fill in the blank with the appropriate phrase:\n\n\"Work hard if you want to ____________ the syllabus.\"",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Phrasal Verbs",
+    "difficulty": "medium",
+    "options": [
+      "catch at",
+      "catch in",
+      "catch on",
+      "catch of"
+    ],
+    "answer": 2,
+    "explanation": "In competitive exam grammar sets, \"catch on\" is tested with the contextual meaning of grasping, comprehending, or understanding academic instructional material (\"catch on to/grasp the syllabus\").",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Phrasal Verbs",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Fill in the blank with the appropriate phrasal verb:\n\n\"Last Sunday I ____________ your place but you were not at home.\"",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Phrasal Verbs",
+    "difficulty": "easy",
+    "options": [
+      "call at",
+      "call in",
+      "call on",
+      "call for"
+    ],
+    "answer": 0,
+    "explanation": "\"Call at\" means to visit a specific physical address, residence, or port briefly (\"call at your place\"). In contrast, \"call on\" is used for paying a visit to an individual.",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Phrasal Verbs",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Select the option that is nearest in meaning (synonym) to the underlined word:\n\n\"There are many elusive questions in philosophy.\"",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "clear",
+      "baffling",
+      "paramount",
+      "truthful"
+    ],
+    "answer": 1,
+    "explanation": "\"Elusive\" denotes something difficult to grasp, comprehend, or define clearly. \"Baffling\" (perplexing, mystifying, or defying explanation) is closest in meaning.",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Synonyms",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Select the most appropriate synonym of the given word:\n\nConfusion",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Synonyms",
+    "difficulty": "medium",
+    "options": [
+      "Intrepidity",
+      "Stagnation",
+      "Perusal",
+      "Commotion"
+    ],
+    "answer": 3,
+    "explanation": "\"Confusion\" denotes a state of disorder, disarray, or agitation. \"Commotion\" means a state of confused and noisy disturbance. \"Intrepidity\" means fearlessness, \"Stagnation\" means inactivity, and \"Perusal\" means the act of reading thoroughly.",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Synonyms",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Select the most appropriate ANTONYM of the given word:\n\nModest",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "easy",
+    "options": [
+      "Unhappy",
+      "Conceited",
+      "Sullen",
+      "Glum"
+    ],
+    "answer": 1,
+    "explanation": "\"Modest\" means humble, unassuming, or moderate. \"Conceited\" means excessively proud, boastful, or vain, making it the direct antonym.",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Antonyms",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Select the most appropriate ANTONYM of the given word:\n\nTENACIOUS",
+    "category": "communication",
+    "topic": "Vocabulary",
+    "subtopic": "Antonyms",
+    "difficulty": "medium",
+    "options": [
+      "Persistent",
+      "Relentless",
+      "Steadfast",
+      "Yielding"
+    ],
+    "answer": 3,
+    "explanation": "\"Tenacious\" means holding fast, persistent, stubborn, or unyielding. \"Yielding\" means giving way under pressure or compliant, making it the opposite. Persistent, relentless, and steadfast are synonyms.",
+    "tags": [
+      "Verbal Ability",
+      "Vocabulary",
+      "Antonyms",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Read the excerpt:\n\"What is religion? A very complex question! We know religion and we live religion. But, how do we explain or define religion? Religion is one of the most sensitive and vulnerable aspects of human life from the very beginning. Though it looks simple, it is not a simple reality to be easily defined or explained. There are many theories proposed regarding the origin of religion as a result of the development of speculative, intellectual and scientific mind. However, in spite of the differences in the understanding of this important element, it is confirmed that it is purely a human activity and it has become an inevitable aspect of human life. In the West, under the influence of the inherited tradition of Judeo-Christian tradition, religion was understood more theistically while in the East, it was mostly a response to the experience of the natural powers that are beyond human control and also to the inner urge for an ethical and moral reference.\n\nEtymologically, the word 'religion' is derived from the Latin root 'religare' and it means 'to bind fast'. Then 'religion' has certainly a strong emphasis on community aspects. It is something that binds fast the members of it together. When we start thinking seriously on religion, naturally we fall upon thoughts of the definition of religion. There are numberless definitions of religion. The meaning and definition of religion differs according to the socio-cultural and psychological background of the person who reflects upon it. Even the political setting inserts its influence on the understanding of the meaning of religion. Some of the definitions are phenomenological and try to expose the common elements that we see in the acknowledged world religions. For example, the human recognition of a superhuman power entitled to obedience and worship. Some others are interpretative definitions.\"\n\nQuestion: The meaning and definition of religion depends upon following factors :-\nA. Socio-cultural\nB. Political\nC. Psychological\nD. Phenomenological\n\nChoose the correct answer from the options given below :-",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Detail Comprehension",
+    "difficulty": "medium",
+    "options": [
+      "A and C",
+      "B, C and D",
+      "B and D",
+      "A, B, C and D"
+    ],
+    "answer": 3,
+    "explanation": "The passage explicitly states: \"The meaning and definition of religion differs according to the socio-cultural and psychological background... Even the political setting inserts its influence... Some of the definitions are phenomenological\". Therefore, all four factors (A, B, C, and D) influence the meaning and definition of religion.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Detail Comprehension",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Read the excerpt:\n\"In the West, under the influence of the inherited tradition of Judeo-Christian tradition, religion was understood more theistically while in the East, it was mostly a response to the experience of the natural powers that are beyond human control and also to the inner urge for an ethical and moral reference.\"\n\nQuestion: In which tradition, religion is seen as a response to the experience of the natural powers?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Fact Retrieval",
+    "difficulty": "easy",
+    "options": [
+      "Western Tradition",
+      "Eastern Tradition",
+      "Indo-western Tradition",
+      "Christian Tradition"
+    ],
+    "answer": 1,
+    "explanation": "The text directly states: \"while in the East, it was mostly a response to the experience of the natural powers that are beyond human control and also to the inner urge for an ethical and moral reference\".",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Fact Retrieval",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Read the excerpt:\n\"Etymologically, the word 'religion' is derived from the Latin root 'religare' and it means 'to bind fast'. Then 'religion' has certainly a strong emphasis on community aspects. It is something that binds fast the members of it together.\"\n\nQuestion: Which of the phrases is closest in meaning to etymology?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Vocabulary in Context",
+    "difficulty": "easy",
+    "options": [
+      "Origin of ideas and thoughts",
+      "Origin of religion",
+      "Origin of human life",
+      "Origin of words and their meanings"
+    ],
+    "answer": 3,
+    "explanation": "\"Etymology\" is the scientific study of the historical origin and evolution of words, their linguistic roots, and how their grammatical forms and meanings have developed over time.",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Vocabulary in Context",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Read the excerpt:\n\"Religion is one of the most sensitive and vulnerable aspects of human life from the very beginning... it is confirmed that it is purely a human activity and it has become an inevitable aspect of human life... It is something that binds fast the members of it together.\"\n\nQuestion: Which of these statements are correct with reference to the above passage?\nA. Religion is one of the most sensitive aspects of human life form.\nB. Religion is purely a human activity.\nC. Religion doesn't bind the members of a community together.\n\nChoose from the options given below:",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Critical Evaluation",
+    "difficulty": "medium",
+    "options": [
+      "A and B",
+      "Only B",
+      "A, B and C",
+      "Only A"
+    ],
+    "answer": 0,
+    "explanation": "Statements A and B are explicitly affirmed in the text (\"Religion is one of the most sensitive and vulnerable aspects...\", \"it is confirmed that it is purely a human activity\"). Statement C is contradicted by the passage, which states that religion \"binds fast the members of it together\".",
+    "tags": [
+      "Reading Comprehension",
+      "Verbal Ability",
+      "Critical Evaluation",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Your team is facing a tight deadline on a critical project. Some members are demotivated. How do you handle the situation?",
+    "category": "communication",
+    "topic": "Sentence",
+    "subtopic": "Situational Judgment",
+    "difficulty": "medium",
+    "options": [
+      "Realign priorities, break deliverables into manageable milestones, and hold a supportive check-in to rebuild morale.",
+      "Escalate the issue to senior management and request replacements for the demotivated members immediately.",
+      "Mandate daily unpaid overtime and closely monitor individual output through micro-tracking tools.",
+      "Ignore the team morale concerns and demand strict adherence to original deadlines without any adjustment."
+    ],
+    "answer": 0,
+    "explanation": "Effective corporate leadership and situational communication require empathy, clear priority realignment, and reducing cognitive overwhelm into achievable milestones while proactively supporting team members.",
+    "tags": [
+      "Situational Judgment",
+      "Verbal Ability",
+      "Leadership",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Read the scenario:\n\"It is 2025: a new batch of lawyers has joined the firm. Some lawyers from the 2024 batch have approached the founders to express their appreciation for the intent behind the socialization ritual. They shared that the experience offered them a glimpse of the world they are about to enter. However, they feel that the ritual has become archaic in its execution, showing its age and necessitating some fresh thinking.\n\nAs they leave, Ned feels that the time has come to abandon the ritual due to changing times. However, Homer disagrees; he thinks that exposing the employees to what the profession has to offer, in the first week, is very critical. Moreover, it helps the organization know whether the newcomer is ready for such a profession. Further, he adds that the socialization ritual has been effectively helping them for decades in grooming the talents of their organization.\"\n\nQuestion: Which of the following actions should the founders BEST take, if they still want to welcome their newcomers by exposing them to the harsh reality of the profession, while being empathetic to the demands of the times?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Decision Making",
+    "difficulty": "hard",
+    "options": [
+      "They should, in their website, share details about how tough the workload is going to be.",
+      "They should get a mental health professional to design their socialization ritual.",
+      "They should stick to what they are doing but hire a mental health professional who the newcomers can refer to if they feel the need.",
+      "They should invite suggestions from their young lawyers regarding formulating a new socialization ritual."
+    ],
+    "answer": 3,
+    "explanation": "Inviting suggestions directly from the recently onboarded young lawyers provides the freshest, most empathetic perspective on how to modernize archaic practices while preserving the vital reality-check intent of the firm's socialization tradition.",
+    "tags": [
+      "Decision Making",
+      "Verbal Ability",
+      "Organizational Communication",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Based on the official University Library Information Guide table below, identify the weekday closing time for Bailey Library:\n\n[Library Guide Table]\n- Library: Bailey Library\n- Location: Parkville campus\n- Opening times: 8.30 am to (1)...........pm weekdays\n- Other information: Popular with students\n\nQuestion: What is the missing weekday closing time for Bailey Library (1)?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Information Extraction",
+    "difficulty": "easy",
+    "options": [
+      "8:00 pm",
+      "9:00 pm",
+      "10:00 pm",
+      "11:00 pm"
+    ],
+    "answer": 2,
+    "explanation": "According to the official IELTS Library Guide listening script, Bailey Library on the Parkville campus operates from 8:30 am to 10:00 pm on weekdays.",
+    "tags": [
+      "Listening Comprehension",
+      "Information Extraction",
+      "Verbal Ability",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Based on the official University Library Information Guide table below, identify the missing street/location detail for Brown Library:\n\n[Library Guide Table]\n- Library: Brown Library\n- Location: Near Stratton Street and (2)........... \n- Opening times: 7 am to 2 am daily\n- Other information: Open to biomed students only\n\nQuestion: Which street/parade completes the location of Brown Library (2)?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Information Extraction",
+    "difficulty": "medium",
+    "options": [
+      "Royal Parade",
+      "Victoria Street",
+      "Elizabeth Street",
+      "Flinders Way"
+    ],
+    "answer": 0,
+    "explanation": "The IELTS Library Guide records Brown Library as being located near the intersection of Stratton Street and Royal Parade.",
+    "tags": [
+      "Listening Comprehension",
+      "Information Extraction",
+      "Verbal Ability",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Based on the official University Library Information Guide table below, identify the student access restriction for Brown Library:\n\n[Library Guide Table]\n- Library: Brown Library\n- Location: Near Stratton Street and Royal Parade\n- Opening times: 7 am to 2 am daily\n- Other information: Open to (3)........... students only\n\nQuestion: Who is permitted access to Brown Library (3)?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Information Extraction",
+    "difficulty": "easy",
+    "options": [
+      "Postgraduate students only",
+      "Biomedical (biomed) students only",
+      "Faculty members only",
+      "Engineering students only"
+    ],
+    "answer": 1,
+    "explanation": "Access to Brown Library is specifically designated for biomedical (\"biomed\") students only due to specialised laboratory resources and literature.",
+    "tags": [
+      "Listening Comprehension",
+      "Information Extraction",
+      "Verbal Ability",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Based on the official University Library Information Guide table below, identify the street address number for RMIT Library:\n\n[Library Guide Table]\n- Library: RMIT Library\n- Location: Level 5, building 8, (4)........... Swan Street\n- Opening times: 10 am - 12 midnight Monday to Friday; 10 am - 6 pm Saturdays and Sundays\n- Other information: Good internet facilities\n\nQuestion: What is the missing street number on Swan Street (4)?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Information Extraction",
+    "difficulty": "medium",
+    "options": [
+      "120 Swan Street",
+      "250 Swan Street",
+      "360 Swan Street",
+      "480 Swan Street"
+    ],
+    "answer": 2,
+    "explanation": "The official address of RMIT Library is Level 5, Building 8, 360 Swan Street.",
+    "tags": [
+      "Listening Comprehension",
+      "Information Extraction",
+      "Verbal Ability",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
+  },
+  {
+    "question": "Based on the official University Library Information Guide table below, identify the weekend closing time for RMIT Library:\n\n[Library Guide Table]\n- Library: RMIT Library\n- Location: Level 5, building 8, 360 Swan Street\n- Opening times: 10 am - 12 midnight Monday to Friday; 10 am - (5)...........pm Saturdays and Sundays\n- Other information: Good internet facilities\n\nQuestion: What is the weekend closing time for RMIT Library (5)?",
+    "category": "communication",
+    "topic": "Reading Comprehension",
+    "subtopic": "Information Extraction",
+    "difficulty": "easy",
+    "options": [
+      "5:00 pm",
+      "6:00 pm",
+      "8:00 pm",
+      "10:00 pm"
+    ],
+    "answer": 1,
+    "explanation": "On Saturdays and Sundays, the RMIT Library operates from 10:00 am to 6:00 pm.",
+    "tags": [
+      "Listening Comprehension",
+      "Information Extraction",
+      "Verbal Ability",
+      "Capgemini Pattern"
+    ],
+    "priority": "MUST_KNOW",
+    "frequency": "VERY_HIGH",
+    "sourceType": "practice",
+    "sourceReliability": "high",
+    "source": "Capgemini Verbal Assessment 2026",
+    "relevance": "must-know",
+    "capgeminiRelevance": 5
   }
 ]
